@@ -1,0 +1,24 @@
+/* Enlarge center slide */
+.timeline-slider .slick-center > div {
+    transform: scale(1.05);
+    z-index: 10;
+    transition: transform 0.4s ease;
+  }
+  
+  /* Center dots below slider */
+  .timeline-slider .slick-dots {
+    bottom: -40px;
+    text-align: center;
+  }
+  
+  .timeline-slider .slick-dots li button:before {
+    font-size: 10px;
+    color: white !important;
+    opacity: 0.5;
+  }
+  
+  .timeline-slider .slick-dots li.slick-active button:before {
+    opacity: 1;
+    color: white !important;
+  }
+  

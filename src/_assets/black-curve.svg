@@ -1,0 +1,19 @@
+<svg width="120" height="100" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <mask id="deep-l-curve-clean">
+      <rect width="120" height="100" fill="white" />
+      <circle cx="80" cy="75" r="60" fill="black" />
+    </mask>
+  </defs>
+
+  <!-- Merged L shape with left-side bar -->
+  <path d="
+    M0,0 
+    H75 
+    V60 
+    H120 
+    V100 
+    H0 
+    Z
+  " fill="black" mask="url(#deep-l-curve-clean)" />
+</svg>
