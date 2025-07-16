@@ -122,7 +122,7 @@ const LandingPage = () => {
         </div>
       </section>
       <div className="bg-gradient-to-b from-[#141314] to-[#272526] h-full">
-        <div className=" w-[80%] md:w-[50%] mx-auto py-5 md:py-10 lg:py-16 flex flex-col gap-7 md:gap-8 ">
+        <div className=" w-[80%] md:w-[30%] mx-auto py-5 md:py-10 lg:py-16 flex flex-col gap-7 md:gap-8 ">
           {points.map((text, index) => (
             <div key={index} className="">
               <div className="flex items-center gap-4 md:gap-8">
@@ -130,10 +130,10 @@ const LandingPage = () => {
                   <Image
                     src={CancelIcon}
                     alt=""
-                    className="lg:w-[74px] md:w-12 w-11"
+                    className="lg:w-[60px] md:w-12 w-11"
                   />
                 </div>
-                <div className="text-[13px] md:text-xl lg:text-2xl font-bold uppercase max-w-[606px] text-white">
+                <div className="text-[13px] md:text-xl lg:text-xl font-bold uppercase max-w-[606px] text-white">
                   {text}
                 </div>
               </div>
