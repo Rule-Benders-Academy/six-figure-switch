@@ -152,14 +152,14 @@ const LandingPage = () => {
             </p>
           </div>
 
-          <div className="flex justify-between z-10 relative -mb-20 items-end max-w-[95%] mx-auto gap-5">
+          <div className="flex justify-between z-10 relative -mb-20 items-end max-w-[80%] mx-auto gap-5">
             <Image
               src={Person1}
               alt="Person 1"
               className="lg:h-[306px] md:h-[250px] h-[136px] lg:w-[224px] md:w-[180px] w-[101px] rounded-md md:shadow-[19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)]"
             />
             <div className="text-center hidden sm:block transform md:-translate-y-1/4 mb-28">
-              <p className="text-xl md:text-2xl xl:text-5xl">
+              <p className="text-xl md:text-2xl xl:text-4xl">
                 You’re not under qualified. You’re
                 <br /> under positioned.
               </p>
@@ -174,15 +174,15 @@ const LandingPage = () => {
             />
           </div>
 
-          <div className="relative max-w-[80%] md:max-w-[80%] mx-auto">
+          <div className="relative max-w-[80%] md:max-w-[60%] mx-auto">
             <div className="flex justify-center items-center -mb-5 md:-mb-[30px] relative z-10">
               <DigitalClock minutes={0} seconds={53} />
             </div>
-            <div className="relative text-center py-[85px] px-5 border-[2px] border-[#3C3C3C] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[50px] w-[100%] mx-auto">
+            <div className="relative text-center py-[100px] px-5 border-[2px] border-[#3C3C3C] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[50px] w-[100%] mx-auto">
               <p className="text-xl md:text-2xl lg:text-[54px] lg:leading-[100%] mb-2">
                 Join <span className="font-bold">100+</span> career changers
               </p>
-              <h2 className="text-[40px] leading-[100%] md:text-5xl lg:text-[84px] tracking-wide uppercase">
+              <h2 className="text-[40px] leading-[100%] md:text-5xl lg:text-[64px] tracking-wide uppercase">
                 Who Made The
                 <br />
                 <span className="text-[#FFA500] font-bold">
@@ -192,7 +192,7 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="flex justify-between relative -mt-20 z-10  max-w-[95%] mx-auto">
+          <div className="flex justify-between relative -mt-20 z-10  max-w-[80%] mx-auto">
             <Image
               src={Person2}
               alt="Person 3"

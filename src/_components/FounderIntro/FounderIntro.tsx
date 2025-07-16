@@ -114,7 +114,7 @@ const FounderIntro: React.FC = () => {
       <h4 className="text-lg md:text-2xl lg:text-4xl text-center font-bold mb-5 md:mb-8 lg:mb-16">
         Here is why you should listen to me:
       </h4>
-      <div className="bg-[#373536] pt-5 pb-8 md:py-7 lg:py-8 border-[1px] border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] xl:max-w-[1247px]">
+      <div className="mx-auto bg-[#373536] pt-5 pb-8 md:py-7 lg:py-8 border-[1px] border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] xl:max-w-[1247px]">
 
         <div className={`flex flex-col items-center text-center md:px-4 w-[70%] md:w-[170px] lg:w-[240px] mx-auto mb-3 sm:hidden`}>
           <div className=" mb-3">
