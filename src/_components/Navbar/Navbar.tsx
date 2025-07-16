@@ -1,8 +1,10 @@
-'use client';
+// components/Navbar.tsx
+"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Drawer from "../../_components/Drawer/Drawer";
 import logo from "../../_assets/logo.svg";
 import TopRightArrow from "../../_assets/top-right-arrow.svg";
 import MenuIcon from "../../_assets/menu-icon.svg";
@@ -14,102 +16,121 @@ interface Props {
   landing?: boolean;
 }
 
-const menuItems = [
+const defaultItems = [
   { label: "Home", id: "home" },
   { label: "About Us", id: "about" },
   { label: "Courses", id: "courses" },
   { label: "Community", id: "community" },
 ];
-
-const LandingMenuItems = [
+const landingItems = [
   { label: "About", id: "About" },
   { label: "Work", id: "Work" },
   { label: "Portfolio", id: "Portfolio" },
 ];
 
-const Navbar = ({ customStyle, landing }: Props) => {
+export default function Navbar({ customStyle, landing }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [active, setActive] = useState("home");
 
-  const handleScroll = (id: string) => {
+  useEffect(() => {
+    document.body.style.overflow = drawerOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [drawerOpen]);
+
+  const items = landing ? landingItems : defaultItems;
+  const scrollTo = (id: string) => {
     setActive(id);
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const itemsToShow = landing ? LandingMenuItems : menuItems;
-
   return (
-    <header className={`bg-black text-white fixed top-0 left-0 w-full z-50 ${customStyle}`}>
-      <div className="flex items-center justify-between px-4 md:px-16 py-4">
-        <Link href="/" className="text-xl font-bold flex items-center gap-2">
-          <Image src={logo} alt="Logo" />
-          <span className="text-sm hidden sm:inline">Rule Benders Academy</span>
-        </Link>
+    <>
+      <header
+        className={`bg-black text-white fixed top-0 left-0 w-full z-50 ${customStyle}`}
+      >
+        <div className="flex items-center justify-between px-4 md:px-16 py-4">
+          <Link href="/" className="flex items-center gap-2 text-xl font-bold">
+            <Image src={logo} alt="Logo" width={32} height={32} />
+            <span className="hidden sm:inline text-sm">
+              Rule Benders Academy
+            </span>
+          </Link>
 
-        <nav className="hidden md:flex gap-6 items-center">
-          {itemsToShow.map(({ label, id }) => (
-            <button
-              key={id}
-              onClick={() => handleScroll(id)}
-              className={`relative transition cursor-pointer uppercase ${active === id ? "text-white" : "text-gray-300"
+          <nav className="hidden md:flex items-center gap-6">
+            {items.map(({ label, id }) => (
+              <button
+                key={id}
+                onClick={() => scrollTo(id)}
+                className={`relative uppercase transition ${
+                  active === id ? "text-white" : "text-gray-300"
                 }`}
-            >
-              {label}
-              <span
-                className={`absolute -bottom-1 right-0 h-[2px] w-[80%] bg-[#FFA500] transition-all duration-300 ${active === id ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              >
+                {label}
+                <span
+                  className={`absolute -bottom-1 right-0 h-[2px] w-[80%] bg-[#FFA500] transition-opacity duration-300 ${
+                    active === id ? "opacity-100" : "opacity-0"
                   }`}
-              ></span>
-            </button>
-          ))}
+                />
+              </button>
+            ))}
             <GlobalButton
-              className={`text-base flex gap-4 items-center ${landing
+              onClick={() => setDrawerOpen(true)}
+              className={`flex items-center gap-3 text-base ${
+                landing
                   ? "!bg-black !text-white border border-white"
                   : "bg-white !text-black"
-                }`}
+              }`}
             >
-              Join Now {landing ? null : <Image src={TopRightArrow} alt="" />}
+              Join Now{" "}
+              {!landing && (
+                <Image src={TopRightArrow} alt="" width={16} height={16} />
+              )}
             </GlobalButton>
-        </nav>
+          </nav>
 
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-white focus:outline-none"
-        >
-          {menuOpen ? <Image src={CancelIcon} alt="Close menu" /> : <Image src={MenuIcon} alt="Open menu" />}
-        </button>
-      </div>
-
-      {menuOpen && (
-        <div className="md:hidden bg-black text-white px-4 pb-10 text-center">
-          {itemsToShow.map(({ label, id }) => (
-            <p
-              key={id}
-              onClick={() => {
-                handleScroll(id);
-                setMenuOpen(false);
-              }}
-              className="block py-2 hover:text-yellow-400 cursor-pointer"
-            >
-              {label}
-            </p>
-          ))}
-          <div className="flex justify-center mt-6">
-            <GlobalButton
-              className={`text-base flex gap-4 items-center ${landing
-                  ? "!bg-black !text-white border border-white"
-                  : "bg-white !text-black"
-                }`}
-            >
-              Join Now {landing ? null : <Image src={TopRightArrow} alt="" />}
-            </GlobalButton>
-          </div>
+          <button
+            onClick={() => setMenuOpen((open) => !open)}
+            className="md:hidden focus:outline-none"
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? (
+              <Image src={CancelIcon} alt="Close menu" width={24} height={24} />
+            ) : (
+              <Image src={MenuIcon} alt="Open menu" width={24} height={24} />
+            )}
+          </button>
         </div>
-      )}
-    </header>
-  );
-};
 
-export default Navbar;
+        {menuOpen && (
+          <div className="md:hidden bg-black text-white px-4 pb-10 text-center">
+            {items.map(({ label, id }) => (
+              <p
+                key={id}
+                onClick={() => {
+                  scrollTo(id);
+                  setMenuOpen(false);
+                }}
+                className="py-2 cursor-pointer hover:text-yellow-400"
+              >
+                {label}
+              </p>
+            ))}
+            <div className="mt-6 flex justify-center">
+              <GlobalButton
+                onClick={() => setDrawerOpen(true)}
+                className="flex items-center gap-3 text-base bg-white !text-black"
+              >
+                Join Now{" "}
+                <Image src={TopRightArrow} alt="" width={16} height={16} />
+              </GlobalButton>
+            </div>
+          </div>
+        )}
+      </header>
+      <Drawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+    </>
+  );
+}
