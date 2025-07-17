@@ -58,7 +58,7 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
             <div
               className="bg-gradient-to-b from-[#3F3F3F] to-[#1E1E1E] px-3 py-2 flex justify-center items-center h-full rounded-xl md:rounded-3xl relative"
             >
-              <div className="font-bold text-white text-[clamp(1rem,100vw,3rem)] md:text-[clamp(1rem,100vw,8rem)] lg:text-[clamp(1rem,100vw,9rem)] xl:text-[clamp(1rem,100vw,12rem)]">
+              <div className="font-bold text-white text-[clamp(1rem,100vw,3rem)] md:text-[clamp(1rem,100vw,8rem)] lg:text-[clamp(1rem,100vw,8rem)]">
                 {String(unit.value).padStart(2, '0')}
               </div>
               <div className=" absolute top-1/2 right-0 h-[2px] w-full -translate-y-1/2 bg-[#050505]"></div>
@@ -70,7 +70,7 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
         ))}
       </div>
       <div className="text-left">
-        <GradientButton className="!text-sm md:!text-xl lg:!text-[26px] !py-[8px] md:!py-4 lg:!py-6 !px-5 md:!px-8 lg:!px-[35px]">
+        <GradientButton className="!text-sm md:!text-xl !py-[8px] md:!py-4 lg:!py-4 !px-5 md:!px-8 lg:!px-[35px]">
           TAKE THE RED PILL
         </GradientButton>
       </div>

@@ -13,7 +13,7 @@ interface Props {
 const TestimonialSection = ({ reverseOrder, name, description, videoUrl }: Props) => {
   return (
     <section className="bg-gradient-to-b from-[#141314] to-[#272526] text-white pt-6 pb-10 md:py-14 lg:py-20 px-4">
-      <div className="sm:px-8 md:px-16 lg:px-24 flex flex-col lg:flex-row items-center gap-5 md:gap-8 lg:gap-10">
+      <div className="sm:px-8 md:px-16 lg:px-48 flex flex-col lg:flex-row items-center gap-5 md:gap-8 lg:gap-10">
         <div className={`flex-[0.7] text-center lg:text-left ${reverseOrder ? 'md:order-2' : 'order-1'}`}>
           <h3 className="text-4xl md:text-5xl lg:text-[64px] lg:leading-[100%]">
             Real Stories,<br /> Real Results

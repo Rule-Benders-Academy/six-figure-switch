@@ -55,7 +55,7 @@ const MatrixBreakdownSection: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-row md:items-stretch items-center justify-between gap-4 md:gap-6 lg:gap-8 bg-black rounded-lg md:p-6 !-mt-44 md:!mt-0">
+        <div className="flex flex-col md:flex-row md:items-stretch items-center justify-between gap-4 md:gap-6 lg:gap-8 bg-black rounded-lg md:p-6 !-mt-44 md:!mt-0 w-[85%] mx-auto">
           <div className="space-y-4 text-center md:text-left max-w-[400px]">
             <h3 className="text-2xl md:text-5xl lg:text-[64px] lg:leading-[100%] font-semibold">
               Want to see the method?
@@ -71,7 +71,7 @@ const MatrixBreakdownSection: React.FC = () => {
                   className="absolute -top-[40px] md:-top-5 left-[25px] md:-left-5 w-[106.5px] md:w-[140px] lg:w-[178px]"
                 />
                 <GradientButton className="!text-sm md:!text-xl lg:!text-[24px] !py-[14px] !px-5 md:!px-8 lg:!px-[35px] max-w-[399px] ">
-                  I&#39;m ready to follow your method:
+                  I&#39;m ready to follow:
                   <br />
                   Take the Red Pill
                 </GradientButton>

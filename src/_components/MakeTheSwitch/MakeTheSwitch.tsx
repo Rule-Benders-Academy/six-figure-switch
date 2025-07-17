@@ -22,13 +22,13 @@ const MakeTheSwitch = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-1 md:mb-5 lg:mb-8 w-[80%] mx-auto">
         {reasons.map((text, idx) => (
           <div key={idx} className="flex items-center justify-center gap-4 md:gap-8 lg:gap-14">
-            <Image src={CancelIcon} alt="X" className="w-[44px] md:w-[66px] lg:w-[132px]" />
+            <Image src={CancelIcon} alt="X" className="w-[44px] md:w-[66px]" />
             <p className="text-sm md:text-base lg:text-2xl max-w-xs text-left font-bold">{text}</p>
           </div>
         ))}
       </div>
 
-      <GradientButton className="!text-sm md:!text-2xl lg:!text-[43px] !py-3 md:!py-[16px] lg:!py-[26px] !px-5 md:!px-8 lg:!px-[50px]">
+      <GradientButton className="!text-sm md:!text-2xl !py-3 md:!py-[16px] lg:!py-[26px] !px-5 md:!px-8 lg:!px-[50px]">
         MAKE THE SWITCH
       </GradientButton>
     </section>

@@ -66,7 +66,7 @@ const LandingPage = () => {
         </div>
 
         <div className="relative max-w-[95%] mx-auto text-center mt-8 md:mt-10 lg:mt-16">
-          <p className="text-2xl md:text-3xl lg:text-4xl lg:leading-[100%] mb-8 md:mb-9 lg:mb-10">
+          <p className="text-2xl md:text-3xl lg:leading-[100%] mb-8 md:mb-9 lg:mb-10">
             If you are an employed professional,
             <br />
             thinking there must be more to life than this,
@@ -76,7 +76,7 @@ const LandingPage = () => {
             </span>
           </p>
 
-          <p className="text-2xl md:text-3xl lg:text-4xl lg:leading-[100%]">
+          <p className="text-2xl md:text-3xl lg:leading-[100%]">
             Did you know that you could be earning
             <br />
             <span className="text-[#FFA500] font-bold underline">
@@ -90,16 +90,16 @@ const LandingPage = () => {
               <p className="text-2xl md:text-[40px] lg:text-[44px]">
                 It’s time to become an
               </p>
-              <h2 className="text-[34px] md:text-5xl lg:text-[45px] leading-tight lg:leading-[100%] font-extrabold tracking-wide uppercase mt-5">
+              <h2 className="text-[34px] md:text-5xl  leading-tight lg:leading-[100%] font-extrabold tracking-wide uppercase mt-5">
                 Independent Consultant
               </h2>
               <hr className="h-[6px] w-[90%] mx-auto mt-8 bg-white" />
 
-              <p className="text-xl md:text-4xl lg:text-[38px] lg:leading-[100%] mt-12 w-[80%] mx-auto">
+              <p className="text-xl md:text-4xl  lg:leading-[100%] mt-12 w-[80%] mx-auto">
                 From there, you could be on the path to earning
                 <span className="text-[#FFA500] font-bold underline">
                   {" "}
-                  $1,500/day (and more)
+                  $1,400/day (and more)
                 </span>{" "}
                 while choosing when you work and when you don’t.
               </p>
@@ -112,11 +112,11 @@ const LandingPage = () => {
             ></div>
           </div>
 
-          <div className="flex justify-center pt-4 lg:mt-12 md:mt-10 mt-4">
+          <div className="flex justify-center pt-4  md:mt-10 mt-4">
             <Image
               src={downArrow}
               alt=""
-              className="w-[34px] md:w-16 lg:w-[84px] h-[34px] md:h-16 lg:h-[84px] animate-bounce"
+              className="w-[34px] md:w-16 lg:w-[84px] h-[34px] md:h-16 lg:h-[64px] animate-bounce"
             />
           </div>
         </div>

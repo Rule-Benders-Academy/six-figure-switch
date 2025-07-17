@@ -90,8 +90,8 @@ const achievements = [
 
 const FounderIntro: React.FC = () => {
   return (
-    <section className="text-white lg:mt-32 md:mt-16 mt-11">
-      <div className="flex flex-col md:flex-row items-start gap-2 md:gap-10 lg:gap-24 mb-7 lg:mb-12">
+    <section className="text-white lg:mt-32 md:mt-16 mt-11 ">
+      <div className="flex flex-col md:flex-row items-start gap-2 md:gap-10 lg:gap-24 mb-7 lg:mb-12 lg:w-[90%] mx-auto">
         <div className="text-2xl md:text-4xl lg:text-[54px] lg:leading-[100%] text-center block md:hidden mx-auto md:mx-0">
           <h2 className="bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text font-bold">Hi I&#39;m Will</h2>
           <h3 className="mt-1">Founder of Conquer Consultancy</h3>
