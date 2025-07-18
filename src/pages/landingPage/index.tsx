@@ -80,7 +80,7 @@ const LandingPage = () => {
           <div className="relative max-w-[95%] mx-auto text-center">
             <div className="items-center gap-2 text-xl font-bold mx-auto">
               <Image
-                class="mx-auto pb-5"
+                className="mx-auto pb-5"
                 src={logo}
                 alt="Logo"
                 width={64}
