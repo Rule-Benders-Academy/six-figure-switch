@@ -120,7 +120,6 @@ export default function Navbar({ customStyle, landing }: Props) {
             ))}
             <div className="mt-6 flex justify-center">
               <GlobalButton
-                onClick={() => setDrawerOpen(true)}
                 className="flex items-center gap-3 text-base bg-white !text-black"
               >
                 Join Now{" "}

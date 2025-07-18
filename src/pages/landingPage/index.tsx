@@ -233,7 +233,7 @@ const LandingPage = () => {
                 Watch this short video to see how we do it
               </div>
               <div className="lg:max-h-[449px] lg:h-[64vh] md:h-[400px] h-[234px] bg-[#C8C8C8] w-full rounded-[17.09px] md:rounded-[35px] lg:rounded-[47.42px] mt-6 md:mt-8 lg:mt-12 lg:w-[70%]"></div>
-              <GradientButton onClick={() => setDrawerOpen(true)}>
+              <GradientButton>
                 I’m in – lets Go!
               </GradientButton>
             </div>
