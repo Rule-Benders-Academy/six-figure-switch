@@ -1,12 +1,11 @@
 import React from 'react';
 
 interface GradientButtonProps {
-  onClick?: () => void;
   children: React.ReactNode;
   className?: string;
 }
 
-const GradientButton: React.FC<GradientButtonProps> = ({ onClick, children, className }) => {
+const GradientButton: React.FC<GradientButtonProps> = ({ children, className }) => {
 
   const handleClick = () => {
     window.dispatchEvent(new CustomEvent("openDrawer"));
