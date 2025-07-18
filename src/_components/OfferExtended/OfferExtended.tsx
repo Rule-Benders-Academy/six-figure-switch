@@ -27,7 +27,7 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
   const { days, hours, minutes } = formatTime(timeLeft);
 
   return (
-    <div className="bg-white bg-opacity-[0.08] -mt-10 rounded-[16px] md:rounded-[30px] lg:rounded-[42.36px] p-3 md:p-6 text-white max-w-[80%] md:max-w-[70%] mx-auto text-center border border-neutral-700 py-7 md:py-10 lg:py-16 shadow-[10.11px_15.64px_22.64px_rgba(0,0,0,0.5)] md:shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] ">
+    <div className="mx-auto lg:w-[70%] bg-white bg-opacity-[0.08] -mt-10 rounded-[16px] md:rounded-[30px] lg:rounded-[42.36px] p-3 md:p-6 text-white max-w-[80%] md:max-w-[70%] mx-auto text-center border border-neutral-700 py-7 md:py-10 lg:py-16 shadow-[10.11px_15.64px_22.64px_rgba(0,0,0,0.5)] md:shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] ">
       <div className="space-y-4 px-4 md:px-14 lg:px-10 mb-6 md:mb-8 lg:mb-10">
         <div className="flex justify-between text-xs uppercase tracking-widest">
           <div className="flex items-start gap-3">
@@ -46,7 +46,7 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
 
         </div>
         <div className="h-[3px] bg-[#EBE9E9]" />
-        <p className="text-xl md:text-4xl lg:text-5xl lg:leading-[120%] text-left ">One day as a consultant pays for this entire programme!</p>
+        <p className="text-xl md:text-4xl lg:text-4xl lg:leading-[120%] text-left ">One day as a consultant pays for this entire programme!</p>
       </div>
       <div className=" grid grid-cols-3 gap-2 md:gap-6 lg:gap-8 bg-gradient-to-r from-[#1A1A1A] to-[#282828] p-3 md:p-5 md:h-[300px] lg:h-[347px]">
         {[
@@ -58,7 +58,7 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
             <div
               className="bg-gradient-to-b from-[#3F3F3F] to-[#1E1E1E] px-3 py-2 flex justify-center items-center h-full rounded-xl md:rounded-3xl relative"
             >
-              <div className="font-bold text-white text-[clamp(1rem,100vw,3rem)] md:text-[clamp(1rem,100vw,8rem)] lg:text-[clamp(1rem,100vw,8rem)]">
+              <div className="font-bold text-white text-[clamp(1rem,100vw,3rem)] md:text-[clamp(1rem,100vw,6rem)] lg:text-[clamp(0.5rem,100vw,6rem)]">
                 {String(unit.value).padStart(2, '0')}
               </div>
               <div className=" absolute top-1/2 right-0 h-[2px] w-full -translate-y-1/2 bg-[#050505]"></div>

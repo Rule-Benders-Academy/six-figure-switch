@@ -78,7 +78,7 @@ const EarningsSection = () => {
             <span className="bg-transparent text-[#FFA500] border border-[#FFA500] text-xs md:text-base lg:text-xl font-semibold px-3 md:px-5 lg:px-7 py-1 md:py-2 lg:py-3 rounded-full inline-block mb-3">
               SAFE PROGRAMME
             </span>
-            <h2 className="text-[32px] md:text-5xl lg:text-[64px] lg:leading-[100%] font-bold max-w-lg leading-8 mt-3">
+            <h2 className="text-[32px] md:text-5xl lg:text-[54px] lg:leading-[100%] font-bold max-w-lg leading-8 mt-3">
               You can save 10–20k in year 1 by avoiding costly mistakes…
             </h2>
             <p className="text-white mt-5 md:mt-6 max-w-sm text-xl lg:text-2xl leading-6 font-normal lg:font-extralight lg:mt-8">
@@ -89,7 +89,7 @@ const EarningsSection = () => {
             {lossItems.map((item, idx) => (
               <EarningCard
                 key={idx}
-                icon={<Image src={Cancel} alt="" className="w-9 md:w-10 lg:w-[64px]" />}
+                icon={<Image src={Cancel} alt="" className="w-9 md:w-10 lg:w-[54px]" />}
                 title={item.title}
                 subtitle={item.subtitle}
               />
@@ -102,7 +102,7 @@ const EarningsSection = () => {
             {gainItems.map((item, idx) => (
               <EarningCard
                 key={idx}
-                icon={<Image src={Tick} alt="" className="w-9 md:w-10 lg:w-[64px]" />}
+                icon={<Image src={Tick} alt="" className="w-9 md:w-10 lg:w-[54px]" />}
                 title={item.title}
                 subtitle={item.subtitle}
                 gainItems={true}
@@ -113,7 +113,7 @@ const EarningsSection = () => {
             <p className="text-white mt-5 md:mt-6 max-w-sm text-xl lg:text-2xl leading-6 font-normal lg:font-extralight lg:mt-8">
               Our tools, templates, trackers, coaching, and recruiter insights help you avoid these pitfalls completely
             </p>
-            <h2 className="text-[32px] leading-8 md:text-5xl lg:text-[64px] lg:leading-[100%] font-bold max-w-lg mt-6 md:mt-3">
+            <h2 className="text-[32px] leading-8 md:text-5xl lg:text-[54px] lg:leading-[100%] font-bold max-w-lg mt-6 md:mt-3">
               You can make a shit load more money...
             </h2>
           </div>

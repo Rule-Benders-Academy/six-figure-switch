@@ -12,7 +12,7 @@ const OurPromise: React.FC = () => {
         backgroundSize: "cover",
       }}>
       <div className="bg-w bg-white bg-opacity-[0.08] rounded-[16px] md:rounded-3xl lg:rounded-[44.31px] text-center border-[1px] border-[#818484] shadow-[0.11px_22.64px_22.64px_rgba(0,0,0,0.3)] max-w-[326px] sm:max-w-[1105px] w-full py-6 md:py-10 lg:py-[60px] px-10 md:px-20 lg:px-[140px]">
-        <h2 className="text-4xl md:text-6xl lg:text-8xl font-semibold text-white mb-4">
+        <h2 className="text-4xl md:text-6xl lg:text-6xl font-semibold text-white mb-4">
           Our Promise
         </h2>
         <div className="h-[2px] md:h-[3px] lg:h-[5.5px] bg-white my-4" />
@@ -20,7 +20,7 @@ const OurPromise: React.FC = () => {
           In 90 days or less, you’ll go from stuck employee to high-paid consultant—earning more,
           working less, and finally owning your career.
         </p>
-        <GradientButton className="!text-sm md:!text-2xl lg:!text-[40px] lg:!leading-[100%] !py-3 md:!py-[16px] lg:!py-[26px] !px-5 md:!px-8 lg:!px-[48px] max-w-[186px] md:max-w-[300px] lg:max-w-[515px]">
+        <GradientButton className="!text-sm md:!text-2xl lg:!leading-[100%] !py-3 md:!py-[16px] lg:!py-[26px] !px-5 md:!px-8 lg:!px-[48px] max-w-[186px] md:max-w-[300px] lg:max-w-[515px]">
         MAKE THE 6 FIGURE SWITCH TODAY
         </GradientButton>
       </div>

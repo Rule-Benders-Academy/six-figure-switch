@@ -33,7 +33,7 @@ import OurPromise from '@/_components/OurPromise/OurPromise'
 import NotOrdinary from '@/_components/NotOrdinary/NotOrdinary'
 import TransformationTimeline from '@/_components/TransformationTimeline/TransformationTimeline'
 import EarningTimelineSection from '@/_components/EarningTimelineSection/EarningTimelineSection'
-
+import logo from "../../_assets/logo.svg";
 
 const points = [
   "You don’t need to build a startup",
@@ -59,13 +59,15 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen !font-jakarta">
-      <Navbar customStyle="border-b-[5px] border-[#E39404]" landing={true} />:
       <section className="relative bg-black text-white pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-12 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden min-h-[calc(100vh-24px)] md:min-h-[calc(100vh-56px)]">
         <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-60 pointer-events-none">
           <Image src={HeroBg} alt="" className="w-full h-full object-cover" />
         </div>
 
-        <div className="relative max-w-[95%] mx-auto text-center mt-8 md:mt-10 lg:mt-16">
+        <div className="relative max-w-[95%] mx-auto text-center">
+          <div className="items-center gap-2 text-xl font-bold mx-auto">
+            <Image class="mx-auto pb-5" src={logo} alt="Logo" width={64} height={64} />
+          </div>
           <p className="text-2xl md:text-3xl lg:leading-[100%] mb-8 md:mb-9 lg:mb-10">
             If you are an employed professional,
             <br />
@@ -85,12 +87,12 @@ const LandingPage = () => {
             for exactly the same skill set you already have?
           </p>
 
-          <div className="relative border border-[#3C3C3C] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[40px] mt-7 md:mt-9 lg:mt-10 py-7 md:py-[80px] lg:py-14">
+          <div className="relative border border-[#3C3C3C] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[40px] mt-7 md:mt-9 lg:mt-10 py-7 md:py-[80px] lg:py-14 lg:w-[80%] mx-auto">
             <div className=" px-4 sm:px-6 md:px-10">
               <p className="text-2xl md:text-[40px] lg:text-[44px]">
                 It’s time to become an
               </p>
-              <h2 className="text-[34px] md:text-5xl  leading-tight lg:leading-[100%] font-extrabold tracking-wide uppercase mt-5">
+              <h2 className="text-[34px] md:text-4xl  leading-tight lg:leading-[100%] font-extrabold tracking-wide uppercase mt-5">
                 Independent Consultant
               </h2>
               <hr className="h-[6px] w-[90%] mx-auto mt-8 bg-white" />
@@ -112,11 +114,11 @@ const LandingPage = () => {
             ></div>
           </div>
 
-          <div className="flex justify-center pt-4  md:mt-10 mt-4">
+          <div className="flex justify-center pt-4  mt-4">
             <Image
               src={downArrow}
               alt=""
-              className="w-[34px] md:w-16 lg:w-[84px] h-[34px] md:h-16 lg:h-[64px] animate-bounce"
+              className="w-[34px] md:w-16 lg:w-[54px] h-[34px] md:h-16 lg:h-[64px] animate-bounce"
             />
           </div>
         </div>
@@ -142,7 +144,7 @@ const LandingPage = () => {
         </div>
 
         <section className="relative text-white px-4 sm:px-8 md:px-16 lg:px-24 md:py-16 bg-gradient-to-b from-[#141314] to-[#272526] pb-10">
-          <div className="max-w-[75%] md:max-w-[35%] 2xl:max-w-[50%] mx-auto text-center z-10  transform translate-y-[15px] sm:hidden">
+          <div className="max-w-[75%] md:max-w-[35%] 2xl:max-w-[50%] mx-auto text-center z-10  transform translate-y-[15px] sm:hidden ">
             <p className="text-2xl md:text-2xl lg:text-3xl xl:text-5xl">
               You’re not under qualified. You’re
               <br /> under positioned.
@@ -152,11 +154,11 @@ const LandingPage = () => {
             </p>
           </div>
 
-          <div className="flex justify-between z-10 relative -mb-20 items-end max-w-[80%] mx-auto gap-5">
+          <div className="flex justify-between z-10 relative -mb-20 items-end max-w-[60%] mx-auto gap-5">
             <Image
               src={Person1}
               alt="Person 1"
-              className="lg:h-[306px] md:h-[250px] h-[136px] lg:w-[224px] md:w-[180px] w-[101px] rounded-md md:shadow-[19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)]"
+              className="lg:h-[206px] md:h-[250px] h-[136px] lg:w-[154px] md:w-[180px] w-[101px] rounded-md md:shadow-[19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)]"
             />
             <div className="text-center hidden sm:block transform md:-translate-y-1/4 mb-28">
               <p className="text-xl md:text-2xl xl:text-4xl">
@@ -170,11 +172,11 @@ const LandingPage = () => {
             <Image
               src={Person3}
               alt="Person 2"
-              className="lg:h-[296.02px] md:h-[220px] h-[130px]  lg:w-[216.32px] md:w-[160px] w-[88px] rounded-md -mt-10 md:-mt-20 md:shadow-[-19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)]"
+              className="lg:h-[216.02px] md:h-[220px] h-[130px]  lg:w-[156.32px] md:w-[160px] w-[88px] rounded-md -mt-10 md:-mt-20 md:shadow-[-19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)]"
             />
           </div>
 
-          <div className="relative max-w-[80%] md:max-w-[60%] mx-auto">
+          <div className="relative max-w-[80%] md:max-w-[50%] mx-auto">
             <div className="flex justify-center items-center -mb-5 md:-mb-[30px] relative z-10">
               <DigitalClock minutes={0} seconds={53} />
             </div>
@@ -182,7 +184,7 @@ const LandingPage = () => {
               <p className="text-xl md:text-2xl lg:text-[54px] lg:leading-[100%] mb-2">
                 Join <span className="font-bold">100+</span> career changers
               </p>
-              <h2 className="text-[40px] leading-[100%] md:text-5xl lg:text-[64px] tracking-wide uppercase">
+              <h2 className="text-[40px] leading-[100%] md:text-5xl lg:text-[54px] tracking-wide uppercase">
                 Who Made The
                 <br />
                 <span className="text-[#FFA500] font-bold">
@@ -192,26 +194,26 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="flex justify-between relative -mt-20 z-10  max-w-[80%] mx-auto">
+          <div className="flex justify-between relative -mt-20 z-10  max-w-[60%] mx-auto">
             <Image
               src={Person2}
               alt="Person 3"
-              className="lg:h-[311px] md:h-[260px] h-[130px] lg:w-[260px] md:w-[200px] w-[100px] rounded-md md:shadow-[19.17px_-31.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_-10.89px_58.2px_0px_rgba(0,0,0,0.8)]"
+              className="lg:h-[211px] md:h-[260px] h-[130px] lg:w-[160px] md:w-[200px] w-[100px] rounded-md md:shadow-[19.17px_-31.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_-10.89px_58.2px_0px_rgba(0,0,0,0.8)]"
             />
             <Image
               src={Person4}
               alt="Person 4"
-              className="lg:h-[328px] md:h-[240px] h-[117px] lg:w-[296px] md:w-[200px] w-[99px] rounded-md md:shadow-[-19.17px_-41.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_-13.89px_58.2px_0px_rgba(0,0,0,0.8)]"
+              className="lg:h-[228px] md:h-[240px] h-[117px] lg:w-[180px] md:w-[200px] w-[99px] rounded-md md:shadow-[-19.17px_-41.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_-13.89px_58.2px_0px_rgba(0,0,0,0.8)]"
             />
           </div>
         </section>
 
         <div className="bg-gradient-to-b from-[#141314] to-[#272526]  pb-11 md:pb-16">
           <div className="px-4 sm:px-8 md:px-16 lg:px-24 flex flex-col items-center">
-            <div className="text-xl md:text-5xl lg:text-[60px] lg:leading-[100%] mt-10 max-w-[680px] mx-auto text-center text-white">
+            <div className="text-xl md:text-4xl lg:text-5xl lg:leading-[100%] mt-10 max-w-[680px] mx-auto text-center text-white">
               Watch this short video to see how we do it
             </div>
-            <div className="lg:max-h-[649px] lg:h-[64vh] md:h-[400px] h-[234px] bg-[#C8C8C8] w-full rounded-[17.09px] md:rounded-[35px] lg:rounded-[47.42px] mt-6 md:mt-8 lg:mt-12"></div>
+            <div className="lg:max-h-[449px] lg:h-[64vh] md:h-[400px] h-[234px] bg-[#C8C8C8] w-full rounded-[17.09px] md:rounded-[35px] lg:rounded-[47.42px] mt-6 md:mt-8 lg:mt-12 lg:w-[70%]"></div>
             <GradientButton>I’m in – lets Go!</GradientButton>
           </div>
 

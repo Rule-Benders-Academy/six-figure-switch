@@ -65,7 +65,7 @@ const ConfidenceSection = () => {
             </div>
             <div className="relative mt-[84px] md:mt-[120px] lg:mt-[173px] ">
               <div className="absolute -top-[30px] md:-top-[90px] lg:-top-[106px] left-1/2 transform -translate-x-1/2">
-                <Image src={MoneyBackIcon} alt='' className="w-[60px] md:w-40 lg:w-[212px]"/>
+                <Image src={MoneyBackIcon} alt='' className="w-[60px] md:w-40 lg:w-[152px]"/>
               </div>
               <OfferExtended initialDays={7} />
             </div>

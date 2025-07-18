@@ -15,11 +15,11 @@ const LearnSystem = () => {
       }}
     >
       <div className="max-w-[442px] lg:max-w-[942px] mx-auto">
-        <h3 className="text-white text-2xl md:text-3xl lg:text-[66px] lg:leading-[100%] font-light mb-4">
+        <h3 className="text-white text-2xl md:text-3xl lg:text-[46px] lg:leading-[100%] font-light mb-4">
           Leave the job trap.<br />Learn the system.
         </h3>
 
-        <p className="bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text text-2xl md:text-4xl lg:text-[68px] leading-tight lg:leading-[100%] font-semibold mb-3 md:mb-6 lg:mb-10">
+        <p className="bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text text-2xl md:text-4xl lg:text-[58px] leading-tight lg:leading-[100%] font-semibold mb-3 md:mb-6 lg:mb-10">
           <span className="text-white md:bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text block">
             Land high-paid Consulting
           </span>
