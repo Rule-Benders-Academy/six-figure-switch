@@ -3,46 +3,76 @@ import GradientButton from "../GradientButton/GradientButton";
 
 const offers = [
   {
-    title: "Weekly Live Coaching Calls with Me – For the first 8 weeks",
+    title: "Skills Assessment & Gap Analysis",
     price: "$500",
     description:
-      "Stay in the system, community, and weekly 1:1 coaching to break barriers and deliver value that positions you as a consultant.",
+      "You provide your CV and Linkedin Profile and we do a tailored skills assessment using the internationally recognised SFIA skills framework. We map you against our consultant skills baselines and then do a gap analysis showing where you are right now and areas you need to develop.",
   },
   {
     title: "The High-Paid Consultant Course",
     price: "$500",
     description:
-      "Proven training showing how to find your first client, price your services, and deliver massive value fast.",
-  },
-  {
-    title: "Real-World Case Studies and Practical Exercises",
-    price: "$500",
-    description:
-      "Learn how others achieved success so you can model and implement quickly.",
+      "Our signature training which teaches you how to be a Consultant, the key skills you need, the mindset and behaviours of a high paid Consultant and unlocks your first $700-$1500 a day role in 90 days.",
   },
   {
     title: "150-Page Participant Guide",
     price: "$500",
     description:
-      "A comprehensive guide with templates, scripts, and step-by-step lessons.",
+      "Lifetime access to an extensive workbook with all course exercises, templates, and frameworks to help you deepen and refine your consulting approach over time.",
+  },
+  {
+    title:
+      "Weekly Implementation Coaching Calls with Me - For the first 4 weeks",
+    price: "$500",
+    description:
+      "Sit in with me weekly. I’ll personally help guide you into roles, increase your rates, overcome barriers, and deliver like a true professional consultant.",
+  },
+  {
+    title: "Career Blue Print & Consultant Pathways",
+    price: "$500",
+    description:
+      "A tailored career blueprint, your personalised path to two thousand dollar per day roles, which shows the Consulting pathways, your entry point and your journey from where you are now to where you can go based on your level of ambition and your work preferences.",
   },
   {
     title: "Plug-and-Play Templates, Scripts, and Checklists",
     price: "$250",
-    description: "Everything you need to hit the ground running.",
-  },
-  {
-    title: "Access to a Private Consulting Community",
-    price: "$250",
-    description: "Network, get support, and stay accountable.",
+    description:
+      "Everything from Consulting frameworks, finance dashboards and recruiter outreach templates — saving you hours and helping you show up like a pro.",
   },
 ];
 
 const bonuses = [
-  { title: "Consultant Interview Framework", description: "Techniques to use in interviews making you 5 x more likely to get the work.", price: "$250" },
-  { title: "Proposal Hacks & AI Prompts", description: "Re-use tried and tested pitch decks, and make them your own with our AI Prompts to save time and present the right thing to win the work.", price: "$250" },
-  { title: "Access to Next-Level Offers", description: "As you grow, you’ll unlock access to higher-tier support: Done-For-You branding and setup, consultancy-in-a-box services, and private mentorship paths to scale your consultancy.", price: "$250" },
-  { title: "Insane ROI, Proven by Numbers", description: "Land just one $699/day contract and you’ve already made back 20x your investment. Most learners see a 6-figure leap within months, not years.", price: "TOTAL", totalPrice: "3.000" },
+  {
+    title: "Consultant Interview Framework",
+    description:
+      "Techniques to use in interviews making you 5 x more likely to get the work.",
+    price: "$250",
+  },
+  {
+    title: "Proposal Hacks & AI Prompts",
+    description:
+      "Re-use tried and tested pitch decks, and make them your own with our AI Prompts to save time and present the right thing to win the work.",
+    price: "$250",
+  },
+  {
+    title: "Access to a Private Consulting Community",
+    description:
+      "Join an active network of learners and consultants. Get market insights, curated job opportunities, peer support, and learning drops to stay sharp and ahead of the curve.",
+    price: "$250",
+  },
+  {
+    title: "Access to Next-Level Offers",
+    description:
+      "As you grow, you’ll unlock access to higher-tier support: Done-For-You branding and setup, consultancy-in-a-box services, and private mentorship paths to scale your consultancy.",
+    price: "$250",
+  },
+  {
+    title: "Insane ROI, Proven by Numbers",
+    description:
+      "Land just one $699/day contract and you’ve already made back 20x your investment. Most learners see a 6-figure leap within months, not years.",
+    price: "TOTAL",
+    totalPrice: "3.000",
+  },
 ];
 
 const paragraphs = [
