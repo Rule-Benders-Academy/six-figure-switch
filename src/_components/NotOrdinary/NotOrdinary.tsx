@@ -18,10 +18,10 @@ const NotOrdinary: React.FC = () => {
         <h2 className="text-2xl md:text-5xl lg:text-[54px] lg:leading-[100%] font-semibold text-[#FFA500] underline decoration-[#FFA500]-400 mb-4 max-w-[200px] md:max-w-[400px] lg:max-w-[550px] mx-auto">
           You’re Not Here<br/> for Ordinary
         </h2>
-        <h3 className="text-2xl md:text-5xl lg:text-[64px] lg:leading-[90%] font-bold mt-6 md:mt-8 lg:mt-10 ">
+        <h3 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[90%] font-bold mt-6 md:mt-8 lg:mt-10 ">
           This is Rule Benders:
         </h3>
-        <p className="text-2xl md:text-5xl lg:text-[64px] lg:leading-[90%] font-light mb-6">
+        <p className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[90%] font-light mb-6">
           the academy that dares to flip the script on education and
           career-building.
         </p>

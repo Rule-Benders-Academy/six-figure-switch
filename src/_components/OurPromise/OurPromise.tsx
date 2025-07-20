@@ -16,7 +16,7 @@ const OurPromise: React.FC = () => {
           Our Promise
         </h2>
         <div className="h-[2px] md:h-[3px] lg:h-[5.5px] bg-white my-4" />
-        <p className="text-white text-base md:text-3xl lg:text-5xl mb-0 md::mb-6 lg:leading-[85%] font-light tracking-tight max-w-[245px] md:max-w-[500px] lg:max-w-[756px] mx-auto lg:mt-11 md:mt-6 mt-2">
+        <p className="text-white text-base md:text-3xl lg:text-4xl mb-0 md::mb-6 lg:leading-[85%] font-light tracking-tight max-w-[245px] md:max-w-[500px] lg:max-w-[756px] mx-auto lg:mt-11 md:mt-6 mt-2">
           In 90 days or less, you’ll go from stuck employee to high-paid consultant—earning more,
           working less, and finally owning your career.
         </p>

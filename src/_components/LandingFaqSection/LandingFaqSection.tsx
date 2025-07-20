@@ -56,19 +56,19 @@ const LandingFaqSection = () => {
               onClick={() => toggleIndex(index)}
             >
               <div className="flex items-start justify-between">
-                <h3 className="text-base md:text-2xl lg:text-4xl leading-tight font-medium w-[90%] max-w-[793px]">{faq.question}</h3>
+                <h3 className="text-base md:text-2xl lg:text-3xl leading-tight font-medium w-[90%] max-w-[793px]">{faq.question}</h3>
               </div>
               {openIndex === index && faq.answer && (
-                <p className="mt-3 text-[#9B9B9B] text-base md:text-2xl lg:text-4xl leading-tight md:mt-4 lg:mt-7 max-w-[827px]">{faq.answer}</p>
+                <p className="mt-3 text-[#9B9B9B] text-base md:text-xl lg:text-2xl leading-tight md:mt-4 lg:mt-7 max-w-[827px]">{faq.answer}</p>
               )}
             </div>
             <div className="absolute right-0 bottom-5 cursor-pointer"
               onClick={() => toggleIndex(index)}
             >
               {openIndex === index ? (
-                <Image src={ArrowIcon} alt="X" className="w-[14px] md:w-[36px] lg:w-[46px]" />
+                <Image src={ArrowIcon} alt="X" className="w-[14px] md:w-[26px] lg:w-[36px]" />
               ) : (
-                <Image src={ArrowIcon} alt="X" className="w-[14px] md:w-[36px] lg:w-[46px] rotate-180" />
+                <Image src={ArrowIcon} alt="X" className="w-[14px] md:w-[26px] lg:w-[36px] rotate-180" />
               )}
             </div>
           </div>

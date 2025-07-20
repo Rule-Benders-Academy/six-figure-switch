@@ -154,7 +154,7 @@ const ComparisonSection = () => {
           {columns.map((col) => (
             <div
               key={col}
-              className={`text-center text-[10px] md:text-xl lg:text-[28px] lg:leading-[33.5px] leading-tight w-[70%] mx-auto ${
+              className={`text-center text-[10px] md:text-xl lg:text-[22px] lg:leading-[33.5px] leading-tight w-[70%] mx-auto ${
                 col === 'OUR OFFER'
                   ? 'text-[#302E2F] bg-[linear-gradient(90deg,#FFBE48_0%,#FFA500_50%,#E99803_100%)] px-2 md:px-2 py-2 rounded-[10px] lg:rounded-[28.38px] font-bold mx-auto md:w-[50%] lg:mx-auto'
                   : 'text-white'

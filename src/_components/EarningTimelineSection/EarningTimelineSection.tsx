@@ -111,11 +111,11 @@ const EarningTimelineSection = () => {
                     <Image
                       src={card.image}
                       alt={card.title}
-                      className="rounded-full mb-3 h-[98px] md:h-[150px] lg:h-[270px] w-[98px] md:w-[150px] lg:w-[270px] border border-[#424242]"
+                      className="rounded-full mb-3 h-[98px] md:h-[150px] lg:h-[175px] w-[98px] md:w-[150px] lg:w-[175px] border border-[#424242]"
                     />
-                    <h3 className="text-2xl md:text-3xl lg:text-[55.31px] lg:leading-[90%] font-bold mb-2">{card.title}</h3>
+                    <h3 className="text-2xl md:text-3xl lg:4xl lg:leading-[90%] font-bold mb-6 mt-6">{card.title}</h3>
                     <hr className="border-white w-[80%] md:h-1 my-2" />
-                    <p className="text-[9px] md:text-2xl lg:text-3xl leading-relaxed">{card.description}</p>
+                    <p className="text-[9px] md:text-2xl lg:text-2xl leading-relaxed lg:w-[70%]">{card.description}</p>
                   </div>
                 </div>
               </div>
