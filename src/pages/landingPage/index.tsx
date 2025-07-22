@@ -197,7 +197,7 @@ const LandingPage = () => {
 
             <div className="relative max-w-[80%] md:max-w-[50%] mx-auto">
               <div className="flex justify-center items-center -mb-5 md:-mb-[30px] relative z-10">
-                <DigitalClock minutes={0} seconds={53} />
+                <DigitalClock minutes={53} seconds={60} />
               </div>
               <div className="relative text-center py-[100px] px-5 border-[2px] border-[#3C3C3C] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[50px] w-[100%] mx-auto">
                 <p className="text-xl md:text-2xl lg:text-[54px] lg:leading-[100%] mb-2">

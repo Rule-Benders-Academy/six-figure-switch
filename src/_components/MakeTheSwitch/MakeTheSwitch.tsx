@@ -14,7 +14,7 @@ const reasons = [
 const MakeTheSwitch = () => {
   return (
     <section className="bg-black text-white py-9 md:py-12 lg:py-16 px-4 sm:px-8 md:px-16 lg:px-24 text-center">
-      <h2 className="text-2xl md:text-5xl lg:text-[64px] lg:leading-[100%] font-semibold mb-8 md:mb-10 lg:mb-14">
+      <h2 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] font-semibold mb-8 md:mb-10 lg:mb-14">
         If you are ready to make your move <br />
         <span className="font-light">– remember there’s…</span>
       </h2>
@@ -22,13 +22,13 @@ const MakeTheSwitch = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-1 md:mb-5 lg:mb-8 w-[80%] mx-auto">
         {reasons.map((text, idx) => (
           <div key={idx} className="flex items-center justify-center gap-4 md:gap-8 lg:gap-14">
-            <Image src={CancelIcon} alt="X" className="w-[44px] md:w-[66px]" />
-            <p className="text-sm md:text-base lg:text-2xl max-w-xs text-left font-bold">{text}</p>
+            <Image src={CancelIcon} alt="X" className="w-[34px] md:w-[46px]" />
+            <p className="text-sm md:text-base lg:text-xl max-w-xs text-left font-bold">{text}</p>
           </div>
         ))}
       </div>
 
-      <GradientButton className="!text-sm md:!text-2xl !py-3 md:!py-[16px] lg:!py-[26px] !px-5 md:!px-8 lg:!px-[50px]">
+      <GradientButton className="!text-sm md:!text-xl !py-3 md:!py-[16px] lg:!py-[18px] !px-5 md:!px-8 lg:!px-[50px]">
         MAKE THE SWITCH
       </GradientButton>
     </section>
