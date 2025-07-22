@@ -111,7 +111,7 @@ const LandingAboutSection = () => {
       </div>
 
       <div className="text-left md:text-center mt-1 md:mt-5 lg:mt-16">
-        <GradientButton className="!text-sm md:!text-2xl  !py-[8px] md:!py-4 lg:!py-6 !px-6 md:!px-8 lg:!px-[65px] max-w-[239px] lg:!max-w-[632px]">
+        <GradientButton className="!text-sm md:!text-2xl  !py-[8px] md:!py-4 lg:!py-6 !px-6 md:!px-8 lg:!px-[65px] max-w-[239px] lg:!max-w-[632px] !mx-auto">
           I am ready to follow your system
         </GradientButton>
       </div>
