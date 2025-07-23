@@ -7,10 +7,10 @@ import GradientButton from "../GradientButton/GradientButton";
 const LandingAboutSection = () => {
   return (
     <section className="bg-gradient-to-b from-[#141314] to-[#272526] text-white px-4 sm:px-8 md:px-16 lg:px-24 md:py-10 pt-6 pb-12 md:pb-16 lg:pb-20  mx-auto">
-      <div className="2xl:max-w-[1440px] mx-auto w-[70%]">
+      <div className="2xl:max-w-[1440px] mx-auto w-[95%]">
         <div className="flex gap-10">
           <div className="md:w-1/2 space-y-6 flex-[1.3] max-w-[600px]">
-            <h2 className="text-2xl md:text-5xl lg:text-[64px] lg:leading-[100%] font-semibold mb-3 md:mb-10">
+            <h2 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] font-semibold mb-3 md:mb-10">
               About Me
             </h2>
             <div className="text-base md:text-lg lg:text-2xl space-y-4 md:space-y-5 font-light">

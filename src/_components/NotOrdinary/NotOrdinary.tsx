@@ -14,14 +14,15 @@ const NotOrdinary: React.FC = () => {
         background: "linear-gradient(180deg, #141314 0%, #272526 100%)",
       }}
     >
-      <div className="max-w-3xl mx-auto text-center mb-16">
-        <h2 className="text-2xl md:text-5xl lg:text-[54px] lg:leading-[100%] font-semibold text-[#FFA500] underline decoration-[#FFA500]-400 mb-4 max-w-[200px] md:max-w-[400px] lg:max-w-[550px] mx-auto">
-          You’re Not Here<br/> for Ordinary
+      <div className="max-w-3xl mx-auto text-center mb-16 w-[90%] md:w-full">
+        <h2 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] font-semibold text-[#FFA500] underline decoration-[#FFA500]-400 mb-4 max-w-[200px] md:max-w-[400px] lg:max-w-[550px] mx-auto">
+          You’re Not Here
+          <br /> for Ordinary
         </h2>
-        <h3 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[90%] font-bold mt-6 md:mt-8 lg:mt-10 ">
+        <h3 className="text-xl md:text-5xl lg:text-[44px] lg:leading-[90%] font-bold mt-6 md:mt-8 lg:mt-10 ">
           This is Rule Benders:
         </h3>
-        <p className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[90%] font-light mb-6">
+        <p className="text-xl md:text-5xl lg:text-[44px] lg:leading-[90%] font-light mb-6">
           the academy that dares to flip the script on education and
           career-building.
         </p>
@@ -41,16 +42,16 @@ const NotOrdinary: React.FC = () => {
       </div>
       <div className="-mt-12 md:-mt-0 mb-14 md:mb-16 lg:mb-20">
         <div className="max-w-4xl mx-auto text-center -mb-5 md:-mb-[2vw] pt-6 md:pt-8 lg:pt-10">
-          <h4 className="text-2xl md:text-5xl lg:text-[54px] lg:leading-[90%] md:mb-2">
+          <h4 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[90%] md:mb-2">
             Here’s What You get with
           </h4>
-          <h5 className="text-2xl md:text-5xl lg:text-[54px] lg:leading-[90%] font-bold">
+          <h5 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[90%] font-bold">
             RULE BENDERS
           </h5>
         </div>
 
         <div className="relative w-full lg:w-[70%] mx-auto">
-          <div className="flex justify-between z-10 relative -mb-20 lg:-mb-44 items-end max-w-[400px] sm:max-w-[100%]  mx-auto gap-5">
+          <div className="hidden lg:flex justify-between z-10 relative -mb-20 lg:-mb-44 items-end max-w-[400px] sm:max-w-[100%]  mx-auto gap-5">
             <Image
               src={Person1}
               alt="Person 1"
@@ -63,8 +64,8 @@ const NotOrdinary: React.FC = () => {
             />
           </div>
 
-          <div className="border border-[#666465] rounded-[16px] md:rounded-[20px] lg:rounded-[44.31px] p-6 md:p-10 bg-white bg-opacity-[0.08] max-w-[302px] sm:max-w-[550px] md:max-w-[800px] lg:max-w-[1073px] text-center w-[80%] mx-auto">
-            <ul className="space-y-6 text-sm md:text-2xl lg:text-3xl text-gray-200 w-[70%] mx-auto lg:py-20 md:py-10 py-7">
+          <div className="border border-[#666465] rounded-[16px] md:rounded-[20px] lg:rounded-[44.31px] p-6 md:p-10 bg-white bg-opacity-[0.08]  sm:max-w-[550px] md:max-w-[800px] lg:max-w-[1073px] text-center w-[90%] mx-auto  mt-10 md:mt-0">
+            <ul className="space-y-6 text-sm md:text-2xl lg:text-3xl text-gray-200 w-[90%]  lg:w-[70%] mx-auto lg:py-20 md:py-10 py-7">
               <li>
                 <span className="text-red-400">💥</span> Mentors Who’ve Been
                 There—real professionals, not ivory-tower theorists.
@@ -92,7 +93,7 @@ const NotOrdinary: React.FC = () => {
               </li>
             </ul>
           </div>
-          <div className="flex justify-between relative -mt-10 sm:-mt-20 lg:-mt-44 z-10  max-w-[400px] sm:max-w-[100%] mx-auto">
+          <div className="hidden lg:flex justify-between relative -mt-10 sm:-mt-20 lg:-mt-44 z-10  max-w-[400px] sm:max-w-[100%] mx-auto">
             <Image
               src={Person2}
               alt="Person 3"

@@ -92,7 +92,7 @@ const FounderIntro: React.FC = () => {
   return (
     <section className="text-white lg:mt-32 md:mt-16 mt-11 ">
       <div className="flex flex-col md:flex-row items-start gap-2 md:gap-10 lg:gap-24 mb-7 lg:mb-12 lg:w-[80%] mx-auto">
-        <div className="text-2xl md:text-4xl lg:text-[54px] lg:leading-[100%] text-center block md:hidden mx-auto md:mx-0">
+        <div className="text-2xl md:text-4xl lg:text-[44px] lg:leading-[100%] text-center block md:hidden mx-auto md:mx-0">
           <h2 className="bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text font-bold">Hi I&#39;m Will</h2>
           <h3 className="mt-1">Founder of Conquer Consultancy</h3>
         </div>
@@ -100,11 +100,11 @@ const FounderIntro: React.FC = () => {
           <Image src={FounderImage} alt="Founder - Will" className="object-cover w-full h-full" />
         </div>
         <div className="text-center md:text-left lg:mt-3">
-          <div className="text-2xl md:text-4xl lg:text-[54px] lg:leading-[100%] hidden md:block">
+          <div className="text-2xl md:text-4xl lg:text-[44px] lg:leading-[100%] hidden md:block">
             <h2 className="bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text font-bold">Hi I&#39;m Will</h2>
             <h3 className="mt-1">Founder of Conquer Consultancy</h3>
           </div>
-          <p className="text-xl md:text-2xl lg:text-[33px] leading-[100%] lg:mt-20 md:mt-6 mt-4 font-[300] max-w-[640px]">
+          <p className="text-lg md:text-2xl lg:text-[24px] leading-[100%] lg:mt-20 md:mt-6 mt-4 font-[300] max-w-[640px]">
             I have been an Independant Consultant for 20 years and rose to the top of the corporate ladder as a consultant
             in under ten years consistently beating big consultancies to high value contracts.
           </p>

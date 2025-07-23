@@ -21,7 +21,7 @@ import Logo13 from '../../_assets/trusted-company-13.png';
 const TrustedCompanies = () => {
   return (
     <section className="bg-[linear-gradient(to_bottom,#141314,#272526)] text-white pt-4 md:pt-14 lg:pt-20 pb-12 md:pb-16 lg:pb-20 text-center overflow-hidden">
-      <h2 className="text-2xl md:text-5xl lg:text-[64px] lg:leading-[100%] mb-10 md:mb-14 lg:mb-16">
+      <h2 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] mb-10 md:mb-14 lg:mb-16">
         Companies & Governments<br />that trusted me!
       </h2>
       <Marquee speed={60} gradient={false} pauseOnHover={true} className="px-3 md:px-4" autoFill={true}>

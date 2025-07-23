@@ -41,7 +41,7 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
       {/* Sliding Panel */}
       <div
         className={`
-          absolute top-0 right-0 h-full w-1/2 bg-white shadow-lg
+          absolute top-0 right-0 h-full w-full lg:w-1/2 bg-white shadow-lg
           transform transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "translate-x-full"}
         `}

@@ -99,11 +99,9 @@ const paragraphs = [
 const SixFigureSwitchSection = () => {
   return (
     <section className="bg-gradient-to-b from-[#141314] to-[#272526] text-white py-6 md:py-10 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-24">
-      <div className="text-center space-y-4 text-2xl md:text-5xl lg:text-[64px] lg:leading-[100%] mb-5 md:mb-7 lg:mb-20">
+      <div className="text-center space-y-4 text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] mb-5 md:mb-7 lg:mb-20">
         <h2 className=" font-medium">What You Get With</h2>
-        <h2 className="font-bold text-[#FFA500]">
-          The Six-Figure Switch
-        </h2>
+        <h2 className="font-bold text-[#FFA500]">The Six-Figure Switch</h2>
       </div>
       <div className="max-w-[260px] sm:max-w-[400px] md:max-w-4xl mx-auto text-left text-white text-sm pl-6 md:pl-10 lg::pl-14 relative">
         <div className="relative">
@@ -114,7 +112,7 @@ const SixFigureSwitchSection = () => {
             {paragraphs.map((para, index) => (
               <div
                 key={index}
-                className="relative text-sm md:text-2xl lg:text-4xl"
+                className="relative text-sm md:text-2xl lg:text-[32px]"
               >
                 {index !== 0 && index !== paragraphs.length - 1 && (
                   <div className="absolute top-1/2 -translate-y-1/2 -left-[25.5px] md:-left-[63px] lg:-left-[67px] w-2 md:w-3 lg:w-5 h-2 md:h-3 lg:h-5  rounded-full bg-[#FFA500] z-10" />
@@ -122,68 +120,88 @@ const SixFigureSwitchSection = () => {
                 {para}
               </div>
             ))}
-
           </div>
         </div>
       </div>
 
-
-
-      <div className="max-w-[80%] md:max-w-5xl mx-auto bg-white bg-opacity-[0.08] py-6 md:py-10 lg:py-14 px-4 md:px-10 lg:px-[74px] border-[1px] border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] overflow-hidden mt-7 md:mt-16 lg:mt-20">
-
-        <div className="text-center md:space-y-4 text-2xl md:text-5xl lg:text-[64px] lg:leading-[90%] mb-8 md:mb-16 lg:mb-24 leading-tight">
+      <div className="lg:max-w-[90%] lg:max-w-[80%] md:max-w-5xl mx-auto bg-white bg-opacity-[0.08] py-6 md:py-10 lg:py-14 px-4 md:px-10 lg:px-[44px] border-[1px] border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] overflow-hidden mt-7 md:mt-16 lg:mt-10">
+        <div className="text-center md:space-y-4 text-2xl md:text-5xl lg:text-[44px] lg:leading-[90%] mb-8 md:mb-16 lg:mb-24 leading-tight">
           <h2 className=" font-bold">What’s included</h2>
-          <h2 className="">
-            in the System
-          </h2>
+          <h2 className="">in the System</h2>
         </div>
         <div className="flex items-center justify-between gap-4 md:py-2 lg:py-4 w-full mb-0 md:mb-5 lg;mb-6">
-          <div className="font-semibold bg-[#D9D9D9] text-[#302E2F] text-[10px] md:text-base lg:text-2xl inline-block max-w-[150px] rounded-[24.99px] text-center px-2 md:px-3 lg:px-5">OFFER</div>
+          <div className="font-semibold bg-[#D9D9D9] text-[#302E2F] text-[10px] md:text-base lg:text-2xl inline-block max-w-[150px] rounded-[24.99px] text-center px-2 md:px-3 lg:px-5">
+            OFFER
+          </div>
           <div className="flex">
-            <div className="font-semibold text-white text-[10px] md:text-base lg:text-2xl inline-block max-w-[150px] rounded-[24.99px] text-center px-2 md:px-3 lg:px-5">USD</div>
-            <div className="font-semibold bg-[#D9D9D9] text-[#302E2F] text-[10px] md:text-base lg:text-2xl inline-block max-w-[150px] rounded-[24.99px] text-center px-2 md:px-3 lg:px-5">VALUE</div>
+            <div className="font-semibold text-white text-[10px] md:text-base lg:text-2xl inline-block max-w-[150px] rounded-[24.99px] text-center px-2 md:px-3 lg:px-5">
+              USD
+            </div>
+            <div className="font-semibold bg-[#D9D9D9] text-[#302E2F] text-[10px] md:text-base lg:text-2xl inline-block max-w-[150px] rounded-[24.99px] text-center px-2 md:px-3 lg:px-5">
+              VALUE
+            </div>
           </div>
         </div>
 
         <div className="space-y-4 md:space-y-7 lg:space-y-10 py-4 text-sm">
           {offers.map((item, index) => (
-            <div
-              key={index}
-            >
+            <div key={index}>
               <div className="flex justify-between items-center font-medium text-white mb-1 gap-5">
-                <span className="text-sm md:text-base lg:text-2xl leading-tight">{item.title}</span>
-                <span className="text-xs md:text-base lg:text-2xl font-bold">{item.price}</span>
+                <span className="text-sm md:text-base lg:text-xl leading-tight">
+                  {item.title}
+                </span>
+                <span className="text-xs md:text-base lg:text-xl font-bold">
+                  {item.price}
+                </span>
               </div>
-              <div className={"border-t md:border-t-[2px] border-white mt-4 pt-1"}>
-                <p className="text-white text-xs md:text-base lg:text-xl leading-tight w-[80%]">{item.description}</p>
+              <div
+                className={"border-t md:border-t-[2px] border-white mt-4 pt-1"}
+              >
+                <p className="text-white text-xs md:text-base lg:text-lg leading-tight w-[80%]">
+                  {item.description}
+                </p>
               </div>
             </div>
           ))}
 
           <div className="pt-4">
-            <span className=" text-[#302E2F] py-1 text-xs md:text-lg lg:text-2xl font-bold rounded-[24.99px] px-4 md:px-5 lg:px-7" style={{
-              background: 'linear-gradient(90deg, #FFBE48 0%, #FFA500 50%, #E99803 100%)',
-            }}>
+            <span
+              className=" text-[#302E2F] py-1 text-xs md:text-lg lg:text-2xl font-bold rounded-[24.99px] px-4 md:px-5 lg:px-7"
+              style={{
+                background:
+                  "linear-gradient(90deg, #FFBE48 0%, #FFA500 50%, #E99803 100%)",
+              }}
+            >
               BONUSES
             </span>
           </div>
 
           {bonuses.map((item, index) => (
-            <div
-              key={index}
-            >
+            <div key={index}>
               <div className="flex justify-between items-center font-medium bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text mb-1">
-                <span className="text-sm md:text-base lg:text-2xl leading-tight">{item.title}</span>
-                <span className="text-xs md:text-base lg:text-2xl font-bold">{item.price}</span>
+                <span className="text-sm md:text-base lg:text-2xl leading-tight">
+                  {item.title}
+                </span>
+                <span className="text-xs md:text-base lg:text-2xl font-bold">
+                  {item.price}
+                </span>
               </div>
-              <div className={"border-t md:border-t-[2px] border-[#FFBE48] mt-4 pt-1"}>
+              <div
+                className={
+                  "border-t md:border-t-[2px] border-[#FFBE48] mt-4 pt-1"
+                }
+              >
                 <div className="flex justify-between items-center">
-                  <p className="text-white text-xs md:text-base lg:text-xl leading-tight w-[80%] lg:w-[70%]">{item.description}</p>
-                  {item.totalPrice &&
+                  <p className="text-white text-xs md:text-base lg:text-xl leading-tight w-[80%] lg:w-[70%]">
+                    {item.description}
+                  </p>
+                  {item.totalPrice && (
                     <div className="px-3 md:px-4 lg:px-6 py-1 bg-[#252422] rounded-[12.75px] md:rounded-3xl lg:rounded-[42px] ">
-                      <span className="text-xs md:text-base lg:text-2xl bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text font-bold">{item.totalPrice}</span>
+                      <span className="text-xs md:text-base lg:text-2xl bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text font-bold">
+                        {item.totalPrice}
+                      </span>
                     </div>
-                  }
+                  )}
                 </div>
               </div>
             </div>
@@ -200,13 +218,15 @@ const SixFigureSwitchSection = () => {
             </p>
           </div>
           <div className="space-y-1 md:space-y-3 text-base md:text-4xl lg:text-[50px] lg:leading-[100%] font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text pl-7 md:pl-10 lg:pl-14 border-l md:border-l-[2px] border-[#FFBE48]">
-            <p className=" uppercase tracking-wide">
-              TODAY
-            </p>
+            <p className=" uppercase tracking-wide">TODAY</p>
             <div className="px-5 md:px-7 lg:px-11 py-2 lg:py-3 bg-[#252422] rounded-[12.75px] md:rounded-3xl lg:rounded-[42px]">
-              <p className=" bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">$699</p>
+              <p className=" bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
+                $699
+              </p>
             </div>
-            <p className="text-[11px] md:text-2xl lg:text-4xl font-extralight">Save $2301</p>
+            <p className="text-[11px] md:text-2xl lg:text-4xl font-extralight">
+              Save $2301
+            </p>
           </div>
         </div>
       </div>

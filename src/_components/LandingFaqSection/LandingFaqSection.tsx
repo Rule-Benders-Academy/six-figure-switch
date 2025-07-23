@@ -46,7 +46,7 @@ const LandingFaqSection = () => {
 
   return (
     <section className="bg-gradient-to-b from-[#141314] to-[#272526] text-white px-4 sm:px-8 md:px-16 lg:px-24 pt-6 py-14 lg:py-20">
-      <h2 className="text-center text-4xl md:text-5xl lg:text-[64px] lg:leading-[100%] font-medium mb-10 lg:mb-32 md:w-[70%] lg:w-[50%] mx-auto">Frequently asked questions</h2>
+      <h2 className="text-center text-4xl md:text-5xl lg:text-[44px] lg:leading-[100%] font-medium mb-10 lg:mb-32 md:w-[70%] lg:w-[50%] mx-auto">Frequently asked questions</h2>
       <div className="max-w-5xl mx-auto space-y-7 md:space-y-10 lg:space-y-12">
         {faqs.map((faq, index) => (
           <div className="relative" key={index}>
@@ -56,10 +56,10 @@ const LandingFaqSection = () => {
               onClick={() => toggleIndex(index)}
             >
               <div className="flex items-start justify-between">
-                <h3 className="text-base md:text-2xl lg:text-3xl leading-tight font-medium w-[90%] max-w-[793px]">{faq.question}</h3>
+                <h3 className="text-base md:text-2xl lg:text-[24px] leading-tight font-medium w-[90%] max-w-[793px]">{faq.question}</h3>
               </div>
               {openIndex === index && faq.answer && (
-                <p className="mt-3 text-[#9B9B9B] text-base md:text-xl lg:text-2xl leading-tight md:mt-4 lg:mt-7 max-w-[827px]">{faq.answer}</p>
+                <p className="mt-3 text-[#9B9B9B] text-base md:text-xl lg:text-[18px] leading-tight md:mt-4 lg:mt-7 max-w-[827px]">{faq.answer}</p>
               )}
             </div>
             <div className="absolute right-0 bottom-5 cursor-pointer"

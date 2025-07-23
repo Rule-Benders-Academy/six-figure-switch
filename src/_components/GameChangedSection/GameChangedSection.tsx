@@ -8,8 +8,8 @@ const GameChangedSection = () => {
       <div className="text-center space-y-6 relative">
         <div className="bg-gradient-to-b from-[#434040] to-[#000000] pt-8 md:py-20 pb-20 md:pb-40 md:mb-32 relative">
           <div className="relative z-10">
-            <h1 className="text-2xl md:text-5xl lg:text-[64px] font-medium">The Game Has Changed</h1>
-            <h2 className="text-2xl md:text-5xl lg:text-[64px] font-bold md:mt-2">Are You Ready?</h2>
+            <h1 className="text-2xl md:text-5xl lg:text-[44px] font-medium">The Game Has Changed</h1>
+            <h2 className="text-2xl md:text-5xl lg:text-[44px] font-bold md:mt-2">Are You Ready?</h2>
           </div>
           <div
             className="absolute top-[110px] md:top-[270px] left-0 z-[1] w-full h-[200px]"
@@ -21,7 +21,7 @@ const GameChangedSection = () => {
             }}
           />
         </div>
-        <div className="relative z-10 -top-14 md:-top-48 lg:text-4xl space-y-5 md:space-y-8 lg:space-y-12 w-[55%] mx-auto">
+        <div className="relative z-10 -top-14 md:-top-48 lg:text-[24px] space-y-5 md:space-y-8 lg:space-y-12 w-[55%] mx-auto">
           <p>In the last five years,<br /> the job market has flipped.</p>
 
           <p>

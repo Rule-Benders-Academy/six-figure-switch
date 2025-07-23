@@ -72,7 +72,7 @@ const LandingPage = () => {
   return (
     <>
       <div className="min-h-screen !font-jakarta">
-        <section className="relative bg-black text-white pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-12 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden min-h-[calc(100vh-24px)] md:min-h-[calc(100vh-56px)]">
+        <section className="relative bg-black text-white pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-12 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden md:min-h-[calc(100vh-56px)]">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-60 pointer-events-none">
             <Image src={HeroBg} alt="" className="w-full h-full object-cover" />
           </div>
@@ -87,7 +87,7 @@ const LandingPage = () => {
                 height={64}
               />
             </div>
-            <p className="text-2xl md:text-3xl lg:leading-[100%] mb-8 md:mb-9 lg:mb-10">
+            <p className="text-lg md:text-3xl lg:leading-[100%] mb-8 md:mb-9 lg:mb-10">
               If you are an employed professional,
               <br />
               thinking there must be more to life than this,
@@ -97,7 +97,7 @@ const LandingPage = () => {
               </span>
             </p>
 
-            <p className="text-2xl md:text-3xl lg:leading-[100%]">
+            <p className="text-lg md:text-3xl lg:leading-[100%]">
               Did you know that you could be earning
               <br />
               <span className="text-[#FFA500] font-bold underline">
@@ -111,12 +111,12 @@ const LandingPage = () => {
                 <p className="text-2xl md:text-[40px] lg:text-[44px]">
                   It’s time to become an
                 </p>
-                <h2 className="text-[34px] md:text-4xl  leading-tight lg:leading-[100%] font-extrabold tracking-wide uppercase mt-5">
+                <h2 className="text-2xl md:text-4xl  leading-tight lg:leading-[100%] font-extrabold tracking-wide uppercase mt-5">
                   Independent Consultant
                 </h2>
                 <hr className="h-[6px] w-[90%] mx-auto mt-8 bg-white" />
 
-                <p className="text-xl md:text-4xl  lg:leading-[100%] mt-12 w-[80%] mx-auto">
+                <p className="text-lg md:text-4xl  lg:leading-[100%] mt-4 lg:mt-12 w-[80%] mx-auto">
                   From there, you could be on the path to earning
                   <span className="text-[#FFA500] font-bold underline">
                     {" "}
@@ -137,24 +137,24 @@ const LandingPage = () => {
               <Image
                 src={downArrow}
                 alt=""
-                className="w-[34px] md:w-16 lg:w-[54px] h-[34px] md:h-16 lg:h-[64px] animate-bounce"
+                className="w-[32px] md:w-16 lg:w-[54px] h-[34px] md:h-16 lg:h-[64px] animate-bounce"
               />
             </div>
           </div>
         </section>
         <div className="bg-gradient-to-b from-[#141314] to-[#272526] h-full">
-          <div className=" w-[80%] md:w-[30%] mx-auto py-5 md:py-10 lg:py-16 flex flex-col gap-7 md:gap-8 ">
+          <div className="w-[80%] md:w-[30%] mx-auto py-5 md:py-10 lg:py-16 flex flex-col gap-7 md:gap-8">
             {points.map((text, index) => (
-              <div key={index} className="">
+              <div key={index} className="mt-4 ">
                 <div className="flex items-center gap-4 md:gap-8">
                   <div className=" shrink-0">
                     <Image
                       src={CancelIcon}
                       alt=""
-                      className="lg:w-[60px] md:w-12 w-11"
+                      className="lg:w-[60px] md:w-12 w-6"
                     />
                   </div>
-                  <div className="text-[13px] md:text-xl lg:text-xl font-bold uppercase max-w-[606px] text-white">
+                  <div className="text-[14px] md:text-xl lg:text-xl font-bold uppercase max-w-[606px] text-white">
                     {text}
                   </div>
                 </div>
@@ -162,36 +162,39 @@ const LandingPage = () => {
             ))}
           </div>
 
-          <section className="relative text-white px-4 sm:px-8 md:px-16 lg:px-24 md:py-16 bg-gradient-to-b from-[#141314] to-[#272526] pb-10">
+          <section className="relative text-white px-4 sm:px-8 md:px-16 lg:px-24 md:py-16 bg-gradient-to-b from-[#141314] to-[#272526] pb-10 ">
             <div className="max-w-[75%] md:max-w-[35%] 2xl:max-w-[50%] mx-auto text-center z-10  transform translate-y-[15px] sm:hidden ">
-              <p className="text-2xl md:text-2xl lg:text-3xl xl:text-5xl">
+              <p className="text-xl md:text-2xl lg:text-3xl xl:text-5xl">
                 You’re not under qualified. You’re
                 <br /> under positioned.
               </p>
-              <p className="text-2xl md:text-2xl lg:text-3xl xl:text-5xl leading-[100%] font-semibold text-[#FFA500]">
+              <p className="text-xl mt-4 md:mt-4 md:text-2xl lg:text-xl xl:text-3xl leading-[100%] font-semibold text-[#FFA500]">
                 And it’s costing you $50,000 – $150,000 <br />a year.
               </p>
             </div>
 
-            <div className="flex justify-between z-10 relative -mb-20 items-end max-w-[60%] mx-auto gap-5">
+            <div className="flex justify-between z-10 relative -mb-20 items-end lg:max-w-[60%] mx-auto gap-5">
               <Image
                 src={Person1}
                 alt="Person 1"
-                className="lg:h-[206px] md:h-[250px] h-[136px] lg:w-[154px] md:w-[180px] w-[101px] rounded-md md:shadow-[19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)]"
+                className="lg:h-[170px] md:h-[250px] h-[136px] lg:w-[140px] md:w-[180px] w-[101px] rounded-md md:shadow-[19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)]"
               />
               <div className="text-center hidden sm:block transform md:-translate-y-1/4 mb-28">
-                <p className="text-xl md:text-2xl xl:text-4xl">
-                  You’re not under qualified. You’re
-                  <br /> under positioned.
+                <p className="text-xl md:text-2xl lg:text-3xl">
+                  You’re not under qualified.
+                  <br />
+                  You’re under positioned.
                 </p>
-                <p className="text-xl md:text-2xl xl:text-5xl leading-[100%] font-semibold text-[#FFA500]">
-                  And it’s costing you $50,000 –<br /> $150,000 a year.
+                <br />
+                <p className="text-xl md:text-2xl lg:text-3xl leading-[100%] font-semibold text-[#FFA500]">
+                  And it’s costing you
+                  <br /> $50,000 –$150,000 a year.
                 </p>
               </div>
               <Image
                 src={Person3}
                 alt="Person 2"
-                className="lg:h-[216.02px] md:h-[220px] h-[130px]  lg:w-[156.32px] md:w-[160px] w-[88px] rounded-md -mt-10 md:-mt-20 md:shadow-[-19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)]"
+                className="lg:h-[170px] md:h-[220px] h-[130px]  lg:w-[140px] md:w-[160px] w-[88px] rounded-md -mt-10 md:-mt-20 md:shadow-[-19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)]"
               />
             </div>
 
@@ -200,10 +203,10 @@ const LandingPage = () => {
                 <DigitalClock minutes={53} seconds={60} />
               </div>
               <div className="relative text-center py-[100px] px-5 border-[2px] border-[#3C3C3C] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[50px] w-[100%] mx-auto">
-                <p className="text-xl md:text-2xl lg:text-[54px] lg:leading-[100%] mb-2">
+                <p className="text-xl md:text-2xl lg:text-[34px] lg:leading-[100%] mb-2">
                   Join <span className="font-bold">100+</span> career changers
                 </p>
-                <h2 className="text-[40px] leading-[100%] md:text-5xl lg:text-[54px] tracking-wide uppercase">
+                <h2 className="text-[24px] leading-[120%] lg:leading-[100%] md:text-5xl lg:text-[34px] tracking-wide uppercase">
                   Who Made The
                   <br />
                   <span className="text-[#FFA500] font-bold">
@@ -213,36 +216,35 @@ const LandingPage = () => {
               </div>
             </div>
 
-            <div className="flex justify-between relative -mt-20 z-10  max-w-[60%] mx-auto">
+            <div className="flex justify-between relative -mt-20 z-10  lg:max-w-[60%] mx-auto">
               <Image
                 src={Person2}
                 alt="Person 3"
-                className="lg:h-[211px] md:h-[260px] h-[130px] lg:w-[160px] md:w-[200px] w-[100px] rounded-md md:shadow-[19.17px_-31.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_-10.89px_58.2px_0px_rgba(0,0,0,0.8)]"
+                className="lg:h-[170px] md:h-[260px] h-[130px] lg:w-[140px] md:w-[200px] w-[100px] rounded-md md:shadow-[19.17px_-31.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_-10.89px_58.2px_0px_rgba(0,0,0,0.8)]"
               />
               <Image
                 src={Person4}
                 alt="Person 4"
-                className="lg:h-[228px] md:h-[240px] h-[117px] lg:w-[180px] md:w-[200px] w-[99px] rounded-md md:shadow-[-19.17px_-41.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_-13.89px_58.2px_0px_rgba(0,0,0,0.8)]"
+                className="lg:h-[170px] md:h-[240px] h-[117px] lg:w-[140px] md:w-[200px] w-[99px] rounded-md md:shadow-[-19.17px_-41.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_-13.89px_58.2px_0px_rgba(0,0,0,0.8)]"
               />
             </div>
           </section>
 
           <div className="bg-gradient-to-b from-[#141314] to-[#272526]  pb-11 md:pb-16">
-            <div className="px-4 sm:px-8 md:px-16 lg:px-24 flex flex-col items-center">
-              <div className="text-xl md:text-4xl lg:text-5xl lg:leading-[100%] mt-10 max-w-[680px] mx-auto text-center text-white">
-                Watch this short video to see how we do it
+            <div className="px-4 sm:px-8 md:px-16 lg:px-24 flex flex-col items-center w-[95%] lg:w-full mx-auto">
+              <div className="text-xl md:text-4xl lg:text-[44px] lg:leading-[100%] mt-10 max-w-[680px] mx-auto text-center text-white">
+                Watch this short video to
+                <br /> see how we do it
               </div>
               <div className="lg:max-h-[449px] lg:h-[64vh] md:h-[400px] h-[234px] bg-[#C8C8C8] w-full rounded-[17.09px] md:rounded-[35px] lg:rounded-[47.42px] mt-6 md:mt-8 lg:mt-12 lg:w-[70%]"></div>
-              <GradientButton>
-                I’m in – lets Go!
-              </GradientButton>
+              <GradientButton>I’m in – lets Go!</GradientButton>
             </div>
 
             <div className=" px-4 sm:px-8 md:px-16 lg:px-24 !pt-10">
               <SixFigureSwitch />
             </div>
 
-            <div className=" px-4 sm:px-8 md:px-16 lg:px-24">
+            <div className=" px-4 sm:px-8 md:px-16 lg:px-24 w-[95%] lg:w-full mx-auto">
               <FounderIntro />
             </div>
           </div>

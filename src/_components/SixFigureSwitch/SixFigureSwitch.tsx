@@ -91,28 +91,29 @@ const content = [
 ];
 const SixFigureSwitch = () => {
   return (
-    <section className=" text-white">
-      <div className="max-w-3xl mx-auto ">
-        <div className="text-xl md:text-5xl lg:text-[64px] lg:leading-[100%] md:mt-6 lg:mt-10 max-w-[680px] mx-auto text-center text-white lg:mb-20 md:mb-16 mb-5">
+    <section className="text-white">
+      <div className="mx-auto">
+        <div className="text-xl md:text-5xl lg:text-[44px] lg:leading-[100%] md:mt-6 lg:mt-10  mx-auto text-center text-white lg:mb-20 md:mb-16 mb-5">
           The Six Figure Switch
+          <br />
           Teaches you
         </div>
-        <div className=" text-white px-4 md:px-8 max-w-3xl mx-auto">
-          <div className="flex flex-col lg:gap-y-14 md:gap-y-12 gap-y-6">
+        <div className="text-white px-4 md:px-8 lg:w-[70%] mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-6 md:gap-y-6 *:lg:gap-x-10">
             {content.map((item, index) => (
-              <div key={index} className="flex items-center gap-5">
+              <div key={index} className="flex items-start gap-5">
                 <div className="flex-shrink-0 lg:w-[89px] md:w-[59px] w-[30px] flex justify-center">
-                  <Image src={item.icon} alt="Icon" className='max-w-[80px]' />
+                  <Image src={item.icon} alt="Icon" className="max-w-[60px]" />
                 </div>
-                <p className="text-[15.5px] leading-tight md:text-xl lg:text-[32px] lg:leading-[100%]">{item.text}</p>
+                <p className="text-[15.5px] leading-tight md:text-xl lg:text-[22px] lg:leading-[100%]">
+                  {item.text}
+                </p>
               </div>
             ))}
           </div>
         </div>
         <div className="flex justify-center mt-2">
-          <GradientButton> 
-            LETS GET STARTED!
-          </GradientButton>
+          <GradientButton>LETS GET STARTED!</GradientButton>
         </div>
       </div>
     </section>

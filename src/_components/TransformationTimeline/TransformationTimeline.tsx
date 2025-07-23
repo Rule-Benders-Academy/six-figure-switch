@@ -94,7 +94,7 @@ const TransformationTimeline = () => {
         backgroundSize: 'cover',
       }}
     >
-      <h2 className="text-2xl md:text-3xl lg:text-[64px] lg:leading-[100%] font-semibold text-center mb-8 md:mb-14 lg:mb-16 ">
+      <h2 className="text-2xl md:text-3xl lg:text-[44px] lg:leading-[100%] font-semibold text-center mb-8 md:mb-14 lg:mb-16 ">
         Transformation Timeline
       </h2>
 
@@ -121,9 +121,9 @@ const TransformationTimeline = () => {
                       backgroundRepeat: 'no-repeat',
                       backgroundPositionY: "top"
                     }} />
-                    <h3 className="text-2xl md:text-3xl lg:text-[55.31px] lg:leading-[90%] font-bold mb-2 mt-3 md:mt-7 lg:mt-9">{card.title}</h3>
+                    <h3 className="text-2xl md:text-3xl lg:text-[34px] lg:leading-[90%] font-bold mb-2 mt-3 md:mt-7 lg:mt-9">{card.title}</h3>
                     <hr className="border-white w-[80%] md:h-1 my-2" />
-                    <p className="text-sm md:text-2xl lg:text-3xl leading-relaxed">{card.description}</p>
+                    <p className="text-sm md:text-2xl lg:text-[24px] leading-relaxed lg:px-24">{card.description}</p>
                   </div>
                 </div>
               </div>

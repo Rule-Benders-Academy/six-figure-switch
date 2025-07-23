@@ -35,7 +35,7 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
   ];
 
   return (
-    <div className="mx-auto lg:w-[70%] bg-white bg-opacity-[0.08] -mt-10 rounded-[16px] md:rounded-[30px] lg:rounded-[42.36px] p-3 md:p-6 text-white max-w-[80%] md:max-w-[60%] text-center border border-neutral-700 py-7 md:py-10 lg:py-16 shadow-[10.11px_15.64px_22.64px_rgba(0,0,0,0.5)] md:shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)]">
+    <div className="mx-auto w-[90%] lg:w-[70%] bg-white bg-opacity-[0.08] -mt-10 rounded-[16px] md:rounded-[30px] lg:rounded-[42.36px] p-3 md:p-6 text-white lg:max-w-[80%] md:max-w-[60%] text-center border border-neutral-700 py-2 md:py-10 lg:py-16 shadow-[10.11px_15.64px_22.64px_rgba(0,0,0,0.5)] md:shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)]">
       <div className="space-y-4 px-4 md:px-14 lg:px-10 mb-6 md:mb-8 lg:mb-10">
         <div className="flex justify-between text-xs uppercase tracking-widest mt-4">
           <div className="flex items-start gap-4 ">
