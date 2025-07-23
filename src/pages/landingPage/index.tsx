@@ -78,15 +78,6 @@ const LandingPage = () => {
           </div>
 
           <div className="relative max-w-[95%] mx-auto text-center">
-            <div className="items-center gap-2 text-xl font-bold mx-auto">
-              <Image
-                className="mx-auto pb-5"
-                src={logo}
-                alt="Logo"
-                width={64}
-                height={64}
-              />
-            </div>
             <p className="text-lg md:text-3xl lg:leading-[100%] mb-8 md:mb-9 lg:mb-10">
               If you are an employed professional,
               <br />
@@ -133,11 +124,11 @@ const LandingPage = () => {
               ></div>
             </div>
 
-            <div className="flex justify-center pt-4  mt-4">
+            <div className="flex justify-center pt-4  mt-2">
               <Image
                 src={downArrow}
                 alt=""
-                className="w-[32px] md:w-16 lg:w-[54px] h-[34px] md:h-16 lg:h-[64px] animate-bounce"
+                className="w-[32px] md:w-16 lg:w-[44px] h-[34px] md:h-16 lg:h-[64px] animate-bounce"
               />
             </div>
           </div>

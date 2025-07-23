@@ -13,7 +13,7 @@ const LandingAboutSection = () => {
             <h2 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] font-semibold mb-3 md:mb-10">
               About Me
             </h2>
-            <div className="text-base md:text-lg lg:text-2xl space-y-4 md:space-y-5 font-light">
+            <div className="text-base md:text-lg lg:text-lg space-y-4 md:space-y-5 font-light">
               <p>
                 I didn’t grow up with money, a degree, or fancy connections. But
                 I wanted more. More freedom. More income. More control.
@@ -63,7 +63,7 @@ const LandingAboutSection = () => {
             />
           </div>
           <div className="flex-1 lg:flex-[1.3] max-w-[600px]">
-            <div className="space-y-4 text-base md:text-lg lg:text-2xl font-light">
+            <div className="space-y-4 text-base md:text-lg lg:text-lg font-light">
               <p className="">
                 Along the way, I built a simple, repeatable system that:
               </p>
