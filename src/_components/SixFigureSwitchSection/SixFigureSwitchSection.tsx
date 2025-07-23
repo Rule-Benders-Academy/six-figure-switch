@@ -124,7 +124,7 @@ const SixFigureSwitchSection = () => {
         </div>
       </div>
 
-      <div className="lg:max-w-[90%] lg:max-w-[80%] md:max-w-5xl mx-auto bg-white bg-opacity-[0.08] py-6 md:py-10 lg:py-14 px-4 md:px-10 lg:px-[44px] border-[1px] border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] overflow-hidden mt-7 md:mt-16 lg:mt-10">
+      <div className="max-w-[90%] lg:max-w-[70%] md:max-w-5xl mx-auto bg-white bg-opacity-[0.08] py-6 md:py-10 lg:py-14 px-4 md:px-10 lg:px-[44px] border-[1px] border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] overflow-hidden mt-7 md:mt-16 lg:mt-10">
         <div className="text-center md:space-y-4 text-2xl md:text-5xl lg:text-[44px] lg:leading-[90%] mb-8 md:mb-16 lg:mb-24 leading-tight">
           <h2 className=" font-bold">What’s included</h2>
           <h2 className="">in the System</h2>

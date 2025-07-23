@@ -69,7 +69,7 @@ const MatrixBreakdownSection: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-row md:items-stretch items-center justify-between gap-4 md:gap-6 lg:gap-8 bg-black rounded-lg md:p-6 !-mt-44 md:!mt-0 w-[85%] mx-auto">
+        <div className="flex flex-col md:flex-row md:items-stretch items-center justify-between gap-4 md:gap-6 lg:gap-8 bg-black rounded-lg md:p-6 !-mt-44 md:!mt-0 w-[90%] lg:w-[80%] mx-auto">
           <div className="space-y-4 text-center md:text-left max-w-[400px]">
             <h3 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] font-semibold">
               Want to see the method?
