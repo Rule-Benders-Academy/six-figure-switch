@@ -33,7 +33,6 @@ import OurPromise from '@/_components/OurPromise/OurPromise'
 import NotOrdinary from '@/_components/NotOrdinary/NotOrdinary'
 import TransformationTimeline from '@/_components/TransformationTimeline/TransformationTimeline'
 import EarningTimelineSection from '@/_components/EarningTimelineSection/EarningTimelineSection'
-import logo from "../../_assets/logo.svg";
 import { useState, useEffect } from "react";
 
 const points = [
