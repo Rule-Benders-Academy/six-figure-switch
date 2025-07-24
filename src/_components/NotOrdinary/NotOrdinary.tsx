@@ -55,17 +55,17 @@ const NotOrdinary: React.FC = () => {
             <Image
               src={Person1}
               alt="Person 1"
-              className=" w-[83px] md:w-[150px] lg:w-[220px] h-[111px] md:h-[180px] lg:h-[255px] rounded-md md:shadow-[19.17px_33.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)] transform -translate-y-1.5 sm:translate-y-0"
+              className=" w-[83px] md:w-[150px] lg:w-[170px] h-[111px] md:h-[180px] lg:h-[230px] rounded-md md:shadow-[19.17px_33.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)] transform -translate-y-1.5 sm:translate-y-0"
             />
             <Image
               src={Person3}
               alt="Person 2"
-              className="w-[82px] md:w-[150px] lg:w-[220px] h-[123px] md:h-[190px] lg:h-[255px] rounded-md  md:shadow-[-19.17px_33.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)] transform translate-y-5 sm:translate-y-0"
+              className="w-[82px] md:w-[150px] lg:w-[170px] h-[123px] md:h-[190px] lg:h-[230px] rounded-md  md:shadow-[-19.17px_33.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)] transform translate-y-5 sm:translate-y-0"
             />
           </div>
 
           <div className="border border-[#666465] rounded-[16px] md:rounded-[20px] lg:rounded-[44.31px] p-6 md:p-10 bg-white bg-opacity-[0.08]  sm:max-w-[550px] md:max-w-[800px] lg:max-w-[1073px] text-center w-[90%] mx-auto  mt-10 md:mt-0">
-            <ul className="space-y-6 text-sm md:text-2xl lg:text-3xl text-gray-200 w-[90%]  lg:w-[70%] mx-auto lg:py-20 md:py-10 py-7">
+            <ul className="space-y-6 text-sm md:text-lg text-gray-200 w-[90%]  lg:w-[70%] mx-auto lg:py-12 md:py-10 py-7">
               <li>
                 <span className="text-red-400">💥</span> Mentors Who’ve Been
                 There—real professionals, not ivory-tower theorists.
@@ -97,12 +97,12 @@ const NotOrdinary: React.FC = () => {
             <Image
               src={Person2}
               alt="Person 3"
-              className=" w-[88px] md:w-[180px] lg:w-[250px] h-[113px] md:h-[180px] lg:h-[255px] rounded-md md:shadow-[19.17px_-21.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_-10.89px_58.2px_0px_rgba(0,0,0,0.8)] transform -translate-y-8 sm:translate-y-0"
+              className=" w-[88px] md:w-[180px] lg:w-[170px] h-[113px] md:h-[180px] lg:h-[230px] rounded-md md:shadow-[19.17px_-21.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_-10.89px_58.2px_0px_rgba(0,0,0,0.8)] transform -translate-y-8 sm:translate-y-0"
             />
             <Image
               src={Person4}
               alt="Person 4"
-              className="w-[89px] md:w-[160px] lg:w-[250px] h-[105px] md:h-[180px] lg:h-[255px] rounded-md md:shadow-[-19.17px_-31.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_-13.89px_58.2px_0px_rgba(0,0,0,0.8)]"
+              className="w-[89px] md:w-[160px] lg:w-[170px] h-[105px] md:h-[180px] lg:h-[230px] rounded-md md:shadow-[-19.17px_-31.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_-13.89px_58.2px_0px_rgba(0,0,0,0.8)]"
             />
           </div>
         </div>

@@ -35,7 +35,7 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
   ];
 
   return (
-    <div className="mx-auto w-[85%] lg:w-[70%] bg-white bg-opacity-[0.08] -mt-10 rounded-[16px] md:rounded-[30px] lg:rounded-[42.36px] p-3 md:p-6 text-white lg:max-w-[80%] md:max-w-[60%] text-center border border-neutral-700 py-2 md:py-10 lg:py-16 shadow-[10.11px_15.64px_22.64px_rgba(0,0,0,0.5)] md:shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)]">
+    <div className="mx-auto w-[85%] lg:w-[65%] bg-white bg-opacity-[0.08] -mt-10 rounded-[16px] md:rounded-[30px] lg:rounded-[42.36px] p-3 md:p-6 text-white lg:max-w-[80%] md:max-w-[60%] text-center border border-neutral-700 py-2 md:py-8 shadow-[10.11px_15.64px_22.64px_rgba(0,0,0,0.5)] md:shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)]">
       <div className="space-y-4 px-4 md:px-14 lg:px-10 mb-6 md:mb-8 lg:mb-10">
         <div className="flex justify-between text-xs uppercase tracking-widest mt-4">
           <div className="flex items-start gap-4 ">
@@ -45,7 +45,7 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
                 background: "linear-gradient(180deg, #FF0000 0%, #990000 100%)",
               }}
             />
-            <div className="text-xs md:text-2xl lg:text-3xl ,t text-white">
+            <div className="text-xs md:text-2xl lg:text-xl text-white">
               <span>Offer Extended</span>
               <div className="text-left font-bold mt-1 md:mt-2">in 15 days</div>
             </div>
@@ -60,20 +60,20 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
           </div>
         </div>
         <div className="h-[3px] bg-[#EBE9E9]" />
-        <p className="text-xl md:text-4xl lg:text-4xl lg:leading-[120%] text-left">
+        <p className="text-xl md:text-2xl lg:leading-[120%] text-left">
           One day as a consultant pays for this entire programme!
         </p>
       </div>
 
       {/* Countdown */}
-      <div className="grid grid-cols-4 gap-2 md:gap-6 lg:gap-8 bg-gradient-to-r from-[#1A1A1A] to-[#282828] p-3 md:p-5 md:h-[300px] lg:h-[247px] rounded-2xl">
+      <div className="grid grid-cols-4 gap-2 md:gap-6 lg:gap-8 bg-gradient-to-r from-[#1A1A1A] to-[#282828] p-3 md:p-5 md:h-[220px] rounded-2xl">
         {units.map((unit) => (
           <div
             key={unit.label}
             className="h-[60%] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] rounded-3xl"
           >
             <div className="bg-gradient-to-b from-[#3F3F3F] to-[#1E1E1E] px-3 py-2 flex justify-center items-center h-full rounded-xl md:rounded-3xl relative">
-              <div className="font-bold text-white text-[clamp(1rem,100vw,2rem)] md:text-[clamp(1rem,100vw,4rem)] lg:text-[clamp(0.5rem,100vw,5rem)]">
+              <div className="font-bold text-white text-[clamp(1rem,100vw,2rem)] md:text-[clamp(1rem,100vw,4rem)] lg:text-[clamp(0.5rem,90vw,3rem)]">
                 {String(unit.value).padStart(2, "0")}
               </div>
               <div className="absolute top-1/2 right-0 h-[2px] w-full -translate-y-1/2 bg-[#050505]" />
@@ -86,7 +86,7 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
       </div>
 
       <div className="text-left">
-        <GradientButton className="!text-sm md:!text-xl !py-[8px] md:!py-4 lg:!py-4 !px-5 md:!px-8 lg:!px-[35px]">
+        <GradientButton className="!text-sm md:!text-lg !py-[2px] md:!py-4 lg:!py-4 !px-5 md:!px-8 lg:!px-[20px]">
           TAKE THE RED PILL
         </GradientButton>
       </div>

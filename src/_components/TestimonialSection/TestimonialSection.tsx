@@ -43,7 +43,7 @@ const TestimonialSection = ({ reverseOrder, name, description, videoUrl }: Props
           }`}
         >
           {videoUrl ? (
-            <div className="relative w-full h-[334px] md:h-[450px] lg:h-[661px] rounded-2xl lg:rounded-[59.73px] overflow-hidden">
+            <div className="relative w-full h-[334px] md:h-[450px] lg:h-[561px] rounded-2xl lg:rounded-[59.73px] overflow-hidden">
               <VideoOnView src={videoUrl} />
             </div>
           ) : (

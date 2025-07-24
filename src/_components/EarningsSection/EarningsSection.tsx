@@ -20,16 +20,16 @@ const EarningCard = ({ icon, title, subtitle, gainItems }: CardProps) => (
     <div
       className={`flex items-start bg-[rgba(255,255,255,0.08)] rounded-2xl md:rounded-3xl lg:rounded-[20.4px] border-[1px] border-[#5E5E5E] shadow-lg gap-10 ${
         gainItems
-          ? "px-2 md:px-5 lg:px-6 py-3 md:py-5 lg:py-[14px]"
-          : "px-2 md:px-5 lg:px-12 py-6 md:py-10 lg:py-[14px]"
+          ? "px-2 md:px-5 lg:px-6 py-3 md:py-5 lg:py-[5px]"
+          : "px-2 md:px-5 lg:px-12 py-6 md:py-10 lg:py-[5px]"
       }`}
     >
       <div className="ml-4 flex justify-between items-center w-full">
-        <p className="font-semibold text-white text-lg lg:text-xl md:text-2xl md:max-w-[200px] lg:max-w-[300px] md:border-r border-white md:pr-4 xl:pr-12 flex-1 md:flex-auto">
+        <p className="font-semibold text-white text-lg lg:text-lg md:text-2xl md:max-w-[200px] lg:max-w-[300px] md:border-r border-white md:pr-4 xl:pr-12 flex-1 md:flex-auto">
           {title}
         </p>
         <div className="h-[70px] bg-white md:bg-transparent w-[1px] mx-3 sm:mx-6"></div>
-        <p className="text-white font-extralight text-sm md:text-lg lg:text-base md:max-w-[150px] lg:max-w-[220px] flex-1 md:flex-auto">
+        <p className="text-white font-extralight text-sm md:text-sm md:max-w-[150px] lg:max-w-[220px] flex-1 md:flex-auto">
           {subtitle}
         </p>
       </div>
@@ -81,21 +81,28 @@ const EarningsSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between flex-col md:flex-row">
           <div className="mb-12 flex-[0.9] mx-5 md:mx-0">
-            <span className="bg-transparent text-[#FFA500] border border-[#FFA500] text-xs md:text-base lg:text-xl font-semibold px-3 md:px-5 lg:px-7 py-1 md:py-2 lg:py-3 rounded-full inline-block mb-3">
+            <span className="bg-transparent text-[#FFA500] border border-[#FFA500] text-xs md:text-base lg:text-base font-semibold px-3 md:px-5 lg:px-7 py-1 md:py-2 lg:py-3 rounded-full inline-block mb-3">
               SAFE PROGRAMME
             </span>
-            <h2 className="text-xl md:text-5xl lg:text-[34px] lg:leading-[100%] font-bold max-w-lg leading-8 mt-3">
+            <h2 className="text-xl md:text-[24px] lg:leading-[100%] font-bold max-w-lg leading-8 mt-3">
               You can save 10–20k in year 1 by avoiding costly mistakes…
             </h2>
-            <p className="text-white mt-5 md:mt-6 max-w-sm text-xl lg:text-2xl leading-6 font-normal lg:font-extralight lg:mt-8">
-              Doing it on your own means wasted money, poor decisions, and costly delays.
+            <p className="text-white mt-5 md:mt-6 max-w-sm text-xl lg:text-lg leading-6 font-normal lg:font-extralight lg:mt-8">
+              Doing it on your own means wasted money, poor decisions, and
+              costly delays.
             </p>
           </div>
           <div className="space-y-4 mb-12 flex-1 mx-1 md:mx-0">
             {lossItems.map((item, idx) => (
               <EarningCard
                 key={idx}
-                icon={<Image src={Cancel} alt="" className="w-9 md:w-10 lg:w-[44px]" />}
+                icon={
+                  <Image
+                    src={Cancel}
+                    alt=""
+                    className="w-9 md:w-10 lg:w-[44px]"
+                  />
+                }
                 title={item.title}
                 subtitle={item.subtitle}
               />
@@ -108,7 +115,13 @@ const EarningsSection = () => {
             {gainItems.map((item, idx) => (
               <EarningCard
                 key={idx}
-                icon={<Image src={Tick} alt="" className="w-9 md:w-10 lg:w-[44px]" />}
+                icon={
+                  <Image
+                    src={Tick}
+                    alt=""
+                    className="w-9 md:w-10 lg:w-[44px]"
+                  />
+                }
                 title={item.title}
                 subtitle={item.subtitle}
                 gainItems={true}
@@ -117,9 +130,10 @@ const EarningsSection = () => {
           </div>
           <div className="mb-12 flex-[0.8] mx-5 md:mx-0">
             <p className="text-white mt-5 md:mt-6 max-w-sm text-xl lg:text-xl leading-6 font-normal lg:font-extralight lg:mt-8">
-              Our tools, templates, trackers, coaching, and recruiter insights help you avoid these pitfalls completely
+              Our tools, templates, trackers, coaching, and recruiter insights
+              help you avoid these pitfalls completely
             </p>
-            <h2 className="text-xl leading-8 md:text-5xl lg:text-[34px] lg:leading-[100%] font-bold max-w-lg mt-6 md:mt-3">
+            <h2 className="text-xl md:text-[24px] leading-8 lg:leading-[100%] font-bold max-w-lg mt-6 md:mt-3">
               You can make a shit load more money...
             </h2>
           </div>
@@ -130,19 +144,15 @@ const EarningsSection = () => {
         <h2 className="font-bold mx-3 md:mx-0">
           Typical ROI on our programme:
         </h2>
+        <p>Short-term: 10x–20x return from your first contract</p>
         <p>
-
-          Short-term: 10x–20x return from your first contract
-        </p>
-        <p>
-
-          Long-term: 100x+ return as you raise your rate, take control, and build recurring income
+          Long-term: 100x+ return as you raise your rate, take control, and
+          build recurring income
         </p>
         <p className="font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
-
-          And you can do it all without quitting everything, launching a startup, or waiting for permission.
+          And you can do it all without quitting everything, launching a
+          startup, or waiting for permission.
         </p>
-
 
         <GradientButton className="!text-sm md:!text-2xl lg:!text-[24px] !py-3 md:!py-[16px] lg:!py-[18px] !px-5 md:!px-8 lg:!px-[35px] mx-7">
           I AM READY TO START
