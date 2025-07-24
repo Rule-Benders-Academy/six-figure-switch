@@ -21,7 +21,7 @@ const GameChangedSection = () => {
             }}
           />
         </div>
-        <div className="relative z-10 -top-14 md:-top-48 lg:text-[24px] space-y-5 md:space-y-8 lg:space-y-12 w-[55%] mx-auto">
+        <div className="relative z-10 -top-14 md:-top-48 lg:text-[24px] space-y-5 md:space-y-8 lg:space-y-12 w-[80%] lg:w-[55%] mx-auto">
           <p>In the last five years,<br /> the job market has flipped.</p>
 
           <p>

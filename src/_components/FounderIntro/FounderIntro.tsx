@@ -120,7 +120,7 @@ const FounderIntro: React.FC = () => {
           <div className=" mb-3">
             <Image src={achievements[0].icon} alt="Icon" className="lg:w-[179px] md:w-[130px] w-[88px] h-full" />
           </div>
-          <div className="text-sm md:text-base leading-snug">{achievements[0].text}</div>
+          <div className="text-base md:text-base leading-snug">{achievements[0].text}</div>
         </div>
 
         <div className="flex justify-center flex-wrap gap-6">
