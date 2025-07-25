@@ -2,12 +2,11 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion"; // ✅ Import Framer Motion
 import GradientButton from "@/_components/GradientButton/GradientButton";
 import ProfilePic from "@/_assets/will-img.png";
 import HeroBg from "@/_assets/landing-hero-bg.png";
 
-// Updated social icons
-// Updated social icons with real links
 const socialLinks = [
   {
     iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg",
@@ -41,17 +40,14 @@ const socialLinks = [
   },
 ];
 
-
 const LinkTreePage = () => {
   const formRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!formRef.current) return;
-
     const existing = formRef.current.querySelector("._form_1");
     if (existing) return;
 
-    // Inject style to apply border-radius
     const style = document.createElement("style");
     style.textContent = `
       ._form_1_ {
@@ -60,6 +56,7 @@ const LinkTreePage = () => {
       }
     `;
     document.head.appendChild(style);
+
     formRef.current.innerHTML = "";
     const formDiv = document.createElement("div");
     formDiv.className = "_form_1";
@@ -71,7 +68,6 @@ const LinkTreePage = () => {
     script.async = true;
     formRef.current.appendChild(script);
 
-    // Cleanup rogue form injected to <body>
     const cleanup = setInterval(() => {
       const rogueForm = document.querySelector("body > ._form_1");
       if (rogueForm && !formRef.current?.contains(rogueForm)) {
@@ -83,7 +79,7 @@ const LinkTreePage = () => {
 
   return (
     <main className="relative min-h-screen bg-black flex flex-col items-center py-16 px-4 text-white overflow-hidden">
-      {/* Background Image with Gradient Overlay */}
+      {/* Background */}
       <div className="absolute inset-0 z-0">
         <Image
           src={HeroBg}
@@ -95,7 +91,12 @@ const LinkTreePage = () => {
       </div>
 
       {/* Profile Section */}
-      <div className="relative z-10 flex flex-col items-center mb-6">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative z-10 flex flex-col items-center mb-6"
+      >
         <div className="w-32 h-32 rounded-full overflow-hidden mb-4">
           <Image src={ProfilePic} alt="Profile" width={128} height={128} />
         </div>
@@ -105,26 +106,42 @@ const LinkTreePage = () => {
         <p className="text-center text-sm md:text-base text-gray-300 max-w-md">
           I help consultants to scale to £1k+ days.
         </p>
-      </div>
+      </motion.div>
 
-      {/* Main Button */}
-      <div className="relative z-10 w-full max-w-xs mb-8">
+      {/* Button */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="relative z-10 w-full max-w-xs mb-8"
+      >
         <a
           href="https://sixfigureswitch.rule-benders.com/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <GradientButton className="!mx-auto !w-[300px] lg:!py-2 !mt-0 !px-2 !text-base !font-medium">
+          <GradientButton className="!mx-auto !w-[300px] lg:!py-2 !mt-0 !px-2 !text-base !font-medium animate-pulse">
             Make the Six‑Figure Switch
           </GradientButton>
         </a>
-      </div>
+      </motion.div>
 
-      {/* Form Embed */}
-      <div ref={formRef} className="relative z-10 w-full max-w-md mb-8" />
+      {/* Form */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+        ref={formRef}
+        className="relative z-10 w-full max-w-md mb-8"
+      />
 
       {/* Social Links */}
-      <div className="relative z-10 flex items-center gap-6 mb-12">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+        className="relative z-10 flex items-center gap-6 mb-12"
+      >
         {socialLinks.map((link, idx) => (
           <a
             key={idx}
@@ -142,7 +159,7 @@ const LinkTreePage = () => {
             />
           </a>
         ))}
-      </div>
+      </motion.div>
 
       {/* Footer */}
       <footer className="relative z-10 mt-auto text-xs text-gray-600 text-center">
