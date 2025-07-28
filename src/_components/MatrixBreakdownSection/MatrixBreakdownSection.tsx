@@ -97,11 +97,9 @@ const MatrixBreakdownSection: React.FC = () => {
             <Image
               src={BtnIcon}
               alt=""
-              className=" absolute -top-[40px] md:-top-5 left-[25px] md:-left-5 w-[106.5px] md:w-[140px] lg:w-[178px]"
+              className=" absolute -top-[25px] md:-top-5 left-[25px] md:-left-5 w-[106.5px] md:w-[140px] lg:w-[178px]"
             />
             <GradientButton className="!text-sm md:!text-xl lg:!text-[24px] !py-[14px] !px-5 md:!px-8 lg:!px-[35px] max-w-[220px] md:max-w-[399px] ">
-              I&#39;m ready to follow your method:
-              <br />
               Take the Red Pill
             </GradientButton>
           </div>

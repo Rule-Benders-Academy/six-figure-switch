@@ -93,7 +93,7 @@ const SixFigureSwitch = () => {
   return (
     <section className="text-white">
       <div className="mx-auto">
-        <div className="text-xl md:text-5xl lg:text-[44px] lg:leading-[100%] md:mt-6 lg:mt-10  mx-auto text-center text-white lg:mb-20 md:mb-16 mb-5">
+        <div className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] md:mt-6 lg:mt-10  mx-auto text-center text-white lg:mb-20 md:mb-16 mb-5">
           The Six Figure Switch
           <br />
           Teaches you
@@ -105,7 +105,7 @@ const SixFigureSwitch = () => {
                 <div className="flex-shrink-0 lg:w-[50px] md:w-[59px] w-[30px] flex justify-center">
                   <Image src={item.icon} alt="Icon" className="max-w-[30px]" />
                 </div>
-                <p className="text-[15.5px] leading-tight md:text-xl lg:text-[24px] lg:leading-[100%]">
+                <p className="text-base leading-tight md:text-xl lg:text-[24px] lg:leading-[100%]">
                   {item.text}
                 </p>
               </div>

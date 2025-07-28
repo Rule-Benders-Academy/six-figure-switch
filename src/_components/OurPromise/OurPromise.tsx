@@ -12,7 +12,7 @@ const OurPromise: React.FC = () => {
         backgroundSize: "cover",
       }}>
       <div className="bg-w bg-white bg-opacity-[0.08] rounded-[16px] md:rounded-3xl lg:rounded-[44.31px] text-center border-[1px] border-[#818484] shadow-[0.11px_22.64px_22.64px_rgba(0,0,0,0.3)] max-w-[90%] sm:max-w-[1105px] w-full py-6 md:py-10 lg:py-[60px] px-10 md:px-20 lg:px-[140px]">
-        <h2 className="text-4xl lg:text-[44px] font-semibold text-white mb-4">
+        <h2 className="text-2xl lg:text-[44px] font-semibold text-white mb-4">
           Our Promise
         </h2>
         <div className="h-[2px] md:h-[3px] lg:h-[5.5px] bg-white my-2" />

@@ -162,7 +162,7 @@ const LandingPage = () => {
                       className="lg:w-[50px] md:w-12 w-6"
                     />
                   </div>
-                  <div className="text-[14px] md:text-xl lg:text-[24px]  uppercase max-w-[606px] text-white">
+                  <div className="text-[18px] lg:text-[24px]  uppercase max-w-[606px] text-white">
                     {text}
                   </div>
                 </div>
@@ -172,12 +172,12 @@ const LandingPage = () => {
 
           <section className="relative text-white px-4 sm:px-8 md:px-16 lg:px-24 md:py-16 bg-gradient-to-b from-[#141314] to-[#272526] pb-10 ">
             <div className="max-w-[75%] md:max-w-[35%] 2xl:max-w-[50%] mx-auto text-center z-10  transform translate-y-[15px] sm:hidden ">
-              <p className="text-xl md:text-2xl lg:text-[24px] xl:text-5xl">
+              <p className="text-lg md:text-2xl lg:text-[24px] xl:text-5xl">
                 You’re not under qualified. You’re
                 <br /> under positioned.
               </p>
-              <p className="text-xl mt-4 md:mt-4 md:text-2xl lg:text-xl xl:text-3xl leading-[100%] font-semibold text-[#FFA500]">
-                And it’s costing you $50,000 – $150,000 <br />a year.
+              <p className="mb-4 text-lg mt-4 md:mt-4 md:text-2xl lg:text-xl xl:text-3xl leading-[100%] font-semibold text-[#FFA500]">
+                And it’s costing you $50,000 – $150,000 a year.
               </p>
             </div>
 
@@ -188,7 +188,7 @@ const LandingPage = () => {
                 className="lg:h-[170px] md:h-[250px] h-[136px] lg:w-[140px] md:w-[180px] w-[101px] rounded-md md:shadow-[19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)]"
               />
               <div className="text-center hidden sm:block transform md:-translate-y-1/4 mb-28">
-                <p className="text-xl md:text-2xl lg:text-2xl">
+                <p className="text-lg md:text-2xl lg:text-2xl">
                   You’re not under qualified.
                   <br />
                   You’re under positioned.
@@ -211,7 +211,7 @@ const LandingPage = () => {
                 <DigitalClock minutes={53} seconds={60} />
               </div>
               <div className="relative text-center py-[100px] px-5 border-[2px] border-[#3C3C3C] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[50px] w-[100%] mx-auto">
-                <p className="text-xl md:text-2xl lg:text-[34px] lg:leading-[100%] mb-2">
+                <p className="text-lg md:text-2xl lg:leading-[100%] mb-2">
                   Join <span className="font-bold">100+</span> career changers
                 </p>
                 <h2 className="text-[24px] leading-[120%] lg:leading-[100%] md:text-2xl tracking-wide uppercase">
@@ -240,7 +240,7 @@ const LandingPage = () => {
 
           <div className="bg-gradient-to-b from-[#141314] to-[#272526]  pb-11 md:pb-16">
             <div className="px-4 sm:px-8 md:px-16 lg:px-24 flex flex-col items-center w-[95%] lg:w-full mx-auto">
-              <div className="text-xl md:text-4xl lg:text-[44px] lg:leading-[100%] mt-10 max-w-[680px] mx-auto text-center text-white">
+              <div className="text-2xl md:text-4xl lg:text-[44px] lg:leading-[100%] mt-10 max-w-[680px] mx-auto text-center text-white">
                 Watch this short video to
                 <br /> see how we do it
               </div>
