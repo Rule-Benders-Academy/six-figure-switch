@@ -22,7 +22,8 @@ const ConfidenceSection = () => {
               <br />
               that we can help you into
               <br />
-              Consulting that we are<br/>
+              Consulting that we are
+              <br />
               <span className="font-bold">ready to bet on it.</span>
             </h1>
           </div>
@@ -48,7 +49,7 @@ const ConfidenceSection = () => {
                     {steps.map((para, index) => (
                       <div
                         key={index}
-                        className="relative text-sm md:text-2xl lg:text-4xl max-w-[149px] md:max-w-[373px]"
+                        className="relative text-sm md:text-2xl lg:text-[24px] max-w-[149px] md:max-w-[373px]"
                       >
                         {index !== 0 && index !== steps.length - 1 && (
                           <div className="absolute top-1/2 -translate-y-1/2 -left-[25.5px] md:-left-[63px] lg:-left-[67px] w-2 md:w-3 lg:w-5 h-2 md:h-3 lg:h-5  rounded-full bg-[#FFA500] z-10" />
@@ -61,15 +62,14 @@ const ConfidenceSection = () => {
               </div>
             </div>
 
-            <div className="text-base md:text-2xl lg:text-4xl leading-relaxed mt-6 md:mt-10 lg:mt-20">
+            <div className="text-base md:text-2xl lg:text-2xl leading-relaxed mt-6 md:mt-10 lg:mt-20">
               <p>Try it risk-free for 14 days.</p>
               <p className="mt-5 md:mt-7 lg:mt-10">
                 If you’re not 100% confident you’re on
                 <br />
                 the path to 6–figures, we’ll give you
                 <br />
-                your money back
-                <br />— no questions asked.
+                your money back — no questions asked.
               </p>
             </div>
             <div className="relative mt-[84px] md:mt-[120px] lg:mt-[173px] ">

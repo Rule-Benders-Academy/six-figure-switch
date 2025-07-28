@@ -219,8 +219,8 @@ const ComparisonSection = () => {
         with the income and freedom to live life on your terms is.
       </p>
 
-      <div className="w-[90%]  lg:w-[80%] mx-auto bg-gradient-to-b from-[#2C2B2C] to-[#363435] py-6 md:py-10 lg:py-14 px-4 md:px-10  border-[1px] border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] overflow-hidden mt-7 md:mt-10 lg:mt-16 mb-2 md:mb-4 lg:mb-5">
-        <h3 className=" text-2xl md:text-5xl lg:text-[34px] lg:leading-[100%] font-semibold text-[#FFA500] w-[80%] md:w-[60%] mx-auto mb-5 md:mb-4 lg:mb-4">
+      <div className="w-[90%]  lg:w-[70%] mx-auto bg-gradient-to-b from-[#2C2B2C] to-[#363435] py-6 md:py-10 lg:py-14 px-4 md:px-10  border-[1px] border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] overflow-hidden mt-7 md:mt-10 lg:mt-16 mb-2 md:mb-4 lg:mb-5">
+        <h3 className=" text-2xl md:text-[44px] lg:leading-[100%] font-semibold text-[#FFA500] w-[80%] md:w-[60%] mx-auto mb-5 md:mb-4 lg:mb-4">
           We go on the
           <br /> journey with you.
         </h3>
@@ -230,7 +230,7 @@ const ComparisonSection = () => {
           {columns.map((col) => (
             <div
               key={col}
-              className={`text-center text-[10px] md:text-xl lg:text-[18px] lg:leading-[33.5px] leading-tight w-[70%] mx-auto ${
+              className={`text-center text-[10px] md:text-[18px] lg:leading-[33.5px] leading-tight w-[70%] mx-auto ${
                 col === "OUR OFFER"
                   ? "text-[#302E2F] bg-[linear-gradient(90deg,#FFBE48_0%,#FFA500_50%,#E99803_100%)] px-2 md:px-2 py-2 rounded-[10px] lg:rounded-[28.38px] font-bold mx-auto md:w-[50%] lg:mx-auto"
                   : "text-white"
@@ -254,7 +254,7 @@ const ComparisonSection = () => {
             {feature.values.map((value, colIdx) => (
               <div
                 key={`${feature.label}-${colIdx}`}
-                className="text-center text-white text-xs md:text-[14px] lg:leading-[33.5px] leading-tight"
+                className="text-center text-white text-xs md:text-[18px] lg:leading-[33.5px] leading-tight"
               >
                 {value}
               </div>
@@ -263,7 +263,7 @@ const ComparisonSection = () => {
         ))}
       </div>
 
-      <GradientButton className="!text-sm md:!text-2xl lg:!text-[24px] !py-[14px] md:!py-5 lg:!py-6 !px-5 md:!px-8 lg:!px-[49px] max-w-[495px]">
+      <GradientButton>
         MAKE THE SWITCH
       </GradientButton>
     </section>

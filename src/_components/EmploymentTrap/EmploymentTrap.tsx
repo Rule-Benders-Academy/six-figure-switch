@@ -46,7 +46,7 @@ const EmploymentTrap = () => {
 
             <div className="relative w-full lg:w-[65%] md:max-w-[80%] lg:max-w-[90%] mx-auto mt-10">
               <div className="relative text-center pt-[50px] pb-7 md:py-12 lg:py-[50px] px-5 border-[2px] border-[#3C3C3C] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[50px] w-[100%] mx-auto">
-                <ul className="text-base md:text-base lg:text-2xl leading-tight text-white space-y-5 md:space-y-3 lg:space-y-8">
+                <ul className="text-base lg:text-2xl leading-tight text-white space-y-5 md:space-y-3 lg:space-y-8">
                   <li>• DELAY PROMOTIONS</li>
                   <li>• SUPPRESS YOUR SALARY</li>
                   <li>• REWARD POLITICS OVER PERFORMANCE</li>

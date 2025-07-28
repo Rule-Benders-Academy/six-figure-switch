@@ -40,8 +40,8 @@ const NotOrdinary: React.FC = () => {
           investment of your life.
         </p>
       </div>
-      <div className="-mt-12 md:-mt-0 mb-14 md:mb-16 lg:mb-20">
-        <div className="max-w-4xl mx-auto text-center -mb-5 md:-mb-[2vw] pt-6 md:pt-8 lg:pt-10">
+      <div className="-mt-12 md:-mt-0 mb-14 lg:mb-10">
+        <div className="max-w-4xl mx-auto text-center pt-6 md:pt-8 lg:pt-10">
           <h4 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[90%] md:mb-2">
             Here’s What You get with
           </h4>
@@ -55,12 +55,12 @@ const NotOrdinary: React.FC = () => {
             <Image
               src={Person1}
               alt="Person 1"
-              className=" w-[83px] md:w-[150px] lg:w-[170px] h-[111px] md:h-[180px] lg:h-[230px] rounded-md md:shadow-[19.17px_33.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)] transform -translate-y-1.5 sm:translate-y-0"
+              className=" w-[83px] md:w-[150px] lg:w-[170px] h-[111px]  lg:h-[200px] rounded-md md:shadow-[19.17px_33.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)] transform -translate-y-1.5 sm:translate-y-0"
             />
             <Image
               src={Person3}
               alt="Person 2"
-              className="w-[82px] md:w-[150px] lg:w-[170px] h-[123px] md:h-[190px] lg:h-[230px] rounded-md  md:shadow-[-19.17px_33.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)] transform translate-y-5 sm:translate-y-0"
+              className="w-[82px] md:w-[150px] lg:w-[170px] h-[123px] md:h-[190px] lg:h-[200px] rounded-md  md:shadow-[-19.17px_33.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)] transform translate-y-5 sm:translate-y-0"
             />
           </div>
 
@@ -97,17 +97,17 @@ const NotOrdinary: React.FC = () => {
             <Image
               src={Person2}
               alt="Person 3"
-              className=" w-[88px] md:w-[180px] lg:w-[170px] h-[113px] md:h-[180px] lg:h-[230px] rounded-md md:shadow-[19.17px_-21.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_-10.89px_58.2px_0px_rgba(0,0,0,0.8)] transform -translate-y-8 sm:translate-y-0"
+              className=" w-[88px] md:w-[180px] lg:w-[170px] h-[113px]  lg:h-[200px] rounded-md md:shadow-[19.17px_-21.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_-10.89px_58.2px_0px_rgba(0,0,0,0.8)] transform -translate-y-8 sm:translate-y-0"
             />
             <Image
               src={Person4}
               alt="Person 4"
-              className="w-[89px] md:w-[160px] lg:w-[170px] h-[105px] md:h-[180px] lg:h-[230px] rounded-md md:shadow-[-19.17px_-31.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_-13.89px_58.2px_0px_rgba(0,0,0,0.8)]"
+              className="w-[89px] md:w-[160px] lg:w-[170px] h-[105px] lg:h-[200px] rounded-md md:shadow-[-19.17px_-31.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_-13.89px_58.2px_0px_rgba(0,0,0,0.8)]"
             />
           </div>
         </div>
       </div>
-      <div className="md:-mx-24 mt-5">
+      <div className="mt-4 lg:mt-24">
         <OfferExtended initialDays={7} />
       </div>
     </section>

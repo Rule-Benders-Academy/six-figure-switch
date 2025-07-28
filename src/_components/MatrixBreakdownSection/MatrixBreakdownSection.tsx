@@ -54,7 +54,7 @@ const MatrixBreakdownSection: React.FC = () => {
               key={index}
               className="flex flex-col items-center md:space-y-4"
             >
-              <h3 className="font-semibold text-base md:text-2xl lg:text-3xl">
+              <h3 className="font-semibold text-base md:text-2xl">
                 {method.title}
               </h3>
               <Image
@@ -62,7 +62,7 @@ const MatrixBreakdownSection: React.FC = () => {
                 alt={method.title}
                 className="w-[104px] md:w-[130px] lg:w-[150px]"
               />
-              <p className="text-white text-base md:text-2xl lg:text-xl max-w-[230px] md:max-w-xs font-light">
+              <p className="text-white text-base md:text-2xl lg:text-2xl max-w-[230px] md:max-w-xs font-light">
                 {method.description}
               </p>
             </div>
@@ -84,9 +84,7 @@ const MatrixBreakdownSection: React.FC = () => {
                   alt=""
                   className="absolute -top-[40px] md:-top-5 left-[25px] md:-left-5 w-[106.5px] md:w-[140px] lg:w-[178px]"
                 />
-                <GradientButton className="!text-sm md:!text-xl lg:!text-[14px] !leading-none !py-[14px] !px-5 md:!px-8 lg:!px-[30px] max-w-[399px] ">
-                  I&#39;m ready to follow your method:
-                  <br />
+                <GradientButton className="!text-sm md:!text-xl lg:!text-[24px] !leading-none !py-[14px] !px-5 md:!px-8 lg:!px-[30px] max-w-[399px] ">
                   Take the Red Pill
                 </GradientButton>
               </div>

@@ -78,7 +78,7 @@ const bonuses = [
 const paragraphs = [
   <>
     Break into your first{" "}
-    <span className="text-[#FFA500] font-semibold">$650 to $1400</span> a day
+    <span className="text-[#FFA500] font-semibold">$700 to $1400</span> a day
     role within 90 days.
   </>,
   <>
@@ -105,7 +105,7 @@ const SixFigureSwitchSection = () => {
       </div>
 
       {/* Feature Highlights with Timeline */}
-      <div className="max-w-[260px] sm:max-w-[400px] md:max-w-4xl mx-auto text-left text-white text-sm pl-6 md:pl-10 lg:pl-14 relative">
+      <div className="max-w-[260px] sm:max-w-[400px] md:max-w-2xl mx-auto text-left text-white text-sm pl-6 md:pl-10 lg:pl-14 relative">
         <div className="relative">
           <div className="absolute -left-[22px] md:-left-[58px] top-[calc(0.5rem+0.5em)] md:top-[calc(1.5rem+0.5em)] bottom-[calc(2.3rem+0.5em)] md:bottom-[calc(2.5rem+0.5em)] w-[1px] md:w-[2.5px] bg-gradient-to-b from-[#FFA500] to-[#412B02] z-0" />
           <div className="absolute top-[calc(0.5rem+0.5em)] md:top-[calc(1.5rem+0.5em)] -left-[25.5px] md:-left-[63px] w-2 md:w-3 h-2 md:h-3 rounded-full bg-[#FFA500] z-10" />
@@ -114,7 +114,7 @@ const SixFigureSwitchSection = () => {
             {paragraphs.map((para, idx) => (
               <div
                 key={idx}
-                className="relative text-sm md:text-2xl lg:text-[32px]"
+                className="relative text-sm md:text-2xl lg:text-[24px]"
               >
                 {idx !== 0 && idx !== paragraphs.length - 1 && (
                   <div className="absolute top-1/2 -translate-y-1/2 -left-[25.5px] md:-left-[63px] w-2 md:w-3 h-2 md:h-3 rounded-full bg-[#FFA500] z-10" />
@@ -163,15 +163,15 @@ const SixFigureSwitchSection = () => {
             {offers.map((opt, i) => (
               <div key={i}>
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm md:text-base lg:text-xl font-medium text-white w-4/5 leading-tight">
+                  <span className="text-sm md:text-base lg:text-2xl font-medium text-white w-4/5 leading-tight">
                     {opt.title}
                   </span>
-                  <span className="text-sm md:text-base lg:text-xl font-bold text-white">
+                  <span className="text-sm md:text-base lg:text-lg font-bold text-white">
                     {opt.price}
                   </span>
                 </div>
                 <div className="border-t border-white mt-4 pt-2">
-                  <p className="text-xs md:text-sm lg:text-base text-white leading-tight">
+                  <p className="text-xs md:text-sm lg:text-lg text-white leading-tight">
                     {opt.description}
                   </p>
                 </div>
@@ -184,24 +184,24 @@ const SixFigureSwitchSection = () => {
             {bonuses.map((b, i) => (
               <div key={i}>
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm md:text-base lg:text-xl font-medium bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text leading-tight">
+                  <span className="text-sm md:text-base lg:text-2xl font-medium bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text leading-tight">
                     {b.title}
                   </span>
-                  <span className="text-sm md:text-base lg:text-xl font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
-                    {b.price}
+                  <span className="text-sm md:text-base lg:text-lg font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
+                    {b.price}{" "}
+                    {b.totalPrice && (
+                      <div className="ml-2 mt-2 inline-block bg-[#252422] px-3 py-1 rounded-lg">
+                        <span className=" text-sm md:text-base lg:text-xl font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
+                          {b.totalPrice}
+                        </span>
+                      </div>
+                    )}
                   </span>
                 </div>
                 <div className="border-t border-[#FFBE48] mt-4 pt-2">
-                  <p className="text-xs md:text-sm lg:text-base text-white leading-tight">
+                  <p className="text-xs md:text-sm lg:text-lg text-white leading-tight">
                     {b.description}
                   </p>
-                  {b.totalPrice && (
-                    <div className="mt-2 inline-block bg-[#252422] px-3 py-1 rounded-lg">
-                      <span className="text-sm md:text-base lg:text-xl font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
-                        {b.totalPrice}
-                      </span>
-                    </div>
-                  )}
                 </div>
               </div>
             ))}
@@ -211,7 +211,7 @@ const SixFigureSwitchSection = () => {
         {/* Pricing & CTA */}
         <div className="flex items-center justify-center gap-10 px-6 py-6">
           <div className="text-center">
-            <p className="text-base md:text-4xl lg:text-[50px] font-extrabold uppercase text-white tracking-wide">
+            <p className="text-base md:text-4xl lg:text-[44px] font-extrabold uppercase text-white tracking-wide">
               REGULAR
             </p>
             <p className="mt-2 md:mt-3 relative inline-block text-base md:text-4xl lg:text-[50px] font-bold text-white before:content-[''] before:absolute before:top-1/2 before:-left-[6%] before:w-[120%] before:h-1 md:before:h-1.5 lg:before:h-2 before:bg-red-600 before:rotate-[-6deg] before:origin-center">
@@ -219,15 +219,15 @@ const SixFigureSwitchSection = () => {
             </p>
           </div>
           <div className="text-center border-l border-[#FFBE48] pl-7 md:pl-10 lg:pl-14">
-            <p className="text-base md:text-4xl lg:text-[50px] font-bold uppercase bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text tracking-wide">
+            <p className="text-base md:text-4xl lg:text-[44px] font-bold uppercase bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text tracking-wide">
               TODAY
             </p>
             <div className="mt-2 inline-block bg-[#252422] px-5 py-2 lg:py-3 rounded-lg">
-              <p className="text-base md:text-4xl lg:text-[50px] font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
+              <p className="text-base md:text-4xl lg:text-[44px] font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
                 $699
               </p>
             </div>
-            <p className="mt-1 text-[11px] md:text-2xl lg:text-4xl font-extralight text-white">
+            <p className="mt-1 text-[11px] md:text-[44px] mt-2 font-extralight text-white">
               Save $2,301
             </p>
           </div>
@@ -236,7 +236,7 @@ const SixFigureSwitchSection = () => {
 
       {/* Final CTA Button */}
       <div className="text-center mt-10">
-        <GradientButton className="text-sm md:text-xl lg:text-3xl py-2 md:py-3 px-4 md:px-8 lg:px-10 max-w-md">
+        <GradientButton className="text-sm md:text-xl !lg:text-2xl py-2 md:py-3 px-4 md:px-8 lg:px-10 max-w-md">
           I&apos;M READY TO MAKE THE SWITCH!
         </GradientButton>
       </div>

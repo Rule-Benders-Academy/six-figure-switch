@@ -10,6 +10,7 @@ import Person1 from '@/_assets/switch-banner-img-1.png'
 import Person2 from '@/_assets/switch-banner-img-2.png'
 import Person3 from '@/_assets/switch-banner-img-3.png'
 import Person4 from '@/_assets/switch-banner-img-4.png'
+import Star from "@/_assets/star-hero.png";
 import DigitalClock from '@/_components/DigitalClock/DigitalClock'
 import SixFigureSwitch from '@/_components/SixFigureSwitch/SixFigureSwitch'
 import GradientButton from '@/_components/GradientButton/GradientButton'
@@ -71,13 +72,13 @@ const LandingPage = () => {
   return (
     <>
       <div className="min-h-screen !font-jakarta">
-        <section className="relative bg-black text-white pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-12 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden md:min-h-[calc(100vh-56px)]">
+        <section className="relative bg-black text-white pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-12 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden flex items-center justify-center min-h-screen">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-60 pointer-events-none">
             <Image src={HeroBg} alt="" className="w-full h-full object-cover" />
           </div>
 
           <div className="relative max-w-[95%] mx-auto text-center">
-            <p className="text-lg md:text-3xl lg:leading-[100%] mb-8 md:mb-9 lg:mb-10">
+            <p className="text-lg md:text-2xl lg:leading-[100%] mb-8 md:mb-9 lg:mb-10">
               If you are an employed professional,
               <br />
               thinking there must be more to life than this,
@@ -87,7 +88,7 @@ const LandingPage = () => {
               </span>
             </p>
 
-            <p className="text-lg md:text-3xl lg:leading-[100%]">
+            <p className="text-lg md:text-2xl lg:leading-[100%]">
               Did you know that you could be earning
               <br />
               <span className="text-[#FFA500] font-bold underline">
@@ -96,22 +97,39 @@ const LandingPage = () => {
               for exactly the same skill set you already have?
             </p>
 
-            <div className="relative border border-[#3C3C3C] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[40px] mt-7 md:mt-9 lg:mt-10 py-7 md:py-[80px] lg:py-14 lg:w-[80%] mx-auto">
+            <div className="relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[30px] mt-7 md:mt-9 lg:mt-10 py-7 md:py-[80px] lg:py-14 lg:w-[90%] mx-auto">
               <div className=" px-4 sm:px-6 md:px-10">
-                <p className="text-2xl md:text-[40px] lg:text-[44px]">
+                <p className="text-2xl lg:text-[44px]">
                   It’s time to become an
                 </p>
-                <h2 className="text-2xl md:text-4xl  leading-tight lg:leading-[100%] font-extrabold tracking-wide uppercase mt-5">
+                <h2 className="text-2xl lg:text-[44px]  leading-tight lg:leading-[100%] font-bold tracking-wide uppercase mt-5">
                   Independent Consultant
                 </h2>
-                <hr className="h-[6px] w-[90%] mx-auto mt-8 bg-white" />
+                <hr className="h-[6px] w-[90%] mx-auto mt-4 bg-white" />
 
-                <p className="text-lg md:text-4xl  lg:leading-[100%] mt-4 lg:mt-12 w-[80%] mx-auto">
+                <p className="text-lg md:text-2xl lg:leading-[100%] mt-4 lg:mt-8 mx-auto text-center max-w-3xl">
                   From there, you could be on the path to earning
-                  <span className="text-[#FFA500] font-bold underline">
-                    {" "}
-                    $1,400/day (and more)
-                  </span>{" "}
+                  <span className="relative inline-block my-4">
+                    {/* Left star */}
+                    <Image
+                      src={Star}
+                      alt="Star"
+                      className="absolute left-0 top-1/2 w-6 h-6 transform -translate-x-1/2 -translate-y-1/2"
+                    />
+
+                    {/* Badge */}
+                    <span className="text-[#FFA500] text-2xl font-bold py-2 px-6 border-2 border-[#FFA500] bg-[#141314] rounded-[10px]">
+                      $1,400/day (and more)
+                    </span>
+
+                    {/* Right star */}
+                    <Image
+                      src={Star}
+                      alt="Star"
+                      className="absolute right-0 top-1/2 w-6 h-6 transform translate-x-1/2 -translate-y-1/2"
+                    />
+                  </span>
+                  <br />
                   while choosing when you work and when you don’t.
                 </p>
               </div>
@@ -133,7 +151,7 @@ const LandingPage = () => {
           </div>
         </section>
         <div className="bg-gradient-to-b from-[#141314] to-[#272526] h-full">
-          <div className="w-[80%] md:w-[30%] mx-auto py-5 md:py-10 lg:py-16 flex flex-col gap-7 md:gap-8">
+          <div className="w-[80%] md:w-[36%] mx-auto py-5 md:py-10 lg:py-16 flex flex-col gap-7 md:gap-8">
             {points.map((text, index) => (
               <div key={index} className="mt-4 ">
                 <div className="flex items-center gap-4 md:gap-8">
@@ -141,10 +159,10 @@ const LandingPage = () => {
                     <Image
                       src={CancelIcon}
                       alt=""
-                      className="lg:w-[60px] md:w-12 w-6"
+                      className="lg:w-[50px] md:w-12 w-6"
                     />
                   </div>
-                  <div className="text-[14px] md:text-xl lg:text-xl font-bold uppercase max-w-[606px] text-white">
+                  <div className="text-[14px] md:text-xl lg:text-[24px]  uppercase max-w-[606px] text-white">
                     {text}
                   </div>
                 </div>
@@ -154,7 +172,7 @@ const LandingPage = () => {
 
           <section className="relative text-white px-4 sm:px-8 md:px-16 lg:px-24 md:py-16 bg-gradient-to-b from-[#141314] to-[#272526] pb-10 ">
             <div className="max-w-[75%] md:max-w-[35%] 2xl:max-w-[50%] mx-auto text-center z-10  transform translate-y-[15px] sm:hidden ">
-              <p className="text-xl md:text-2xl lg:text-3xl xl:text-5xl">
+              <p className="text-xl md:text-2xl lg:text-[24px] xl:text-5xl">
                 You’re not under qualified. You’re
                 <br /> under positioned.
               </p>
@@ -163,20 +181,20 @@ const LandingPage = () => {
               </p>
             </div>
 
-            <div className="flex justify-between z-10 relative -mb-20 items-end lg:max-w-[60%] mx-auto gap-5">
+            <div className="flex justify-between z-10 relative -mb-20 items-end lg:max-w-[50%] mx-auto gap-5">
               <Image
                 src={Person1}
                 alt="Person 1"
                 className="lg:h-[170px] md:h-[250px] h-[136px] lg:w-[140px] md:w-[180px] w-[101px] rounded-md md:shadow-[19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)]"
               />
               <div className="text-center hidden sm:block transform md:-translate-y-1/4 mb-28">
-                <p className="text-xl md:text-2xl lg:text-3xl">
+                <p className="text-xl md:text-2xl lg:text-2xl">
                   You’re not under qualified.
                   <br />
                   You’re under positioned.
                 </p>
                 <br />
-                <p className="text-xl md:text-2xl lg:text-3xl leading-[100%] font-semibold text-[#FFA500]">
+                <p className="text-xl md:text-2xl lg:text-2xl leading-[100%] font-semibold text-[#FFA500]">
                   And it’s costing you
                   <br /> $50,000 –$150,000 a year.
                 </p>
@@ -188,7 +206,7 @@ const LandingPage = () => {
               />
             </div>
 
-            <div className="relative max-w-[80%] md:max-w-[50%] mx-auto">
+            <div className="relative max-w-[80%] md:max-w-[40%] mx-auto">
               <div className="flex justify-center items-center -mb-5 md:-mb-[30px] relative z-10">
                 <DigitalClock minutes={53} seconds={60} />
               </div>
@@ -196,7 +214,7 @@ const LandingPage = () => {
                 <p className="text-xl md:text-2xl lg:text-[34px] lg:leading-[100%] mb-2">
                   Join <span className="font-bold">100+</span> career changers
                 </p>
-                <h2 className="text-[24px] leading-[120%] lg:leading-[100%] md:text-5xl lg:text-[34px] tracking-wide uppercase">
+                <h2 className="text-[24px] leading-[120%] lg:leading-[100%] md:text-2xl tracking-wide uppercase">
                   Who Made The
                   <br />
                   <span className="text-[#FFA500] font-bold">
@@ -206,7 +224,7 @@ const LandingPage = () => {
               </div>
             </div>
 
-            <div className="flex justify-between relative -mt-20 z-10  lg:max-w-[60%] mx-auto">
+            <div className="flex justify-between relative -mt-20 z-10  lg:max-w-[50%] mx-auto">
               <Image
                 src={Person2}
                 alt="Person 3"

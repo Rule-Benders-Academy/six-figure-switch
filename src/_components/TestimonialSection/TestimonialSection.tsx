@@ -19,20 +19,20 @@ const TestimonialSection = ({ reverseOrder, name, description, videoUrl }: Props
             reverseOrder ? "md:order-2" : "order-1"
           }`}
         >
-          <h3 className="text-2xl md:text-5xl lg:text-[px] lg:leading-[100%]">
+          <h3 className="text-2xl md:text-[44px] lg:leading-[100%]">
             Real Stories,
             <br className="hidden lg:block" /> Real Results
           </h3>
           <div className="flex justify-center lg:justify-start items-center text-xl md:text-2xl lg:text-5xl font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] bg-clip-text text-transparent pt-6 pb-2 md:py-5 lg:py-7">
             ★ ★ ★ ★ ★
           </div>
-          <h4 className="font-bold text-base md:text-3xl lg:text-4xl mb-1">
+          <h4 className="font-bold text-base md:text-[44px] mb-1">
             {name.toUpperCase()}
           </h4>
-          <p className="text-base md:text-lg lg:text-2xl md:mt-4 font-light">
+          <p className="text-base md:text-[24px] md:mt-4 font-light">
             {description}
           </p>
-          <GradientButton className="!text-sm md:!text-xl lg:!text-[24px] !py-[14px] !px-5 md:!px-8 lg:!px-[35px] max-w-[503px] hidden md:block">
+          <GradientButton className="!text-sm md:!text-xl lg:!text-[24px] !py-[12px] !px-5 md:!px-8 lg:!px-[35px] max-w-[503px] hidden md:block">
             HELP ME LIKE YOU HELPED {name.toUpperCase()}
           </GradientButton>
         </div>

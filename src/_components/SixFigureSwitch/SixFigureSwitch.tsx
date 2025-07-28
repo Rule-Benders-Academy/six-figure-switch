@@ -98,14 +98,14 @@ const SixFigureSwitch = () => {
           <br />
           Teaches you
         </div>
-        <div className="text-white px-4 md:px-8 lg:w-[70%] mx-auto">
+        <div className="text-white px-4 md:px-8 lg:w-[80%] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-6 md:gap-y-6 *:lg:gap-x-10">
             {content.map((item, index) => (
               <div key={index} className="flex items-start gap-5">
-                <div className="flex-shrink-0 lg:w-[89px] md:w-[59px] w-[30px] flex justify-center">
-                  <Image src={item.icon} alt="Icon" className="max-w-[60px]" />
+                <div className="flex-shrink-0 lg:w-[50px] md:w-[59px] w-[30px] flex justify-center">
+                  <Image src={item.icon} alt="Icon" className="max-w-[30px]" />
                 </div>
-                <p className="text-[15.5px] leading-tight md:text-xl lg:text-[22px] lg:leading-[100%]">
+                <p className="text-[15.5px] leading-tight md:text-xl lg:text-[24px] lg:leading-[100%]">
                   {item.text}
                 </p>
               </div>

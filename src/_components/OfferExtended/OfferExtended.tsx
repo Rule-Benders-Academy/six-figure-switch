@@ -45,16 +45,16 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
                 background: "linear-gradient(180deg, #FF0000 0%, #990000 100%)",
               }}
             />
-            <div className="text-xs md:text-2xl lg:text-xl text-white">
+            <div className="text-xs md:text-2xl lg:text-2xl text-white">
               <span>Offer Extended</span>
               <div className="text-left font-bold mt-1 md:mt-2">in 15 days</div>
             </div>
           </div>
           <div className="text-right">
-            <div className="font-semibold text-xs md:text-2xl lg:text-3xl text-black bg-white rounded-[32px] md:rounded-[50px] lg:rounded-[87px] inline-block px-1 md:px-3">
+            <div className="font-semibold text-xs md:text-2xl lg:text-2xl text-black bg-white rounded-[32px] md:rounded-[50px] lg:rounded-[87px] inline-block px-1 md:px-3">
               37 – 50
             </div>
-            <div className="text-xs md:text-2xl lg:text-3xl text-white font-bold mt-1 md:mt-3">
+            <div className="text-xs md:text-2xl lg:text-2xl text-white font-bold mt-1 md:mt-3">
               spots left
             </div>
           </div>
@@ -73,7 +73,7 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
             className="h-[60%] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] rounded-3xl"
           >
             <div className="bg-gradient-to-b from-[#3F3F3F] to-[#1E1E1E] px-3 py-2 flex justify-center items-center h-full rounded-xl md:rounded-3xl relative">
-              <div className="font-bold text-white text-[clamp(1rem,100vw,2rem)] md:text-[clamp(1rem,100vw,4rem)] lg:text-[clamp(0.5rem,90vw,3rem)]">
+              <div className="font-bold text-white text-[clamp(1rem,100vw,2rem)] md:text-[clamp(1rem,100vw,4rem)] lg:text-[44px]">
                 {String(unit.value).padStart(2, "0")}
               </div>
               <div className="absolute top-1/2 right-0 h-[2px] w-full -translate-y-1/2 bg-[#050505]" />
@@ -86,7 +86,7 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
       </div>
 
       <div className="text-left">
-        <GradientButton className="!text-sm md:!text-lg !py-[2px] md:!py-4 lg:!py-4 !px-5 md:!px-8 lg:!px-[20px]">
+        <GradientButton className="!text-sm md:!text-2xl !py-[2px] md:!py-4 lg:!py-4 !px-5 md:!px-8 lg:!px-[20px]">
           TAKE THE RED PILL
         </GradientButton>
       </div>

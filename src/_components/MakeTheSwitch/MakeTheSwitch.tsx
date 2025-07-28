@@ -30,14 +30,14 @@ const MakeTheSwitch = () => {
               alt="X"
               className="lg:w-[60px] md:w-12 w-6"
             />
-            <p className="text-sm md:text-base lg:text-xl max-w-xs text-left font-bold">
+            <p className="text-sm md:text-base lg:text-2xl max-w-xs text-left font-bold">
               {text}
             </p>
           </div>
         ))}
       </div>
 
-      <GradientButton className="!text-sm md:!text-xl !py-3 md:!py-[16px] lg:!py-[18px] !px-5 md:!px-8 lg:!px-[50px]">
+      <GradientButton className="!text-sm md:!text-2xl !py-3 md:!py-[16px] lg:!py-[18px] !px-5 md:!px-8 lg:!px-[50px]">
         MAKE THE SWITCH
       </GradientButton>
     </section>

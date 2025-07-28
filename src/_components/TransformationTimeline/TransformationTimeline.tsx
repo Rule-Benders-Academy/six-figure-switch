@@ -111,7 +111,7 @@ const TransformationTimeline = () => {
                   <div
                     className={`rounded-2xl md:rounded-3xl lg:rounded-[35.4px] border border-white/10 backdrop-blur-sm p-4 md:p-6 shadow-xl h-full flex flex-col items-center text-center transition-all duration-300 bg-white bg-opacity-[0.08] py-10`}
                   >
-                    <p className="uppercase text-xs lg:text-[33px] tracking-widest text-white mb-5">
+                    <p className="uppercase text-xs lg:text-[24px] tracking-widest text-white mb-5">
                       {card.label}
                     </p>
                     <div className="rounded-2xl md:rounded-3xl lg:rounded-[35.4px] md:mb-3 h-[143px] sm:h-[250px] md:h-[300px] lg:h-[316px] min-w-[200px] w-[85%] md:w-[90%] max-w-[668.09px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] border border-white/30" style={{
@@ -121,9 +121,9 @@ const TransformationTimeline = () => {
                       backgroundRepeat: 'no-repeat',
                       backgroundPositionY: "top"
                     }} />
-                    <h3 className="text-2xl md:text-3xl lg:text-[34px] lg:leading-[90%] font-bold mb-2 mt-3 md:mt-7 lg:mt-9">{card.title}</h3>
+                    <h3 className="text-2xl md:text-3xl lg:text-[24px] lg:leading-[90%] font-bold mb-2 mt-3 md:mt-7 lg:mt-9">{card.title}</h3>
                     <hr className="border-white w-[80%] md:h-1 my-2" />
-                    <p className="text-sm md:text-2xl lg:text-[24px] leading-relaxed lg:px-24">{card.description}</p>
+                    <p className="text-sm md:text-2xl lg:text-[18px] leading-relaxed lg:px-24">{card.description}</p>
                   </div>
                 </div>
               </div>

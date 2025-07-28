@@ -29,7 +29,7 @@ const EarningCard = ({ icon, title, subtitle, gainItems }: CardProps) => (
           {title}
         </p>
         <div className="h-[70px] bg-white md:bg-transparent w-[1px] mx-3 sm:mx-6"></div>
-        <p className="text-white font-extralight text-sm md:text-sm md:max-w-[150px] lg:max-w-[220px] flex-1 md:flex-auto">
+        <p className="text-white font-extralight text-sm md:text-lg md:max-w-[150px] lg:max-w-[220px] flex-1 md:flex-auto">
           {subtitle}
         </p>
       </div>
@@ -81,7 +81,7 @@ const EarningsSection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between flex-col md:flex-row">
           <div className="mb-12 flex-[0.9] mx-5 md:mx-0">
-            <span className="bg-transparent text-[#FFA500] border border-[#FFA500] text-xs md:text-base lg:text-base font-semibold px-3 md:px-5 lg:px-7 py-1 md:py-2 lg:py-3 rounded-full inline-block mb-3">
+            <span className="bg-transparent text-[#FFA500] border border-[#FFA500] text-xs md:text-lg font-semibold px-3 md:px-5 lg:px-7 py-1 md:py-2 lg:py-3 rounded-full inline-block mb-3">
               SAFE PROGRAMME
             </span>
             <h2 className="text-xl md:text-[24px] lg:leading-[100%] font-bold max-w-lg leading-8 mt-3">
@@ -129,7 +129,7 @@ const EarningsSection = () => {
             ))}
           </div>
           <div className="mb-12 flex-[0.8] mx-5 md:mx-0">
-            <p className="text-white mt-5 md:mt-6 max-w-sm text-xl lg:text-xl leading-6 font-normal lg:font-extralight lg:mt-8">
+            <p className="text-white mt-5 md:mt-6 max-w-sm text-xl lg:text-lg leading-6 font-normal lg:font-extralight lg:mt-8">
               Our tools, templates, trackers, coaching, and recruiter insights
               help you avoid these pitfalls completely
             </p>
@@ -140,7 +140,7 @@ const EarningsSection = () => {
         </div>
       </div>
 
-      <div className="text-xl md:text-3xl lg:text-[40px] leading-[100%] space-x-3 md:space-x-0 space-y-7 md:space-y-10 font-normal md:text-center mt-5 md:mt-20 lg:mt-32 max-w-[970px] mx-auto">
+      <div className="text-xl md:text-3xl lg:text-[44px] leading-[100%] space-x-3 md:space-x-0 space-y-7 md:space-y-10 font-normal md:text-center mt-5 md:mt-20 lg:mt-32 max-w-[970px] mx-auto">
         <h2 className="font-bold mx-3 md:mx-0">
           Typical ROI on our programme:
         </h2>
@@ -154,7 +154,7 @@ const EarningsSection = () => {
           startup, or waiting for permission.
         </p>
 
-        <GradientButton className="!text-sm md:!text-2xl lg:!text-[24px] !py-3 md:!py-[16px] lg:!py-[18px] !px-5 md:!px-8 lg:!px-[35px] mx-7">
+        <GradientButton>
           I AM READY TO START
         </GradientButton>
       </div>
