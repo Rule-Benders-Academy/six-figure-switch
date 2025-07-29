@@ -79,7 +79,7 @@ const LinkTreePage = () => {
   }, []);
 
   return (
-    <main className="relative min-h-screen bg-black flex flex-col items-center py-16 px-4 text-white overflow-hidden">
+    <main className="relative min-h-screen bg-black flex flex-col items-center py-8 px-4 text-white overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -177,7 +177,7 @@ const LinkTreePage = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="relative z-10 flex items-center gap-6 mb-12"
+        className="relative z-10 flex items-center gap-6 mb-6"
       >
         {socialLinks.map((link, idx) => (
           <a
