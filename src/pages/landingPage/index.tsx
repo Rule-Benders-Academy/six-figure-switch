@@ -240,7 +240,7 @@ const LandingPage = () => {
 
           <div className="bg-gradient-to-b from-[#141314] to-[#272526]  pb-11 md:pb-16">
             <div className="px-4 sm:px-8 md:px-16 lg:px-24 flex flex-col items-center w-[95%] lg:w-full mx-auto">
-              <div className="text-2xl md:text-4xl lg:text-[44px] lg:leading-[100%] mt-10 max-w-[680px] mx-auto text-center text-white">
+              <div className="text-2xl md:text-2xl lg:text-[44px] lg:leading-[100%] mt-10 max-w-[680px] mx-auto text-center text-white">
                 Watch this short video to
                 <br /> see how we do it
               </div>

@@ -3,8 +3,9 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion"; // ✅ Import Framer Motion
-import GradientButton from "@/_components/GradientButton/GradientButton";
+// import GradientButton from "@/_components/GradientButton/GradientButton";
 import ProfilePic from "@/_assets/will-img.png";
+import WorkBook from "@/_assets/freebie-cover.png";
 import HeroBg from "@/_assets/landing-hero-bg.png";
 
 const socialLinks = [
@@ -53,6 +54,7 @@ const LinkTreePage = () => {
       ._form_1_ {
         border-radius: 20px !important;
         overflow: hidden;
+        padding: 0px !important;
       }
     `;
     document.head.appendChild(style);
@@ -95,7 +97,7 @@ const LinkTreePage = () => {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative z-10 flex flex-col items-center mb-6"
+        className="relative z-10 flex flex-col items-center"
       >
         <div className="w-32 h-32 rounded-full overflow-hidden mb-4">
           <Image src={ProfilePic} alt="Profile" width={128} height={128} />
@@ -104,12 +106,13 @@ const LinkTreePage = () => {
           William Richardson
         </h1>
         <p className="text-center text-sm md:text-base text-gray-300 max-w-md">
-          I help consultants to scale to £1k+ days.
+          I help consultants to scale to £1k+ days From £400/day analyst to
+          £4k/day founder Real results, no fake lifestyle
         </p>
       </motion.div>
 
       {/* Button */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
@@ -124,17 +127,53 @@ const LinkTreePage = () => {
             Make the Six‑Figure Switch
           </GradientButton>
         </a>
-      </motion.div>
+      </motion.div> */}
 
       {/* Form */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.5 }}
-        ref={formRef}
-        className="relative z-10 w-full max-w-md mb-8"
-      />
+        className="relative z-10 w-full max-w-md mb-8 bg-white/5 rounded-2xl border border-gray-600 p-6 mt-6"
+      >
+        {/* Row 1: Image + Text */}
+        <div className="flex flex-row md:items-stretch gap-4 mb-6">
+          {/* Image */}
+          <div className="mx-auto md:mx-0 flex-shrink-0">
+            <Image
+              src={WorkBook} // Replace with your actual path
+              alt="The 2025 Work Truth Report"
+              className="rounded-lg w-[80px] h-auto md:w-80px] md:h-[120px]"
+            />
+          </div>
 
+          {/* Title + Subtext */}
+          <div className="text-center md:text-left flex-1 flex flex-col justify-center">
+            <h2 className="text-lg lg:text-xl font-semibold mb-2 leading-snug">
+              Get the Consultancy 2025 Work Truth Report
+            </h2>
+            <p className="text-xs lg:text-sm text-gray-300 leading-relaxed">
+              Discover how professionals broke the £70k salary ceiling and
+              now earn £1400 per day   down to the exact steps they took to
+              do it.
+            </p>
+          </div>
+        </div>
+
+        {/* Row 2: Form */}
+        <div ref={formRef} className="w-full" />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+        className="relative z-10 flex items-center gap-6 mb-4"
+      >
+        <div className="text-center text-sm md:text-base text-gray-300 max-w-md">
+          Follow me on social media to stay updated.
+        </div>
+      </motion.div>
       {/* Social Links */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -153,8 +192,8 @@ const LinkTreePage = () => {
             <Image
               src={link.iconUrl}
               alt={link.alt}
-              width={32}
-              height={32}
+              width={24}
+              height={24}
               className="object-contain filter invert hover:opacity-80"
             />
           </a>
