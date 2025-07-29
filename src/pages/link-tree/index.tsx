@@ -2,10 +2,9 @@
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion"; // ✅ Import Framer Motion
-// import GradientButton from "@/_components/GradientButton/GradientButton";
+import { motion } from "framer-motion";
 import ProfilePic from "@/_assets/will-img.png";
-import WorkBook from "@/_assets/freebie-cover.png";
+import WorkBook from "@/_assets/cover-freebie.jpeg";
 import HeroBg from "@/_assets/landing-hero-bg.png";
 
 const socialLinks = [
@@ -153,9 +152,8 @@ const LinkTreePage = () => {
               Get the Consultancy 2025 Work Truth Report
             </h2>
             <p className="text-xs lg:text-sm text-gray-300 leading-relaxed">
-              Discover how professionals broke the £70k salary ceiling and
-              now earn £1400 per day   down to the exact steps they took to
-              do it.
+              Discover how professionals are moving to Independant Consulting
+              and making 3-5 x more, and find out how you can do the same.
             </p>
           </div>
         </div>
