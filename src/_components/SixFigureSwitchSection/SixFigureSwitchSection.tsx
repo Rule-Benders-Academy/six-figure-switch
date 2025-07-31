@@ -37,7 +37,7 @@ const offers = [
     title: "Plug-and-Play Templates, Scripts, and Checklists",
     price: "$250",
     description:
-      "Everything from Consulting frameworks, finance dashboards and recruiter outreach templates — saving you hours and helping you show up like a pro.",
+      "Everything from Consulting frameworks, finance dashboards and recruiter outreach templates - saving you hours and helping you show up like a pro.",
   },
 ];
 
@@ -87,7 +87,7 @@ const paragraphs = [
   </>,
   <>Land one consulting contract and pay for this entire programme in 1 day!</>,
   <>
-    Built from real-world success — the exact system I used to go from{" "}
+    Built from real-world success - the exact system I used to go from{" "}
     <span className="text-[#FFA500] font-semibold">£400/day to</span>{" "}
     <span className="text-[#FFA500] font-semibold">£3,000/day</span>. You’ll
     follow a step-by-step roadmap to transition from employee to in-demand
@@ -107,8 +107,11 @@ const SixFigureSwitchSection = () => {
       {/* Feature Highlights with Timeline */}
       <div className="max-w-[260px] sm:max-w-[400px] md:max-w-2xl mx-auto text-left text-white text-sm pl-6 md:pl-10 lg:pl-14 relative">
         <div className="relative">
+          {/* vertical line */}
           <div className="absolute -left-[22px] md:-left-[58px] top-[calc(0.5rem+0.5em)] md:top-[calc(1.5rem+0.5em)] bottom-[calc(2.3rem+0.5em)] md:bottom-[calc(2.5rem+0.5em)] w-[1px] md:w-[2.5px] bg-gradient-to-b from-[#FFA500] to-[#412B02] z-0" />
+          {/* first dot */}
           <div className="absolute top-[calc(0.5rem+0.5em)] md:top-[calc(1.5rem+0.5em)] -left-[25.5px] md:-left-[63px] w-2 md:w-3 h-2 md:h-3 rounded-full bg-[#FFA500] z-10" />
+          {/* last dot */}
           <div className="absolute bottom-[calc(2.3rem+0.5em)] md:bottom-[calc(2.5rem+0.5em)] -left-[25.5px] md:-left-[63px] w-2 md:w-3 h-2 md:h-3 rounded-full bg-[#FFA500] z-10" />
           <div className="space-y-5 md:space-y-8 lg:space-y-12 relative z-10">
             {paragraphs.map((para, idx) => (
@@ -126,111 +129,117 @@ const SixFigureSwitchSection = () => {
         </div>
       </div>
 
-      {/* Offers & Bonuses Section */}
-      <div className="max-w-[90%] lg:max-w-[70%] md:max-w-5xl mx-auto bg-white bg-opacity-[0.08] py-6 md:py-10 lg:py-14 px-4 md:px-10 lg:px-[44px] border border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] overflow-hidden mt-7 md:mt-16 lg:mt-10">
-        {/* Section Title */}
-        <div className="text-center space-y-4 text-2xl md:text-5xl lg:text-[44px] lg:leading-[90%] mb-8 md:mb-16 lg:mb-24">
+      {/* Included Section Title */}
+      <div className="max-w-[90%] lg:max-w-[70%] md:max-w-5xl mx-auto text-center mt-7 md:mt-16 lg:mt-10">
+        <div className="space-y-4 text-2xl md:text-5xl lg:text-[44px] lg:leading-[90%] mb-8 md:mb-12 lg:mb-16">
           <h2 className="font-bold">What’s included</h2>
           <h2>in the System</h2>
         </div>
+      </div>
 
-        {/* Column Headers */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-5">
-          <div className="flex items-center justify-between">
-            <span className="font-semibold bg-[#D9D9D9] text-[#302E2F] text-xs sm:text-sm inline-block rounded-lg px-2 py-1">
-              OFFER
-            </span>
-            <div className="flex gap-2 text-[8px] sm:text-xs">
-              <span className="font-semibold">USD</span>
-              <span className="font-semibold">VALUE</span>
-            </div>
-          </div>
-          <div className="hidden lg:flex items-center justify-between">
-            <span className="font-semibold inline-block text-xs sm:text-sm bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text rounded-lg px-2 py-1">
-              BONUSES
-            </span>
-            <div className="flex gap-2 text-[8px] sm:text-xs">
-              <span className="font-semibold">USD</span>
-              <span className="font-semibold">VALUE</span>
-            </div>
+      {/* OFFERS CARD */}
+      <div className="max-w-[90%] lg:max-w-[70%] md:max-w-5xl mx-auto bg-white bg-opacity-[0.08] py-6 md:py-10 lg:py-14 px-4 md:px-10 lg:px-[44px] border border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] overflow-hidden">
+        {/* Card Header */}
+        <div className="flex items-center justify-between mb-8 md:mb-10">
+          <span className="font-semibold bg-[#D9D9D9] text-[#302E2F] text-xs sm:text-sm inline-block rounded-lg px-2 py-1">
+            OFFER
+          </span>
+          <div className="flex gap-2 text-[8px] sm:text-xs">
+            <span className="font-semibold text-white">USD</span>
+            <span className="font-semibold text-white">VALUE</span>
           </div>
         </div>
 
-        {/* Offers & Bonuses Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Offers */}
-          <div className="space-y-6 md:space-y-8 lg:space-y-10">
-            {offers.map((opt, i) => (
-              <div key={i}>
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm md:text-base lg:text-2xl font-medium text-white w-4/5 leading-tight">
-                    {opt.title}
-                  </span>
-                  <span className="text-sm md:text-base lg:text-lg font-bold text-white">
-                    {opt.price}
-                  </span>
-                </div>
-                <div className="border-t border-white mt-4 pt-2">
-                  <p className="text-xs md:text-sm lg:text-lg text-white leading-tight">
-                    {opt.description}
-                  </p>
-                </div>
+        {/* Offers List */}
+        <div className="space-y-6 md:space-y-8 lg:space-y-10">
+          {offers.map((opt, i) => (
+            <div key={`offer-${i}`}>
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-sm md:text-base lg:text-2xl font-medium text-white w-4/5 leading-tight">
+                  {opt.title}
+                </span>
+                <span className="text-sm md:text-base lg:text-lg font-bold text-white">
+                  {opt.price}
+                </span>
               </div>
-            ))}
-          </div>
+              <div className="border-t border-white mt-4 pt-2">
+                <p className="text-xs md:text-sm lg:text-lg text-white leading-tight">
+                  {opt.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
-          {/* Bonuses */}
-          <div className="space-y-6 md:space-y-8 lg:space-y-10">
-            {bonuses.map((b, i) => (
-              <div key={i}>
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm md:text-base lg:text-2xl font-medium bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text leading-tight">
-                    {b.title}
-                  </span>
-                  <span className="text-sm md:text-base lg:text-lg font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
-                    {b.price}{" "}
-                    {b.totalPrice && (
-                      <div className="ml-2 mt-2 inline-block bg-[#252422] px-3 py-1 rounded-lg">
-                        <span className=" text-sm md:text-base lg:text-xl font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
-                          {b.totalPrice}
-                        </span>
-                      </div>
-                    )}
-                  </span>
-                </div>
-                <div className="border-t border-[#FFBE48] mt-4 pt-2">
-                  <p className="text-xs md:text-sm lg:text-lg text-white leading-tight">
-                    {b.description}
-                  </p>
-                </div>
-              </div>
-            ))}
+      {/* BONUSES CARD */}
+      <div className="max-w-[90%] lg:max-w-[70%] md:max-w-5xl mx-auto bg-white bg-opacity-[0.08] py-6 md:py-10 lg:py-14 px-4 md:px-10 lg:px-[44px] border border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] overflow-hidden mt-6 md:mt-10 lg:mt-12">
+        {/* Card Header */}
+        <div className="flex items-center justify-between mb-8 md:mb-10">
+          <span className="font-semibold inline-block text-xs sm:text-sm bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text rounded-lg px-2 py-1">
+            BONUSES
+          </span>
+          <div className="flex gap-2 text-[8px] sm:text-xs">
+            <span className="font-semibold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
+              USD
+            </span>
+            <span className="font-semibold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
+              VALUE
+            </span>
           </div>
         </div>
 
-        {/* Pricing & CTA */}
-        <div className="flex items-center justify-center gap-10 px-6 py-6">
-          <div className="text-center">
-            <p className="text-base md:text-4xl lg:text-[44px] font-extrabold uppercase text-white tracking-wide">
-              REGULAR
-            </p>
-            <p className="mt-2 md:mt-3 relative inline-block text-base md:text-4xl lg:text-[50px] font-bold text-white before:content-[''] before:absolute before:top-1/2 before:-left-[6%] before:w-[120%] before:h-1 md:before:h-1.5 lg:before:h-2 before:bg-red-600 before:rotate-[-6deg] before:origin-center">
-              $3,000
-            </p>
-          </div>
-          <div className="text-center border-l border-[#FFBE48] pl-7 md:pl-10 lg:pl-14">
-            <p className="text-base md:text-4xl lg:text-[44px] font-bold uppercase bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text tracking-wide">
-              TODAY
-            </p>
-            <div className="mt-2 inline-block bg-[#252422] px-5 py-2 lg:py-3 rounded-lg">
-              <p className="text-base md:text-4xl lg:text-[44px] font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
-                $699
-              </p>
+        {/* Bonuses List */}
+        <div className="space-y-6 md:space-y-8 lg:space-y-10">
+          {bonuses.map((b, i) => (
+            <div key={`bonus-${i}`}>
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-sm md:text-base lg:text-2xl font-medium bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text leading-tight">
+                  {b.title}
+                </span>
+                <span className="text-sm md:text-base lg:text-lg font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text flex items-center">
+                  {b.price}
+                  {b.totalPrice && (
+                    <span className="ml-2 inline-block bg-[#252422] px-3 py-1 rounded-lg">
+                      <span className="text-sm md:text-base lg:text-xl font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
+                        {b.totalPrice}
+                      </span>
+                    </span>
+                  )}
+                </span>
+              </div>
+              <div className="border-t border-[#FFBE48] mt-4 pt-2">
+                <p className="text-xs md:text-sm lg:text-lg text-white leading-tight">
+                  {b.description}
+                </p>
+              </div>
             </div>
-            <p className="mt-1 text-[11px] md:text-[44px] mt-2 font-extralight text-white">
-              Save $2,301
+          ))}
+        </div>
+      </div>
+
+      {/* Pricing & CTA (below both cards) */}
+      <div className="max-w-[90%] lg:max-w-[70%] md:max-w-5xl mx-auto flex items-center justify-center gap-10 px-6 py-6">
+        <div className="text-center">
+          <p className="text-base md:text-4xl lg:text-[44px] font-extrabold uppercase text-white tracking-wide">
+            REGULAR
+          </p>
+          <p className="mt-2 md:mt-3 relative inline-block text-base md:text-4xl lg:text-[50px] font-bold text-white before:content-[''] before:absolute before:top-1/2 before:-left-[6%] before:w-[120%] before:h-1 md:before:h-1.5 lg:before:h-2 before:bg-red-600 before:rotate-[-6deg] before:origin-center">
+            $3,000
+          </p>
+        </div>
+        <div className="text-center border-l border-[#FFBE48] pl-7 md:pl-10 lg:pl-14">
+          <p className="text-base md:text-4xl lg:text-[44px] font-bold uppercase bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text tracking-wide">
+            TODAY
+          </p>
+          <div className="mt-2 inline-block bg-[#252422] px-5 py-2 lg:py-3 rounded-lg">
+            <p className="text-base md:text-4xl lg:text-[44px] font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
+              $699
             </p>
           </div>
+          <p className="mt-2 text-[11px] md:text-base font-extralight text-white">
+            Save $2,301
+          </p>
         </div>
       </div>
 

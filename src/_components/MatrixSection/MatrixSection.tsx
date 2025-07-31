@@ -19,7 +19,7 @@ const MatrixSection = () => {
     >
       <div className=" sm:px-8 md:px-16 lg:px-24 w-[95%] lg:w-[80%] mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-center gap-12 ">
-          <div className="flex-[0.8] lg:flex-[0.6] text-left">
+          <div className="flex-[0.8] lg:flex-[0.8] text-left">
             <h2 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] mb-4 w-[70%] md:w-full mx-auto text-center md:text-left">
               Do you realise that{" "}
               <span className="text-white font-bold">

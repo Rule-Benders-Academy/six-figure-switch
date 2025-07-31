@@ -42,9 +42,27 @@ const ConfidenceSection = () => {
             <div className="flex justify-center">
               <div className="max-w-[300px] sm:max-w-[430px] md:max-w-[470px] mx-auto text-left text-white text-sm pl-6 md:pl-10 lg:pl-14 relative ">
                 <div className="relative w-full">
-                  <div className="absolute -left-[22px] md:-left-[58px] top-[calc(0.5rem+0.5em)] md:top-[calc(0.5rem+0.5em)] lg:top-[calc(2rem+0.5em)] bottom-[calc(0.3rem+0.5em)] md:bottom-[calc(0.5rem+0.5em)] lg:bottom-[calc(2rem+0.5em)] w-[1px] md:w-[2.5px] bg-gradient-to-b from-[#FFA500] to-[#412B02] z-0" />
-                  <div className="absolute top-[calc(0.5rem+0.5em)] md:top-[calc(0.5rem+0.5em)] lg:top-[calc(2rem+0.5em)] -left-[25.5px] md:-left-[63px] lg:-left-[67px] w-2 md:w-3 lg:w-5 h-2 md:h-3 lg:h-5 rounded-full bg-[#FFA500] z-10" />
-                  <div className="absolute bottom-[calc(0.3rem+0.5em)] md:bottom-[calc(0.5rem+0.5em)] lg:bottom-[calc(2rem+0.5em)] -left-[25.5px] md:-left-[63px] lg:-left-[67px] w-2 md:w-3 lg:w-5 h-2 md:h-3 lg:h-5 rounded-full bg-[#FFA500] z-10" />
+                  <div
+                    className="absolute -left-[22px] md:-left-[58px]
+                    top-[calc(-0.125rem+0.5em)] md:top-[calc(-0.125rem+0.5em)] lg:top-[calc(1rem+0.5em)]
+                    bottom-[calc(-0.375rem+0.5em)] md:bottom-[calc(-0.375rem+0.5em)] lg:bottom-[calc(1rem+0.5em)]
+                    w-[1px] md:w-[2.5px] bg-gradient-to-b from-[#FFA500] to-[#412B02] z-0"
+                  />
+
+                  <div
+                    className="absolute
+                    top-[calc(-0.125rem+0.5em)] md:top-[calc(-0.125rem+0.5em)] lg:top-[calc(1rem+0.5em)]
+                    -left-[25.5px] md:-left-[63px] lg:-left-[67px]
+                    w-2 md:w-3 lg:w-5 h-2 md:h-3 lg:h-5 rounded-full bg-[#FFA500] z-10"
+                  />
+
+                  <div
+                    className="absolute
+                    bottom-[calc(-0.375rem+0.5em)] md:bottom-[calc(-0.375rem+0.5em)] lg:bottom-[calc(1rem+0.5em)]
+                    -left-[25.5px] md:-left-[63px] lg:-left-[67px]
+                    w-2 md:w-3 lg:w-5 h-2 md:h-3 lg:h-5 rounded-full bg-[#FFA500] z-10"
+                  />
+
                   <div className="space-y-5 md:space-y-8 lg:space-y-12 relative z-10">
                     {steps.map((para, index) => (
                       <div
