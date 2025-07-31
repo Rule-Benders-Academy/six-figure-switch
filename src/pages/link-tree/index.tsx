@@ -148,7 +148,7 @@ const LinkTreePage = () => {
           {/* Title + Subtext */}
           <div className="text-center md:text-left flex-1 flex flex-col justify-center">
             <h2 className="text-lg lg:text-xl font-semibold mb-2 leading-snug">
-              Get your Guild to becoming an Independent Consultant
+              Get your Guide to becoming an Independent Consultant
             </h2>
             <p className="text-xs lg:text-sm text-gray-300 leading-relaxed">
               Discover how professionals are moving to Independant Consulting
