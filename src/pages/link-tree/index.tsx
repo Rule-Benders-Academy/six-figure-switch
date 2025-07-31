@@ -105,8 +105,7 @@ const LinkTreePage = () => {
           William Richardson
         </h1>
         <p className="text-center text-sm md:text-base text-gray-300 max-w-md">
-          I help consultants to scale to £1k+ days From £400/day analyst to
-          £4k/day founder Real results, no fake lifestyle
+          I help consultants scale to £1k+ days.
         </p>
       </motion.div>
 
@@ -149,7 +148,7 @@ const LinkTreePage = () => {
           {/* Title + Subtext */}
           <div className="text-center md:text-left flex-1 flex flex-col justify-center">
             <h2 className="text-lg lg:text-xl font-semibold mb-2 leading-snug">
-              Get the Consultancy 2025 Work Truth Report
+              Get your Guild to becoming an Independent Consultant
             </h2>
             <p className="text-xs lg:text-sm text-gray-300 leading-relaxed">
               Discover how professionals are moving to Independant Consulting
