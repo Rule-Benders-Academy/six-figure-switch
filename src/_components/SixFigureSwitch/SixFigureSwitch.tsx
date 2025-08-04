@@ -92,7 +92,7 @@ const content = [
 const SixFigureSwitch = () => {
   return (
     <section className="text-white">
-      <div className="mx-auto space-y-10 md:space-y-16 lg:space-y-20">
+      <div className="mx-auto space-y-10 md:space-y-16 lg:space-y-10">
         <div className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] mx-auto text-center text-white">
           The Six Figure Switch
           <br />
@@ -112,10 +112,11 @@ const SixFigureSwitch = () => {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="flex justify-center">
-          <GradientButton className="!lg:mt-2" >LETS GET STARTED!</GradientButton>
+          <div className="flex justify-center">
+            <GradientButton className="!lg:mt-2">
+              LETS GET STARTED!
+            </GradientButton>
+          </div>
         </div>
       </div>
     </section>

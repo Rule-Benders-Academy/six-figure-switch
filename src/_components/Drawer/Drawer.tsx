@@ -41,13 +41,13 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
       {/* Sliding Panel */}
       <div
         className={`
-          absolute top-0 right-0 h-full w-full lg:w-1/2 bg-white shadow-lg
+          absolute top-0 right-0 h-full w-full lg:w-1/2 bg-black shadow-lg
           transform transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "translate-x-full"}
         `}
       >
         {/* Inner scrollable container */}
-        <div className="h-full box-border  overflow-y-auto relative">
+        <div className="h-full box-border  overflow-y-auto relative py-6">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 p-2 focus:outline-none"

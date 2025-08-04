@@ -46,15 +46,32 @@ const points = [
 
 const LandingPage = () => {
 
-  const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    const openHandler = () => setIsOpen(true);
-    window.addEventListener("openDrawer", openHandler);
-    return () => {
-      window.removeEventListener("openDrawer", openHandler);
-    };
-  }, []);
+    useEffect(() => {
+      // GA script
+      const script1 = document.createElement("script");
+      script1.src = "https://www.googletagmanager.com/gtag/js?id=G-R7Q2CRPHS8";
+      script1.async = true;
+      document.head.appendChild(script1);
+
+      const script2 = document.createElement("script");
+      script2.innerHTML = `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-R7Q2CRPHS8');
+      `;
+      document.head.appendChild(script2);
+
+      // openDrawer listener
+      const openHandler = () => setIsOpen(true);
+      window.addEventListener("openDrawer", openHandler);
+
+      return () => {
+        window.removeEventListener("openDrawer", openHandler);
+      };
+    }, []);
   
   // const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -244,11 +261,11 @@ const LandingPage = () => {
                 Watch this short video to
                 <br /> see how we do it
               </div>
-              <div className="lg:max-h-[449px] lg:h-[64vh] md:h-[400px] h-[234px] bg-[#C8C8C8] w-full rounded-[17.09px] md:rounded-[35px] lg:rounded-[47.42px] mt-6 md:mt-8 lg:mt-12 lg:w-[70%]"></div>
+              <div className="lg:max-h-[449px] lg:h-[42vh] md:h-[400px] h-[234px] bg-[#C8C8C8] w-full rounded-[17.09px] md:rounded-[35px] lg:rounded-[47.42px] mt-6 md:mt-8 lg:mt-12 lg:w-[60%]"></div>
               <GradientButton>I’m in – lets Go!</GradientButton>
             </div>
 
-            <div className=" px-4 sm:px-8 md:px-16 lg:px-24 !pt-10">
+            <div className=" px-4 sm:px-8 md:px-16 lg:px-24 pt-10 lg:pt-24">
               <SixFigureSwitch />
             </div>
 

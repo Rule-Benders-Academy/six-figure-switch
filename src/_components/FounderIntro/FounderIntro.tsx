@@ -120,7 +120,7 @@ const FounderIntro: React.FC = () => {
         </div>
       </div>
 
-      <h4 className="text-lg lg:text-[44px] text-center font-bold mb-5 md:mb-8 lg:mb-16">
+      <h4 className="text-lg lg:text-[44px] text-center font-bold mb-5 md:mb-8 lg:mb-16 mt-2 lg:mt-32">
         Here is why you should listen to me:
       </h4>
       <div className="mx-auto bg-[#373536] pt-5 pb-8 md:py-7 lg:py-8 border-[1px] border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] xl:max-w-[1247px]">
@@ -134,7 +134,7 @@ const FounderIntro: React.FC = () => {
               className="lg:w-[179px] md:w-[130px] w-[88px] h-full"
             />
           </div>
-          <div className="text-base md:text-base leading-snug">
+          <div className="text-base md:text-sm leading-snug">
             {achievements[0].text}
           </div>
         </div>
@@ -151,10 +151,10 @@ const FounderIntro: React.FC = () => {
                 <Image
                   src={item.icon}
                   alt="Icon"
-                  className="lg:w-[159px] md:w-[130px] w-[88px] h-full"
+                  className="lg:w-[100px] md:w-[130px] w-[88px] h-full"
                 />
               </div>
-              <div className="text-base  lg:text-lg leading-snug">
+              <div className="text-base  lg:text-base leading-snug">
                 {item.text}
               </div>
             </div>
