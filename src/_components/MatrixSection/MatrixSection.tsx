@@ -45,7 +45,7 @@ const MatrixSection = () => {
                 You can have the life of your dreams if you take action now.
               </li>
             </ul>
-            <p className="mt-5 md:mt-6 lg:mt-7 text-2xl w-[85%] md:w-full mx-auto text-center md:text-left">
+            <p className="mt-5 md:mt-6 lg:mt-7 text-base lg:text-2xl w-[85%] md:w-full mx-auto text-center md:text-left">
               You’re in the right place. This is your smart exit plan.
             </p>
 

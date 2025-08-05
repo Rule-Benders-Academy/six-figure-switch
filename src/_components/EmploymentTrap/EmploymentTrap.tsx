@@ -22,11 +22,11 @@ const EmploymentTrap = () => {
             </div>
 
             <div className="flex justify-between z-10 relative md:-mb-24 md:-mb-36 lg:-mb-44 items-end max-w-[110%] lg:w-[70%] mx-auto gap-5">
-              <Image
+              {/* <Image
                 src={Person1}
                 alt="Person 1"
                 className="hidden md:block lg:h-[270.02px] md:h-[250px] h-[113px] lg:w-[176px] md:w-[180px] w-[84px] rounded-md md:shadow-[19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)] transform -translate-x-1/4"
-              />
+              /> */}
               <div className="text-center hidden sm:block transform md:-translate-y-1/4 mb-20 lg:mb-36">
                 <h2 className="text-2xl md:text-3xl lg:text-[44px] lg:leading-[100%] leading-snug">
                   Employment was built
@@ -37,11 +37,11 @@ const EmploymentTrap = () => {
                   </span>
                 </h2>
               </div>
-              <Image
+              {/* <Image
                 src={Person2}
                 alt="Person 2"
                 className="hidden md:block lg:h-[270.02px] md:h-[220px] h-[118px] lg:w-[176px] md:w-[160px] w-[79px] rounded-md transform -translate-y-[20px] md:-translate-y-6 md:shadow-[-19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[-6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)] translate-x-1/4 md:translate-x-0"
-              />
+              /> */}
             </div>
 
             <div className="relative w-full lg:w-[65%] md:max-w-[80%] lg:max-w-[90%] mx-auto mt-10">

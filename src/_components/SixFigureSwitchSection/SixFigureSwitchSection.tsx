@@ -130,7 +130,7 @@ const SixFigureSwitchSection = () => {
       </div>
 
       {/* Included Section Title */}
-      <div className="max-w-[90%] lg:max-w-[70%] md:max-w-5xl mx-auto text-center mt-7 md:mt-16 lg:mt-10">
+      <div className="max-w-[90%] lg:max-w-[70%] md:max-w-5xl mx-auto text-center mt-7 md:mt-16 lg:mt-32">
         <div className="space-y-4 text-2xl md:text-5xl lg:text-[44px] lg:leading-[90%] mb-8 md:mb-12 lg:mb-16">
           <h2 className="font-bold">What’s included</h2>
           <h2>in the System</h2>
@@ -144,7 +144,7 @@ const SixFigureSwitchSection = () => {
           <span className="font-semibold bg-[#D9D9D9] text-[#302E2F] text-xs sm:text-sm inline-block rounded-lg px-2 py-1">
             OFFER
           </span>
-          <div className="flex gap-2 text-[8px] sm:text-xs">
+          <div className="flex gap-2 text-[12px] sm:text-xs">
             <span className="font-semibold text-white">USD</span>
             <span className="font-semibold text-white">VALUE</span>
           </div>
@@ -155,15 +155,15 @@ const SixFigureSwitchSection = () => {
           {offers.map((opt, i) => (
             <div key={`offer-${i}`}>
               <div className="flex justify-between items-center mb-1">
-                <span className="text-sm md:text-base lg:text-2xl font-medium text-white w-4/5 leading-tight">
+                <span className="text-base md:text-base lg:text-2xl font-medium text-white w-4/5 leading-tight">
                   {opt.title}
                 </span>
-                <span className="text-sm md:text-base lg:text-lg font-bold text-white">
+                <span className="text-base md:text-base lg:text-lg font-bold text-white">
                   {opt.price}
                 </span>
               </div>
               <div className="border-t border-white mt-4 pt-2">
-                <p className="text-xs md:text-sm lg:text-lg text-white leading-tight">
+                <p className="text-sm md:text-sm lg:text-lg text-white leading-tight">
                   {opt.description}
                 </p>
               </div>
@@ -179,7 +179,7 @@ const SixFigureSwitchSection = () => {
           <span className="font-semibold inline-block text-xs sm:text-sm bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-white rounded-lg px-2 py-1">
             BONUSES
           </span>
-          <div className="flex gap-2 text-[8px] sm:text-xs">
+          <div className="flex gap-2 text-[12px] sm:text-xs">
             <span className="font-semibold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
               USD
             </span>
@@ -194,14 +194,14 @@ const SixFigureSwitchSection = () => {
           {bonuses.map((b, i) => (
             <div key={`bonus-${i}`}>
               <div className="flex justify-between items-center mb-1">
-                <span className="text-sm md:text-base lg:text-2xl font-medium bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text leading-tight">
+                <span className="text-base md:text-base lg:text-2xl font-medium bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text leading-tight">
                   {b.title}
                 </span>
-                <span className="text-sm md:text-base lg:text-lg font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text flex items-center">
+                <span className="text-base md:text-base lg:text-lg font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text flex items-center">
                   {b.price}
                   {b.totalPrice && (
                     <span className="ml-2 inline-block bg-[#252422] px-3 py-1 rounded-lg">
-                      <span className="text-sm md:text-base lg:text-xl font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
+                      <span className="text-base md:text-base lg:text-xl font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
                         {b.totalPrice}
                       </span>
                     </span>
@@ -209,7 +209,7 @@ const SixFigureSwitchSection = () => {
                 </span>
               </div>
               <div className="border-t border-[#FFBE48] mt-4 pt-2">
-                <p className="text-xs md:text-sm lg:text-lg text-white leading-tight">
+                <p className="text-base md:text-sm lg:text-lg text-white leading-tight">
                   {b.description}
                 </p>
               </div>
