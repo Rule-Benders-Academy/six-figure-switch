@@ -176,7 +176,7 @@ const SixFigureSwitchSection = () => {
       <div className="max-w-[90%] lg:max-w-[70%] md:max-w-5xl mx-auto bg-white bg-opacity-[0.08] py-6 md:py-10 lg:py-14 px-4 md:px-10 lg:px-[44px] border border-[#595758] rounded-2xl md:rounded-3xl lg:rounded-[36px] shadow-[18.11px_22.64px_22.64px_rgba(0,0,0,0.5)] overflow-hidden mt-6 md:mt-10 lg:mt-12">
         {/* Card Header */}
         <div className="flex items-center justify-between mb-8 md:mb-10">
-          <span className="font-semibold inline-block text-xs sm:text-sm bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text rounded-lg px-2 py-1">
+          <span className="font-semibold inline-block text-xs sm:text-sm bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-white rounded-lg px-2 py-1">
             BONUSES
           </span>
           <div className="flex gap-2 text-[8px] sm:text-xs">
@@ -219,7 +219,7 @@ const SixFigureSwitchSection = () => {
       </div>
 
       {/* Pricing & CTA (below both cards) */}
-      <div className="max-w-[90%] lg:max-w-[70%] md:max-w-5xl mx-auto flex items-center justify-center gap-10 px-6 py-6">
+      <div className="max-w-[90%] lg:max-w-[70%] md:max-w-5xl mx-auto flex items-center justify-center gap-10 px-6 py-6 mt-6">
         <div className="text-center">
           <p className="text-base md:text-4xl lg:text-[44px] font-extrabold uppercase text-white tracking-wide">
             REGULAR

@@ -115,7 +115,7 @@ const EarningTimelineSection = () => {
                     />
                     <h3 className="text-2xl md:text-2xl lg:leading-[90%] font-bold mb-6 mt-4">{card.title}</h3>
                     <hr className="border-white w-[80%] md:h-1 my-2" />
-                    <p className="text-[9px] md:text-2xl lg:text-2xl leading-relaxed lg:w-[70%]">{card.description}</p>
+                    <p className="text-[14px] md:text-2xl lg:text-2xl leading-relaxed lg:w-[70%]">{card.description}</p>
                   </div>
                 </div>
               </div>

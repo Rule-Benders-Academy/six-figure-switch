@@ -86,7 +86,7 @@ const TransformationTimeline = () => {
 
   return (
     <section
-      className="bg-black text-white pt-7 pb-8 md:py-12 lg:py-16 px-4 overflow-visible"
+      className="bg-black text-white pt-7 pb-8 md:py-12 lg:py-16 px-4 overflow-visible hidden"
       style={{
         backgroundImage: `url(${BgImg.src})`,
         backgroundPosition: 'top',
