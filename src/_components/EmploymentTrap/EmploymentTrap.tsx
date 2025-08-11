@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
-import Image from 'next/image';
-import Person1 from '@/_assets/employment-trap-img-1.png'
-import Person2 from '@/_assets/employment-trap-img-2.png'
+// import Image from 'next/image';
+// import Person1 from '@/_assets/employment-trap-img-1.png'
+// import Person2 from '@/_assets/employment-trap-img-2.png'
 
 const EmploymentTrap = () => {
   return (
