@@ -85,8 +85,8 @@ const OfferExtended: React.FC<OfferExtendedProps> = ({ initialDays }) => {
         ))}
       </div>
 
-      <div className="text-left">
-        <GradientButton className="!text-sm md:!text-2xl !py-[2px] md:!py-4 lg:!py-4 !px-5 md:!px-8 lg:!px-[20px]">
+      <div className="text-center lg:text-left">
+        <GradientButton className="!text-sm md:!text-2xl !py-[12px] md:!py-4 lg:!py-4 !px-5 md:!px-8 lg:!px-[20px]">
           TAKE THE RED PILL
         </GradientButton>
       </div>

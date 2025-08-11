@@ -94,7 +94,7 @@ const LandingPage = () => {
             <Image src={HeroBg} alt="" className="w-full h-full object-cover" />
           </div>
 
-          <div className="relative max-w-[95%] mx-auto text-center">
+          <div className="relative max-w-[98%] mx-auto text-center">
             <p className="text-lg md:text-2xl lg:leading-[100%] mb-8 md:mb-9 lg:mb-10">
               If you are an employed professional,
               <br />

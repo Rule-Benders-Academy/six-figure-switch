@@ -65,7 +65,7 @@ const NotOrdinary: React.FC = () => {
           </div>
 
           <div className="border border-[#666465] rounded-[16px] md:rounded-[20px] lg:rounded-[44.31px] p-6 md:p-10 bg-white bg-opacity-[0.08]  sm:max-w-[550px] md:max-w-[800px] lg:max-w-[1073px] text-center w-[90%] mx-auto  mt-10 md:mt-0">
-            <ul className="space-y-6 text-sm md:text-lg text-gray-200 w-[90%]  lg:w-[70%] mx-auto lg:py-12 md:py-10 py-7">
+            <ul className="space-y-6 text-base md:text-lg text-gray-200 w-[100%]  lg:w-[70%] mx-auto lg:py-12 md:py-10 py-7">
               <li>
                 <span className="text-red-400">💥</span> Mentors Who’ve Been
                 There—real professionals, not ivory-tower theorists.

@@ -263,7 +263,7 @@ const ComparisonSection = () => {
         ))}
       </div>
 
-      <GradientButton>
+      <GradientButton className="text-sm md:text-xl !lg:text-2xl !py-4 md:py-3 px-4 md:px-8 lg:px-10 max-w-md">
         MAKE THE SWITCH
       </GradientButton>
     </section>

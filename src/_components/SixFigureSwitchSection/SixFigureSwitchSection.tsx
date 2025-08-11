@@ -219,33 +219,33 @@ const SixFigureSwitchSection = () => {
       </div>
 
       {/* Pricing & CTA (below both cards) */}
-      <div className="max-w-[90%] lg:max-w-[70%] md:max-w-5xl mx-auto flex items-center justify-center gap-10 px-6 py-6 mt-6">
+      <div className="max-w-[100%] lg:max-w-[70%] md:max-w-5xl mx-auto flex items-center justify-center gap-5 px-6 py-6 mt-6">
         <div className="text-center">
-          <p className="text-base md:text-4xl lg:text-[44px] font-extrabold uppercase text-white tracking-wide">
+          <p className="text-2xl md:text-4xl lg:text-[44px] font-extrabold uppercase text-white tracking-wide">
             REGULAR
           </p>
-          <p className="mt-2 md:mt-3 relative inline-block text-base md:text-4xl lg:text-[50px] font-bold text-white before:content-[''] before:absolute before:top-1/2 before:-left-[6%] before:w-[120%] before:h-1 md:before:h-1.5 lg:before:h-2 before:bg-red-600 before:rotate-[-6deg] before:origin-center">
+          <p className="mt-2 md:mt-3 relative inline-block text-2xl md:text-4xl lg:text-[50px] font-bold text-white before:content-[''] before:absolute before:top-1/2 before:-left-[6%] before:w-[120%] before:h-1 md:before:h-1.5 lg:before:h-2 before:bg-red-600 before:rotate-[-6deg] before:origin-center">
             $3,000
           </p>
         </div>
         <div className="text-center border-l border-[#FFBE48] pl-7 md:pl-10 lg:pl-14">
-          <p className="text-base md:text-4xl lg:text-[44px] font-bold uppercase bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text tracking-wide">
+          <p className="text-2xl md:text-4xl lg:text-[44px] font-bold uppercase bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text tracking-wide">
             TODAY
           </p>
           <div className="mt-2 inline-block bg-[#252422] px-5 py-2 lg:py-3 rounded-lg">
-            <p className="text-base md:text-4xl lg:text-[44px] font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
+            <p className="text-2xl md:text-4xl lg:text-[44px] font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
               $699
             </p>
           </div>
-          <p className="mt-2 text-[11px] md:text-base font-extralight text-white">
+          <p className="text-2xl mt-2 md:text-base font-extralight text-white">
             Save $2,301
           </p>
         </div>
       </div>
 
       {/* Final CTA Button */}
-      <div className="text-center mt-10">
-        <GradientButton className="text-sm md:text-xl !lg:text-2xl py-2 md:py-3 px-4 md:px-8 lg:px-10 max-w-md">
+      <div className="text-center mt-[-10px] lg:mt-10">
+        <GradientButton className="text-sm md:text-xl !lg:text-2xl !py-4 md:py-3 px-4 md:px-8 lg:px-10 max-w-md">
           I&apos;M READY TO MAKE THE SWITCH!
         </GradientButton>
       </div>
