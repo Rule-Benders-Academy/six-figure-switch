@@ -67,7 +67,7 @@ const ConfidenceSection = () => {
                     {steps.map((para, index) => (
                       <div
                         key={index}
-                        className="relative text-sm md:text-2xl lg:text-[24px] max-w-[149px] md:max-w-[373px]"
+                        className="relative text-base md:text-2xl lg:text-[24px] max-w-[149px] md:max-w-[373px]"
                       >
                         {index !== 0 && index !== steps.length - 1 && (
                           <div className="absolute top-1/2 -translate-y-1/2 -left-[25.5px] md:-left-[63px] lg:-left-[67px] w-2 md:w-3 lg:w-5 h-2 md:h-3 lg:h-5  rounded-full bg-[#FFA500] z-10" />
