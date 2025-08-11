@@ -104,15 +104,25 @@ const LandingPage = () => {
 
           <div className="relative lg:w-[80%] max-w-[98%] mx-auto text-center">
             <h2 className="text-2xl lg:text-[34px] leading-tight lg:leading-[100%] font-bold tracking-wide uppercase mt-5">
-              The Independent Consultant System
+              The <span className="text-[#FFA500]">Independent Consultant</span>{" "}
+              System
             </h2>
             <p className="text-base md:text-xl lg:leading-[100%] mb-8 md:mb-9 lg:mb-10 mt-4">
-              Discover the Five Models
+              Discover the{" "}
+              <span className="text-[#FFA500] font-semibold">Five Models</span>
               <br />
               That Explain Why Consultants Earn <br />
-              3-5× More Than Employees <br />
+              <span className="text-[#FFA500] font-semibold">
+                3–5× More
+              </span>{" "}
+              Than Employees
               <br />
-              (And How to Make the Switch in 90 Days)
+              <br />
+              (And How to{" "}
+              <span className="text-[#FFA500] font-semibold">
+                Make the Switch
+              </span>{" "}
+              in 90 Days)
             </p>
 
             <div className="relative lg:w-[50%] border-2 border-[#747373] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[30px] mt-7 md:mt-9 lg:mt-10 mx-auto">
@@ -141,11 +151,17 @@ const LandingPage = () => {
                   )}
                 </div>
                 <p className="text-center text-xs md:text-sm opacity-80 mt-3">
-                  {unlocked
-                    ? "You’re good to go."
-                    : `Please watch at least 30 minutes to unlock the rest (${Math.floor(
-                        secondsLeft / 60
-                      )}m ${secondsLeft % 60}s)`}
+                  {unlocked ? (
+                    "You’re good to go."
+                  ) : (
+                    <>
+                      Please watch at least 30 minutes to unlock the rest (
+                      <span className="text-[#FFA500] font-semibold">
+                        {Math.floor(secondsLeft / 60)}m {secondsLeft % 60}s
+                      </span>
+                      )
+                    </>
+                  )}
                 </p>
               </div>
 
