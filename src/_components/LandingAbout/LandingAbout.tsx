@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import LandingAboutImg1 from "../../_assets/landing-about-img-1.png"
+import LandingAboutImg1 from "../../_assets/master-class.png";
 import LandingAboutImg2 from "../../_assets/landing-about-img-2.png"
 import GradientButton from "../GradientButton/GradientButton";
 
@@ -9,7 +9,7 @@ const LandingAboutSection = () => {
     <section className="bg-gradient-to-b from-[#141314] to-[#272526] text-white px-4 sm:px-8 md:px-16 lg:px-24 md:py-10 pt-6 pb-12 md:pb-16 lg:pb-20  mx-auto">
       <div className="lg:w-[80%] mx-auto w-[90%]">
         <div className="flex gap-10">
-          <div className="md:w-1/2 flex-[1.3] max-w-[600px] flex flex-col justify-center space-y-6">
+          <div className="md:w-1/2  max-w-[600px] flex flex-col justify-center space-y-6">
             <h2 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] font-semibold mb-3 md:mb-10">
               About Me
             </h2>
@@ -109,7 +109,7 @@ const LandingAboutSection = () => {
         </div>
       </div>
 
-      <div className="text-center lg:text-left md:text-center mt-1 md:mt-5 lg:mt-16">
+      <div className="text-center  md:text-center mt-1 md:mt-5 lg:mt-16">
         <GradientButton className="!text-sm md:!text-2xl  !py-[8px] md:!py-4 lg:!py-4 !px-6 md:!px-8 lg:!px-[65px] max-w-[239px] lg:!max-w-[632px] !mx-auto">
           I am ready to follow your system
         </GradientButton>
