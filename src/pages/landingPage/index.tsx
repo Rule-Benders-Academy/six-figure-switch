@@ -261,8 +261,26 @@ const LandingPage = () => {
                 Watch this short video to
                 <br /> see how we do it
               </div>
-              <div className="lg:max-h-[449px] lg:h-[42vh] md:h-[400px] h-[234px] bg-[#C8C8C8] w-full rounded-[17.09px] md:rounded-[35px] lg:rounded-[47.42px] mt-6 md:mt-8 lg:mt-12 lg:w-[60%]"></div>
-              <GradientButton>I’m in – lets Go!</GradientButton>
+
+              {/* Responsive, watchable sizes */}
+              <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12">
+                <div
+                  className="relative rounded-[17px] md:rounded-[35px] lg:rounded-[47px] overflow-hidden
+                    h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px]"
+                >
+                  <iframe
+                    className="absolute inset-0 w-full h-full"
+                    src="https://drive.google.com/file/d/1K_6FUO2qrJg06QRjyBcbjZcglsYJyKzD/preview"
+                    title="How We Do It"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+
+              <GradientButton className="mt-6 md:mt-8">
+                I’m in – lets Go!
+              </GradientButton>
             </div>
 
             <div className=" px-4 sm:px-8 md:px-16 lg:px-24 pt-10 lg:pt-24">
