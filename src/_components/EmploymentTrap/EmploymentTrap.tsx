@@ -9,7 +9,7 @@ const EmploymentTrap = () => {
     <div className="bg-gradient-to-b from-[#141314] to-[#272526] md:pt-14">
       <section className="bg-[#141314] text-white pt-7 pb-14 md:py-16 lg:py-20 px-6 text-center space-y-7 md:space-y-8 lg:space-y-10">
         <div className="px-4 sm:px-8 md:px-16 lg:px-24">
-          <section className="relative text-white">
+          <section className="relative text-white mx-auto">
             <div className="max-w-[90%] md:max-w-[35%] 2xl:max-w-[50%] mx-auto text-center z-10  transform translate-y-[15px] sm:hidden">
               <h2 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] leading-snug">
                 Employment was built
@@ -27,7 +27,7 @@ const EmploymentTrap = () => {
                 alt="Person 1"
                 className="hidden md:block lg:h-[270.02px] md:h-[250px] h-[113px] lg:w-[176px] md:w-[180px] w-[84px] rounded-md md:shadow-[19.17px_73.89px_58.2px_0px_rgba(0,0,0,0.8)] shadow-[6.17px_23.79px_58.2px_0px_rgba(0,0,0,0.8)] transform -translate-x-1/4"
               /> */}
-              <div className="text-center hidden sm:block transform md:-translate-y-1/4 mb-20 lg:mb-36">
+              <div className="text-center hidden sm:block transform md:-translate-y-1/4 mb-20 lg:mb-36  mx-auto">
                 <h2 className="text-2xl md:text-3xl lg:text-[44px] lg:leading-[100%] leading-snug">
                   Employment was built
                   <br />
@@ -80,7 +80,6 @@ const EmploymentTrap = () => {
             </li>
           </ul>
 
-          
           <p>
             <span className="underline">What if you could:</span>
           </p>

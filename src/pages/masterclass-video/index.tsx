@@ -107,7 +107,7 @@ const LandingPage = () => {
               The <span className="text-[#FFA500]">Independent Consultant</span>{" "}
               System
             </h2>
-            <p className="text-base md:text-xl lg:leading-[100%] mb-8 md:mb-9 lg:mb-10 mt-4">
+            <p className="text-base md:text-base lg:leading-[100%] mb-6 lg:mb-6 mt-4">
               Discover the{" "}
               <span className="text-[#FFA500] font-semibold">Five Models</span>
               <br />
@@ -125,8 +125,8 @@ const LandingPage = () => {
               in 90 Days)
             </p>
 
-            <div className="relative lg:w-[50%] border-2 border-[#747373] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[30px] mt-7 md:mt-9 lg:mt-10 mx-auto">
-              <div className="p-4">
+            <div className="relative lg:w-[70%] border-2 border-[#747373] bg-[#FFFFFF12] rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:mt-2 mx-auto">
+              <div className="p-2 lg:p-4">
                 <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#141314]">
                   {!showIframe && (
                     <button
@@ -172,15 +172,25 @@ const LandingPage = () => {
               />
             </div>
 
-            <div className="lg:w-[50%] relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-xl md:rounded-[35px] lg:rounded-[10px] mt-7 mx-auto p-4">
-              <span className="text-[#FFA500] font-bold underline">
-                Do not close this page as the special offer is only available
-                here
-              </span>
-              <br />
-              As a reward for attending the class, you’re getting a special
-              discount for the full Six Figure Switch Program.
-            </div>
+            {unlocked && (
+              <div className="lg:w-[50%] relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-xl md:rounded-[35px] lg:rounded-[10px] mt-7 mx-auto p-4">
+                <span className="text-[#FFA500] font-bold underline">
+                  Do not close this page as the special offer is only available
+                  here
+                </span>
+                <br />
+                As a reward for attending the class, you’re getting a special
+                discount for the full Six Figure Switch Program.
+              </div>
+            )}
+
+            {!unlocked && (
+              <div className="lg:w-[50%] relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-xl md:rounded-[35px] lg:rounded-[10px] mt-3 mx-auto p-4">
+                <span className="text-white-500 font-semibold">
+                  Please refresh the page if video is not loading
+                </span>
+              </div>
+            )}
           </div>
         </section>
 
@@ -206,14 +216,14 @@ const LandingPage = () => {
                 </span>
               </p>
 
-              <p className="text-lg md:text-2xl lg:leading-[100%]">
+              {/* <p className="text-lg md:text-2xl lg:leading-[100%]">
                 Did you know that you could be earning
                 <br />
                 <span className="text-[#FFA500] font-bold underline">
                   3 x more money
                 </span>{" "}
                 for exactly the same skill set you already have?
-              </p>
+              </p> */}
 
               <div className="relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[30px] mt-7 md:mt-9 lg:mt-10 py-7 md:py-[80px] lg:py-14 lg:w-[90%] mx-auto">
                 <div className="px-4 sm:px-6 md:px-10">
