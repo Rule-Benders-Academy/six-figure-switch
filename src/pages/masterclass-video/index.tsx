@@ -97,7 +97,7 @@ const LandingPage = () => {
     <>
       <div className="min-h-screen !font-jakarta">
         {/* HERO + VIDEO (gating section) */}
-        <section className="relative bg-black text-white pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-6 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden flex items-center justify-center min-h-screen">
+        <section className="relative bg-black text-white pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-2 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden flex items-center justify-center min-h-screen">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-60 pointer-events-none">
             <Image src={HeroBg} alt="" className="w-full h-full object-cover" />
           </div>
@@ -125,7 +125,7 @@ const LandingPage = () => {
               in 90 Days)
             </p>
 
-            <div className="relative lg:w-[70%] border-2 border-[#747373] bg-[#FFFFFF12] rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:mt-2 mx-auto">
+            <div className="relative lg:w-[90%] border-2 border-[#747373] bg-[#FFFFFF12] rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:mt-2 mx-auto">
               <div className="p-2 lg:p-4">
                 <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#141314]">
                   {!showIframe && (
@@ -141,13 +141,18 @@ const LandingPage = () => {
                   )}
 
                   {showIframe && (
-                    <iframe
-                      className="absolute inset-0 w-full h-full"
-                      src="https://drive.google.com/file/d/1sfZpH03W_ALSDCXMrLgBcbfBjfA3Jtsv/preview"
-                      allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-                      allowFullScreen
-                      frameBorder="0"
-                    />
+                    <div className="relative w-full h-full">
+                      <iframe
+                        className="absolute inset-0 w-full h-full"
+                        src="https://drive.google.com/file/d/1sfZpH03W_ALSDCXMrLgBcbfBjfA3Jtsv/preview"
+                        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                      />
+                      {/* Overlay to block fullscreen button */}
+                      <div
+                        className="absolute top-0 right-0 bg-transparent"
+                        style={{ width: "50px", height: "50px" }}
+                      />
+                    </div>
                   )}
                 </div>
                 <p className="text-center text-xs md:text-sm opacity-80 mt-3">
@@ -185,7 +190,7 @@ const LandingPage = () => {
             )}
 
             {!unlocked && (
-              <div className="lg:w-[50%] relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-xl md:rounded-[35px] lg:rounded-[10px] mt-3 mx-auto p-4">
+              <div className="lg:w-[50%] relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-xl md:rounded-[35px] lg:rounded-[10px] mt-3 mx-auto p-2">
                 <span className="text-white-500 font-semibold">
                   Please refresh the page if video is not loading
                 </span>
