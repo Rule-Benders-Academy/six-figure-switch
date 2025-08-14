@@ -69,7 +69,7 @@ const MatrixBreakdownSection: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-row md:items-stretch items-center justify-between gap-4 md:gap-6 lg:gap-8 bg-black rounded-lg md:p-6 !-mt-44 md:!mt-0 w-[90%] lg:w-[80%] mx-auto">
+        <div className="flex flex-col md:flex-row items-center md:items-center justify-between gap-4 md:gap-6 lg:gap-8 bg-black rounded-lg md:p-6 !-mt-44 md:!mt-0 w-[90%] lg:w-[80%] mx-auto">
           <div className="space-y-4 text-center md:text-left max-w-[400px]">
             <h3 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] font-semibold">
               Want to see the method?
@@ -77,7 +77,7 @@ const MatrixBreakdownSection: React.FC = () => {
             <p className="text-white text-sm md:text-lg lg:text-2xl">
               Let me walk you through how we do this step by step
             </p>
-            <div className="hidden md:block justify-center md:justify-start mt-16 md:mt-6 ">
+            <div className="hidden md:block justify-center md:justify-start mt-16 md:mt-6">
               <div className="relative">
                 <Image
                   src={BtnIcon}
@@ -90,8 +90,16 @@ const MatrixBreakdownSection: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="w-full md:w-1/2 h-[234px] md:h-auto bg-[#C8C8C8] rounded-[17px] md:rounded-3xl lg:rounded-[32.49px] mt-5 md:mt-0" />
+
+          <div className="w-full md:w-[80%] aspect-video rounded-[17px] md:rounded-3xl lg:rounded-[32.49px] mt-5 md:mt-0 overflow-hidden">
+            <iframe
+              src="https://drive.google.com/file/d/1Luh5WYpKophEQtbUoGQ_Yz8VqlDiZa3k/preview"
+              allow="autoplay"
+              className="w-full h-full rounded-[17px] md:rounded-3xl lg:rounded-[32.49px] border-0"
+            ></iframe>
+          </div>
         </div>
+
         <div className="md:hidden flex justify-center mt-14">
           <div className="relative">
             <Image
