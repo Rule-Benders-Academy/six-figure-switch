@@ -144,7 +144,7 @@ const LandingPage = () => {
                     <div className="relative w-full h-full">
                       <iframe
                         className="absolute inset-0 w-full h-full"
-                        src="https://drive.google.com/file/d/1sfZpH03W_ALSDCXMrLgBcbfBjfA3Jtsv/preview"
+                        src="https://drive.google.com/file/d/1WuzAs3yFSyN2wGGD8LsMrcRmX2pXLZMM/preview"
                         allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                       />
                       {/* Overlay to block fullscreen button */}
