@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '3642986315838527');
+            fbq('init', '740601925279946');
             fbq('track', 'PageView');
           `,
         }}
@@ -31,7 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
         dangerouslySetInnerHTML={{
           __html: `<noscript>
             <img height="1" width="1" style="display:none"
-            src="https://www.facebook.com/tr?id=3642986315838527&ev=PageView&noscript=1"/>
+            src="https://www.facebook.com/tr?id=740601925279946&ev=PageView&noscript=1"/>
           </noscript>`,
         }}
       />
