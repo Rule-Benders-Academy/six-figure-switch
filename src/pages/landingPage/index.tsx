@@ -270,7 +270,7 @@ const LandingPage = () => {
                 >
                   <iframe
                     className="absolute inset-0 w-full h-full"
-                    src="https://drive.google.com/file/d/1K_6FUO2qrJg06QRjyBcbjZcglsYJyKzD/preview"
+                    src="https://drive.google.com/file/d/1GAEBScKleT3X63sstMNE_Ksvp1hSJ0nn/preview"
                     title="How We Do It"
                     allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
                     allowFullScreen
