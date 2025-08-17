@@ -26,7 +26,7 @@ const navItems = [
 
 export default function Navbar({ customStyle }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerOpen] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? "hidden" : "";
