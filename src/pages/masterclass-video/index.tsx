@@ -44,7 +44,7 @@ const points = [
 ];
 
 const LandingPage = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
   // Gating state (30 minutes)
   const THRESHOLD_SECONDS = 1800; // 30 minutes
@@ -84,13 +84,13 @@ const LandingPage = () => {
     `;
     document.head.appendChild(script2);
 
-    // openDrawer listener
-    const openHandler = () => setIsOpen(true);
-    window.addEventListener("openDrawer", openHandler);
+    // // openDrawer listener
+    // const openHandler = () => setIsOpen(true);
+    // window.addEventListener("openDrawer", openHandler);
 
-    return () => {
-      window.removeEventListener("openDrawer", openHandler);
-    };
+    // return () => {
+    //   window.removeEventListener("openDrawer", openHandler);
+    // };
   }, []);
 
   return (
@@ -447,7 +447,7 @@ const LandingPage = () => {
         )}
       </div>
 
-      <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <Drawer />
     </>
   );
 };
