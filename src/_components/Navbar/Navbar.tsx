@@ -15,22 +15,18 @@ interface Props {
   landing?: boolean;
 }
 
-const defaultItems = [
-  { label: "Home", id: "home" },
-  { label: "About Us", id: "about" },
-  { label: "Courses", id: "courses" },
-  { label: "Community", id: "community" },
-];
-const landingItems = [
-  { label: "About", id: "About" },
-  { label: "Work", id: "Work" },
-  { label: "Portfolio", id: "Portfolio" },
+const navItems = [
+  { label: "Home", href: "https://www.rule-benders.com/home" },
+  { label: "Courses", href: "https://www.rule-benders.com/courses" },
+  {
+    label: "Community",
+    href: "https://www.rule-benders.com/?msg=not-logged-in",
+  },
 ];
 
-export default function Navbar({ customStyle, landing }: Props) {
+export default function Navbar({ customStyle }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [active, setActive] = useState("home");
 
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? "hidden" : "";
@@ -39,18 +35,13 @@ export default function Navbar({ customStyle, landing }: Props) {
     };
   }, [drawerOpen]);
 
-  const items = landing ? landingItems : defaultItems;
-  const scrollTo = (id: string) => {
-    setActive(id);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <>
       <header
         className={`bg-black text-white fixed top-0 left-0 w-full z-50 ${customStyle}`}
       >
         <div className="flex items-center justify-between px-4 md:px-16 py-4">
+          {/* Logo */}
           <Link href="/" className="flex items-center gap-2 text-xl font-bold">
             <Image src={logo} alt="Logo" width={32} height={32} />
             <span className="hidden sm:inline text-sm">
@@ -58,38 +49,29 @@ export default function Navbar({ customStyle, landing }: Props) {
             </span>
           </Link>
 
+          {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-6">
-            {items.map(({ label, id }) => (
-              <button
-                key={id}
-                onClick={() => scrollTo(id)}
-                className={`relative uppercase transition ${
-                  active === id ? "text-white" : "text-gray-300"
-                }`}
+            {navItems.map(({ label, href }) => (
+              <Link
+                key={href}
+                href={href}
+                className="relative uppercase text-gray-300 hover:text-white transition"
               >
                 {label}
-                <span
-                  className={`absolute -bottom-1 right-0 h-[2px] w-[80%] bg-[#FFA500] transition-opacity duration-300 ${
-                    active === id ? "opacity-100" : "opacity-0"
-                  }`}
-                />
-              </button>
+              </Link>
             ))}
+
+            {/* Join Now button */}
             <GlobalButton
-              onClick={() => setDrawerOpen(true)}
-              className={`flex items-center gap-3 text-base ${
-                landing
-                  ? "!bg-black !text-white border border-white"
-                  : "bg-white !text-black"
-              }`}
+              onClick={() => (window.location.href = "/")}
+              className="flex items-center gap-3 text-base bg-white !text-black"
             >
               Join Now{" "}
-              {!landing && (
-                <Image src={TopRightArrow} alt="" width={16} height={16} />
-              )}
+              <Image src={TopRightArrow} alt="" width={16} height={16} />
             </GlobalButton>
           </nav>
 
+          {/* Mobile toggle */}
           <button
             onClick={() => setMenuOpen((open) => !open)}
             className="md:hidden focus:outline-none"
@@ -103,22 +85,22 @@ export default function Navbar({ customStyle, landing }: Props) {
           </button>
         </div>
 
+        {/* Mobile nav */}
         {menuOpen && (
           <div className="md:hidden bg-black text-white px-4 pb-10 text-center">
-            {items.map(({ label, id }) => (
-              <p
-                key={id}
-                onClick={() => {
-                  scrollTo(id);
-                  setMenuOpen(false);
-                }}
-                className="py-2 cursor-pointer hover:text-yellow-400"
+            {navItems.map(({ label, href }) => (
+              <Link
+                key={href}
+                href={href}
+                className="block py-2 cursor-pointer hover:text-yellow-400"
+                onClick={() => setMenuOpen(false)}
               >
                 {label}
-              </p>
+              </Link>
             ))}
             <div className="mt-6 flex justify-center">
               <GlobalButton
+                onClick={() => (window.location.href = "/")}
                 className="flex items-center gap-3 text-base bg-white !text-black"
               >
                 Join Now{" "}
@@ -128,7 +110,6 @@ export default function Navbar({ customStyle, landing }: Props) {
           </div>
         )}
       </header>
-      {/* <Drawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} /> */}
     </>
   );
 }
