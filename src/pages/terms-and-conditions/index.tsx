@@ -125,7 +125,6 @@ const TermsOfService = () => {
           Email: <span className="font-medium">info@rule-benders.com</span>{" "}
           <br />
           Rule Benders Life &amp; Business Coaching Limited <br />
-          [Insert Business Address]
         </p>
 
         {/* --- Privacy Policy Section --- */}
