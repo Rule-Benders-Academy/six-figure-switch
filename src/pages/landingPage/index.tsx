@@ -34,7 +34,7 @@ import OurPromise from '@/_components/OurPromise/OurPromise'
 import NotOrdinary from '@/_components/NotOrdinary/NotOrdinary'
 import TransformationTimeline from '@/_components/TransformationTimeline/TransformationTimeline'
 import EarningTimelineSection from '@/_components/EarningTimelineSection/EarningTimelineSection'
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const points = [
   "You don’t need to build a startup",
@@ -45,8 +45,6 @@ const points = [
 ];
 
 const LandingPage = () => {
-
-    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
       // GA script
@@ -65,12 +63,12 @@ const LandingPage = () => {
       document.head.appendChild(script2);
 
       // openDrawer listener
-      const openHandler = () => setIsOpen(true);
-      window.addEventListener("openDrawer", openHandler);
+      // const openHandler = () => setIsOpen(true);
+      // window.addEventListener("openDrawer", openHandler);
 
-      return () => {
-        window.removeEventListener("openDrawer", openHandler);
-      };
+      // return () => {
+      //   window.removeEventListener("openDrawer", openHandler);
+      // };
     }, []);
   
   // const [elapsedTime, setElapsedTime] = useState(0);
@@ -352,7 +350,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <Drawer />
     </>
   );
 }
