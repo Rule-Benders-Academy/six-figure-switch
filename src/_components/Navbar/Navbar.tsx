@@ -4,7 +4,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Drawer from "../../_components/Drawer/Drawer";
 import logo from "../../_assets/logo.svg";
 import TopRightArrow from "../../_assets/top-right-arrow.svg";
 import MenuIcon from "../../_assets/menu-icon.svg";
@@ -129,7 +128,7 @@ export default function Navbar({ customStyle, landing }: Props) {
           </div>
         )}
       </header>
-      <Drawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      {/* <Drawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} /> */}
     </>
   );
 }
