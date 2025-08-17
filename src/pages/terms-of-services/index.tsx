@@ -7,125 +7,242 @@ const TermsOfService = () => {
     <div className="bg-white text-gray-800">
       <Navbar />
 
-      {/* Padding to push content below the fixed navbar */}
+      {/* Push content below fixed navbar */}
       <main className="max-w-4xl mx-auto px-4 pt-24 pb-12">
-        <h1 className="text-3xl font-bold mb-6">Terms of Service</h1>
+        <h1 className="text-3xl font-bold mb-2">Rule Benders Legal Document</h1>
+        <h2 className="text-lg text-gray-600 mb-6">Terms of Service</h2>
+        <p className="text-sm text-gray-500 mb-8">Last updated: 16/08/2025</p>
+
         <p className="mb-6">
-          Welcome to Rule Benders Academy (also known as Conquer Consultancy
-          School). By enrolling in, accessing, or participating in our courses,
-          coaching sessions, community, or other services (collectively, the
-          “Programme”), you agree to these Terms of Service (“Terms”). Please
-          read them carefully before purchasing or participating.
+          Welcome to Rule Benders Life &amp; Business Coaching Limited
+          (“Company”, “we”, “our”, “us”). By accessing or using our website{" "}
+          <span className="font-medium">sixfigureswitch.rule-benders.com</span>{" "}
+          (the “Site”) and purchasing our products, programs, or services (the
+          “Services”), you agree to be bound by these Terms of Service. If you
+          do not agree with these Terms, you must not use our Site or Services.
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">
-          1. Programme Purpose
+          1. Eligibility &amp; Account Use
         </h2>
-        <p className="mb-4">
-          The Programme provides educational content, coaching, frameworks, and
-          strategic insights to support professionals in positioning themselves
-          as independent consultants. While we aim to deliver high-quality
-          guidance, we do not guarantee employment, consulting contracts, or
-          specific income levels. Your results will vary depending on your
-          skills, effort, and market conditions.
+        <ul className="list-disc pl-6 mb-6 space-y-2">
+          <li>
+            You must be at least 18 years old to purchase or use our Services.
+          </li>
+          <li>
+            You agree to provide accurate, complete, and current information
+            when registering or making purchases.
+          </li>
+          <li>
+            You may not share login details, resell access, or redistribute any
+            digital materials. Access is granted on a per-user basis.
+          </li>
+          <li>
+            We reserve the right to suspend or terminate your account for breach
+            of these Terms without refund.
+          </li>
+        </ul>
+
+        <h2 className="text-xl font-semibold mt-8 mb-2">
+          2. Purchases &amp; Payments
+        </h2>
+        <ul className="list-disc pl-6 mb-6 space-y-2">
+          <li>
+            Payments are securely processed by Paddle, our merchant of record.
+          </li>
+          <li>You agree to provide valid payment details.</li>
+          <li>
+            Prices are shown in USD unless otherwise stated and may change at
+            our discretion.
+          </li>
+        </ul>
+
+        <h2 className="text-xl font-semibold mt-8 mb-2">3. Refunds</h2>
+        <p className="mb-6">
+          Our Refund Policy forms part of these Terms and is detailed below.
+        </p>
+
+        <h2 className="text-xl font-semibold mt-8 mb-2">4. Service Changes</h2>
+        <p className="mb-6">
+          We may modify, suspend, or discontinue any Service (or part of it)
+          with reasonable notice.
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">
-          2. No Guarantees of Outcome
+          5. Intellectual Property
         </h2>
-        <p className="mb-4">
-          Any case studies, testimonials, or examples we share are illustrative
-          only. They should not be interpreted as promises or guarantees of
-          future success.
+        <p className="mb-6">
+          All content on this Site (text, graphics, videos, downloads, logos) is
+          owned by Rule Benders Life &amp; Business Coaching Limited and
+          protected by copyright law. You may not copy, distribute, reproduce,
+          or exploit any of our content without prior written consent.
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">
-          3. Your Responsibilities
+          6. Disclaimer &amp; Limitation of Liability
         </h2>
-        <p className="mb-4">
-          You are solely responsible for your professional decisions, actions,
-          and results. By enrolling, you agree to complete coursework in good
-          faith and maintain respectful conduct in all coaching sessions and
-          community spaces.
+        <ul className="list-disc pl-6 mb-6 space-y-2">
+          <li>
+            Our Services are provided “as is” without warranties of any kind.
+          </li>
+          <li>We do not guarantee specific results or income.</li>
+          <li>
+            To the maximum extent permitted by law, we disclaim liability for
+            any loss of profits, revenue, data, or business interruption, as
+            well as any indirect or consequential damages.
+          </li>
+          <li>
+            Our total liability for any claim shall not exceed the amount you
+            paid for the Service in question.
+          </li>
+        </ul>
+
+        <h2 className="text-xl font-semibold mt-8 mb-2">
+          7. Governing Law &amp; Jurisdiction
+        </h2>
+        <p className="mb-6">
+          These Terms are governed by the laws of Cyprus. If you are a consumer
+          resident in the EU or UK, you may also have the right to bring claims
+          in your country of residence under mandatory consumer protection laws.
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">
-          4. Intellectual Property
+          8. Dispute Resolution
         </h2>
-        <p className="mb-4">
-          All Programme materials, including videos, templates, and frameworks,
-          are the intellectual property of Rule Benders Academy. You may use
-          them for your own development but may not copy, resell, or
-          redistribute them.
+        <p className="mb-6">
+          In the event of a dispute, both parties agree to attempt resolution
+          through negotiation or mediation before pursuing litigation.
+        </p>
+
+        <h2 className="text-xl font-semibold mt-8 mb-2">9. Privacy</h2>
+        <p className="mb-6">
+          Please review the Privacy Policy (below) to understand how we handle
+          your data.
+        </p>
+
+        <h2 className="text-xl font-semibold mt-8 mb-2">10. Contact Us</h2>
+        <p className="mb-6">
+          Email: <span className="font-medium">info@rule-benders.com</span>{" "}
+          <br />
+          Rule Benders Life &amp; Business Coaching Limited <br />
+          [Insert Business Address]
+        </p>
+
+        {/* --- Privacy Policy Section --- */}
+        <h1 className="text-2xl font-bold mt-12 mb-2">Privacy Policy</h1>
+        <p className="text-sm text-gray-500 mb-6">Last updated: 16/08/2025</p>
+        <p className="mb-6">
+          We respect your privacy and are committed to protecting your personal
+          data.
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">
-          5. Payments, Refunds & Cancellations
+          1. Information We Collect
         </h2>
-        <p className="mb-4">
-          Programme fees must be paid in full or according to the agreed plan.
-          We offer a 14-day risk-free guarantee: if you complete the initial
-          modules and attend at least one coaching call but are not satisfied,
-          you may request a refund within 14 days of purchase. After 14 days,
-          all payments are non-refundable.
-        </p>
+        <ul className="list-disc pl-6 mb-6 space-y-2">
+          <li>
+            Personal data: name, email, payment details, when you purchase or
+            sign up.
+          </li>
+          <li>Technical data: IP address, browser type, usage patterns.</li>
+          <li>
+            Cookies &amp; tracking: we use cookies and analytics tools for site
+            functionality and marketing.
+          </li>
+        </ul>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">
-          6. Coaching & Community Access
+          2. Lawful Basis for Processing
         </h2>
-        <p className="mb-4">
-          Group coaching sessions may be recorded and shared with other
-          participants. Access to community spaces is a privilege, and we
-          reserve the right to remove participants who engage in abusive or
-          disruptive behaviour.
-        </p>
+        <ul className="list-disc pl-6 mb-6 space-y-2">
+          <li>Contractual necessity (to deliver the Services you purchase).</li>
+          <li>Legal obligation (for tax, compliance, fraud prevention).</li>
+          <li>
+            Legitimate interest (to improve Services, marketing where
+            proportionate).
+          </li>
+          <li>
+            Consent (for optional communications and cookies where required).
+          </li>
+        </ul>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">7. Disclaimers</h2>
-        <p className="mb-4">
-          We are not financial advisors, legal advisors, or career placement
-          agencies. Nothing in this Programme constitutes financial, legal, or
-          investment advice. You should seek independent professional advice
-          when appropriate.
-        </p>
+        <h2 className="text-xl font-semibold mt-8 mb-2">3. How We Use Data</h2>
+        <ul className="list-disc pl-6 mb-6 space-y-2">
+          <li>To process payments and deliver Services.</li>
+          <li>To provide customer support.</li>
+          <li>To send updates and marketing (if opted-in).</li>
+          <li>To comply with legal and regulatory obligations.</li>
+        </ul>
+
+        <h2 className="text-xl font-semibold mt-8 mb-2">4. Data Sharing</h2>
+        <ul className="list-disc pl-6 mb-6 space-y-2">
+          <li>We do not sell personal data.</li>
+          <li>
+            We share data with trusted processors (e.g., Paddle for payments).
+          </li>
+          <li>
+            Data may be transferred internationally, including to the United
+            States. We take steps to ensure adequate safeguards.
+          </li>
+          <li>
+            We may disclose data if required by law or lawful authorities.
+          </li>
+        </ul>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">
-          8. Limitation of Liability
+          5. Data Retention &amp; Security
         </h2>
-        <p className="mb-4">
-          To the fullest extent permitted by law, Rule Benders Academy and its
-          affiliates are not liable for any damages or losses arising from your
-          participation. Your sole remedy is to discontinue use of the
-          Programme.
+        <p className="mb-6">
+          We keep personal data only as long as necessary for business and legal
+          purposes. We apply appropriate technical and organizational measures
+          to protect data.
         </p>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">9. Governing Law</h2>
-        <p className="mb-4">
-          These Terms are governed by and construed under the laws of
-          <span className="font-medium"> [Insert Jurisdiction]</span>. Any
-          disputes will be handled exclusively in the courts of that
-          jurisdiction.
+        <h2 className="text-xl font-semibold mt-8 mb-2">6. Your Rights</h2>
+        <p className="mb-6">
+          Under GDPR/UK GDPR you have rights to: access your personal data,
+          correct inaccurate data, request deletion, restrict or object to
+          processing, request data portability, withdraw consent at any time,
+          and lodge a complaint with your local supervisory authority. To
+          exercise rights, contact us at{" "}
+          <span className="font-medium">info@rule-benders.com</span>.
         </p>
+
+        {/* --- Refund Policy Section --- */}
+        <h1 className="text-2xl font-bold mt-12 mb-2">Refund Policy</h1>
+        <p className="text-sm text-gray-500 mb-6">Last updated: 16/08/2025</p>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">
-          10. Updates to These Terms
+          General Refund Terms
         </h2>
-        <p className="mb-4">
-          We may update these Terms from time to time. The most recent version
-          will always be available on our website. Continued use of the
-          Programme means you accept the updated Terms.
-        </p>
+        <ul className="list-disc pl-6 mb-6 space-y-2">
+          <li>
+            All products and services include a 14-day money-back guarantee
+            unless otherwise stated.
+          </li>
+          <li>
+            Refund requests must be made in writing within 14 days of purchase
+            to <span className="font-medium">info@rule-benders.com</span>.
+          </li>
+          <li>
+            Refunds are processed back to the original payment method within
+            5–10 business days.
+          </li>
+        </ul>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">11. Contact</h2>
-        <p className="mb-4">
-          If you have any questions about these Terms, please contact us at
-          <a
-            href="mailto:info@example.com"
-            className="text-blue-600 underline ml-1"
-          >
-            info@rule-benders.com
-          </a>
-          .
-        </p>
+        <h2 className="text-xl font-semibold mt-8 mb-2">Exceptions</h2>
+        <ul className="list-disc pl-6 mb-6 space-y-2">
+          <li>
+            Digital content: If you request immediate access/download, you
+            acknowledge and agree that your 14-day cancellation right ends once
+            you access the material.
+          </li>
+          <li>
+            Coaching, consulting, or live services: Fees for completed sessions
+            are non-refundable.
+          </li>
+          <li>After 14 days, all sales are final.</li>
+        </ul>
       </main>
     </div>
   );
