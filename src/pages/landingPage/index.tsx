@@ -133,7 +133,7 @@ const LandingPage = () => {
                     />
 
                     {/* Badge */}
-                    <span className="text-[#FFA500] text-2xl font-bold py-2 px-6 border-2 border-[#FFA500] bg-[#141314] rounded-[10px]">
+                    <span className="text-[#FFA500] text-xl font-bold py-2 px-6 border-2 border-[#FFA500] bg-[#141314] rounded-[10px]">
                       $1,400/day (and more)
                     </span>
 
