@@ -349,7 +349,6 @@ const LandingPage = () => {
           <LandingFooter />
         </div>
       </div>
-
       <Drawer />
     </>
   );
