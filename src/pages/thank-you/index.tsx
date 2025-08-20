@@ -4,15 +4,8 @@ import React from "react";
 import { CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import LandingFooter from "@/_components/LandingFooter/LandingFooter";
-import { useRouter } from "next/navigation";
 
 const ThankYou = () => {
-  const router = useRouter();
-
-  const handleGoHome = () => {
-    router.push("/");
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#141314] to-[#272526] text-white overflow-hidden">
       <section className="flex-1 flex flex-col justify-center items-center px-4 sm:px-8 md:px-16 lg:px-24 py-28">
