@@ -10,6 +10,7 @@ import Person1 from '@/_assets/switch-banner-img-1.png'
 import Person2 from '@/_assets/switch-banner-img-2.png'
 import Person3 from '@/_assets/switch-banner-img-3.png'
 import Person4 from '@/_assets/switch-banner-img-4.png'
+import Thumbnail from "@/_assets/tumbnail.png";
 import Star from "@/_assets/star-hero.png";
 import DigitalClock from '@/_components/DigitalClock/DigitalClock'
 import SixFigureSwitch from '@/_components/SixFigureSwitch/SixFigureSwitch'
@@ -34,7 +35,7 @@ import OurPromise from '@/_components/OurPromise/OurPromise'
 import NotOrdinary from '@/_components/NotOrdinary/NotOrdinary'
 import TransformationTimeline from '@/_components/TransformationTimeline/TransformationTimeline'
 import EarningTimelineSection from '@/_components/EarningTimelineSection/EarningTimelineSection'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const points = [
   "You don’t need to build a startup",
@@ -44,8 +45,9 @@ const points = [
   "You just need to position yourself—and help others see you—as an independent consultant.",
 ];
 
-const LandingPage = () => {
 
+const LandingPage = () => {
+   const [play, setPlay] = useState(false);
     useEffect(() => {
       // GA script
       const script1 = document.createElement("script");
@@ -264,18 +266,45 @@ const LandingPage = () => {
               <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12">
                 <div
                   className="relative rounded-[17px] md:rounded-[35px] lg:rounded-[47px] overflow-hidden
-                    h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px]"
+          h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px]"
                 >
-                  <iframe
-                    className="absolute inset-0 w-full h-full"
-                    src="https://drive.google.com/file/d/1GAEBScKleT3X63sstMNE_Ksvp1hSJ0nn/preview"
-                    title="How We Do It"
-                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
-                    allowFullScreen
-                  />
+                  {play ? (
+                    <iframe
+                      key="video" // 👈 forces rerender when switching from thumbnail
+                      className="absolute inset-0 w-full h-full"
+                      src="https://drive.google.com/file/d/1GAEBScKleT3X63sstMNE_Ksvp1hSJ0nn/preview"
+                      title="How We Do It"
+                      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <div
+                      className="absolute inset-0 w-full h-full cursor-pointer"
+                      onClick={() => setPlay(true)}
+                    >
+                      <Image
+                        src={Thumbnail}
+                        alt="How We Do It thumbnail"
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="bg-black bg-opacity-50 rounded-full p-4">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-12 w-12 text-white"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-
               <GradientButton className="mt-6 md:mt-8">
                 I’m in – lets Go!
               </GradientButton>
