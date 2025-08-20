@@ -62,7 +62,7 @@ const LandingFooter = () => {
       </div>
 
       {/* Disclaimer */}
-      <p className="text-[6px] md:text-sm lg:text-lg leading-relaxed mt-6 md:mt-10 lg:mt-10">
+      <p className="text-[6px] md:text-sm lg:text-sm leading-relaxed mt-6 md:mt-10 lg:mt-10">
         Conquer Consultancy School provides educational content, coaching, and
         strategic guidance designed to support professionals in pursuing careers
         as independent consultants. However, participation in this programme
