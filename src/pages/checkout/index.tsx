@@ -96,7 +96,7 @@ const Checkout = () => {
   useEffect(() => {
     async function setupPaddle() {
       const paddleInstance = await initializePaddle({
-        token: "live_173387ff2a9db7664fcef2c134a",
+        token: "live_864edaa6124c0e65de51e1034c9",
         eventCallback: async function (result) {
           if (result.name === "checkout.completed") {
             const customerEmail = result.data?.customer?.email ?? "";
