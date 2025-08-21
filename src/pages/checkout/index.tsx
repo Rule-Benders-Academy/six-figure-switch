@@ -96,7 +96,7 @@ const Checkout = () => {
   useEffect(() => {
     async function setupPaddle() {
       const paddleInstance = await initializePaddle({
-        token: "live_ec9f9a18a1373aeba165f615eda",
+        token: "live_173387ff2a9db7664fcef2c134a",
         eventCallback: async function (result) {
           if (result.name === "checkout.completed") {
             const customerEmail = result.data?.customer?.email ?? "";
@@ -155,7 +155,7 @@ const Checkout = () => {
     const fullname = `${firstName} ${lastName}`;
 
     paddle.Checkout.open({
-      items: [{ priceId: "pri_01k2yast31gjf8e7srdvv6svmy" }],
+      items: [{ priceId: "pro_01k2yargmp4zqas03z85e7gbv1" }],
       settings: {
         displayMode: "overlay",
         theme: "dark",
