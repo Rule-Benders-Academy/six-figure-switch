@@ -96,7 +96,6 @@ const Checkout = () => {
   useEffect(() => {
     async function setupPaddle() {
       const paddleInstance = await initializePaddle({
-        environment: "production", // change to "production" later
         token: "live_ec9f9a18a1373aeba165f615eda",
         eventCallback: async function (result) {
           if (result.name === "checkout.completed") {
