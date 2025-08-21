@@ -87,7 +87,9 @@ const bonuses = [
 ];
 
 const Checkout = () => {
-  const [activeTab, setActiveTab] = useState("included");
+  const [activeTab, setActiveTab] = useState<"included" | "bonuses">(
+    "included"
+  );
   const [paddle, setPaddle] = useState<Paddle | null>(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -171,7 +173,7 @@ const Checkout = () => {
     if (!paddle) return;
 
     paddle.Checkout.open({
-      items: [{ priceId: "pri_01k36apq1s4r8q32jndexwpq2j" }], // <-- replace with real installment plan priceId
+      items: [{ priceId: "pri_01k36apq1s4r8q32jndexwpq2j" }],
       settings: {
         displayMode: "overlay",
         theme: "dark",
@@ -204,25 +206,8 @@ const Checkout = () => {
                 What&apos;s Included
               </button>
 
-              <motion.button
+              <button
                 onClick={() => setActiveTab("bonuses")}
-                initial={{ boxShadow: "0 0 8px #FFBE48" }}
-                animate={
-                  activeTab === "bonuses"
-                    ? {
-                        boxShadow: [
-                          "0 0 8px #FFBE48",
-                          "0 0 16px #FFA500",
-                          "0 0 8px #FFBE48",
-                        ],
-                      }
-                    : { boxShadow: "0 0 0px #FFBE48" }
-                }
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatType: "loop",
-                }}
                 className={`px-6 py-3 rounded-xl font-semibold text-sm md:text-base flex items-center gap-2 transition-all duration-300 shadow-md ${
                   activeTab === "bonuses"
                     ? "bg-[#FFBE48] text-black"
@@ -231,7 +216,7 @@ const Checkout = () => {
               >
                 <Gift className="w-4 h-4 animate-bounce" />
                 Bonuses
-              </motion.button>
+              </button>
             </div>
           </div>
         </div>
