@@ -157,7 +157,7 @@ const Checkout = () => {
       items: [
         {
           // @ts-expect-error - Paddle expects snake_case
-          price_id: "pri_01k2yast31gjf8e7srdvv6svmy", // snake_case!
+          price_id: "pro_01k2yargmp4zqas03z85e7gbv1", // snake_case!
           quantity: 1,
         },
       ],
