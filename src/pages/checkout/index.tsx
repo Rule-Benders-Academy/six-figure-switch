@@ -152,18 +152,21 @@ const Checkout = () => {
 
     if (!paddle) return;
 
-    const fullname = `${firstName} ${lastName}`;
 
     paddle.Checkout.open({
-      items: [{ priceId: "pri_01k2yast31gjf8e7srdvv6svmy" }],
+      items: [
+        {
+          // @ts-expect-error - Paddle expects snake_case
+          price_id: "pri_01k2yast31gjf8e7srdvv6svmy", // snake_case!
+          quantity: 1,
+        },
+      ],
       settings: {
         displayMode: "overlay",
         theme: "dark",
       },
-      customData: {
-        fullname: fullname,
-      },
     });
+
   };
 
   return (
