@@ -126,7 +126,6 @@ const Checkout = () => {
               const img = new Image();
               img.src = zapUrl.toString();
 
-              // Redirect immediately
               window.location.href =
                 "https://sixfigureswitch.rule-benders.com/thank-you";
             }
@@ -152,21 +151,32 @@ const Checkout = () => {
 
     if (!paddle) return;
 
-
     paddle.Checkout.open({
-      items: [
-        {
-          // @ts-expect-error - Paddle expects snake_case
-          price_id: "pro_01k2yargmp4zqas03z85e7gbv1", // snake_case!
-          quantity: 1,
-        },
-      ],
+      items: [{ priceId: "pri_01k2yast31gjf8e7srdvv6svmy" }],
       settings: {
         displayMode: "overlay",
         theme: "dark",
       },
     });
+  };
 
+  const openInstallmentCheckout = () => {
+    if (!firstName.trim() || !lastName.trim()) {
+      setNameError("Both first and last name are required");
+      return;
+    } else {
+      setNameError("");
+    }
+
+    if (!paddle) return;
+
+    paddle.Checkout.open({
+      items: [{ priceId: "pri_01k36apq1s4r8q32jndexwpq2j" }], // <-- replace with real installment plan priceId
+      settings: {
+        displayMode: "overlay",
+        theme: "dark",
+      },
+    });
   };
 
   return (
@@ -322,6 +332,8 @@ const Checkout = () => {
                 <span className="text-red-500 text-sm">{nameError}</span>
               )}
             </div>
+
+            {/* Pricing Box */}
             <div className="flex items-center justify-center gap-6 px-6 py-8 bg-[#1a191a] rounded-2xl shadow-lg border border-[#2c2b2b] w-full">
               <div className="text-center">
                 <p className="text-xl md:text-2xl font-extrabold uppercase text-gray-400 tracking-wide">
@@ -346,12 +358,23 @@ const Checkout = () => {
                 </p>
               </div>
             </div>
+
+            {/* One-time Payment Button */}
             <button
               onClick={openCheckout}
               disabled={!paddle}
               className="mt-6 w-full px-8 py-4 rounded-xl bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-black font-bold text-lg shadow-lg hover:opacity-90 transition disabled:opacity-50"
             >
-              {paddle ? "Buy Now" : "Loading..."}
+              {paddle ? "Buy Full Access Now $699" : "Loading..."}
+            </button>
+
+            {/* Installment Button */}
+            <button
+              onClick={openInstallmentCheckout}
+              disabled={!paddle}
+              className="mt-4 w-full px-8 py-4 rounded-xl bg-gradient-to-r from-[#6DD5FA] via-[#2980B9] to-[#2C3E50] text-white font-bold text-lg shadow-lg hover:opacity-90 transition disabled:opacity-50"
+            >
+              {paddle ? "Pay in Installments ($299 x 3)" : "Loading..."}
             </button>
           </div>
         </div>
@@ -360,6 +383,5 @@ const Checkout = () => {
     </div>
   );
 };
-
 
 export default Checkout;
