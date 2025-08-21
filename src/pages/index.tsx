@@ -1,4 +1,4 @@
-import HomePage from "./checkout";
+import HomePage from "./landingPage";
 
 
 
