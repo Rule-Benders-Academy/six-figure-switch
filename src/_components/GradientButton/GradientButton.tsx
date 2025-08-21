@@ -8,7 +8,7 @@ interface GradientButtonProps {
 const GradientButton: React.FC<GradientButtonProps> = ({ children, className }) => {
 
   const handleClick = () => {
-    window.location.href = "https://checkout.rule-benders.com/";
+    window.location.href = "/checkout";
   };
 
   return (
