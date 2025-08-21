@@ -156,7 +156,7 @@ const Checkout = () => {
     const fullname = `${firstName} ${lastName}`;
 
     paddle.Checkout.open({
-      items: [{ priceId: "pri_01k2hgf7zb8d3mcvqe26sypn0z" }],
+      items: [{ priceId: "pri_01k2yast31gjf8e7srdvv6svmy" }],
       settings: {
         displayMode: "overlay",
         theme: "dark",
