@@ -357,6 +357,7 @@ const Checkout = () => {
             <div className="mt-6 w-full">
               <button
                 disabled
+                onClick={openInstallmentCheckout}
                 className="w-full px-8 py-4 rounded-xl bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 text-white font-bold text-lg shadow-lg opacity-70 cursor-not-allowed"
               >
                 Pay in Installments ($299 x 3)
