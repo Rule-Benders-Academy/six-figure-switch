@@ -12,25 +12,32 @@ const LegalDocuments = () => {
       <main className="max-w-4xl mx-auto px-4 pt-24 pb-12">
         {/* ===================== MASTER TERMS ===================== */}
         <h1 className="text-3xl font-bold mb-2">
-          Rule Benders — Master Terms of Use
+          Rule Benders &mdash; Master Terms of Use
         </h1>
         <p className="text-sm text-gray-500 mb-6">Last updated: 16/08/2025</p>
 
         <p className="mb-6">
           Governing Entity: Rule Benders Life &amp; Business Coaching Limited
-          ("Rule Benders," "we," "us," or "our").
+          (&quot;Rule Benders,&quot; &quot;we,&quot; &quot;us,&quot; or
+          &quot;our&quot;).
           <br />
-          Contact: <span className="font-medium">info@rule-benders.com</span>
+          Contact:{" "}
+          <a
+            href="mailto:info@rule-benders.com"
+            className="font-medium underline underline-offset-2"
+          >
+            info@rule-benders.com
+          </a>
         </p>
 
         <p className="mb-6">
           Binding Nature. By purchasing, accessing, or participating in any Rule
           Benders product, service, program, membership, tool, or experience
-          (collectively, the "Services"), you ("Client," "Participant," or
-          "User") agree to be legally bound by these Master Terms of Use (the
-          "Master Terms") and any applicable Product Addendum (each, an
-          "Addendum"). These Terms are intended to protect both you and Rule
-          Benders.
+          (collectively, the &quot;Services&quot;), you (&quot;Client,&quot;
+          &quot;Participant,&quot; or &quot;User&quot;) agree to be legally
+          bound by these Master Terms of Use (the &quot;Master Terms&quot;) and
+          any applicable Product Addendum (each, an &quot;Addendum&quot;). These
+          Terms are intended to protect both you and Rule Benders.
         </p>
 
         {/* 1. General Scope & Structure */}
@@ -268,9 +275,10 @@ const LegalDocuments = () => {
           otherwise stated: (a) digital products include a minimum of six months
           access; (b) memberships are accessible only while payments remain
           current; (c) live or cohort programs may have time-limited access to
-          replays or portals as stated; and (d) "lifetime access" refers to the
-          lifetime of the program. We may retire or discontinue a program at any
-          time with at least thirty days notice to affected participants.
+          replays or portals as stated; and (d) &quot;lifetime access&quot;
+          refers to the lifetime of the program. We may retire or discontinue a
+          program at any time with at least thirty days notice to affected
+          participants.
         </p>
         <p className="mb-2">
           <span className="font-medium">
@@ -317,7 +325,7 @@ const LegalDocuments = () => {
           <span className="font-medium">
             8.3 Compliance with Platform Terms.
           </span>{" "}
-          Your use is subject to each platform's terms and policies.
+          Your use is subject to each platform&apos;s terms and policies.
         </p>
         <p className="mb-2">
           <span className="font-medium">
@@ -328,10 +336,10 @@ const LegalDocuments = () => {
         </p>
         <p className="mb-6">
           <span className="font-medium">8.5 Lifetime Access Contingency.</span>{" "}
-          Any "lifetime" rights are contingent on continued availability of the
-          hosting platform. We may provide alternative delivery at our
-          discretion but are not obligated to recreate or rehost retired
-          materials in perpetuity.
+          Any &quot;lifetime&quot; rights are contingent on continued
+          availability of the hosting platform. We may provide alternative
+          delivery at our discretion but are not obligated to recreate or rehost
+          retired materials in perpetuity.
         </p>
 
         {/* 9. Use of AI-Generated Materials */}
@@ -519,9 +527,14 @@ const LegalDocuments = () => {
           protections.
         </p>
         <p className="mb-2">
-          <span className="font-medium">15.2 Good-Faith Resolution.</span> Email
-          info@rule-benders.com with a detailed description to attempt
-          resolution.
+          <span className="font-medium">15.2 Good-Faith Resolution.</span> Email{" "}
+          <a
+            href="mailto:info@rule-benders.com"
+            className="underline underline-offset-2"
+          >
+            info@rule-benders.com
+          </a>{" "}
+          with a detailed description to attempt resolution.
         </p>
         <p className="mb-2">
           <span className="font-medium">15.3 Binding Arbitration.</span> If
@@ -580,8 +593,14 @@ const LegalDocuments = () => {
         </h2>
         <p className="mb-2">
           <span className="font-medium">17.1 Primary Channel.</span> Submit
-          program-related inquiries and support requests to
-          info@rule-benders.com.
+          program-related inquiries and support requests to{" "}
+          <a
+            href="mailto:info@rule-benders.com"
+            className="underline underline-offset-2"
+          >
+            info@rule-benders.com
+          </a>
+          .
         </p>
         <p className="mb-2">
           <span className="font-medium">17.2 Response Times.</span> We aim to
@@ -697,7 +716,13 @@ const LegalDocuments = () => {
         <h1 className="text-2xl font-bold mt-12 mb-2">Privacy Policy</h1>
         <p className="text-sm text-gray-500 mb-2">Last updated: 16/08/2025</p>
         <p className="mb-6">
-          Contact: <span className="font-medium">info@rule-benders.com</span>
+          Contact:{" "}
+          <a
+            href="mailto:info@rule-benders.com"
+            className="font-medium underline underline-offset-2"
+          >
+            info@rule-benders.com
+          </a>
         </p>
         <p className="mb-6">
           This Privacy Policy explains how Rule Benders collects, uses, shares,
@@ -808,8 +833,14 @@ const LegalDocuments = () => {
           Rights include access, rectification, erasure, restriction, objection,
           portability, and withdraw consent. Marketing opt-out via unsubscribe
           links or by emailing us. Complaints may be lodged with your local
-          supervisory authority. To exercise rights, email
-          info@rule-benders.com. We may require identity verification.
+          supervisory authority. To exercise rights, email{" "}
+          <a
+            href="mailto:info@rule-benders.com"
+            className="underline underline-offset-2"
+          >
+            info@rule-benders.com
+          </a>
+          . We may require identity verification.
         </p>
 
         <h3 className="text-lg font-semibold mt-6 mb-2">
@@ -840,7 +871,13 @@ const LegalDocuments = () => {
         <h1 className="text-2xl font-bold mt-12 mb-2">Refund Policy</h1>
         <p className="text-sm text-gray-500 mb-2">Last updated: 16/08/2025</p>
         <p className="mb-6">
-          Contact: <span className="font-medium">info@rule-benders.com</span>
+          Contact:{" "}
+          <a
+            href="mailto:info@rule-benders.com"
+            className="font-medium underline underline-offset-2"
+          >
+            info@rule-benders.com
+          </a>
         </p>
 
         <h3 className="text-lg font-semibold mt-6 mb-2">1. General</h3>
@@ -850,8 +887,14 @@ const LegalDocuments = () => {
             14-day refund window from purchase.
           </li>
           <li>
-            Requests must be made in writing to info@rule-benders.com within 14
-            days.
+            Requests must be made in writing to{" "}
+            <a
+              href="mailto:info@rule-benders.com"
+              className="underline underline-offset-2"
+            >
+              info@rule-benders.com
+            </a>{" "}
+            within 14 days.
           </li>
           <li>
             Approved refunds are processed to the original payment method within
@@ -937,8 +980,8 @@ const LegalDocuments = () => {
             automatically.
           </li>
           <li>
-            Cancellation. Email with subject "MEMBERSHIP CANCELLATION" at least
-            24 hours before renewal to avoid next-period charge.
+            Cancellation. Email with subject &quot;MEMBERSHIP CANCELLATION&quot;
+            at least 24 hours before renewal to avoid next-period charge.
           </li>
           <li>
             Payment Failures. Overdue accounts may be paused or terminated and
