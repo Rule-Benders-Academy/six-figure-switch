@@ -354,13 +354,17 @@ const Checkout = () => {
             </button>
 
             {/* Installment Button */}
-            <button
-              onClick={openInstallmentCheckout}
-              disabled={!paddle}
-              className="mt-4 w-full px-8 py-4 rounded-xl bg-gradient-to-r from-[#6DD5FA] via-[#2980B9] to-[#2C3E50] text-white font-bold text-lg shadow-lg hover:opacity-90 transition disabled:opacity-50"
-            >
-              {paddle ? "Pay in Installments ($299 x 3)" : "Loading..."}
-            </button>
+            <div className="mt-6 w-full">
+              <button
+                disabled
+                className="w-full px-8 py-4 rounded-xl bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 text-white font-bold text-lg shadow-lg opacity-70 cursor-not-allowed"
+              >
+                Pay in Installments ($299 x 3)
+              </button>
+              <p className="mt-2 text-center text-sm text-gray-500 italic">
+                Installment plan is coming soon
+              </p>
+            </div>
           </div>
         </div>
       </section>
