@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Gift, Package } from "lucide-react";
 import { initializePaddle, Paddle } from "@paddle/paddle-js";
 import LandingFooter from "@/_components/LandingFooter/LandingFooter";
