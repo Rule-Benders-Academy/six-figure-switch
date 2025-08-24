@@ -47,7 +47,7 @@ const LandingPage = () => {
   // const [isOpen, setIsOpen] = useState(false);
 
   // Gating state (30 minutes)
-  const THRESHOLD_SECONDS = 1800; // 30 minutes
+  const THRESHOLD_SECONDS = 10; // 30 minutes
   const [showIframe, setShowIframe] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(THRESHOLD_SECONDS);
   const [unlocked, setUnlocked] = useState(false);
@@ -241,7 +241,7 @@ const LandingPage = () => {
                   <hr className="h-[6px] w-[90%] mx-auto mt-4 bg-white" />
 
                   <p className="text-lg md:text-2xl lg:leading-[100%] mt-4 lg:mt-8 mx-auto text-center max-w-3xl">
-                    From there, you could be on the path to earning
+                    <div>From there, you could be on the path to earning</div>
                     <span className="relative inline-block my-4">
                       {/* Left star */}
                       <Image

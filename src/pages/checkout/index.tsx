@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -114,6 +115,11 @@ const Checkout = () => {
               transactionId
             );
 
+            const isMcRedirect =
+              new URLSearchParams(window.location.search).get(
+                "mc-redirect"
+              ) === "true";
+            
             if (customerEmail) {
               const zapUrl = new URL(
                 "https://hooks.zapier.com/hooks/catch/23549193/utohh21/"
@@ -124,11 +130,53 @@ const Checkout = () => {
               zapUrl.searchParams.set("transaction_id", transactionId);
               zapUrl.searchParams.set("trigger", "six-figure-switch-success");
 
+              // Add separate field if from masterclass
+              if (isMcRedirect) {
+                zapUrl.searchParams.set("from_masterclass", "true");
+              }
+              
+
               const img = new Image();
               img.src = zapUrl.toString();
 
-              window.location.href =
+              // --- NEW: use URL param ?mc-redirect=true as the switch ---
+
+              // If mc-redirect=true, fire $699 Purchase immediately (Pixel must be loaded on this page)
+              if (
+                isMcRedirect &&
+                typeof window !== "undefined" &&
+                typeof (window as any).fbq === "function"
+              ) {
+                try {
+                  if (customerEmail) {
+                    (window as any).fbq("init", "740601925279946", {
+                      em: customerEmail.trim().toLowerCase(),
+                    });
+                  }
+                  (window as any).fbq(
+                    "track",
+                    "Purchase",
+                    { value: 699, currency: "USD" },
+                    { eventID: transactionId }
+                  );
+                  console.log(
+                    "Meta Purchase $699 fired for tx:",
+                    transactionId
+                  );
+                } catch (e) {
+                  console.error("Meta $699 Purchase firing error:", e);
+                }
+              }
+
+              // Build thank-you URL, preserving mc-redirect when present
+              const baseTY =
                 "https://sixfigureswitch.rule-benders.com/thank-you";
+              const tyUrl = new URL(baseTY);
+              tyUrl.searchParams.set("transaction_id", transactionId);
+              tyUrl.searchParams.set("customer_email", customerEmail);
+              if (isMcRedirect) tyUrl.searchParams.set("mc-redirect", "true");
+
+              window.location.href = tyUrl.toString();
             }
           }
         },

@@ -124,8 +124,8 @@ const LandingPage = () => {
                 </h2>
                 <hr className="h-[6px] w-[90%] mx-auto mt-4 bg-white" />
 
-                <p className="text-lg md:text-2xl lg:leading-[100%] mt-4 lg:mt-8 mx-auto text-center max-w-3xl">
-                  From there, you could be on the path to earning
+                <div className="text-lg md:text-2xl lg:leading-[100%] mt-4 lg:mt-8 mx-auto text-center max-w-3xl">
+                  <div>From there, you could be on the path to earning</div>
                   <span className="relative inline-block my-4">
                     {/* Left star */}
                     <Image
@@ -148,7 +148,7 @@ const LandingPage = () => {
                   </span>
                   <br />
                   while choosing when you work and when you don’t.
-                </p>
+                </div>
               </div>
               <div
                 className=" absolute top-0 left-0 w-full h-full border border-[#3C3C3C] bg-[#FFFFFF14] rounded-md z-[-1]"
@@ -270,7 +270,7 @@ const LandingPage = () => {
                 >
                   {play ? (
                     <iframe
-                      key="video" 
+                      key="video"
                       className="absolute inset-0 w-full h-full"
                       src="https://drive.google.com/file/d/1GAEBScKleT3X63sstMNE_Ksvp1hSJ0nn/preview"
                       title="How We Do It"
@@ -305,9 +305,7 @@ const LandingPage = () => {
                   )}
                 </div>
               </div>
-              <GradientButton>
-                I’m in – lets Go!
-              </GradientButton>
+              <GradientButton>I’m in – lets Go!</GradientButton>
             </div>
 
             <div className=" px-4 sm:px-8 md:px-16 lg:px-24 pt-10 lg:pt-24">

@@ -1,14 +1,21 @@
-import React from 'react';
+import React from "react";
 
 interface GradientButtonProps {
   children: React.ReactNode;
   className?: string;
 }
 
-const GradientButton: React.FC<GradientButtonProps> = ({ children, className }) => {
-
+const GradientButton: React.FC<GradientButtonProps> = ({
+  children,
+  className,
+}) => {
   const handleClick = () => {
-    window.location.href = "/checkout";
+    const currentPath = window.location.pathname;
+    const redirectUrl = currentPath.endsWith("/masterclass-video")
+      ? "/checkout?mc-redirect=true"
+      : "/checkout";
+
+    window.location.href = redirectUrl;
   };
 
   return (
