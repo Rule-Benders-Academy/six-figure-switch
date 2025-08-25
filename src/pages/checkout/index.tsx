@@ -95,100 +95,105 @@ const Checkout = () => {
   const [lastName, setLastName] = useState("");
   const [nameError, setNameError] = useState("");
 
-  useEffect(() => {
-    async function setupPaddle() {
-      const paddleInstance = await initializePaddle({
-        token: "live_864edaa6124c0e65de51e1034c9",
-        eventCallback: async function (result) {
-          if (result.name === "checkout.completed") {
-            const customerEmail = result.data?.customer?.email ?? "";
-            const transactionId = result.data?.id ?? "";
+useEffect(() => {
+  function delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
-            console.log(
-              "Paddle customer email:",
-              customerEmail,
-              "First Name:",
-              firstName,
-              "Last Name:",
-              lastName,
-              "Transaction ID:",
-              transactionId
+  async function setupPaddle() {
+    const paddleInstance = await initializePaddle({
+      token: "live_864edaa6124c0e65de51e1034c9",
+      eventCallback: async function (result) {
+        if (result.name === "checkout.completed") {
+          const customerEmail = result.data?.customer?.email ?? "";
+          const transactionId = result.data?.id ?? "";
+
+          console.log(
+            "Paddle customer email:",
+            customerEmail,
+            "First Name:",
+            firstName,
+            "Last Name:",
+            lastName,
+            "Transaction ID:",
+            transactionId
+          );
+
+          const isMcRedirect =
+            new URLSearchParams(window.location.search).get("mc-redirect") ===
+            "true";
+
+          if (customerEmail) {
+            const zapUrl = new URL(
+              "https://hooks.zapier.com/hooks/catch/23549193/utohh21/"
             );
+            zapUrl.searchParams.set("first_name", firstName);
+            zapUrl.searchParams.set("last_name", lastName);
+            zapUrl.searchParams.set("email", customerEmail);
+            zapUrl.searchParams.set("transaction_id", transactionId);
+            zapUrl.searchParams.set("trigger", "six-figure-switch-success");
 
-            const isMcRedirect =
-              new URLSearchParams(window.location.search).get(
-                "mc-redirect"
-              ) === "true";
-            
-            if (customerEmail) {
-              const zapUrl = new URL(
-                "https://hooks.zapier.com/hooks/catch/23549193/utohh21/"
-              );
-              zapUrl.searchParams.set("first_name", firstName);
-              zapUrl.searchParams.set("last_name", lastName);
-              zapUrl.searchParams.set("email", customerEmail);
-              zapUrl.searchParams.set("transaction_id", transactionId);
-              zapUrl.searchParams.set("trigger", "six-figure-switch-success");
-
-              // Add separate field if from masterclass
-              if (isMcRedirect) {
-                zapUrl.searchParams.set("from_masterclass", "true");
-              }
-              
-
-              const img = new Image();
-              img.src = zapUrl.toString();
-
-              // --- NEW: use URL param ?mc-redirect=true as the switch ---
-
-              // If mc-redirect=true, fire $699 Purchase immediately (Pixel must be loaded on this page)
-              if (
-                isMcRedirect &&
-                typeof window !== "undefined" &&
-                typeof (window as any).fbq === "function"
-              ) {
-                try {
-                  if (customerEmail) {
-                    (window as any).fbq("init", "740601925279946", {
-                      em: customerEmail.trim().toLowerCase(),
-                    });
-                  }
-                  (window as any).fbq(
-                    "track",
-                    "Purchase",
-                    { value: 699, currency: "USD" },
-                    { eventID: transactionId }
-                  );
-                  console.log(
-                    "Meta Purchase $699 fired for tx:",
-                    transactionId
-                  );
-                } catch (e) {
-                  console.error("Meta $699 Purchase firing error:", e);
-                }
-              }
-
-              // Build thank-you URL, preserving mc-redirect when present
-              const baseTY =
-                "https://sixfigureswitch.rule-benders.com/thank-you";
-              const tyUrl = new URL(baseTY);
-              tyUrl.searchParams.set("transaction_id", transactionId);
-              tyUrl.searchParams.set("customer_email", customerEmail);
-              if (isMcRedirect) tyUrl.searchParams.set("mc-redirect", "true");
-
-              window.location.href = tyUrl.toString();
+            if (isMcRedirect) {
+              zapUrl.searchParams.set("from_masterclass", "true");
             }
+
+            try {
+              await fetch(zapUrl.toString(), {
+                method: "GET",
+                keepalive: true,
+              });
+              console.log("Zapier webhook fired ✅");
+            } catch (e) {
+              console.error("Zapier webhook error:", e);
+            }
+
+            // Fire Meta Pixel Purchase if from masterclass
+            if (
+              isMcRedirect &&
+              typeof window !== "undefined" &&
+              typeof (window as any).fbq === "function"
+            ) {
+              try {
+                if (customerEmail) {
+                  (window as any).fbq("init", "740601925279946", {
+                    em: customerEmail.trim().toLowerCase(),
+                  });
+                }
+                (window as any).fbq(
+                  "track",
+                  "Purchase",
+                  { value: 699, currency: "USD" },
+                  { eventID: transactionId }
+                );
+                console.log("Meta Purchase $699 fired for tx:", transactionId);
+              } catch (e) {
+                console.error("Meta $699 Purchase firing error:", e);
+              }
+            }
+
+            // ⏳ Async delay before redirect
+            await delay(3000);
+
+            // Build thank-you URL, preserving mc-redirect
+            const baseTY = "https://sixfigureswitch.rule-benders.com/thank-you";
+            const tyUrl = new URL(baseTY);
+            tyUrl.searchParams.set("transaction_id", transactionId);
+            tyUrl.searchParams.set("customer_email", customerEmail);
+            if (isMcRedirect) tyUrl.searchParams.set("mc-redirect", "true");
+
+            window.location.href = tyUrl.toString();
           }
-        },
-      });
+        }
+      },
+    });
 
-      if (paddleInstance) {
-        setPaddle(paddleInstance);
-      }
+    if (paddleInstance) {
+      setPaddle(paddleInstance);
     }
+  }
 
-    setupPaddle();
-  }, [firstName, lastName]);
+  setupPaddle();
+}, [firstName, lastName]);
 
   const openCheckout = () => {
     if (!firstName.trim() || !lastName.trim()) {
