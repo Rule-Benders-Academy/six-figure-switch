@@ -1,7 +1,7 @@
 "use client";
 
 import Drawer from "../../_components/Drawer/Drawer";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import HeroBg from "@/_assets/landing-hero-bg.png";
 import downArrow from "@/_assets/down-arrow.svg";
@@ -43,25 +43,60 @@ const points = [
   "You just need to position yourself—and help others see you—as an independent consultant.",
 ];
 
-const LandingPage = () => {
-  // const [isOpen, setIsOpen] = useState(false);
+/** Play button overlay */
+const PlayButton = ({
+  onClick,
+  label = "Play the class",
+}: {
+  onClick: () => void;
+  label?: string;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    aria-label={label}
+    className="group relative inline-flex items-center justify-center"
+  >
+    {/* soft pulse */}
+    <span className="absolute inset-0 rounded-full bg-[#FFA500]/25 blur-md opacity-70 group-hover:opacity-90 transition-opacity animate-ping" />
+    {/* circle */}
+    <span className="relative h-16 w-16 md:h-20 md:w-20 rounded-full bg-white/10 backdrop-blur ring-1 ring-white/40 hover:bg-white/20 transition-colors flex items-center justify-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-7 w-7 md:h-8 md:w-8 text-white transition-transform group-hover:scale-105"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+      >
+        <path d="M8 5v14l11-7z" />
+      </svg>
+    </span>
+  </button>
+);
 
+const LandingPage = () => {
   // Gating state (30 minutes)
-  const THRESHOLD_SECONDS = 10; // 30 minutes
+  const THRESHOLD_SECONDS = 1800; // 30 minutes
   const [showIframe, setShowIframe] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(THRESHOLD_SECONDS);
   const [unlocked, setUnlocked] = useState(false);
+  const [ready, setReady] = useState(false); // fade-in when Vimeo is ready
+  const timerRef = useRef<number | null>(null);
 
   const handleStartVideo = () => {
     if (!showIframe) setShowIframe(true);
-    if (!unlocked) {
+
+    // prevent multiple timers
+    if (!unlocked && timerRef.current === null) {
       let s = THRESHOLD_SECONDS;
       setSecondsLeft(s);
-      const id = setInterval(() => {
+      timerRef.current = window.setInterval(() => {
         s -= 1;
         setSecondsLeft(s);
         if (s <= 0) {
-          clearInterval(id);
+          if (timerRef.current) {
+            window.clearInterval(timerRef.current);
+            timerRef.current = null;
+          }
           setUnlocked(true);
         }
       }, 1000);
@@ -84,13 +119,13 @@ const LandingPage = () => {
     `;
     document.head.appendChild(script2);
 
-    // // openDrawer listener
-    // const openHandler = () => setIsOpen(true);
-    // window.addEventListener("openDrawer", openHandler);
-
-    // return () => {
-    //   window.removeEventListener("openDrawer", openHandler);
-    // };
+    return () => {
+      // cleanup timer if user navigates away
+      if (timerRef.current) {
+        window.clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
   }, []);
 
   return (
@@ -128,31 +163,35 @@ const LandingPage = () => {
             <div className="relative lg:w-[90%] border-2 border-[#747373] bg-[#FFFFFF12] rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:mt-2 mx-auto">
               <div className="p-2 lg:p-4">
                 <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#141314]">
+                  {/* Overlay play button BEFORE video starts */}
                   {!showIframe && (
-                    <button
-                      type="button"
-                      onClick={handleStartVideo}
-                      className="absolute inset-0 flex items-center justify-center"
-                    >
-                      <span className="rounded-xl border border-white/40 px-4 py-2 bg-black/40 backdrop-blur text-sm md:text-base font-semibold tracking-wide">
-                        Click to start the video
-                      </span>
-                    </button>
+                    <div className="absolute inset-0 grid place-items-center">
+                      <PlayButton onClick={handleStartVideo} />
+                      <div className="absolute bottom-4 left-0 right-0 text-center">
+                        <span className="rounded-xl border border-white/30 px-3 py-1.5 bg-black/30 backdrop-blur text-xs md:text-sm text-white/90">
+                          Click to start the video
+                        </span>
+                      </div>
+                    </div>
                   )}
 
+                  {/* Vimeo Player — fades in when loaded */}
                   {showIframe && (
-                    <div className="relative w-full h-full">
+                    <>
+                      {/* pre-black while loading to avoid flicker */}
+                      {!ready && <div className="absolute inset-0 bg-black" />}
                       <iframe
-                        className="absolute inset-0 w-full h-full"
-                        src="https://drive.google.com/file/d/1WuzAs3yFSyN2wGGD8LsMrcRmX2pXLZMM/preview"
-                        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                        key="video"
+                        className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                          ready ? "opacity-100" : "opacity-0"
+                        }`}
+                        src="https://player.vimeo.com/video/1113013910?autoplay=1&muted=1&background=1&loop=1&playsinline=1"
+                        title="How We Do It"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                        onLoad={() => setReady(true)}
                       />
-                      {/* Overlay to block fullscreen button */}
-                      <div
-                        className="absolute top-0 right-0 bg-transparent"
-                        style={{ width: "50px", height: "50px" }}
-                      />
-                    </div>
+                    </>
                   )}
                 </div>
                 <p className="text-center text-xs md:text-sm opacity-80 mt-3">
@@ -221,15 +260,6 @@ const LandingPage = () => {
                 </span>
               </p>
 
-              {/* <p className="text-lg md:text-2xl lg:leading-[100%]">
-                Did you know that you could be earning
-                <br />
-                <span className="text-[#FFA500] font-bold underline">
-                  3 x more money
-                </span>{" "}
-                for exactly the same skill set you already have?
-              </p> */}
-
               <div className="relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[30px] mt-7 md:mt-9 lg:mt-10 py-7 md:py-[80px] lg:py-14 lg:w-[90%] mx-auto">
                 <div className="px-4 sm:px-6 md:px-10">
                   <p className="text-2xl lg:text-[44px]">
@@ -249,12 +279,10 @@ const LandingPage = () => {
                         alt="Star"
                         className="absolute left-0 top-1/2 w-6 h-6 transform -translate-x-1/2 -translate-y-1/2"
                       />
-
                       {/* Badge */}
                       <span className="text-[#FFA500] text-2xl font-bold py-2 px-6 border-2 border-[#FFA500] bg-[#141314] rounded-[10px]">
                         $1,400/day (and more)
                       </span>
-
                       {/* Right star */}
                       <Image
                         src={Star}

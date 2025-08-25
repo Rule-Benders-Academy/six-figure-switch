@@ -266,8 +266,7 @@ const LandingPage = () => {
               {/* Responsive, watchable sizes */}
               <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12">
                 <div
-                  className="relative rounded-[17px] md:rounded-[35px] lg:rounded-[15px] overflow-hidden
-      h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black"
+                  className="relative rounded-[17px] md:rounded-[35px] lg:rounded-[15px] overflow-hidden h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black"
                 >
                   {/* Video */}
                   {play && (
