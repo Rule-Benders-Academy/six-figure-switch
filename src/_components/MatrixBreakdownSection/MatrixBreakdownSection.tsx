@@ -99,11 +99,8 @@ const MatrixBreakdownSection: React.FC = () => {
           </div>
 
           {/* Responsive, watchable sizes */}
-          <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12">
-            <div
-              className="relative rounded-[17px] md:rounded-[35px] lg:rounded-[15px] overflow-hidden
-      h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black"
-            >
+          <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12 ">
+            <div className="relative md:rounded-[35px] lg:rounded-[15px] overflow-hiddenh-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black">
               {/* Video */}
               {play && (
                 <iframe
@@ -132,9 +129,9 @@ const MatrixBreakdownSection: React.FC = () => {
                     alt="How We Do It thumbnail"
                     fill
                     priority
-                    className="object-cover will-change-transform transform transition-transform duration-500 group-hover:scale-[1.02]"
+                    className="object-cover will-change-transform transform transition-transform duration-500 group-hover:scale-[1.02] md:rounded-[35px]"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="absolute inset-0 flex items-center justify-center md:rounded-[35px]">
                     <div className="bg-black/50 rounded-full p-4 transition-transform duration-300 group-hover:scale-105">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
