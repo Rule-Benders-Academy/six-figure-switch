@@ -1,9 +1,16 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Script from "next/script";
+import { useEffect } from "react";
+import { Crisp } from "crisp-sdk-web";
 
 /* eslint-disable @next/next/no-img-element */
 export default function App({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    // Initialize Crisp once
+    Crisp.configure("92580adf-bda9-44c7-a1ce-a83b917cea7b");
+  }, []);
+
   return (
     <>
       {/* Meta Pixel Script */}
@@ -31,27 +38,8 @@ export default function App({ Component, pageProps }: AppProps) {
         dangerouslySetInnerHTML={{
           __html: `<noscript>
             <img height="1" width="1" style="display:none"
-            src="https://www.facebook.com/tr?id=740601925279946&ev=PageView&noscript=1"/>
+              src="https://www.facebook.com/tr?id=740601925279946&ev=PageView&noscript=1" />
           </noscript>`,
-        }}
-      />
-
-      {/* Crisp Chat */}
-      <Script
-        id="crisp-chat"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.$crisp = [];
-            window.CRISP_WEBSITE_ID = "92580adf-bda9-44c7-a1ce-a83b917cea7b";
-            (function () {
-              var d = document;
-              var s = d.createElement("script");
-              s.src = "https://client.crisp.chat/l.js";
-              s.async = 1;
-              d.getElementsByTagName("head")[0].appendChild(s);
-            })();
-          `,
         }}
       />
 
