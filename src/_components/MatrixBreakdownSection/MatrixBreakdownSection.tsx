@@ -6,6 +6,8 @@ import MethodIcon from "../../_assets/metrix-method-icon.png";
 import MarketIcon from "../../_assets/metrix-market-icon.png";
 import BtnIcon from "../../_assets/metrix-btn-icon.svg";
 import GradientButton from "../GradientButton/GradientButton";
+import { useState } from "react";
+import Thumbnail from "@/_assets/thubnail-2.png";
 
 const methods = [
   {
@@ -24,8 +26,13 @@ const methods = [
     description: "Go to market and secure your first contract",
   },
 ];
+;
 
 const MatrixBreakdownSection: React.FC = () => {
+
+  
+  const [play, setPlay] = useState(false);
+  const [ready, setReady] = useState(false);
   return (
     <section className="bg-black text-white pb-16 space-y-16">
       <div className="bg-gradient-to-b from-[#434040] to-[#000000] pt-10 pb-28 md:pt-20 md:pb-40 mb-32 relative text-center">
@@ -91,12 +98,57 @@ const MatrixBreakdownSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="w-full md:w-[80%] aspect-video rounded-[17px] md:rounded-3xl lg:rounded-[32.49px] mt-5 md:mt-0 overflow-hidden">
-            <iframe
-              src="https://drive.google.com/file/d/1Luh5WYpKophEQtbUoGQ_Yz8VqlDiZa3k/preview"
-              allow="autoplay"
-              className="w-full h-full rounded-[17px] md:rounded-3xl lg:rounded-[32.49px] border-0"
-            ></iframe>
+          {/* Responsive, watchable sizes */}
+          <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12">
+            <div
+              className="relative rounded-[17px] md:rounded-[35px] lg:rounded-[15px] overflow-hidden
+      h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black"
+            >
+              {/* Video */}
+              {play && (
+                <iframe
+                  key="video"
+                  className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                    ready ? "opacity-100" : "opacity-0"
+                  }`}
+                  src="https://player.vimeo.com/video/1113012539?autoplay=1&muted=1&background=1&loop=1&playsinline=1"
+                  title="How We Do It"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                  onLoad={() => setReady(true)}
+                />
+              )}
+
+              {/* Thumbnail layer (shown until video is ready) */}
+              {!ready && (
+                <button
+                  type="button"
+                  aria-label="Play video"
+                  onClick={() => setPlay(true)}
+                  className="absolute inset-0 w-full h-full cursor-pointer group"
+                >
+                  <Image
+                    src={Thumbnail}
+                    alt="How We Do It thumbnail"
+                    fill
+                    priority
+                    className="object-cover will-change-transform transform transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="bg-black/50 rounded-full p-4 transition-transform duration-300 group-hover:scale-105">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-12 w-12 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                </button>
+              )}
+            </div>
           </div>
         </div>
 

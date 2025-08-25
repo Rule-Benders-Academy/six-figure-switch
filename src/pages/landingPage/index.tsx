@@ -47,7 +47,8 @@ const points = [
 
 
 const LandingPage = () => {
-   const [play, setPlay] = useState(false);
+  const [play, setPlay] = useState(false);
+  const [ready, setReady] = useState(false);
     useEffect(() => {
       // GA script
       const script1 = document.createElement("script");
@@ -266,31 +267,40 @@ const LandingPage = () => {
               <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12">
                 <div
                   className="relative rounded-[17px] md:rounded-[35px] lg:rounded-[15px] overflow-hidden
-          h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px]"
+      h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black"
                 >
-                  {play ? (
+                  {/* Video */}
+                  {play && (
                     <iframe
                       key="video"
-                      className="absolute inset-0 w-full h-full"
-                      src="https://drive.google.com/file/d/1GAEBScKleT3X63sstMNE_Ksvp1hSJ0nn/preview"
+                      className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                        ready ? "opacity-100" : "opacity-0"
+                      }`}
+                      src="https://player.vimeo.com/video/1113015239?autoplay=1&muted=1&background=1&loop=1&playsinline=1"
                       title="How We Do It"
-                      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
+                      allow="autoplay; fullscreen; picture-in-picture"
                       allowFullScreen
+                      onLoad={() => setReady(true)}
                     />
-                  ) : (
-                    <div
-                      className="absolute inset-0 w-full h-full cursor-pointer"
+                  )}
+
+                  {/* Thumbnail layer (shown until video is ready) */}
+                  {!ready && (
+                    <button
+                      type="button"
+                      aria-label="Play video"
                       onClick={() => setPlay(true)}
+                      className="absolute inset-0 w-full h-full cursor-pointer group"
                     >
                       <Image
                         src={Thumbnail}
                         alt="How We Do It thumbnail"
                         fill
-                        className="object-cover"
                         priority
+                        className="object-cover will-change-transform transform transition-transform duration-500 group-hover:scale-[1.02]"
                       />
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="bg-black bg-opacity-50 rounded-full p-4">
+                        <div className="bg-black/50 rounded-full p-4 transition-transform duration-300 group-hover:scale-105">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-12 w-12 text-white"
@@ -301,10 +311,11 @@ const LandingPage = () => {
                           </svg>
                         </div>
                       </div>
-                    </div>
+                    </button>
                   )}
                 </div>
               </div>
+
               <GradientButton>I’m in – lets Go!</GradientButton>
             </div>
 
