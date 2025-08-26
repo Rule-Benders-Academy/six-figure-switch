@@ -1,4 +1,5 @@
-import React from "react";
+// MatrixBreakdownSection.tsx
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import bgCurve from "../../_assets/Ellipse-bg.png";
 import MindsetIcon from "../../_assets/metrix-mindset-icon.png";
@@ -6,8 +7,13 @@ import MethodIcon from "../../_assets/metrix-method-icon.png";
 import MarketIcon from "../../_assets/metrix-market-icon.png";
 import BtnIcon from "../../_assets/metrix-btn-icon.svg";
 import GradientButton from "../GradientButton/GradientButton";
-import { useState } from "react";
 import Thumbnail from "@/_assets/thubnail-2.png";
+
+declare global {
+  interface Window {
+    Vimeo?: any;
+  }
+}
 
 const methods = [
   {
@@ -26,13 +32,77 @@ const methods = [
     description: "Go to market and secure your first contract",
   },
 ];
-;
 
 const MatrixBreakdownSection: React.FC = () => {
-
-  
   const [play, setPlay] = useState(false);
   const [ready, setReady] = useState(false);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
+
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const playerRef = useRef<any>(null);
+
+  // Vimeo API
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.Vimeo?.Player) return;
+    const s = document.createElement("script");
+    s.src = "https://player.vimeo.com/api/player.js";
+    s.async = true;
+    document.head.appendChild(s);
+    return () => {
+      if (s.parentNode) s.parentNode.removeChild(s);
+    };
+  }, []);
+
+  const handleStart = async () => {
+    setPlay(true);
+    requestAnimationFrame(async () => {
+      if (!iframeRef.current || !window.Vimeo?.Player) return;
+      playerRef.current = new window.Vimeo.Player(iframeRef.current);
+      try {
+        await playerRef.current.ready();
+        await playerRef.current.setMuted(false);
+        setMuted(false);
+        await playerRef.current.setVolume(1);
+        await playerRef.current.play();
+        setIsPlaying(true);
+        playerRef.current.on("play", () => setIsPlaying(true));
+        playerRef.current.on("pause", () => setIsPlaying(false));
+        playerRef.current.on("volumechange", async () => {
+          try {
+            const m = await playerRef.current.getMuted();
+            setMuted(m);
+          } catch {}
+        });
+      } catch (e) {
+        console.warn("Vimeo init failed:", e);
+      }
+    });
+  };
+
+  const togglePlay = async () => {
+    if (!playerRef.current) return;
+    try {
+      const paused = await playerRef.current.getPaused();
+      if (paused) await playerRef.current.play();
+      else await playerRef.current.pause();
+    } catch (e) {
+      console.warn("togglePlay failed:", e);
+    }
+  };
+
+  const toggleMute = async () => {
+    if (!playerRef.current) return;
+    try {
+      await playerRef.current.setMuted(!muted);
+      setMuted(!muted);
+    } catch (e) {
+      console.warn("toggleMute failed:", e);
+    }
+  };
+
   return (
     <section className="bg-black text-white pb-16 space-y-16">
       <div className="bg-gradient-to-b from-[#434040] to-[#000000] pt-10 pb-28 md:pt-20 md:pb-40 mb-32 relative text-center">
@@ -54,6 +124,7 @@ const MatrixBreakdownSection: React.FC = () => {
           }}
         />
       </div>
+
       <div className="px-4 sm:px-8 md:px-16 lg:px-24">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12 text-center relative z-10 -top-[200px] md:-top-[140px] lg:w-[80%] mx-auto">
           {methods.map((method, index) => (
@@ -98,35 +169,34 @@ const MatrixBreakdownSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Responsive, watchable sizes */}
+          {/* Video block */}
           <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12 ">
-            <div className="relative md:rounded-[35px] lg:rounded-[15px] overflow-hiddenh-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black">
-              {/* Video */}
+            <div className="relative md:rounded-[35px] lg:rounded-[15px] overflow-hidden h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black">
               {play && (
                 <iframe
+                  ref={iframeRef}
                   key="video"
                   className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
                     ready ? "opacity-100" : "opacity-0"
-                  }`}
-                  src="https://player.vimeo.com/video/1113012539?autoplay=1&loop=1&playsinline=1"
-                  title="How We Do It"
+                  } pointer-events-none`} // mobile tap fix
+                  src="https://player.vimeo.com/video/1113012539?autoplay=1&loop=1&muted=1&background=1&playsinline=1"
+                  title="Method Walkthrough"
                   allow="autoplay; fullscreen; picture-in-picture"
                   allowFullScreen
                   onLoad={() => setReady(true)}
                 />
               )}
 
-              {/* Thumbnail layer (shown until video is ready) */}
               {!ready && (
                 <button
                   type="button"
                   aria-label="Play video"
-                  onClick={() => setPlay(true)}
+                  onClick={handleStart}
                   className="absolute inset-0 w-full h-full cursor-pointer group"
                 >
                   <Image
                     src={Thumbnail}
-                    alt="How We Do It thumbnail"
+                    alt="Method video thumbnail"
                     fill
                     priority
                     className="object-cover will-change-transform transform transition-transform duration-500 group-hover:scale-[1.02] md:rounded-[35px]"
@@ -144,6 +214,25 @@ const MatrixBreakdownSection: React.FC = () => {
                     </div>
                   </div>
                 </button>
+              )}
+
+              {ready && (
+                <div className="absolute bottom-3 right-3 z-20 flex gap-2 pointer-events-auto">
+                  <button
+                    onClick={togglePlay}
+                    className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                    aria-label={isPlaying ? "Pause video" : "Play video"}
+                  >
+                    {isPlaying ? "⏸ Pause" : "▶ Play"}
+                  </button>
+                  <button
+                    onClick={toggleMute}
+                    className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                    aria-label={muted ? "Unmute video" : "Mute video"}
+                  >
+                    {muted ? "🔊 Unmute" : "🔇 Mute"}
+                  </button>
+                </div>
               )}
             </div>
           </div>

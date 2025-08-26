@@ -1,41 +1,47 @@
-"use client"
+// LandingPage.tsx
+"use client";
 
 import Drawer from "../../_components/Drawer/Drawer";
-import React from 'react'
-import Image from 'next/image'
-import HeroBg from '@/_assets/landing-hero-bg.png'
-import downArrow from '@/_assets/down-arrow.svg'
-import CancelIcon from '@/_assets/cancel-red-icon.svg'
-import Person1 from '@/_assets/switch-banner-img-1.png'
-import Person2 from '@/_assets/switch-banner-img-2.png'
-import Person3 from '@/_assets/switch-banner-img-3.png'
-import Person4 from '@/_assets/switch-banner-img-4.png'
+import React, { useEffect, useState, useRef } from "react";
+import Image from "next/image";
+import HeroBg from "@/_assets/landing-hero-bg.png";
+import downArrow from "@/_assets/down-arrow.svg";
+import CancelIcon from "@/_assets/cancel-red-icon.svg";
+import Person1 from "@/_assets/switch-banner-img-1.png";
+import Person2 from "@/_assets/switch-banner-img-2.png";
+import Person3 from "@/_assets/switch-banner-img-3.png";
+import Person4 from "@/_assets/switch-banner-img-4.png";
 import Thumbnail from "@/_assets/tumbnail.png";
 import Star from "@/_assets/star-hero.png";
-import DigitalClock from '@/_components/DigitalClock/DigitalClock'
-import SixFigureSwitch from '@/_components/SixFigureSwitch/SixFigureSwitch'
-import GradientButton from '@/_components/GradientButton/GradientButton'
-import FounderIntro from '@/_components/FounderIntro/FounderIntro'
-import TrustedCompanies from '@/_components/TrustedCompanies/TrustedCompanies'
-import MatrixSection from '@/_components/MatrixSection/MatrixSection'
-import TestimonialSection from '@/_components/TestimonialSection/TestimonialSection'
-import GameChangedSection from '@/_components/GameChangedSection/GameChangedSection'
-import LandingAboutSection from '@/_components/LandingAbout/LandingAbout'
-import MakeTheSwitch from '@/_components/MakeTheSwitch/MakeTheSwitch'
-import EmploymentTrap from '@/_components/EmploymentTrap/EmploymentTrap'
-import MatrixBreakdownSection from '@/_components/MatrixBreakdownSection/MatrixBreakdownSection'
-import SixFigureSwitchSection from '@/_components/SixFigureSwitchSection/SixFigureSwitchSection'
-import EarningsSection from '@/_components/EarningsSection/EarningsSection'
-import LandingFaqSection from '@/_components/LandingFaqSection/LandingFaqSection'
-import ComparisonSection from '@/_components/ComparisonSection/ComparisonSection'
-import ConfidenceSection from '@/_components/ConfidenceSection/ConfidenceSection'
-import LandingFooter from '@/_components/LandingFooter/LandingFooter'
-import LearnSystem from '@/_components/LearnSystem/LearnSystem'
-import OurPromise from '@/_components/OurPromise/OurPromise'
-import NotOrdinary from '@/_components/NotOrdinary/NotOrdinary'
-import TransformationTimeline from '@/_components/TransformationTimeline/TransformationTimeline'
-import EarningTimelineSection from '@/_components/EarningTimelineSection/EarningTimelineSection'
-import { useEffect, useState } from "react";
+import DigitalClock from "@/_components/DigitalClock/DigitalClock";
+import SixFigureSwitch from "@/_components/SixFigureSwitch/SixFigureSwitch";
+import GradientButton from "@/_components/GradientButton/GradientButton";
+import FounderIntro from "@/_components/FounderIntro/FounderIntro";
+import TrustedCompanies from "@/_components/TrustedCompanies/TrustedCompanies";
+import MatrixSection from "@/_components/MatrixSection/MatrixSection";
+import TestimonialSection from "@/_components/TestimonialSection/TestimonialSection";
+import GameChangedSection from "@/_components/GameChangedSection/GameChangedSection";
+import LandingAboutSection from "@/_components/LandingAbout/LandingAbout";
+import MakeTheSwitch from "@/_components/MakeTheSwitch/MakeTheSwitch";
+import EmploymentTrap from "@/_components/EmploymentTrap/EmploymentTrap";
+import MatrixBreakdownSection from "@/_components/MatrixBreakdownSection/MatrixBreakdownSection";
+import SixFigureSwitchSection from "@/_components/SixFigureSwitchSection/SixFigureSwitchSection";
+import EarningsSection from "@/_components/EarningsSection/EarningsSection";
+import LandingFaqSection from "@/_components/LandingFaqSection/LandingFaqSection";
+import ComparisonSection from "@/_components/ComparisonSection/ComparisonSection";
+import ConfidenceSection from "@/_components/ConfidenceSection/ConfidenceSection";
+import LandingFooter from "@/_components/LandingFooter/LandingFooter";
+import LearnSystem from "@/_components/LearnSystem/LearnSystem";
+import OurPromise from "@/_components/OurPromise/OurPromise";
+import NotOrdinary from "@/_components/NotOrdinary/NotOrdinary";
+import TransformationTimeline from "@/_components/TransformationTimeline/TransformationTimeline";
+import EarningTimelineSection from "@/_components/EarningTimelineSection/EarningTimelineSection";
+
+declare global {
+  interface Window {
+    Vimeo?: any;
+  }
+}
 
 const points = [
   "You don’t need to build a startup",
@@ -45,47 +51,98 @@ const points = [
   "You just need to position yourself—and help others see you—as an independent consultant.",
 ];
 
-
 const LandingPage = () => {
   const [play, setPlay] = useState(false);
   const [ready, setReady] = useState(false);
-    useEffect(() => {
-      // GA script
-      const script1 = document.createElement("script");
-      script1.src = "https://www.googletagmanager.com/gtag/js?id=G-R7Q2CRPHS8";
-      script1.async = true;
-      document.head.appendChild(script1);
 
-      const script2 = document.createElement("script");
-      script2.innerHTML = `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){ dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-R7Q2CRPHS8');
-      `;
-      document.head.appendChild(script2);
+  // controls
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
 
-      // openDrawer listener
-      // const openHandler = () => setIsOpen(true);
-      // window.addEventListener("openDrawer", openHandler);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const playerRef = useRef<any>(null);
 
-      // return () => {
-      //   window.removeEventListener("openDrawer", openHandler);
-      // };
-    }, []);
-  
-  // const [elapsedTime, setElapsedTime] = useState(0);
+  useEffect(() => {
+    // GA
+    const script1 = document.createElement("script");
+    script1.src = "https://www.googletagmanager.com/gtag/js?id=G-R7Q2CRPHS8";
+    script1.async = true;
+    document.head.appendChild(script1);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setElapsedTime((prev) => prev + 1);
-  //   }, 1000);
+    const script2 = document.createElement("script");
+    script2.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-R7Q2CRPHS8');
+    `;
+    document.head.appendChild(script2);
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    return () => {
+      document.head.removeChild(script1);
+      document.head.removeChild(script2);
+    };
+  }, []);
 
-  // const minutes = Math.floor(elapsedTime / 60);
-  // const seconds = elapsedTime % 60;
+  // Vimeo API
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.Vimeo?.Player) return;
+    const s = document.createElement("script");
+    s.src = "https://player.vimeo.com/api/player.js";
+    s.async = true;
+    document.head.appendChild(s);
+    return () => {
+      if (s.parentNode) s.parentNode.removeChild(s);
+    };
+  }, []);
+
+  const handleStart = async () => {
+    setPlay(true);
+    requestAnimationFrame(async () => {
+      if (!iframeRef.current || !window.Vimeo?.Player) return;
+      playerRef.current = new window.Vimeo.Player(iframeRef.current);
+      try {
+        await playerRef.current.ready();
+        await playerRef.current.setMuted(false);
+        setMuted(false);
+        await playerRef.current.setVolume(1);
+        await playerRef.current.play();
+        setIsPlaying(true);
+        playerRef.current.on("play", () => setIsPlaying(true));
+        playerRef.current.on("pause", () => setIsPlaying(false));
+        playerRef.current.on("volumechange", async () => {
+          try {
+            const m = await playerRef.current.getMuted();
+            setMuted(m);
+          } catch {}
+        });
+      } catch (e) {
+        console.warn("Vimeo init/unmute failed:", e);
+      }
+    });
+  };
+
+  const togglePlay = async () => {
+    if (!playerRef.current) return;
+    try {
+      const paused = await playerRef.current.getPaused();
+      if (paused) await playerRef.current.play();
+      else await playerRef.current.pause();
+    } catch (e) {
+      console.warn("togglePlay failed:", e);
+    }
+  };
+
+  const toggleMute = async () => {
+    if (!playerRef.current) return;
+    try {
+      await playerRef.current.setMuted(!muted);
+      setMuted(!muted);
+    } catch (e) {
+      console.warn("toggleMute failed:", e);
+    }
+  };
 
   return (
     <>
@@ -128,19 +185,14 @@ const LandingPage = () => {
                 <div className="text-lg md:text-2xl lg:leading-[100%] mt-4 lg:mt-8 mx-auto text-center max-w-3xl">
                   <div>From there, you could be on the path to earning</div>
                   <span className="relative inline-block my-4">
-                    {/* Left star */}
                     <Image
                       src={Star}
                       alt="Star"
                       className="absolute left-0 top-1/2 w-6 h-6 transform -translate-x-1/2 -translate-y-1/2"
                     />
-
-                    {/* Badge */}
                     <span className="text-[#FFA500] text-xl font-bold py-2 px-6 border-2 border-[#FFA500] bg-[#141314] rounded-[10px]">
                       $1,400/day (and more)
                     </span>
-
-                    {/* Right star */}
                     <Image
                       src={Star}
                       alt="Star"
@@ -153,10 +205,8 @@ const LandingPage = () => {
               </div>
               <div
                 className=" absolute top-0 left-0 w-full h-full border border-[#3C3C3C] bg-[#FFFFFF14] rounded-md z-[-1]"
-                style={{
-                  filter: "blur(24px)",
-                }}
-              ></div>
+                style={{ filter: "blur(24px)" }}
+              />
             </div>
 
             <div className="flex justify-center pt-4  mt-2">
@@ -168,6 +218,7 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
+
         <div className="bg-gradient-to-b from-[#141314] to-[#272526] h-full">
           <div className="w-[80%] md:w-[36%] mx-auto py-5 md:py-10 lg:py-16 flex flex-col gap-7 md:gap-8">
             {points.map((text, index) => (
@@ -263,19 +314,16 @@ const LandingPage = () => {
                 <br /> see how we do it
               </div>
 
-              {/* Responsive, watchable sizes */}
               <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12">
-                <div
-                  className="relative rounded-[17px] md:rounded-[35px] lg:rounded-[15px] overflow-hidden h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black"
-                >
-                  {/* Video */}
+                <div className="relative rounded-[17px] md:rounded-[35px] lg:rounded-[15px] overflow-hidden h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black">
                   {play && (
                     <iframe
+                      ref={iframeRef}
                       key="video"
                       className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
                         ready ? "opacity-100" : "opacity-0"
-                      }`}
-                      src="https://player.vimeo.com/video/1113015239?autoplay=1&loop=1&playsinline=1"
+                      } pointer-events-none`} // mobile tap fix
+                      src="https://player.vimeo.com/video/1113015239?autoplay=1&loop=1&muted=1&background=1&playsinline=1"
                       title="How We Do It"
                       allow="autoplay; fullscreen; picture-in-picture"
                       allowFullScreen
@@ -283,12 +331,11 @@ const LandingPage = () => {
                     />
                   )}
 
-                  {/* Thumbnail layer (shown until video is ready) */}
                   {!ready && (
                     <button
                       type="button"
                       aria-label="Play video"
-                      onClick={() => setPlay(true)}
+                      onClick={handleStart}
                       className="absolute inset-0 w-full h-full cursor-pointer group"
                     >
                       <Image
@@ -311,6 +358,25 @@ const LandingPage = () => {
                         </div>
                       </div>
                     </button>
+                  )}
+
+                  {ready && (
+                    <div className="absolute bottom-3 right-3 z-20 flex gap-2 pointer-events-auto">
+                      <button
+                        onClick={togglePlay}
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                        aria-label={isPlaying ? "Pause video" : "Play video"}
+                      >
+                        {isPlaying ? "⏸ Pause" : "▶ Play"}
+                      </button>
+                      <button
+                        onClick={toggleMute}
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                        aria-label={muted ? "Unmute video" : "Mute video"}
+                      >
+                        {muted ? "🔊 Unmute" : "🔇 Mute"}
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
@@ -389,6 +455,6 @@ const LandingPage = () => {
       <Drawer />
     </>
   );
-}
+};
 
-export default LandingPage
+export default LandingPage;
