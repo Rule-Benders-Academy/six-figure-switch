@@ -1,5 +1,6 @@
 "use client";
 /* eslint-disable */
+
 import Drawer from "../../_components/Drawer/Drawer";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
@@ -35,7 +36,13 @@ import NotOrdinary from "@/_components/NotOrdinary/NotOrdinary";
 import TransformationTimeline from "@/_components/TransformationTimeline/TransformationTimeline";
 import EarningTimelineSection from "@/_components/EarningTimelineSection/EarningTimelineSection";
 
-/** Soft, animated Play button with pulse */
+declare global {
+  interface Window {
+    Vimeo?: any;
+  }
+}
+
+/** Play button with soft pulse */
 const PlayButton = ({
   onClick,
   label = "Play the class",
@@ -49,9 +56,7 @@ const PlayButton = ({
     aria-label={label}
     className="group relative inline-flex items-center justify-center"
   >
-    {/* halo */}
     <span className="absolute inset-0 rounded-full bg-[#FFA500]/30 blur-lg opacity-70 group-hover:opacity-90 transition-opacity animate-ping" />
-    {/* main circle */}
     <span className="relative h-16 w-16 md:h-20 md:w-20 rounded-full bg-white/10 backdrop-blur ring-1 ring-white/40 hover:bg-white/20 transition-colors flex items-center justify-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -65,12 +70,6 @@ const PlayButton = ({
   </button>
 );
 
-declare global {
-  interface Window {
-    Vimeo?: any;
-  }
-}
-
 const points = [
   "You don’t need to build a startup",
   "You don’t need to grow a huge following",
@@ -79,30 +78,46 @@ const points = [
   "You just need to position yourself—and help others see you—as an independent consultant.",
 ];
 
+const isIOS = () => {
+  if (typeof navigator === "undefined") return false;
+  const ua =
+    navigator.userAgent || navigator.vendor || (window as any).opera || "";
+  const iOS =
+    /iPad|iPhone|iPod/.test(ua) ||
+    // iPadOS 13+ reports as Mac but has touch
+    (navigator.platform === "MacIntel" &&
+      (navigator as any).maxTouchPoints > 1);
+  return iOS;
+};
+
 const LandingPage = () => {
-  /** Gate: must watch 30 minutes */
+  // Gate: must watch 30 minutes
   const THRESHOLD_SECONDS = 1800;
   const [secondsLeft, setSecondsLeft] = useState(THRESHOLD_SECONDS);
   const [unlocked, setUnlocked] = useState(false);
   const gateTimerRef = useRef<number | null>(null);
 
-  /** Vimeo + UI */
+  // Vimeo + UI
   const [showIframe, setShowIframe] = useState(false);
   const [ready, setReady] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<any>(null);
 
-  /** Controls */
+  // Controls
   const [isPlaying, setIsPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
   const [needsUnmuteTap, setNeedsUnmuteTap] = useState(false);
 
-  /** Countdown 5→1 */
+  // Mobile iOS strategy: allow a quick second tap window or double-tap
+  const [secondTapWindow, setSecondTapWindow] = useState(false);
+  const secondTapTimerRef = useRef<number | null>(null);
+
+  // Countdown 5→1
   const [isCounting, setIsCounting] = useState(false);
   const [count, setCount] = useState(5);
   const countdownRef = useRef<number | null>(null);
 
-  /** Motion preference */
+  // Motion preference
   const [reducedMotion, setReducedMotion] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined" && "matchMedia" in window) {
@@ -114,20 +129,19 @@ const LandingPage = () => {
     }
   }, []);
 
-  /** Load Vimeo API once */
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  // Ensure Vimeo API available
+  const ensureVimeo = async () => {
     if (window.Vimeo?.Player) return;
-    const s = document.createElement("script");
-    s.src = "https://player.vimeo.com/api/player.js";
-    s.async = true;
-    document.head.appendChild(s);
-    return () => {
-      if (s.parentNode) s.parentNode.removeChild(s);
-    };
-  }, []);
+    await new Promise<void>((resolve) => {
+      const s = document.createElement("script");
+      s.src = "https://player.vimeo.com/api/player.js";
+      s.async = true;
+      s.onload = () => resolve();
+      document.head.appendChild(s);
+    });
+  };
 
-  /** Start 30-min gate timer */
+  // Start 30-min gate
   const startGateTimer = () => {
     if (!unlocked && gateTimerRef.current === null) {
       let s = THRESHOLD_SECONDS;
@@ -146,11 +160,70 @@ const LandingPage = () => {
     }
   };
 
-  /** User taps Play → show 5..1 → mount Vimeo */
-  const handleStartVideo = () => {
+  /**
+   * On first tap:
+   * - mount iframe
+   * - init Vimeo in same gesture (autoplay muted works)
+   * - if NOT iOS: try unmute immediately (some Android/desktop allow)
+   * - if iOS: open a 4s "second tap" window; double-tap or press Unmute to get sound
+   * - run visual countdown in parallel
+   */
+  const handleStartVideo = async () => {
     if (isCounting || showIframe) return;
+
+    setShowIframe(true);
     setIsCounting(true);
     setCount(5);
+
+    requestAnimationFrame(async () => {
+      try {
+        await ensureVimeo();
+        if (!iframeRef.current) return;
+
+        playerRef.current = new window.Vimeo.Player(iframeRef.current);
+        await playerRef.current.ready();
+        setReady(true);
+
+        await playerRef.current.setMuted(true);
+        await playerRef.current.play();
+        setIsPlaying(true);
+        setMuted(true);
+
+        // Listeners keep local state synced
+        playerRef.current.on("play", () => setIsPlaying(true));
+        playerRef.current.on("pause", () => setIsPlaying(false));
+        playerRef.current.on("volumechange", async () => {
+          try {
+            setMuted(await playerRef.current.getMuted());
+          } catch {}
+        });
+
+        // Try to unmute right away on non-iOS (may succeed)
+        if (!isIOS()) {
+          try {
+            await playerRef.current.setMuted(false);
+            await playerRef.current.setVolume(1);
+            setMuted(false);
+            setNeedsUnmuteTap(false);
+          } catch {
+            setNeedsUnmuteTap(true);
+          }
+        } else {
+          // iOS: require second tap for sound
+          setNeedsUnmuteTap(true);
+          setSecondTapWindow(true);
+          if (secondTapTimerRef.current)
+            clearTimeout(secondTapTimerRef.current);
+          secondTapTimerRef.current = window.setTimeout(() => {
+            setSecondTapWindow(false);
+          }, 4000) as unknown as number;
+        }
+      } catch (e) {
+        setNeedsUnmuteTap(true);
+      }
+    });
+
+    // Run countdown
     countdownRef.current = window.setInterval(() => {
       setCount((c) => {
         if (c <= 1) {
@@ -159,7 +232,6 @@ const LandingPage = () => {
             countdownRef.current = null;
           }
           setIsCounting(false);
-          setShowIframe(true);
           startGateTimer();
           return 0;
         }
@@ -168,47 +240,12 @@ const LandingPage = () => {
     }, 700);
   };
 
-  /** When iframe becomes ready, init player & try to unmute and play */
-  useEffect(() => {
-    if (!showIframe || !iframeRef.current || !window.Vimeo?.Player) return;
-
-    const init = async () => {
-      playerRef.current = new window.Vimeo.Player(iframeRef.current);
-      try {
-        await playerRef.current.ready();
-        // try autoplay with sound (may still be blocked by the browser)
-        await playerRef.current.setMuted(false);
-        setMuted(false);
-        await playerRef.current.setVolume(1);
-        await playerRef.current.play();
-        setIsPlaying(true);
-
-        const actuallyMuted = await playerRef.current.getMuted();
-        if (actuallyMuted) {
-          // Browser blocked it — show big unmute prompt
-          setNeedsUnmuteTap(true);
-        } else {
-          setNeedsUnmuteTap(false);
-        }
-
-        // keep local state in sync
-        playerRef.current.on("play", () => setIsPlaying(true));
-        playerRef.current.on("pause", () => setIsPlaying(false));
-        playerRef.current.on("volumechange", async () => {
-          try {
-            const m = await playerRef.current.getMuted();
-            setMuted(m);
-          } catch {}
-        });
-      } catch (e) {
-        // If anything fails, show unmute prompt
-        setNeedsUnmuteTap(true);
-        // eslint-disable-next-line no-console
-        console.warn("Vimeo init/play failed:", e);
-      }
-    };
-    init();
-  }, [showIframe]);
+  // If user double-taps the video area while the second-tap window is open, unmute.
+  const handleDoubleTapArea = async () => {
+    if (!secondTapWindow) return;
+    await forceUnmute();
+    setSecondTapWindow(false);
+  };
 
   const togglePlay = async () => {
     if (!playerRef.current) return;
@@ -224,26 +261,21 @@ const LandingPage = () => {
     if (!muted) setNeedsUnmuteTap(false);
   };
 
-  /** Big unmute button (guaranteed by user tap) */
   const forceUnmute = async () => {
     if (!playerRef.current) return;
     try {
       await playerRef.current.setMuted(false);
       await playerRef.current.setVolume(1);
-      const p = await playerRef.current.getPaused();
-      if (p) await playerRef.current.play();
+      const paused = await playerRef.current.getPaused();
+      if (paused) await playerRef.current.play();
       setMuted(false);
       setIsPlaying(true);
       setNeedsUnmuteTap(false);
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.warn("User unmute failed:", e);
-    }
+    } catch {}
   };
 
-  /** GA and cleanup */
+  // GA + cleanup
   useEffect(() => {
-    // GA (kept as you had it)
     const script1 = document.createElement("script");
     script1.src = "https://www.googletagmanager.com/gtag/js?id=G-R7Q2CRPHS8";
     script1.async = true;
@@ -266,6 +298,9 @@ const LandingPage = () => {
       if (countdownRef.current) {
         window.clearInterval(countdownRef.current);
         countdownRef.current = null;
+      }
+      if (secondTapTimerRef.current) {
+        clearTimeout(secondTapTimerRef.current);
       }
     };
   }, []);
@@ -333,7 +368,12 @@ const LandingPage = () => {
 
             <div className="relative lg:w-[90%] border-2 border-[#747373] bg-[#FFFFFF12] rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:mt-2 mx-auto">
               <div className="p-2 lg:p-4">
-                <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e]">
+                <div
+                  className="relative w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e]"
+                  // dblclick (desktop/android) -> try unmute if within window
+                  onDoubleClick={handleDoubleTapArea}
+                  // quick two taps on iOS are separate taps (no dblclick); we use the second tap window + button below
+                >
                   {/* Pre-video overlay: play OR countdown */}
                   {!showIframe && !isCounting && (
                     <div className="absolute inset-0 grid place-items-center">
@@ -346,10 +386,10 @@ const LandingPage = () => {
                     </div>
                   )}
 
-                  {/* Countdown 5..1 (NO blur over numbers) */}
+                  {/* Countdown 5..1 (background dims; digits stay crisp) */}
                   {isCounting && (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="relative">
+                      <div className="relative z-10">
                         <div
                           key={count}
                           className="text-7xl md:text-8xl lg:text-9xl font-extrabold text-white drop-shadow-[0_10px_30px_rgba(255,165,0,0.35)] transition-transform duration-300 ease-out"
@@ -361,7 +401,6 @@ const LandingPage = () => {
                           Get ready…
                         </div>
                       </div>
-                      {/* Dim the background ONLY, not the digits */}
                       <div className="absolute inset-0 bg-black/40" />
                     </div>
                   )}
@@ -375,17 +414,17 @@ const LandingPage = () => {
                         key="video"
                         className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
                           ready ? "opacity-100" : "opacity-0"
-                        } pointer-events-none`} // mobile taps go to our overlays
-                        src="https://player.vimeo.com/video/1113013910?autoplay=1&muted=1&background=1&loop=1&playsinline=1"
+                        } pointer-events-none`} // overlay controls capture taps
+                        // NOTE: no background=1 (that forces mute forever)
+                        src="https://player.vimeo.com/video/1113013910?autoplay=1&muted=1&loop=1&playsinline=1&autopause=0"
                         title="How We Do It"
                         allow="autoplay; fullscreen; picture-in-picture"
                         allowFullScreen
-                        onLoad={() => setReady(true)}
                       />
                     </>
                   )}
 
-                  {/* Overlay controls once loaded */}
+                  {/* Overlay controls */}
                   {showIframe && ready && (
                     <div className="absolute bottom-3 right-3 z-20 flex gap-2 pointer-events-auto">
                       <button
@@ -405,16 +444,28 @@ const LandingPage = () => {
                     </div>
                   )}
 
-                  {/* Big UNMUTE button if browser blocked sound */}
+                  {/* iOS-friendly unmute UI */}
                   {showIframe && ready && needsUnmuteTap && (
-                    <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-auto">
-                      <button
-                        onClick={forceUnmute}
-                        className="rounded-full bg-[#FFA500] text-black font-semibold text-sm md:text-base px-4 py-2 shadow-lg"
-                      >
-                        🔊 Tap to Unmute
-                      </button>
-                    </div>
+                    <>
+                      {/* Big button center */}
+                      <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-auto">
+                        <button
+                          onClick={forceUnmute}
+                          className="rounded-full bg-[#FFA500] text-black font-semibold text-sm md:text-base px-4 py-2 shadow-lg"
+                        >
+                          🔊 Tap to Unmute
+                        </button>
+                      </div>
+
+                      {/* Subtle toast suggesting double-tap when within window */}
+                      {secondTapWindow && (
+                        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20">
+                          <span className="rounded-xl border border-white/20 px-3 py-1.5 bg-black/50 backdrop-blur text-[11px] md:text-xs text-white/90">
+                            Tip: double-tap the video to enable sound
+                          </span>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
 
@@ -461,15 +512,6 @@ const LandingPage = () => {
                 </span>
               </div>
             )}
-
-            {/* Scroll hint */}
-            {/* <div className="flex justify-center pt-4 mt-2">
-              <Image
-                src={downArrow}
-                alt=""
-                className="w-[32px] md:w-16 lg:w-[44px] h-[34px] md:h-16 lg:h-[64px] animate-bounce"
-              />
-            </div> */}
           </div>
         </section>
 
