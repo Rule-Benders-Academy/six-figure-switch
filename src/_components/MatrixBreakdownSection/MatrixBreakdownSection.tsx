@@ -40,11 +40,33 @@ const MatrixBreakdownSection: React.FC = () => {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<any>(null);
 
-  // Vimeo API
+  // --- helpers ---
+  const pauseVideo = async () => {
+    if (!playerRef.current) return;
+    try {
+      await playerRef.current.pause();
+      setIsPlaying(false);
+    } catch {}
+  };
+
+  const ensureVimeo = async () => {
+    if (typeof window === "undefined") return;
+    if (window.Vimeo?.Player) return;
+    await new Promise<void>((resolve) => {
+      const s = document.createElement("script");
+      s.src = "https://player.vimeo.com/api/player.js";
+      s.async = true;
+      s.onload = () => resolve();
+      document.head.appendChild(s);
+    });
+  };
+
+  // Load Vimeo API (lightweight guard)
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.Vimeo?.Player) return;
@@ -59,16 +81,23 @@ const MatrixBreakdownSection: React.FC = () => {
 
   const handleStart = async () => {
     setPlay(true);
+    // Wait for iframe to mount into the DOM
     requestAnimationFrame(async () => {
-      if (!iframeRef.current || !window.Vimeo?.Player) return;
-      playerRef.current = new window.Vimeo.Player(iframeRef.current);
       try {
+        await ensureVimeo();
+        if (!iframeRef.current || !window.Vimeo?.Player) return;
+
+        playerRef.current = new window.Vimeo.Player(iframeRef.current);
         await playerRef.current.ready();
+
+        // Start with sound on attempt; browsers may block, but user gesture triggered this
         await playerRef.current.setMuted(false);
         setMuted(false);
         await playerRef.current.setVolume(1);
         await playerRef.current.play();
         setIsPlaying(true);
+
+        // Sync state
         playerRef.current.on("play", () => setIsPlaying(true));
         playerRef.current.on("pause", () => setIsPlaying(false));
         playerRef.current.on("volumechange", async () => {
@@ -77,7 +106,18 @@ const MatrixBreakdownSection: React.FC = () => {
             setMuted(m);
           } catch {}
         });
+
+        // Pause when leaving fullscreen via Vimeo API event
+        playerRef.current.on(
+          "fullscreenchange",
+          (e: { fullscreen: boolean }) => {
+            const fs = !!e?.fullscreen;
+            setIsFullscreen(fs);
+            if (!fs) pauseVideo();
+          }
+        );
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.warn("Vimeo init failed:", e);
       }
     });
@@ -87,9 +127,13 @@ const MatrixBreakdownSection: React.FC = () => {
     if (!playerRef.current) return;
     try {
       const paused = await playerRef.current.getPaused();
-      if (paused) await playerRef.current.play();
-      else await playerRef.current.pause();
+      if (paused) {
+        await playerRef.current.play();
+      } else {
+        await playerRef.current.pause();
+      }
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.warn("togglePlay failed:", e);
     }
   };
@@ -100,9 +144,68 @@ const MatrixBreakdownSection: React.FC = () => {
       await playerRef.current.setMuted(!muted);
       setMuted(!muted);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.warn("toggleMute failed:", e);
     }
   };
+
+  const toggleFullscreen = async () => {
+    if (!playerRef.current) return;
+    try {
+      const fs = await playerRef.current.getFullscreen?.();
+      if (fs) {
+        await playerRef.current.exitFullscreen?.();
+        setIsFullscreen(false);
+      } else {
+        await playerRef.current.requestFullscreen?.();
+        setIsFullscreen(true);
+      }
+    } catch (e) {
+      // Fallback to native iframe fullscreen
+      const iframe = iframeRef.current;
+      if (!iframe) return;
+      try {
+        if (document.fullscreenElement) {
+          await document.exitFullscreen();
+          setIsFullscreen(false);
+        } else if ((iframe as any).requestFullscreen) {
+          await (iframe as any).requestFullscreen();
+          setIsFullscreen(true);
+        } else if ((iframe as any).webkitRequestFullscreen) {
+          (iframe as any).webkitRequestFullscreen(); // Safari
+          setIsFullscreen(true);
+        }
+      } catch {}
+    }
+  };
+
+  // Pause on ESC key globally
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.key === "Esc" || e.keyCode === 27) {
+        pauseVideo();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  // Pause when exiting native fullscreen (fallback path)
+  useEffect(() => {
+    const onFsChange = () => {
+      const active =
+        !!document.fullscreenElement ||
+        !!(document as any).webkitFullscreenElement;
+      setIsFullscreen(active);
+      if (!active) pauseVideo();
+    };
+    document.addEventListener("fullscreenchange", onFsChange);
+    document.addEventListener("webkitfullscreenchange", onFsChange as any);
+    return () => {
+      document.removeEventListener("fullscreenchange", onFsChange);
+      document.removeEventListener("webkitfullscreenchange", onFsChange as any);
+    };
+  }, []);
 
   return (
     <section className="bg-black text-white pb-16 space-y-16">
@@ -179,8 +282,8 @@ const MatrixBreakdownSection: React.FC = () => {
                   key="video"
                   className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
                     ready ? "opacity-100" : "opacity-0"
-                  } pointer-events-none`} // mobile tap fix
-                  src="https://player.vimeo.com/video/1113012539?autoplay=1&loop=1&muted=1&background=1&playsinline=1"
+                  } pointer-events-none`} // overlay controls handle taps
+                  src="https://player.vimeo.com/video/1113012539?autoplay=1&loop=1&muted=1&playsinline=1&autopause=0"
                   title="Method Walkthrough"
                   allow="autoplay; fullscreen; picture-in-picture"
                   allowFullScreen
@@ -232,6 +335,13 @@ const MatrixBreakdownSection: React.FC = () => {
                     aria-label={muted ? "Unmute video" : "Mute video"}
                   >
                     {muted ? "🔊 Unmute" : "🔇 Mute"}
+                  </button>
+                  <button
+                    onClick={toggleFullscreen}
+                    className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                    aria-label={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+                  >
+                    ⛶ {isFullscreen ? "Exit" : "Fullscreen"}
                   </button>
                 </div>
               )}

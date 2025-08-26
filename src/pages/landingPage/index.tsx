@@ -52,19 +52,48 @@ const points = [
   "You just need to position yourself—and help others see you—as an independent consultant.",
 ];
 
+/** Soft pulse play button */
+const PlayButton = ({
+  onClick,
+  label = "Play the class",
+}: {
+  onClick: () => void;
+  label?: string;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    aria-label={label}
+    className="group relative inline-flex items-center justify-center"
+  >
+    <span className="absolute inset-0 rounded-full bg-[#FFA500]/30 blur-lg opacity-70 group-hover:opacity-90 transition-opacity animate-ping" />
+    <span className="relative h-16 w-16 md:h-20 md:w-20 rounded-full bg-white/10 backdrop-blur ring-1 ring-white/40 hover:bg-white/20 transition-colors flex items-center justify-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-7 w-7 md:h-8 md:w-8 text-white transition-transform group-hover:scale-105"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+      >
+        <path d="M8 5v14l11-7z" />
+      </svg>
+    </span>
+  </button>
+);
+
 const LandingPage = () => {
   const [play, setPlay] = useState(false);
   const [ready, setReady] = useState(false);
 
-  // controls
+  // overlay controls
   const [isPlaying, setIsPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<any>(null);
 
+  // GA
   useEffect(() => {
-    // GA
     const script1 = document.createElement("script");
     script1.src = "https://www.googletagmanager.com/gtag/js?id=G-R7Q2CRPHS8";
     script1.async = true;
@@ -80,12 +109,23 @@ const LandingPage = () => {
     document.head.appendChild(script2);
 
     return () => {
-      document.head.removeChild(script1);
-      document.head.removeChild(script2);
+      if (script1.parentNode) script1.parentNode.removeChild(script1);
+      if (script2.parentNode) script2.parentNode.removeChild(script2);
     };
   }, []);
 
   // Vimeo API
+  const ensureVimeo = async () => {
+    if (window.Vimeo?.Player) return;
+    await new Promise<void>((resolve) => {
+      const s = document.createElement("script");
+      s.src = "https://player.vimeo.com/api/player.js";
+      s.async = true;
+      s.onload = () => resolve();
+      document.head.appendChild(s);
+    });
+  };
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.Vimeo?.Player) return;
@@ -98,18 +138,57 @@ const LandingPage = () => {
     };
   }, []);
 
+  const pauseVideo = async () => {
+    if (!playerRef.current) return;
+    try {
+      await playerRef.current.pause();
+      setIsPlaying(false);
+    } catch {}
+  };
+
+  // Pause on Esc and when exiting native fullscreen
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.key === "Esc" || e.keyCode === 27) {
+        pauseVideo();
+      }
+    };
+    const onFsChange = () => {
+      const active =
+        !!document.fullscreenElement ||
+        !!(document as any).webkitFullscreenElement;
+      setIsFullscreen(active);
+      if (!active) pauseVideo();
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("fullscreenchange", onFsChange);
+    document.addEventListener("webkitfullscreenchange", onFsChange as any);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("fullscreenchange", onFsChange);
+      document.removeEventListener("webkitfullscreenchange", onFsChange as any);
+    };
+  }, []);
+
   const handleStart = async () => {
     setPlay(true);
+    // mount -> init player in same user gesture
     requestAnimationFrame(async () => {
-      if (!iframeRef.current || !window.Vimeo?.Player) return;
-      playerRef.current = new window.Vimeo.Player(iframeRef.current);
       try {
+        await ensureVimeo();
+        if (!iframeRef.current || !window.Vimeo?.Player) return;
+        playerRef.current = new window.Vimeo.Player(iframeRef.current);
         await playerRef.current.ready();
+        setReady(true);
+
+        // try to start with audio (gesture-initiated)
         await playerRef.current.setMuted(false);
         setMuted(false);
         await playerRef.current.setVolume(1);
         await playerRef.current.play();
         setIsPlaying(true);
+
+        // sync state
         playerRef.current.on("play", () => setIsPlaying(true));
         playerRef.current.on("pause", () => setIsPlaying(false));
         playerRef.current.on("volumechange", async () => {
@@ -118,8 +197,22 @@ const LandingPage = () => {
             setMuted(m);
           } catch {}
         });
+        playerRef.current.on(
+          "fullscreenchange",
+          (e: { fullscreen: boolean }) => {
+            setIsFullscreen(!!e?.fullscreen);
+            if (!e?.fullscreen) pauseVideo();
+          }
+        );
       } catch (e) {
-        console.warn("Vimeo init/unmute failed:", e);
+        // fallback: keep muted true if unmute fails
+        setMuted(true);
+        try {
+          await playerRef.current?.setMuted(true);
+          await playerRef.current?.play();
+          setIsPlaying(true);
+        } catch {}
+        // console.warn("Vimeo init/unmute failed:", e);
       }
     });
   };
@@ -131,7 +224,7 @@ const LandingPage = () => {
       if (paused) await playerRef.current.play();
       else await playerRef.current.pause();
     } catch (e) {
-      console.warn("togglePlay failed:", e);
+      // console.warn("togglePlay failed:", e);
     }
   };
 
@@ -141,7 +234,37 @@ const LandingPage = () => {
       await playerRef.current.setMuted(!muted);
       setMuted(!muted);
     } catch (e) {
-      console.warn("toggleMute failed:", e);
+      // console.warn("toggleMute failed:", e);
+    }
+  };
+
+  const toggleFullscreen = async () => {
+    if (!playerRef.current) return;
+    try {
+      const fs = await playerRef.current.getFullscreen?.();
+      if (fs) {
+        await playerRef.current.exitFullscreen?.();
+        setIsFullscreen(false);
+      } else {
+        await playerRef.current.requestFullscreen?.();
+        setIsFullscreen(true);
+      }
+    } catch (e) {
+      // Native fallback
+      const iframe = iframeRef.current;
+      if (!iframe) return;
+      try {
+        if (document.fullscreenElement) {
+          await document.exitFullscreen();
+          setIsFullscreen(false);
+        } else if ((iframe as any).requestFullscreen) {
+          await (iframe as any).requestFullscreen();
+          setIsFullscreen(true);
+        } else if ((iframe as any).webkitRequestFullscreen) {
+          (iframe as any).webkitRequestFullscreen(); // Safari
+          setIsFullscreen(true);
+        }
+      } catch {}
     }
   };
 
@@ -308,6 +431,7 @@ const LandingPage = () => {
             </div>
           </section>
 
+          {/* ===== Video section with overlay controls ===== */}
           <div className="bg-gradient-to-b from-[#141314] to-[#272526]  pb-11 md:pb-16">
             <div className="px-4 sm:px-8 md:px-16 lg:px-24 flex flex-col items-center w-[95%] lg:w-full mx-auto">
               <div className="text-2xl md:text-2xl lg:text-[44px] lg:leading-[100%] mt-10 max-w-[680px] mx-auto text-center text-white">
@@ -323,8 +447,9 @@ const LandingPage = () => {
                       key="video"
                       className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
                         ready ? "opacity-100" : "opacity-0"
-                      } pointer-events-none`} // mobile tap fix
-                      src="https://player.vimeo.com/video/1113015239?autoplay=1&loop=1&muted=1&background=1&playsinline=1"
+                      } pointer-events-none`} // overlay buttons capture taps
+                      // NOTE: no background=1 so we can control audio post-gesture
+                      src="https://player.vimeo.com/video/1113015239?muted=1&loop=1&playsinline=1&autopause=0"
                       title="How We Do It"
                       allow="autoplay; fullscreen; picture-in-picture"
                       allowFullScreen
@@ -376,6 +501,45 @@ const LandingPage = () => {
                         aria-label={muted ? "Unmute video" : "Mute video"}
                       >
                         {muted ? "🔊 Unmute" : "🔇 Mute"}
+                      </button>
+                      <button
+                        onClick={async () => {
+                          // toggleFullscreen
+                          try {
+                            const fs =
+                              await playerRef.current?.getFullscreen?.();
+                            if (fs) {
+                              await playerRef.current?.exitFullscreen?.();
+                              setIsFullscreen(false);
+                            } else {
+                              await playerRef.current?.requestFullscreen?.();
+                              setIsFullscreen(true);
+                            }
+                          } catch (e) {
+                            const iframe = iframeRef.current;
+                            if (!iframe) return;
+                            try {
+                              if (document.fullscreenElement) {
+                                await document.exitFullscreen();
+                                setIsFullscreen(false);
+                              } else if ((iframe as any).requestFullscreen) {
+                                await (iframe as any).requestFullscreen();
+                                setIsFullscreen(true);
+                              } else if (
+                                (iframe as any).webkitRequestFullscreen
+                              ) {
+                                (iframe as any).webkitRequestFullscreen(); // Safari
+                                setIsFullscreen(true);
+                              }
+                            } catch {}
+                          }
+                        }}
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                        aria-label={
+                          isFullscreen ? "Exit Fullscreen" : "Fullscreen"
+                        }
+                      >
+                        ⛶ {isFullscreen ? "Exit" : "Fullscreen"}
                       </button>
                     </div>
                   )}
