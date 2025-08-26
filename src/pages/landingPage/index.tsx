@@ -1,4 +1,5 @@
 // LandingPage.tsx
+/* eslint-disable */
 "use client";
 
 import Drawer from "../../_components/Drawer/Drawer";

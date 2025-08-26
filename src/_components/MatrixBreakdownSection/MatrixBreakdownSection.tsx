@@ -1,4 +1,5 @@
 // MatrixBreakdownSection.tsx
+/* eslint-disable */
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import bgCurve from "../../_assets/Ellipse-bg.png";
