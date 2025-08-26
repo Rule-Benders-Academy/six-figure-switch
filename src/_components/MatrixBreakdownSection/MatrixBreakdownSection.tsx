@@ -8,7 +8,6 @@ import MethodIcon from "../../_assets/metrix-method-icon.png";
 import MarketIcon from "../../_assets/metrix-market-icon.png";
 import BtnIcon from "../../_assets/metrix-btn-icon.svg";
 import GradientButton from "../GradientButton/GradientButton";
-import Thumbnail from "@/_assets/thubnail-2.png";
 
 declare global {
   interface Window {
@@ -35,24 +34,14 @@ const methods = [
 ];
 
 const MatrixBreakdownSection: React.FC = () => {
-  const [play, setPlay] = useState(false);
   const [ready, setReady] = useState(false);
-
   const [isPlaying, setIsPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [needsFirstTap, setNeedsFirstTap] = useState(true); // invisible one-tap to start with sound
 
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<any>(null);
-
-  // --- helpers ---
-  const pauseVideo = async () => {
-    if (!playerRef.current) return;
-    try {
-      await playerRef.current.pause();
-      setIsPlaying(false);
-    } catch {}
-  };
 
   const ensureVimeo = async () => {
     if (typeof window === "undefined") return;
@@ -66,48 +55,30 @@ const MatrixBreakdownSection: React.FC = () => {
     });
   };
 
-  // Load Vimeo API (lightweight guard)
+  // Create the player as soon as the iframe mounts (no autoplay)
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.Vimeo?.Player) return;
-    const s = document.createElement("script");
-    s.src = "https://player.vimeo.com/api/player.js";
-    s.async = true;
-    document.head.appendChild(s);
-    return () => {
-      if (s.parentNode) s.parentNode.removeChild(s);
-    };
-  }, []);
+    let disposed = false;
+    (async () => {
+      await ensureVimeo();
+      if (disposed) return;
+      if (!iframeRef.current || !window.Vimeo?.Player) return;
 
-  const handleStart = async () => {
-    setPlay(true);
-    // Wait for iframe to mount into the DOM
-    requestAnimationFrame(async () => {
+      playerRef.current = new window.Vimeo.Player(iframeRef.current);
       try {
-        await ensureVimeo();
-        if (!iframeRef.current || !window.Vimeo?.Player) return;
-
-        playerRef.current = new window.Vimeo.Player(iframeRef.current);
         await playerRef.current.ready();
+        setReady(true);
+        // start paused + muted (safe default)
+        await playerRef.current.setMuted(true);
+        setMuted(true);
 
-        // Start with sound on attempt; browsers may block, but user gesture triggered this
-        await playerRef.current.setMuted(false);
-        setMuted(false);
-        await playerRef.current.setVolume(1);
-        await playerRef.current.play();
-        setIsPlaying(true);
-
-        // Sync state
+        // Sync handlers
         playerRef.current.on("play", () => setIsPlaying(true));
         playerRef.current.on("pause", () => setIsPlaying(false));
         playerRef.current.on("volumechange", async () => {
           try {
-            const m = await playerRef.current.getMuted();
-            setMuted(m);
+            setMuted(await playerRef.current.getMuted());
           } catch {}
         });
-
-        // Pause when leaving fullscreen via Vimeo API event
         playerRef.current.on(
           "fullscreenchange",
           (e: { fullscreen: boolean }) => {
@@ -116,26 +87,28 @@ const MatrixBreakdownSection: React.FC = () => {
             if (!fs) pauseVideo();
           }
         );
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.warn("Vimeo init failed:", e);
-      }
-    });
+      } catch {}
+    })();
+    return () => {
+      disposed = true;
+    };
+  }, []);
+
+  const pauseVideo = async () => {
+    if (!playerRef.current) return;
+    try {
+      await playerRef.current.pause();
+      setIsPlaying(false);
+    } catch {}
   };
 
   const togglePlay = async () => {
     if (!playerRef.current) return;
     try {
       const paused = await playerRef.current.getPaused();
-      if (paused) {
-        await playerRef.current.play();
-      } else {
-        await playerRef.current.pause();
-      }
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.warn("togglePlay failed:", e);
-    }
+      if (paused) await playerRef.current.play();
+      else await playerRef.current.pause();
+    } catch {}
   };
 
   const toggleMute = async () => {
@@ -143,10 +116,7 @@ const MatrixBreakdownSection: React.FC = () => {
     try {
       await playerRef.current.setMuted(!muted);
       setMuted(!muted);
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.warn("toggleMute failed:", e);
-    }
+    } catch {}
   };
 
   const toggleFullscreen = async () => {
@@ -160,8 +130,7 @@ const MatrixBreakdownSection: React.FC = () => {
         await playerRef.current.requestFullscreen?.();
         setIsFullscreen(true);
       }
-    } catch (e) {
-      // Fallback to native iframe fullscreen
+    } catch {
       const iframe = iframeRef.current;
       if (!iframe) return;
       try {
@@ -172,14 +141,14 @@ const MatrixBreakdownSection: React.FC = () => {
           await (iframe as any).requestFullscreen();
           setIsFullscreen(true);
         } else if ((iframe as any).webkitRequestFullscreen) {
-          (iframe as any).webkitRequestFullscreen(); // Safari
+          (iframe as any).webkitRequestFullscreen();
           setIsFullscreen(true);
         }
       } catch {}
     }
   };
 
-  // Pause on ESC key globally
+  // Pause on ESC globally
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" || e.key === "Esc" || e.keyCode === 27) {
@@ -190,7 +159,7 @@ const MatrixBreakdownSection: React.FC = () => {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  // Pause when exiting native fullscreen (fallback path)
+  // Pause when exiting native fullscreen
   useEffect(() => {
     const onFsChange = () => {
       const active =
@@ -206,6 +175,28 @@ const MatrixBreakdownSection: React.FC = () => {
       document.removeEventListener("webkitfullscreenchange", onFsChange as any);
     };
   }, []);
+
+  // First tap to unmute + play (invisible overlay)
+  const handleFirstTap = async () => {
+    if (!playerRef.current) return;
+    try {
+      await playerRef.current.setMuted(false);
+      setMuted(false);
+      await playerRef.current.setVolume(1);
+      await playerRef.current.play();
+      setIsPlaying(true);
+      setNeedsFirstTap(false);
+    } catch {
+      // fallback: play muted if sound still blocked
+      try {
+        await playerRef.current.setMuted(true);
+        setMuted(true);
+        await playerRef.current.play();
+        setIsPlaying(true);
+      } catch {}
+      setNeedsFirstTap(false);
+    }
+  };
 
   return (
     <section className="bg-black text-white pb-16 space-y-16">
@@ -231,27 +222,22 @@ const MatrixBreakdownSection: React.FC = () => {
 
       <div className="px-4 sm:px-8 md:px-16 lg:px-24">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12 text-center relative z-10 -top-[200px] md:-top-[140px] lg:w-[80%] mx-auto">
-          {methods.map((method, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center md:space-y-4"
-            >
-              <h3 className="font-semibold text-base md:text-2xl">
-                {method.title}
-              </h3>
+          {methods.map((m, i) => (
+            <div key={i} className="flex flex-col items-center md:space-y-4">
+              <h3 className="font-semibold text-base md:text-2xl">{m.title}</h3>
               <Image
-                src={method.icon}
-                alt={method.title}
+                src={m.icon}
+                alt={m.title}
                 className="w-[104px] md:w-[130px] lg:w-[150px]"
               />
               <p className="text-white text-base md:text-2xl lg:text-2xl max-w-[230px] md:max-w-xs font-light">
-                {method.description}
+                {m.description}
               </p>
             </div>
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-row items-center md:items-center justify-between gap-4 md:gap-6 lg:gap-8 bg-black rounded-lg md:p-6 !-mt-44 md:!mt-0 w-[90%] lg:w-[80%] mx-auto">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 lg:gap-8 bg-black rounded-lg md:p-6 !-mt-44 md:!mt-0 w-[90%] lg:w-[80%] mx-auto">
           <div className="space-y-4 text-center md:text-left max-w-[400px]">
             <h3 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] font-semibold">
               Want to see the method?
@@ -273,72 +259,54 @@ const MatrixBreakdownSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Video block */}
-          <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12 ">
+          {/* Clean video block */}
+          <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12">
             <div className="relative md:rounded-[35px] lg:rounded-[15px] overflow-hidden h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black">
-              {play && (
-                <iframe
-                  ref={iframeRef}
-                  key="video"
-                  className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
-                    ready ? "opacity-100" : "opacity-0"
-                  } pointer-events-none`} // overlay controls handle taps
-                  src="https://player.vimeo.com/video/1113012539?autoplay=1&loop=1&playsinline=1&autopause=0"
-                  title="Method Walkthrough"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowFullScreen
-                  onLoad={() => setReady(true)}
+              {/* Always mounted iframe (lazy), no autoplay param */}
+              <iframe
+                ref={iframeRef}
+                className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                  ready ? "opacity-100" : "opacity-0"
+                } pointer-events-none`} // use overlay controls
+                // No autoplay; muted=1 so we can call play() safely if needed
+                src="https://player.vimeo.com/video/1113012539?muted=1&loop=1&playsinline=1&autopause=0"
+                title="Method Walkthrough"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowFullScreen
+                loading="lazy"
+                onLoad={() => setReady(true)}
+              />
+
+              {/* Invisible first-tap layer (removed after success) */}
+              {needsFirstTap && ready && (
+                <div
+                  onClick={handleFirstTap}
+                  className="absolute inset-0 z-20 cursor-pointer"
+                  aria-hidden
+                  title="Tap to play"
                 />
               )}
 
-              {!ready && (
-                <button
-                  type="button"
-                  aria-label="Play video"
-                  onClick={handleStart}
-                  className="absolute inset-0 w-full h-full cursor-pointer group"
-                >
-                  <Image
-                    src={Thumbnail}
-                    alt="Method video thumbnail"
-                    fill
-                    priority
-                    className="object-cover will-change-transform transform transition-transform duration-500 group-hover:scale-[1.02] md:rounded-[35px]"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center md:rounded-[35px]">
-                    <div className="bg-black/50 rounded-full p-4 transition-transform duration-300 group-hover:scale-105">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-12 w-12 text-white"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                  </div>
-                </button>
-              )}
-
-              {ready && (
+              {/* Controls */}
+              {ready && !needsFirstTap && (
                 <div className="absolute bottom-3 right-3 z-20 flex gap-2 pointer-events-auto">
                   <button
                     onClick={togglePlay}
-                    className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                    className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
                     aria-label={isPlaying ? "Pause video" : "Play video"}
                   >
                     {isPlaying ? "⏸ Pause" : "▶ Play"}
                   </button>
                   <button
                     onClick={toggleMute}
-                    className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                    className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
                     aria-label={muted ? "Unmute video" : "Mute video"}
                   >
                     {muted ? "🔊 Unmute" : "🔇 Mute"}
                   </button>
                   <button
                     onClick={toggleFullscreen}
-                    className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                    className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
                     aria-label={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
                   >
                     ⛶ {isFullscreen ? "Exit" : "Fullscreen"}

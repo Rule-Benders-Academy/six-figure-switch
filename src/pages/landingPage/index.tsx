@@ -12,7 +12,6 @@ import Person1 from "@/_assets/switch-banner-img-1.png";
 import Person2 from "@/_assets/switch-banner-img-2.png";
 import Person3 from "@/_assets/switch-banner-img-3.png";
 import Person4 from "@/_assets/switch-banner-img-4.png";
-import Thumbnail from "@/_assets/tumbnail.png";
 import Star from "@/_assets/star-hero.png";
 import DigitalClock from "@/_components/DigitalClock/DigitalClock";
 import SixFigureSwitch from "@/_components/SixFigureSwitch/SixFigureSwitch";
@@ -24,8 +23,8 @@ import TestimonialSection from "@/_components/TestimonialSection/TestimonialSect
 import GameChangedSection from "@/_components/GameChangedSection/GameChangedSection";
 import LandingAboutSection from "@/_components/LandingAbout/LandingAbout";
 import MakeTheSwitch from "@/_components/MakeTheSwitch/MakeTheSwitch";
-import EmploymentTrap from "@/_components/EmploymentTrap/EmploymentTrap";
 import MatrixBreakdownSection from "@/_components/MatrixBreakdownSection/MatrixBreakdownSection";
+import EmploymentTrap from "@/_components/EmploymentTrap/EmploymentTrap";
 import SixFigureSwitchSection from "@/_components/SixFigureSwitchSection/SixFigureSwitchSection";
 import EarningsSection from "@/_components/EarningsSection/EarningsSection";
 import LandingFaqSection from "@/_components/LandingFaqSection/LandingFaqSection";
@@ -52,42 +51,13 @@ const points = [
   "You just need to position yourself—and help others see you—as an independent consultant.",
 ];
 
-/** Soft pulse play button */
-const PlayButton = ({
-  onClick,
-  label = "Play the class",
-}: {
-  onClick: () => void;
-  label?: string;
-}) => (
-  <button
-    type="button"
-    onClick={onClick}
-    aria-label={label}
-    className="group relative inline-flex items-center justify-center"
-  >
-    <span className="absolute inset-0 rounded-full bg-[#FFA500]/30 blur-lg opacity-70 group-hover:opacity-90 transition-opacity animate-ping" />
-    <span className="relative h-16 w-16 md:h-20 md:w-20 rounded-full bg-white/10 backdrop-blur ring-1 ring-white/40 hover:bg-white/20 transition-colors flex items-center justify-center">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-7 w-7 md:h-8 md:w-8 text-white transition-transform group-hover:scale-105"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-      >
-        <path d="M8 5v14l11-7z" />
-      </svg>
-    </span>
-  </button>
-);
-
 const LandingPage = () => {
-  const [play, setPlay] = useState(false);
+  // video state
   const [ready, setReady] = useState(false);
-
-  // overlay controls
   const [isPlaying, setIsPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [needsFirstTap, setNeedsFirstTap] = useState(true); // invisible overlay to enable sound on iOS
 
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<any>(null);
@@ -114,7 +84,7 @@ const LandingPage = () => {
     };
   }, []);
 
-  // Vimeo API
+  // Vimeo loader
   const ensureVimeo = async () => {
     if (window.Vimeo?.Player) return;
     await new Promise<void>((resolve) => {
@@ -126,15 +96,43 @@ const LandingPage = () => {
     });
   };
 
+  // Init player as soon as iframe mounts (no autoplay)
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.Vimeo?.Player) return;
-    const s = document.createElement("script");
-    s.src = "https://player.vimeo.com/api/player.js";
-    s.async = true;
-    document.head.appendChild(s);
+    let disposed = false;
+    (async () => {
+      await ensureVimeo();
+      if (disposed) return;
+      if (!iframeRef.current || !window.Vimeo?.Player) return;
+
+      playerRef.current = new window.Vimeo.Player(iframeRef.current);
+      try {
+        await playerRef.current.ready();
+        setReady(true);
+
+        // default to muted + paused
+        await playerRef.current.setMuted(true);
+        setMuted(true);
+
+        // sync events
+        playerRef.current.on("play", () => setIsPlaying(true));
+        playerRef.current.on("pause", () => setIsPlaying(false));
+        playerRef.current.on("volumechange", async () => {
+          try {
+            setMuted(await playerRef.current.getMuted());
+          } catch {}
+        });
+        playerRef.current.on(
+          "fullscreenchange",
+          (e: { fullscreen: boolean }) => {
+            const fs = !!e?.fullscreen;
+            setIsFullscreen(fs);
+            if (!fs) pauseVideo();
+          }
+        );
+      } catch {}
+    })();
     return () => {
-      if (s.parentNode) s.parentNode.removeChild(s);
+      disposed = true;
     };
   }, []);
 
@@ -146,12 +144,11 @@ const LandingPage = () => {
     } catch {}
   };
 
-  // Pause on Esc and when exiting native fullscreen
+  // Pause on Esc + when native fullscreen exits
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" || e.key === "Esc" || e.keyCode === 27) {
+      if (e.key === "Escape" || e.key === "Esc" || e.keyCode === 27)
         pauseVideo();
-      }
     };
     const onFsChange = () => {
       const active =
@@ -170,51 +167,25 @@ const LandingPage = () => {
     };
   }, []);
 
-  const handleStart = async () => {
-    setPlay(true);
-    // mount -> init player in same user gesture
-    requestAnimationFrame(async () => {
+  // First user tap → unmute + play (iOS-safe). Fallback: play muted if blocked.
+  const handleFirstTap = async () => {
+    if (!playerRef.current) return;
+    try {
+      await playerRef.current.setMuted(false);
+      setMuted(false);
+      await playerRef.current.setVolume(1);
+      await playerRef.current.play();
+      setIsPlaying(true);
+      setNeedsFirstTap(false);
+    } catch {
       try {
-        await ensureVimeo();
-        if (!iframeRef.current || !window.Vimeo?.Player) return;
-        playerRef.current = new window.Vimeo.Player(iframeRef.current);
-        await playerRef.current.ready();
-        setReady(true);
-
-        // try to start with audio (gesture-initiated)
-        await playerRef.current.setMuted(false);
-        setMuted(false);
-        await playerRef.current.setVolume(1);
+        await playerRef.current.setMuted(true);
+        setMuted(true);
         await playerRef.current.play();
         setIsPlaying(true);
-
-        // sync state
-        playerRef.current.on("play", () => setIsPlaying(true));
-        playerRef.current.on("pause", () => setIsPlaying(false));
-        playerRef.current.on("volumechange", async () => {
-          try {
-            const m = await playerRef.current.getMuted();
-            setMuted(m);
-          } catch {}
-        });
-        playerRef.current.on(
-          "fullscreenchange",
-          (e: { fullscreen: boolean }) => {
-            setIsFullscreen(!!e?.fullscreen);
-            if (!e?.fullscreen) pauseVideo();
-          }
-        );
-      } catch (e) {
-        // fallback: keep muted true if unmute fails
-        setMuted(false);
-        try {
-          await playerRef.current?.setMuted(true);
-          await playerRef.current?.play();
-          setIsPlaying(true);
-        } catch {}
-        // console.warn("Vimeo init/unmute failed:", e);
-      }
-    });
+      } catch {}
+      setNeedsFirstTap(false);
+    }
   };
 
   const togglePlay = async () => {
@@ -223,9 +194,7 @@ const LandingPage = () => {
       const paused = await playerRef.current.getPaused();
       if (paused) await playerRef.current.play();
       else await playerRef.current.pause();
-    } catch (e) {
-      // console.warn("togglePlay failed:", e);
-    }
+    } catch {}
   };
 
   const toggleMute = async () => {
@@ -233,9 +202,7 @@ const LandingPage = () => {
     try {
       await playerRef.current.setMuted(!muted);
       setMuted(!muted);
-    } catch (e) {
-      // console.warn("toggleMute failed:", e);
-    }
+    } catch {}
   };
 
   const toggleFullscreen = async () => {
@@ -249,8 +216,7 @@ const LandingPage = () => {
         await playerRef.current.requestFullscreen?.();
         setIsFullscreen(true);
       }
-    } catch (e) {
-      // Native fallback
+    } catch {
       const iframe = iframeRef.current;
       if (!iframe) return;
       try {
@@ -261,7 +227,7 @@ const LandingPage = () => {
           await (iframe as any).requestFullscreen();
           setIsFullscreen(true);
         } else if ((iframe as any).webkitRequestFullscreen) {
-          (iframe as any).webkitRequestFullscreen(); // Safari
+          (iframe as any).webkitRequestFullscreen();
           setIsFullscreen(true);
         }
       } catch {}
@@ -431,7 +397,7 @@ const LandingPage = () => {
             </div>
           </section>
 
-          {/* ===== Video section with overlay controls ===== */}
+          {/* ===== Video section (always-mounted iframe + invisible first tap) ===== */}
           <div className="bg-gradient-to-b from-[#141314] to-[#272526]  pb-11 md:pb-16">
             <div className="px-4 sm:px-8 md:px-16 lg:px-24 flex flex-col items-center w-[95%] lg:w-full mx-auto">
               <div className="text-2xl md:text-2xl lg:text-[44px] lg:leading-[100%] mt-10 max-w-[680px] mx-auto text-center text-white">
@@ -441,100 +407,50 @@ const LandingPage = () => {
 
               <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12">
                 <div className="relative rounded-[17px] md:rounded-[35px] lg:rounded-[15px] overflow-hidden h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black">
-                  {play && (
-                    <iframe
-                      ref={iframeRef}
-                      key="video"
-                      className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
-                        ready ? "opacity-100" : "opacity-0"
-                      } pointer-events-none`} // overlay buttons capture taps
-                      // NOTE: no background=1 so we can control audio post-gesture
-                      src="https://player.vimeo.com/video/1113015239?&loop=1&playsinline=1&autopause=0"
-                      title="How We Do It"
-                      allow="autoplay; fullscreen; picture-in-picture"
-                      allowFullScreen
-                      onLoad={() => setReady(true)}
+                  {/* Always mounted. No autoplay param. Keep muted=1 so muted play is allowed if needed. */}
+                  <iframe
+                    ref={iframeRef}
+                    className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                      ready ? "opacity-100" : "opacity-0"
+                    } pointer-events-none`}
+                    src="https://player.vimeo.com/video/1113015239?muted=1&loop=1&playsinline=1&autopause=0"
+                    title="How We Do It"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowFullScreen
+                    loading="lazy"
+                    onLoad={() => setReady(true)}
+                  />
+
+                  {/* First tap to unmute + play */}
+                  {needsFirstTap && ready && (
+                    <div
+                      onClick={handleFirstTap}
+                      className="absolute inset-0 z-20 cursor-pointer"
+                      aria-hidden
+                      title="Tap to play"
                     />
                   )}
 
-                  {!ready && (
-                    <button
-                      type="button"
-                      aria-label="Play video"
-                      onClick={handleStart}
-                      className="absolute inset-0 w-full h-full cursor-pointer group"
-                    >
-                      <Image
-                        src={Thumbnail}
-                        alt="How We Do It thumbnail"
-                        fill
-                        priority
-                        className="object-cover will-change-transform transform transition-transform duration-500 group-hover:scale-[1.02]"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="bg-black/50 rounded-full p-4 transition-transform duration-300 group-hover:scale-105">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-12 w-12 text-white"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </div>
-                      </div>
-                    </button>
-                  )}
-
-                  {ready && (
+                  {/* Overlay controls */}
+                  {ready && !needsFirstTap && (
                     <div className="absolute bottom-3 right-3 z-20 flex gap-2 pointer-events-auto">
                       <button
                         onClick={togglePlay}
-                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
                         aria-label={isPlaying ? "Pause video" : "Play video"}
                       >
                         {isPlaying ? "⏸ Pause" : "▶ Play"}
                       </button>
                       <button
                         onClick={toggleMute}
-                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
                         aria-label={muted ? "Unmute video" : "Mute video"}
                       >
                         {muted ? "🔊 Unmute" : "🔇 Mute"}
                       </button>
                       <button
-                        onClick={async () => {
-                          // toggleFullscreen
-                          try {
-                            const fs =
-                              await playerRef.current?.getFullscreen?.();
-                            if (fs) {
-                              await playerRef.current?.exitFullscreen?.();
-                              setIsFullscreen(false);
-                            } else {
-                              await playerRef.current?.requestFullscreen?.();
-                              setIsFullscreen(true);
-                            }
-                          } catch (e) {
-                            const iframe = iframeRef.current;
-                            if (!iframe) return;
-                            try {
-                              if (document.fullscreenElement) {
-                                await document.exitFullscreen();
-                                setIsFullscreen(false);
-                              } else if ((iframe as any).requestFullscreen) {
-                                await (iframe as any).requestFullscreen();
-                                setIsFullscreen(true);
-                              } else if (
-                                (iframe as any).webkitRequestFullscreen
-                              ) {
-                                (iframe as any).webkitRequestFullscreen(); // Safari
-                                setIsFullscreen(true);
-                              }
-                            } catch {}
-                          }
-                        }}
-                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                        onClick={toggleFullscreen}
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
                         aria-label={
                           isFullscreen ? "Exit Fullscreen" : "Fullscreen"
                         }
