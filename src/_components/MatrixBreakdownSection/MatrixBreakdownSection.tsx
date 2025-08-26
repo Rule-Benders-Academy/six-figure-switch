@@ -283,7 +283,7 @@ const MatrixBreakdownSection: React.FC = () => {
                   className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
                     ready ? "opacity-100" : "opacity-0"
                   } pointer-events-none`} // overlay controls handle taps
-                  src="https://player.vimeo.com/video/1113012539?autoplay=1&loop=1&muted=1&playsinline=1&autopause=0"
+                  src="https://player.vimeo.com/video/1113012539?autoplay=1&loop=1&playsinline=1&autopause=0"
                   title="Method Walkthrough"
                   allow="autoplay; fullscreen; picture-in-picture"
                   allowFullScreen

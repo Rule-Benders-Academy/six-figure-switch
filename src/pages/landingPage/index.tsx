@@ -449,7 +449,7 @@ const LandingPage = () => {
                         ready ? "opacity-100" : "opacity-0"
                       } pointer-events-none`} // overlay buttons capture taps
                       // NOTE: no background=1 so we can control audio post-gesture
-                      src="https://player.vimeo.com/video/1113015239?muted=1&loop=1&playsinline=1&autopause=0"
+                      src="https://player.vimeo.com/video/1113015239?loop=1&playsinline=1&autopause=0"
                       title="How We Do It"
                       allow="autoplay; fullscreen; picture-in-picture"
                       allowFullScreen
