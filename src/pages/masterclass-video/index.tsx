@@ -595,10 +595,12 @@ const LandingPage = () => {
                 </div>
 
                 <div className="relative max-w-[80%] md:max-w-[40%] mx-auto">
-                  <div className="flex justify-center items-center -mb-5 md:-mb-[30px] relative z-10">
-                    <DigitalClock minutes={53} seconds={60} />
+                  {/* Clock: visible but not clickable (won’t block clicks below) */}
+                  <div className="flex justify-center items-center -mb-5 md:-mb-[30px] relative z-10 pointer-events-none">
+                    <DigitalClock minutes={53} seconds={0} />
                   </div>
-                  <div className="relative text-center py-[100px] px-5 border-[2px] border-[#3C3C3C] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[50px] w-[100%] mx-auto">
+
+                  <div className="relative text-center py-[100px] px-5 border-2 border-[#3C3C3C] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[50px] w-full mx-auto">
                     <p className="text-lg md:text-2xl lg:leading-[100%] mb-2">
                       Join <span className="font-bold">100+</span> career
                       changers
@@ -611,7 +613,9 @@ const LandingPage = () => {
                       </span>
                     </h2>
                   </div>
-                  <div className="text-center">
+
+                  {/* Button: explicitly clickable and above other layers */}
+                  <div className="text-center z-20 relative pointer-events-auto mt-2">
                     <GradientButton>I’m in – lets Go!</GradientButton>
                   </div>
                 </div>
