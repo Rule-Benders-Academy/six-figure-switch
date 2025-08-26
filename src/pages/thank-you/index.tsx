@@ -207,6 +207,7 @@ const ThankYou = () => {
       {/* Confetti streams from BOTH sides — slow & colorful */}
       <ConfettiStream side="left" />
       <ConfettiStream side="right" />
+      
 
       <section className="flex-1 flex flex-col justify-center items-center px-4 sm:px-8 md:px-12 lg:px-20 py-16">
         {/* Smaller, elegant hero card */}

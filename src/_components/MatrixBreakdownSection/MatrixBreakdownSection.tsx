@@ -108,7 +108,7 @@ const MatrixBreakdownSection: React.FC = () => {
                   className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
                     ready ? "opacity-100" : "opacity-0"
                   }`}
-                  src="https://player.vimeo.com/video/1113012539?autoplay=1&muted=1&background=1&loop=1&playsinline=1"
+                  src="https://player.vimeo.com/video/1113012539?autoplay=1&loop=1&playsinline=1"
                   title="How We Do It"
                   allow="autoplay; fullscreen; picture-in-picture"
                   allowFullScreen
