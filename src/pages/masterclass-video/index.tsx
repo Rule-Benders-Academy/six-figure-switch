@@ -42,34 +42,6 @@ declare global {
   }
 }
 
-/** Play button with soft pulse */
-const PlayButton = ({
-  onClick,
-  label = "Play the class",
-}: {
-  onClick: () => void;
-  label?: string;
-}) => (
-  <button
-    type="button"
-    onClick={onClick}
-    aria-label={label}
-    className="group relative inline-flex items-center justify-center"
-  >
-    <span className="absolute inset-0 rounded-full bg-[#FFA500]/30 blur-lg opacity-70 group-hover:opacity-90 transition-opacity animate-ping" />
-    <span className="relative h-16 w-16 md:h-20 md:w-20 rounded-full bg-white/10 backdrop-blur ring-1 ring-white/40 hover:bg-white/20 transition-colors flex items-center justify-center">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-7 w-7 md:h-8 md:w-8 text-white transition-transform group-hover:scale-105"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-      >
-        <path d="M8 5v14l11-7z" />
-      </svg>
-    </span>
-  </button>
-);
-
 const points = [
   "You don’t need to build a startup",
   "You don’t need to grow a huge following",
@@ -85,76 +57,52 @@ const isIOS = () => {
     (navigator as any).vendor ||
     (window as any).opera ||
     "";
-  const iOS =
+  return (
     /iPad|iPhone|iPod/.test(ua) ||
-    (navigator.platform === "MacIntel" &&
-      (navigator as any).maxTouchPoints > 1);
-  return iOS;
+    (navigator.platform === "MacIntel" && (navigator as any).maxTouchPoints > 1)
+  );
 };
 
 const LandingPage = () => {
-  // Gate: must watch 30 minutes
+  // ------- Gate: must watch 30 minutes -------
   const THRESHOLD_SECONDS = 1800;
   const [secondsLeft, setSecondsLeft] = useState(THRESHOLD_SECONDS);
   const [unlocked, setUnlocked] = useState(false);
   const gateTimerRef = useRef<number | null>(null);
+  const gateStartedRef = useRef(false);
 
-  // Vimeo + UI
-  const [showIframe, setShowIframe] = useState(false);
+  const startGateTimer = () => {
+    if (gateStartedRef.current) return;
+    gateStartedRef.current = true;
+    if (gateTimerRef.current !== null) return;
+    let s = THRESHOLD_SECONDS;
+    setSecondsLeft(s);
+    gateTimerRef.current = window.setInterval(() => {
+      s -= 1;
+      setSecondsLeft(s);
+      if (s <= 0) {
+        if (gateTimerRef.current) {
+          window.clearInterval(gateTimerRef.current);
+          gateTimerRef.current = null;
+        }
+        setUnlocked(true);
+      }
+    }, 1000);
+  };
+
+  // ------- Vimeo + UI -------
   const [ready, setReady] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [needsFirstTap, setNeedsFirstTap] = useState(true); // invisible overlay to enable audio on iOS
+  const [showUnmuteHint, setShowUnmuteHint] = useState(false);
+
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<any>(null);
 
-  // Controls
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [muted, setMuted] = useState(true);
-  const [needsUnmuteTap, setNeedsUnmuteTap] = useState(false);
-
-  // iOS: short “second tap” window & dbl-tap tip
-  const [secondTapWindow, setSecondTapWindow] = useState(false);
-  const secondTapTimerRef = useRef<number | null>(null);
-
-  // Countdown 5→1
-  const [isCounting, setIsCounting] = useState(false);
-  const [count, setCount] = useState(5);
-  const countdownRef = useRef<number | null>(null);
-
   // Motion preference
   const [reducedMotion, setReducedMotion] = useState(false);
-
-  // Fullscreen state
-  const [isFullscreen, setIsFullscreen] = useState(false);
-
-  // Toggle fullscreen (API first, then native fallback)
-  
-  const toggleFullscreen = async () => {
-    if (!playerRef.current) return;
-    try {
-      const fs = await playerRef.current.getFullscreen();
-      if (fs) {
-        await playerRef.current.exitFullscreen();
-      } else {
-        await playerRef.current.requestFullscreen();
-      }
-      // Re-check shortly after to reflect the real state
-      setTimeout(async () => {
-        try {
-          const now = await playerRef.current.getFullscreen();
-          setIsFullscreen(!!now);
-        } catch {}
-      }, 50);
-    } catch (e) {
-      // Fallback to native element fullscreen
-      const iframe = iframeRef.current as any;
-      const el = iframe || document.documentElement;
-      if (document.fullscreenElement) {
-        (document as any).exitFullscreen?.();
-      } else {
-        el?.requestFullscreen?.();
-      }
-    }
-  };
-
   useEffect(() => {
     if (typeof window !== "undefined" && "matchMedia" in window) {
       const m = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -165,7 +113,7 @@ const LandingPage = () => {
     }
   }, []);
 
-  // Ensure Vimeo API available
+  // Vimeo API loader
   const ensureVimeo = async () => {
     if (window.Vimeo?.Player) return;
     await new Promise<void>((resolve) => {
@@ -177,174 +125,151 @@ const LandingPage = () => {
     });
   };
 
-  // Start 30-min gate
-  const startGateTimer = () => {
-    if (!unlocked && gateTimerRef.current === null) {
-      let s = THRESHOLD_SECONDS;
-      setSecondsLeft(s);
-      gateTimerRef.current = window.setInterval(() => {
-        s -= 1;
-        setSecondsLeft(s);
-        if (s <= 0) {
-          if (gateTimerRef.current) {
-            window.clearInterval(gateTimerRef.current);
-            gateTimerRef.current = null;
-          }
-          setUnlocked(true);
-        }
-      }, 1000);
-    }
-  };
+  // Init player (always-mounted iframe; muted & paused by default)
+  useEffect(() => {
+    let disposed = false;
+    (async () => {
+      await ensureVimeo();
+      if (disposed) return;
+      if (!iframeRef.current || !window.Vimeo?.Player) return;
 
-  /**
-   * FLOW:
-   * - First tap: show countdown, mount iframe, init player MUTED + PAUSED.
-   * - When countdown hits 0: start playback (muted).
-   *   - non-iOS: attempt auto-unmute; if blocked, show unmute prompt
-   *   - iOS: show unmute prompt + 4s double-tap window
-   */
-  const handleStartVideo = async () => {
-    if (isCounting || showIframe) return;
-
-    setIsCounting(true);
-    setCount(5);
-
-    await ensureVimeo();
-    setShowIframe(true); // mount iframe now so player can be created
-
-    // Initialize the player immediately, but keep PAUSED until countdown ends
-    requestAnimationFrame(async () => {
+      playerRef.current = new window.Vimeo.Player(iframeRef.current);
       try {
-        if (!iframeRef.current) return;
-        playerRef.current = new window.Vimeo.Player(iframeRef.current);
         await playerRef.current.ready();
         setReady(true);
         await playerRef.current.setMuted(true);
-        await playerRef.current.pause(); // do not start until countdown completes
+        setMuted(true);
 
         // Sync events
-        playerRef.current.on("play", () => setIsPlaying(true));
+        playerRef.current.on("play", () => {
+          setIsPlaying(true);
+          // start the gate timer on the first actual play
+          startGateTimer();
+        });
         playerRef.current.on("pause", () => setIsPlaying(false));
         playerRef.current.on("volumechange", async () => {
           try {
             setMuted(await playerRef.current.getMuted());
           } catch {}
         });
-
-        // Track Vimeo fullscreen changes (Esc or Vimeo UI)
         playerRef.current.on(
           "fullscreenchange",
           (e: { fullscreen: boolean }) => {
-            setIsFullscreen(!!e?.fullscreen);
+            const fs = !!e?.fullscreen;
+            setIsFullscreen(fs);
+            if (!fs) pauseVideo();
           }
         );
-      } catch (e) {
-        setNeedsUnmuteTap(true);
-      }
-    });
+      } catch {}
+    })();
+    return () => {
+      disposed = true;
+    };
+  }, []);
 
-    // Countdown
-    countdownRef.current = window.setInterval(async () => {
-      setCount((c) => {
-        if (c <= 1) {
-          if (countdownRef.current) {
-            window.clearInterval(countdownRef.current);
-            countdownRef.current = null;
-          }
-          setIsCounting(false);
-
-          // Start playing (muted)
-          (async () => {
-            try {
-              if (!playerRef.current) return;
-              await playerRef.current.play();
-              setIsPlaying(true);
-
-              if (!isIOS()) {
-                // Try to unmute automatically on non-iOS
-                try {
-                  await playerRef.current.setMuted(false);
-                  await playerRef.current.setVolume(1);
-                  setMuted(false);
-                  setNeedsUnmuteTap(false);
-                } catch {
-                  setNeedsUnmuteTap(true);
-                }
-              } else {
-                // iOS requires explicit user gesture for sound
-                setNeedsUnmuteTap(true);
-                setSecondTapWindow(true);
-                if (secondTapTimerRef.current)
-                  clearTimeout(secondTapTimerRef.current);
-                secondTapTimerRef.current = window.setTimeout(() => {
-                  setSecondTapWindow(false);
-                }, 4000) as unknown as number;
-              }
-            } catch {
-              setNeedsUnmuteTap(true);
-            }
-          })();
-
-          // Start the 30-minute gate
-          startGateTimer();
-          return 0;
-        }
-        return c - 1;
-      });
-    }, 700);
-  };
-
-  // Double-tap anywhere over the video area (during the 4s window) to unmute on iOS
-  const handleDoubleTapArea = async () => {
-    if (!secondTapWindow) return;
-    await forceUnmute();
-    setSecondTapWindow(false);
-  };
-
-  const togglePlay = async () => {
-    if (!playerRef.current) return;
-    const paused = await playerRef.current.getPaused();
-    if (paused) await playerRef.current.play();
-    else await playerRef.current.pause();
-  };
-
-  const toggleMute = async () => {
-    if (!playerRef.current) return;
-    await playerRef.current.setMuted(!muted);
-    setMuted(!muted);
-    if (!muted) setNeedsUnmuteTap(false);
-  };
-
-  const forceUnmute = async () => {
+  const pauseVideo = async () => {
     if (!playerRef.current) return;
     try {
-      await playerRef.current.setMuted(false);
-      await playerRef.current.setVolume(1);
-      const paused = await playerRef.current.getPaused();
-      if (paused) await playerRef.current.play();
-      setMuted(false);
-      setIsPlaying(true);
-      setNeedsUnmuteTap(false);
+      await playerRef.current.pause();
+      setIsPlaying(false);
     } catch {}
   };
 
-  // Listen to native document fullscreenchange (fallback/native iframe)
+  // Pause on Esc + when native fullscreen exits (fallback path)
   useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.key === "Esc" || e.keyCode === 27)
+        pauseVideo();
+    };
     const onFsChange = () => {
       const active =
         !!document.fullscreenElement ||
         !!(document as any).webkitFullscreenElement;
       setIsFullscreen(active);
+      if (!active) pauseVideo();
     };
+    document.addEventListener("keydown", onKey);
     document.addEventListener("fullscreenchange", onFsChange);
     document.addEventListener("webkitfullscreenchange", onFsChange as any);
     return () => {
+      document.removeEventListener("keydown", onKey);
       document.removeEventListener("fullscreenchange", onFsChange);
       document.removeEventListener("webkitfullscreenchange", onFsChange as any);
     };
   }, []);
 
-  // GA + cleanup
+  // First user tap → unmute + volume(1) + play (iOS-safe); if blocked, play muted and show hint.
+  const handleFirstTap = async () => {
+    if (!playerRef.current) return;
+    try {
+      await playerRef.current.setMuted(false);
+      setMuted(false);
+      await playerRef.current.setVolume(1);
+      await playerRef.current.play();
+      setIsPlaying(true);
+      setNeedsFirstTap(false);
+      setShowUnmuteHint(false);
+    } catch {
+      try {
+        await playerRef.current.setMuted(true);
+        setMuted(true);
+        await playerRef.current.play();
+        setIsPlaying(true);
+      } catch {}
+      setNeedsFirstTap(false);
+      if (isIOS()) setShowUnmuteHint(true);
+    }
+  };
+
+  const togglePlay = async () => {
+    if (!playerRef.current) return;
+    try {
+      const paused = await playerRef.current.getPaused();
+      if (paused) await playerRef.current.play();
+      else await playerRef.current.pause();
+    } catch {}
+  };
+
+  const toggleMute = async () => {
+    if (!playerRef.current) return;
+    try {
+      await playerRef.current.setMuted(!muted);
+      setMuted(!muted);
+      setShowUnmuteHint(false);
+    } catch {}
+  };
+
+  const toggleFullscreen = async () => {
+    if (!playerRef.current) return;
+    try {
+      const fs = await playerRef.current.getFullscreen?.();
+      if (fs) {
+        await playerRef.current.exitFullscreen?.();
+        setIsFullscreen(false);
+      } else {
+        await playerRef.current.requestFullscreen?.();
+        setIsFullscreen(true);
+      }
+    } catch {
+      // Native fallback
+      const iframe = iframeRef.current;
+      if (!iframe) return;
+      try {
+        if (document.fullscreenElement) {
+          await document.exitFullscreen();
+          setIsFullscreen(false);
+        } else if ((iframe as any).requestFullscreen) {
+          await (iframe as any).requestFullscreen();
+          setIsFullscreen(true);
+        } else if ((iframe as any).webkitRequestFullscreen) {
+          (iframe as any).webkitRequestFullscreen();
+          setIsFullscreen(true);
+        }
+      } catch {}
+    }
+  };
+
+  // GA + cleanup timers
   useEffect(() => {
     const script1 = document.createElement("script");
     script1.src = "https://www.googletagmanager.com/gtag/js?id=G-R7Q2CRPHS8";
@@ -365,13 +290,6 @@ const LandingPage = () => {
         window.clearInterval(gateTimerRef.current);
         gateTimerRef.current = null;
       }
-      if (countdownRef.current) {
-        window.clearInterval(countdownRef.current);
-        countdownRef.current = null;
-      }
-      if (secondTapTimerRef.current) {
-        clearTimeout(secondTapTimerRef.current);
-      }
     };
   }, []);
 
@@ -388,7 +306,6 @@ const LandingPage = () => {
               className="w-full h-full object-cover opacity-70"
               priority
             />
-            {/* animated gradient blobs */}
             <div
               aria-hidden
               className={`absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#FFA500]/20 blur-3xl ${
@@ -401,7 +318,6 @@ const LandingPage = () => {
                 reducedMotion ? "" : "animate-pulse"
               }`}
             />
-            {/* subtle grain */}
             <div
               aria-hidden
               className="absolute inset-0 opacity-[0.07] mix-blend-overlay"
@@ -438,79 +354,56 @@ const LandingPage = () => {
 
             <div className="relative lg:w-[90%] border-2 border-[#747373] bg-[#FFFFFF12] rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:mt-2 mx-auto">
               <div className="p-2 lg:p-4">
-                <div
-                  className="relative w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e]"
-                  onDoubleClick={handleDoubleTapArea}
-                >
-                  {/* Pre-video overlay: play OR countdown */}
-                  {!showIframe && !isCounting && (
-                    <div className="absolute inset-0 grid place-items-center">
-                      <PlayButton onClick={handleStartVideo} />
-                      <div className="absolute bottom-4 left-0 right-0 text-center">
-                        <span className="rounded-xl border border-white/30 px-3 py-1.5 bg-black/30 backdrop-blur text-xs md:text-sm text-white/90">
+                <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e]">
+                  {/* Always-mounted Vimeo iframe, muted by default. No autoplay param. */}
+                  <iframe
+                    ref={iframeRef}
+                    className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                      ready ? "opacity-100" : "opacity-0"
+                    } pointer-events-none`}
+                    src="https://player.vimeo.com/video/1113013910?muted=1&loop=1&playsinline=1&autopause=0"
+                    title="How We Do It"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowFullScreen
+                  />
+
+                  {/* First-tap overlay to unmute+play (iOS safe). Hidden once used. */}
+                  {needsFirstTap && ready && (
+                    <div
+                      onClick={handleFirstTap}
+                      className="absolute inset-0 z-20 cursor-pointer"
+                      aria-hidden
+                      title="Tap to start with sound"
+                    >
+                      {/* Optional helper text */}
+                      <div className="absolute bottom-4 left-0 right-0 text-center pointer-events-none">
+                        <span className="rounded-xl border border-white/20 px-3 py-1.5 bg-black/40 backdrop-blur text-xs md:text-sm text-white/90">
                           Tap to start the class
                         </span>
                       </div>
                     </div>
                   )}
 
-                  {/* Countdown 5..1 (background dims; digits crisp) */}
-                  {isCounting && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="relative z-10">
-                        <div
-                          key={count}
-                          className="text-7xl md:text-8xl lg:text-9xl font-extrabold text-white drop-shadow-[0_10px_30px_rgba(255,165,0,0.35)] transition-transform duration-300 ease-out"
-                          style={{ transform: "scale(1)" }}
-                        >
-                          {count}
-                        </div>
-                        <div className="mt-3 text-center text-xs md:text-sm text-white/80">
-                          Get ready…
-                        </div>
-                      </div>
-                      <div className="absolute inset-0 bg-black/40" />
-                    </div>
-                  )}
-
-                  {/* Vimeo Player — mounted early, but hidden until countdown ends */}
-                  {showIframe && (
-                    <>
-                      {!ready && <div className="absolute inset-0 bg-black" />}
-                      <iframe
-                        ref={iframeRef}
-                        key="video"
-                        className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
-                          ready && !isCounting ? "opacity-100" : "opacity-0"
-                        } pointer-events-none`}
-                        src="https://player.vimeo.com/video/1113013910?muted=1&loop=1&playsinline=1&autopause=0"
-                        title="How We Do It"
-                        allow="autoplay; fullscreen; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </>
-                  )}
-
-                  {/* Overlay controls — hidden while fullscreen */}
-                  {showIframe && ready && !isCounting && !isFullscreen && (
+                  {/* Overlay controls (hidden while fullscreen) */}
+                  {ready && !needsFirstTap && !isFullscreen && (
                     <div className="absolute bottom-3 right-3 z-20 flex gap-2 pointer-events-auto">
                       <button
                         onClick={togglePlay}
-                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
                         aria-label={isPlaying ? "Pause video" : "Play video"}
                       >
                         {isPlaying ? "⏸ Pause" : "▶ Play"}
                       </button>
                       <button
                         onClick={toggleMute}
-                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
                         aria-label={muted ? "Unmute video" : "Mute video"}
                       >
                         {muted ? "🔊 Unmute" : "🔇 Mute"}
                       </button>
                       <button
                         onClick={toggleFullscreen}
-                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
                         aria-label={
                           isFullscreen ? "Exit Fullscreen" : "Fullscreen"
                         }
@@ -520,31 +413,14 @@ const LandingPage = () => {
                     </div>
                   )}
 
-                  {/* Unmute UI — also hidden while fullscreen */}
-                  {showIframe &&
-                    ready &&
-                    !isCounting &&
-                    needsUnmuteTap &&
-                    !isFullscreen && (
-                      <>
-                        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-auto">
-                          <button
-                            onClick={forceUnmute}
-                            className="rounded-full bg-[#FFA500] text-black font-semibold text-sm md:text-base px-4 py-2 shadow-lg"
-                          >
-                            🔊 Tap to Unmute
-                          </button>
-                        </div>
-
-                        {secondTapWindow && (
-                          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20">
-                            <span className="rounded-xl border border-white/20 px-3 py-1.5 bg-black/50 backdrop-blur text-[11px] md:text-xs text-white/90">
-                              Tip: double-tap the video to enable sound
-                            </span>
-                          </div>
-                        )}
-                      </>
-                    )}
+                  {/* If iOS blocked sound, show a tiny hint after first tap */}
+                  {showUnmuteHint && !isFullscreen && (
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+                      <span className="rounded-xl border border-white/20 px-3 py-1.5 bg-black/50 backdrop-blur text-[11px] md:text-xs text-white/90">
+                        Sound blocked by the browser — use 🔊 Unmute
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Gate message */}
