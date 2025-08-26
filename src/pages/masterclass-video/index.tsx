@@ -80,10 +80,15 @@ const points = [
 
 const isIOS = () => {
   if (typeof navigator === "undefined") return false;
-  const ua = navigator.userAgent || navigator.vendor || (window as any).opera || "";
+  const ua =
+    navigator.userAgent ||
+    (navigator as any).vendor ||
+    (window as any).opera ||
+    "";
   const iOS =
     /iPad|iPhone|iPod/.test(ua) ||
-    (navigator.platform === "MacIntel" && (navigator as any).maxTouchPoints > 1);
+    (navigator.platform === "MacIntel" &&
+      (navigator as any).maxTouchPoints > 1);
   return iOS;
 };
 
@@ -116,6 +121,40 @@ const LandingPage = () => {
 
   // Motion preference
   const [reducedMotion, setReducedMotion] = useState(false);
+
+  // Fullscreen state
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Toggle fullscreen (API first, then native fallback)
+  
+  const toggleFullscreen = async () => {
+    if (!playerRef.current) return;
+    try {
+      const fs = await playerRef.current.getFullscreen();
+      if (fs) {
+        await playerRef.current.exitFullscreen();
+      } else {
+        await playerRef.current.requestFullscreen();
+      }
+      // Re-check shortly after to reflect the real state
+      setTimeout(async () => {
+        try {
+          const now = await playerRef.current.getFullscreen();
+          setIsFullscreen(!!now);
+        } catch {}
+      }, 50);
+    } catch (e) {
+      // Fallback to native element fullscreen
+      const iframe = iframeRef.current as any;
+      const el = iframe || document.documentElement;
+      if (document.fullscreenElement) {
+        (document as any).exitFullscreen?.();
+      } else {
+        el?.requestFullscreen?.();
+      }
+    }
+  };
+
   useEffect(() => {
     if (typeof window !== "undefined" && "matchMedia" in window) {
       const m = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -158,9 +197,9 @@ const LandingPage = () => {
   };
 
   /**
-   * FIXED FLOW:
+   * FLOW:
    * - First tap: show countdown, mount iframe, init player MUTED + PAUSED.
-   * - When countdown hits 0: start playback (muted). Then:
+   * - When countdown hits 0: start playback (muted).
    *   - non-iOS: attempt auto-unmute; if blocked, show unmute prompt
    *   - iOS: show unmute prompt + 4s double-tap window
    */
@@ -171,7 +210,7 @@ const LandingPage = () => {
     setCount(5);
 
     await ensureVimeo();
-    setShowIframe(true); // mount iframe now so player can be readied
+    setShowIframe(true); // mount iframe now so player can be created
 
     // Initialize the player immediately, but keep PAUSED until countdown ends
     requestAnimationFrame(async () => {
@@ -181,9 +220,9 @@ const LandingPage = () => {
         await playerRef.current.ready();
         setReady(true);
         await playerRef.current.setMuted(true);
-        await playerRef.current.pause(); // ensure it will NOT start yet
+        await playerRef.current.pause(); // do not start until countdown completes
 
-        // Keep local state synced
+        // Sync events
         playerRef.current.on("play", () => setIsPlaying(true));
         playerRef.current.on("pause", () => setIsPlaying(false));
         playerRef.current.on("volumechange", async () => {
@@ -191,6 +230,14 @@ const LandingPage = () => {
             setMuted(await playerRef.current.getMuted());
           } catch {}
         });
+
+        // Track Vimeo fullscreen changes (Esc or Vimeo UI)
+        playerRef.current.on(
+          "fullscreenchange",
+          (e: { fullscreen: boolean }) => {
+            setIsFullscreen(!!e?.fullscreen);
+          }
+        );
       } catch (e) {
         setNeedsUnmuteTap(true);
       }
@@ -206,7 +253,7 @@ const LandingPage = () => {
           }
           setIsCounting(false);
 
-          // NOW start playing (muted)
+          // Start playing (muted)
           (async () => {
             try {
               if (!playerRef.current) return;
@@ -227,7 +274,8 @@ const LandingPage = () => {
                 // iOS requires explicit user gesture for sound
                 setNeedsUnmuteTap(true);
                 setSecondTapWindow(true);
-                if (secondTapTimerRef.current) clearTimeout(secondTapTimerRef.current);
+                if (secondTapTimerRef.current)
+                  clearTimeout(secondTapTimerRef.current);
                 secondTapTimerRef.current = window.setTimeout(() => {
                   setSecondTapWindow(false);
                 }, 4000) as unknown as number;
@@ -279,6 +327,22 @@ const LandingPage = () => {
       setNeedsUnmuteTap(false);
     } catch {}
   };
+
+  // Listen to native document fullscreenchange (fallback/native iframe)
+  useEffect(() => {
+    const onFsChange = () => {
+      const active =
+        !!document.fullscreenElement ||
+        !!(document as any).webkitFullscreenElement;
+      setIsFullscreen(active);
+    };
+    document.addEventListener("fullscreenchange", onFsChange);
+    document.addEventListener("webkitfullscreenchange", onFsChange as any);
+    return () => {
+      document.removeEventListener("fullscreenchange", onFsChange);
+      document.removeEventListener("webkitfullscreenchange", onFsChange as any);
+    };
+  }, []);
 
   // GA + cleanup
   useEffect(() => {
@@ -359,7 +423,9 @@ const LandingPage = () => {
               <span className="text-[#FFA500] font-semibold">Five Models</span>
               <br />
               That Explain Why Consultants Earn <br />
-              <span className="text-[#FFA500] font-semibold">3–5× More</span>{" "}
+              <span className="text-[#FFA500] font-semibold">
+                3–5× More
+              </span>{" "}
               Than Employees
               <br />
               <br />
@@ -417,8 +483,6 @@ const LandingPage = () => {
                         className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
                           ready && !isCounting ? "opacity-100" : "opacity-0"
                         } pointer-events-none`}
-                        // NOTE: no background=1 (that forces mute forever)
-                        // autoplay param is omitted intentionally; we call play() via API at countdown end
                         src="https://player.vimeo.com/video/1113013910?muted=1&loop=1&playsinline=1&autopause=0"
                         title="How We Do It"
                         allow="autoplay; fullscreen; picture-in-picture"
@@ -427,8 +491,8 @@ const LandingPage = () => {
                     </>
                   )}
 
-                  {/* Overlay controls */}
-                  {showIframe && ready && !isCounting && (
+                  {/* Overlay controls — hidden while fullscreen */}
+                  {showIframe && ready && !isCounting && !isFullscreen && (
                     <div className="absolute bottom-3 right-3 z-20 flex gap-2 pointer-events-auto">
                       <button
                         onClick={togglePlay}
@@ -444,30 +508,43 @@ const LandingPage = () => {
                       >
                         {muted ? "🔊 Unmute" : "🔇 Mute"}
                       </button>
+                      <button
+                        onClick={toggleFullscreen}
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5 flex items-center gap-1"
+                        aria-label={
+                          isFullscreen ? "Exit Fullscreen" : "Fullscreen"
+                        }
+                      >
+                        {isFullscreen ? "🗗 Exit" : "⛶ Fullscreen"}
+                      </button>
                     </div>
                   )}
 
-                  {/* Unmute UI */}
-                  {showIframe && ready && !isCounting && needsUnmuteTap && (
-                    <>
-                      <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-auto">
-                        <button
-                          onClick={forceUnmute}
-                          className="rounded-full bg-[#FFA500] text-black font-semibold text-sm md:text-base px-4 py-2 shadow-lg"
-                        >
-                          🔊 Tap to Unmute
-                        </button>
-                      </div>
-
-                      {secondTapWindow && (
-                        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20">
-                          <span className="rounded-xl border border-white/20 px-3 py-1.5 bg-black/50 backdrop-blur text-[11px] md:text-xs text-white/90">
-                            Tip: double-tap the video to enable sound
-                          </span>
+                  {/* Unmute UI — also hidden while fullscreen */}
+                  {showIframe &&
+                    ready &&
+                    !isCounting &&
+                    needsUnmuteTap &&
+                    !isFullscreen && (
+                      <>
+                        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-auto">
+                          <button
+                            onClick={forceUnmute}
+                            className="rounded-full bg-[#FFA500] text-black font-semibold text-sm md:text-base px-4 py-2 shadow-lg"
+                          >
+                            🔊 Tap to Unmute
+                          </button>
                         </div>
-                      )}
-                    </>
-                  )}
+
+                        {secondTapWindow && (
+                          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20">
+                            <span className="rounded-xl border border-white/20 px-3 py-1.5 bg-black/50 backdrop-blur text-[11px] md:text-xs text-white/90">
+                              Tip: double-tap the video to enable sound
+                            </span>
+                          </div>
+                        )}
+                      </>
+                    )}
                 </div>
 
                 {/* Gate message */}
@@ -521,7 +598,11 @@ const LandingPage = () => {
           <>
             <section className="relative bg-black text-white pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-12 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden flex items-center justify-center min-h-screen">
               <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-60 pointer-events-none">
-                <Image src={HeroBg} alt="" className="w-full h-full object-cover" />
+                <Image
+                  src={HeroBg}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               <div className="relative max-w-[98%] mx-auto text-center">
@@ -587,7 +668,11 @@ const LandingPage = () => {
                   <div key={index} className="mt-4">
                     <div className="flex items-center gap-4 md:gap-8">
                       <div className="shrink-0">
-                        <Image src={CancelIcon} alt="" className="lg:w-[50px] md:w-12 w-6" />
+                        <Image
+                          src={CancelIcon}
+                          alt=""
+                          className="lg:w-[50px] md:w-12 w-6"
+                        />
                       </div>
                       <div className="text-[18px] lg:text-[24px] uppercase max-w-[606px] text-white">
                         {text}
@@ -639,12 +724,15 @@ const LandingPage = () => {
                   </div>
                   <div className="relative text-center py-[100px] px-5 border-[2px] border-[#3C3C3C] bg-[#FFFFFF12] rounded-3xl md:rounded-[35px] lg:rounded-[50px] w-[100%] mx-auto">
                     <p className="text-lg md:text-2xl lg:leading-[100%] mb-2">
-                      Join <span className="font-bold">100+</span> career changers
+                      Join <span className="font-bold">100+</span> career
+                      changers
                     </p>
                     <h2 className="text-[24px] leading-[120%] lg:leading-[100%] md:text-2xl tracking-wide uppercase">
                       Who Made The
                       <br />
-                      <span className="text-[#FFA500] font-bold">Six-Figure Switch</span>
+                      <span className="text-[#FFA500] font-bold">
+                        Six-Figure Switch
+                      </span>
                     </h2>
                   </div>
                   <div className="text-center">
@@ -666,7 +754,7 @@ const LandingPage = () => {
                 </div>
               </section>
 
-              <div className="bg-gradient-to-b from-[#141314] to-[#272526] pb-11 md:pb-16">
+              <div className="bg-gradient-to-b from-[#141314] to-[#272526] h-full">
                 <div className="px-4 sm:px-8 md:px-16 lg:px-24 pt-10 lg:pt-24">
                   <SixFigureSwitch />
                 </div>
@@ -700,8 +788,8 @@ const LandingPage = () => {
                 name="DANIEL"
                 description={
                   <>
-                    Left his struggling online business. First consulting role at
-                    £400/day. Multiple government contracts since.
+                    Left his struggling online business. First consulting role
+                    at £400/day. Multiple government contracts since.
                   </>
                 }
                 videoUrl="https://res.cloudinary.com/dfykcw0ks/video/upload/v1752145302/Testimonial_Video_Daniel_fbvbe6.mp4"
@@ -713,8 +801,9 @@ const LandingPage = () => {
                 name="DAVID"
                 description={
                   <>
-                    Turned mid-career stagnation into £900/day independence and freedom.
-                    Turned mid-career stagnation into £900/day independence and freedom.
+                    Turned mid-career stagnation into £900/day independence and
+                    freedom. Turned mid-career stagnation into £900/day
+                    independence and freedom.
                   </>
                 }
                 videoUrl="https://res.cloudinary.com/dfykcw0ks/video/upload/v1752145311/Testimonial_Video_David_lgfmuh.mp4"
