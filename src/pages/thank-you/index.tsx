@@ -158,6 +158,24 @@ const ThankYou = () => {
     }
   };
 
+  // Keeps domain visible for emails; falls back to end-ellipsis
+  function ellipsizeEmail(e: string, max = 32) {
+    if (!e || e.length <= max) return e;
+    const [user, domain] = e.split("@");
+    if (!domain) return e.slice(0, max - 1) + "…";
+    const tail = `@${domain}`;
+    const room = Math.max(4, max - tail.length - 1);
+    const head = Math.min(Math.max(3, Math.ceil(room * 0.6)), user.length);
+    const rest = Math.max(1, room - head);
+    return `${user.slice(0, head)}…${user.slice(-rest)}${tail}`;
+  }
+
+  function ellipsizeMiddle(str: string, max = 36) {
+    if (!str || str.length <= max) return str;
+    const keep = Math.max(6, Math.floor((max - 1) / 2));
+    return `${str.slice(0, keep)}…${str.slice(-keep)}`;
+  }
+
   const openLiveChat = () => {
     try {
       if (typeof window !== "undefined" && (window as any).$crisp) {
@@ -207,7 +225,6 @@ const ThankYou = () => {
       {/* Confetti streams from BOTH sides — slow & colorful */}
       <ConfettiStream side="left" />
       <ConfettiStream side="right" />
-      
 
       <section className="flex-1 flex flex-col justify-center items-center px-4 sm:px-8 md:px-12 lg:px-20 py-16">
         {/* Smaller, elegant hero card */}
@@ -274,7 +291,6 @@ const ThankYou = () => {
                   independent consultant with clarity, confidence, and momentum.
                 </motion.p>
 
-                {/* Receipt summary */}
                 {(email || txId) && (
                   <motion.div
                     initial={{ opacity: 0, y: 8 }}
@@ -283,45 +299,65 @@ const ThankYou = () => {
                     className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3"
                   >
                     {email && (
-                      <div className="flex items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm">
+                      <div className="items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm">
                         <div className="flex items-center gap-2">
                           <MailCheck className="w-4 h-4 text-amber-300" />
                           <span className="text-gray-200">Receipt sent to</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold">{email}</span>
+
+                        {/* Right side: allow truncation */}
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span
+                            className="font-semibold text-gray-100 truncate max-w-[180px] sm:max-w-[260px] md:max-w-[320px]"
+                            title={email}
+                          >
+                            {ellipsizeEmail(email, 32)}
+                          </span>
+
                           <button
                             onClick={() => handleCopy(email, "email")}
-                            className="p-1.5 rounded-md hover:bg-white/10"
+                            className="p-1.5 rounded-md hover:bg-white/10 shrink-0 ml-auto"
                             title="Copy email"
+                            aria-label="Copy email"
                           >
                             <Copy className="w-4 h-4 text-gray-300" />
                           </button>
+
                           {copied === "email" && (
-                            <span className="text-xs text-amber-300">
+                            <span className="text-xs text-amber-300 shrink-0">
                               Copied
                             </span>
                           )}
                         </div>
                       </div>
                     )}
+
                     {txId && (
-                      <div className="flex items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm">
+                      <div className=" items-center justify-between rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm">
                         <div className="flex items-center gap-2">
                           <ShieldCheck className="w-4 h-4 text-amber-300" />
                           <span className="text-gray-200">Transaction ID</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono">{txId}</span>
+                        {/* Right side: truncate mono text */}
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span
+                            className="font-mono text-gray-100 truncate max-w-[180px] sm:max-w-[260px] md:max-w-[320px]"
+                            title={txId}
+                          >
+                            {ellipsizeMiddle(txId, 40)}
+                          </span>
+
                           <button
                             onClick={() => handleCopy(txId, "tx")}
-                            className="p-1.5 rounded-md hover:bg-white/10"
+                            className="p-1.5 rounded-md hover:bg-white/10 shrink-0 ml-auto"
                             title="Copy transaction ID"
+                            aria-label="Copy transaction ID"
                           >
                             <Copy className="w-4 h-4 text-gray-300" />
                           </button>
+
                           {copied === "tx" && (
-                            <span className="text-xs text-amber-300">
+                            <span className="text-xs text-amber-300 shrink-0">
                               Copied
                             </span>
                           )}
