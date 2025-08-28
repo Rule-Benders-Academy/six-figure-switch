@@ -3,6 +3,8 @@ import type { AppProps } from "next/app";
 import Script from "next/script";
 import { useEffect } from "react";
 import { Crisp } from "crisp-sdk-web";
+import Head from "next/head";
+
 
 /* eslint-disable @next/next/no-img-element */
 export default function App({ Component, pageProps }: AppProps) {
@@ -14,10 +16,13 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       {/* Meta Pixel Script */}
-      <meta
-        name="facebook-domain-verification"
-        content="37mjzeust6hsewa26wseaztnephvi1"
-      />
+      <Head>
+        <meta
+          name="facebook-domain-verification"
+          content="37mjzeust6hsewa26wseaztnephvi1"
+        />
+      </Head>
+
       <Script
         id="meta-pixel"
         strategy="afterInteractive"
