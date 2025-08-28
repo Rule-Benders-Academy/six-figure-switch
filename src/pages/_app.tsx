@@ -14,6 +14,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       {/* Meta Pixel Script */}
+      <meta
+        name="facebook-domain-verification"
+        content="zcd5st3dwb4uta6402oe20r61mllss"
+      />
       <Script
         id="meta-pixel"
         strategy="afterInteractive"
