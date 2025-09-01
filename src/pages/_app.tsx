@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { Crisp } from "crisp-sdk-web";
 import Head from "next/head";
 
-
 /* eslint-disable @next/next/no-img-element */
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -38,6 +37,24 @@ export default function App({ Component, pageProps }: AppProps) {
             'https://connect.facebook.net/en_US/fbevents.js');
             fbq('init', '740601925279946');
             fbq('track', 'PageView');
+          `,
+        }}
+      />
+
+      {/* Hotjar Tracking Code */}
+      <Script
+        id="hotjar-tracking"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(h,o,t,j,a,r){
+              h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+              h._hjSettings={hjid:6508670,hjsv:6};
+              a=o.getElementsByTagName('head')[0];
+              r=o.createElement('script');r.async=1;
+              r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+              a.appendChild(r);
+            })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
           `,
         }}
       />
