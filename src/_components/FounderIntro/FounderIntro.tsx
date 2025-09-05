@@ -43,7 +43,7 @@ const achievements = [
         <span className="bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text font-bold">DAY RATE RISE FROM</span> <br />
         <div className="flex items-center gap-2 justify-center">
           <Image src={StarsIcon} alt='' className='w-3 md:w-4 lg:w-5' />
-          <span className="font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">£400 to £1650</span>
+          <span className="font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">$400 to $1650</span>
           <Image src={StarsIcon} alt='' className='w-3 md:w-4 lg:w-5' />
         </div>
 

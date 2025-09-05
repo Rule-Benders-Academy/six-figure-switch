@@ -11,7 +11,7 @@ const sections = [
   {
     title: "Climbing New Ladders & Breaking into Consultancy",
     content:
-      "After selling my first business, I decided to shift careers and pursue a new challenge—I wanted to become a high-level corporate executive. But instead of taking the traditional route, I saw a faster path through contracting. I began as a Junior Project Manager and worked my way up to Programme Director on large-scale projects, learning on the job with training funded by my clients. My day rate steadily increased with each contract, eventually surpassing £1,500 per day. In 2019, I made another leap—this time into Management Consultancy. I launched my own firm and successfully competed with the Big 4 to win multiple government contracts, including one to rewrite the rules for major change programme delivery for the UK government—all before I hit 40.",
+      "After selling my first business, I decided to shift careers and pursue a new challenge—I wanted to become a high-level corporate executive. But instead of taking the traditional route, I saw a faster path through contracting. I began as a Junior Project Manager and worked my way up to Programme Director on large-scale projects, learning on the job with training funded by my clients. My day rate steadily increased with each contract, eventually surpassing $1,500 per day. In 2019, I made another leap—this time into Management Consultancy. I launched my own firm and successfully competed with the Big 4 to win multiple government contracts, including one to rewrite the rules for major change programme delivery for the UK government—all before I hit 40.",
     image: BgImg,
   },
   {

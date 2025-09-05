@@ -32,7 +32,7 @@ const faqs = [
   {
     question: "What’s the risk if I wait?",
     answer:
-      "The longer you wait, the more opportunity passes you by. The market is shifting fast, and those who move now will be ahead in 6 months. 👉 Your next move could start today for £699.",
+      "The longer you wait, the more opportunity passes you by. The market is shifting fast, and those who move now will be ahead in 6 months. 👉 Your next move could start today for $699.",
   },
 ];
 

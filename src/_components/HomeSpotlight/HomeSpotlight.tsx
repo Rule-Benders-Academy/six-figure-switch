@@ -8,7 +8,7 @@ const HomeSpotlight = () => {
       <div className="text-[#1E1E1E] text-4xl md:text-5xl lg:text-[64px] font-medium">
         This Month’s Spotlight:
         <br />
-        Want to earn +£1000 per day?
+        Want to earn +$1000 per day?
       </div>
       <div className="relative bg-black rounded-3xl">
         <div className="absolute z-10 right-0 border-b-[18px] border-l-[18px] border-white rounded-bl-3xl bg-white">

@@ -19,7 +19,7 @@ const LandingAboutSection = () => {
                 I wanted more. More freedom. More income. More control.
               </p>
               <p>
-                At 20, I was making £100,000 a year in sales but felt stuck.
+                At 20, I was making $100,000 a year in sales but felt stuck.
                 Long hours. No flexibility. Always chasing targets.
               </p>
               <div className="sm:max-h-[350px] md:hidden rounded-[17px] overflow-hidden">
@@ -31,8 +31,8 @@ const LandingAboutSection = () => {
               </div>
               <p>
                 At 25, I took a chance and moved into consulting. I started as a
-                junior PMO on £400 a day. In under 10 years, I rose to Programme
-                Director earning £1,650 a day. I finally had the freedom to
+                junior PMO on $400 a day. In under 10 years, I rose to Programme
+                Director earning $1,650 a day. I finally had the freedom to
                 choose when, where, and how I worked.
               </p>
               <p>

@@ -65,7 +65,7 @@ const isIOS = () => {
 
 const LandingPage = () => {
   // ------- Gate: must watch 30 minutes -------
-  const THRESHOLD_SECONDS = 1800;
+  const THRESHOLD_SECONDS = 1200;
   const [secondsLeft, setSecondsLeft] = useState(THRESHOLD_SECONDS);
   const [unlocked, setUnlocked] = useState(false);
   const gateTimerRef = useRef<number | null>(null);
@@ -638,7 +638,7 @@ const LandingPage = () => {
                 <div className="px-4 sm:px-8 md:px-16 lg:px-24 pt-10 lg:pt-24">
                   <SixFigureSwitch />
                 </div>
-                <div className="px-4 sm:px-8 md:px-16 lg:px-24 w-[95%] lg:w-full mx-auto">
+                <div className="px-4 sm:px-8 md:px-16 lg:px-24 w-[95%] lg:w-full mx-auto pb-4">
                   <FounderIntro />
                 </div>
               </div>
@@ -652,7 +652,7 @@ const LandingPage = () => {
                   <>
                     Doubled her income in 6 months. <br />
                     From stuck in strategy to leading <br />
-                    <span className="font-bold">£10M+ programmes</span>.
+                    <span className="font-bold">$10M+ programmes</span>.
                   </>
                 }
                 videoUrl="https://res.cloudinary.com/dfykcw0ks/video/upload/v1752145289/Testimonial_Video_Brittany_w0wcjx.mp4"
@@ -669,7 +669,7 @@ const LandingPage = () => {
                 description={
                   <>
                     Left his struggling online business. First consulting role
-                    at £400/day. Multiple government contracts since.
+                    at $400/day. Multiple government contracts since.
                   </>
                 }
                 videoUrl="https://res.cloudinary.com/dfykcw0ks/video/upload/v1752145302/Testimonial_Video_Daniel_fbvbe6.mp4"
@@ -681,8 +681,8 @@ const LandingPage = () => {
                 name="DAVID"
                 description={
                   <>
-                    Turned mid-career stagnation into £900/day independence and
-                    freedom. Turned mid-career stagnation into £900/day
+                    Turned mid-career stagnation into $900/day independence and
+                    freedom. Turned mid-career stagnation into $900/day
                     independence and freedom.
                   </>
                 }

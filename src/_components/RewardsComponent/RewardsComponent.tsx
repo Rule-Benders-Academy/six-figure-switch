@@ -69,7 +69,7 @@ const RewardsComponent = () => {
               </HoverCardWrapper>
 
               <HoverCardWrapper
-                hoverContent={<div className="text-[#E1E1E1] text-xs lg:text-sm">Share Rule Benders with a friend and they’ll get £100 off their first course or class — and you’ll earn up to 1,000 points.</div>}
+                hoverContent={<div className="text-[#E1E1E1] text-xs lg:text-sm">Share Rule Benders with a friend and they’ll get $100 off their first course or class — and you’ll earn up to 1,000 points.</div>}
               >
                 <div className="bg-black text-white h-[107px] max-w-[248px] w-full rounded-md py-2 flex items-center gap-6 px-4 md:px-6 lg:px-8">
                   <Image src={RefralIcon} alt="" />

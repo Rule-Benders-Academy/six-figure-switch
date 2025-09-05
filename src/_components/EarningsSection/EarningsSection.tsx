@@ -40,15 +40,15 @@ const EarningCard = ({ icon, title, subtitle, gainItems }: CardProps) => (
 const lossItems = [
   {
     title: 'Underpricing yourself',
-    subtitle: '£5K–£15K in lost earnings in your first year alone',
+    subtitle: '$5K–$15K in lost earnings in your first year alone',
   },
   {
     title: 'Misfiring on tools, setup, or structure',
-    subtitle: '£1K–£3K in avoidable overhead',
+    subtitle: '$1K–$3K in avoidable overhead',
   },
   {
     title: 'Missed contracts or slow entry',
-    subtitle: '£5K–£10K in missed income',
+    subtitle: '$5K–$10K in missed income',
   },
 ];
 
@@ -59,7 +59,7 @@ const gainItems = [
   },
   {
     title: 'Earn 1,400 and more per day',
-    subtitle: 'Many go on to earn £1,400+ per day within 12–24 months',
+    subtitle: 'Many go on to earn $1,400+ per day within 12–24 months',
   },
   {
     title: 'Income gain of 100k to 300k dollars',

@@ -105,7 +105,7 @@ const LinkTreePage = () => {
           William Richardson
         </h1>
         <p className="text-center text-sm md:text-base text-gray-300 max-w-md">
-          I help consultants scale to £1k+ days.
+          I help consultants scale to $1k+ days.
         </p>
       </motion.div>
 

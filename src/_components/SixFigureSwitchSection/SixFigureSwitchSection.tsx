@@ -71,7 +71,7 @@ const bonuses = [
     description:
       "Land just one $699/day contract and you’ve already made back 20x your investment. Most learners see a 6-figure leap within months, not years.",
     price: "TOTAL",
-    totalPrice: "3,000",
+    totalPrice: "$3,000",
   },
 ];
 
@@ -88,8 +88,8 @@ const paragraphs = [
   <>Land one consulting contract and pay for this entire programme in 1 day!</>,
   <>
     Built from real-world success - the exact system I used to go from{" "}
-    <span className="text-[#FFA500] font-semibold">£400/day to</span>{" "}
-    <span className="text-[#FFA500] font-semibold">£3,000/day</span>. You’ll
+    <span className="text-[#FFA500] font-semibold">$400/day to</span>{" "}
+    <span className="text-[#FFA500] font-semibold">$3,000/day</span>. You’ll
     follow a step-by-step roadmap to transition from employee to in-demand
     consultant, fast.
   </>,

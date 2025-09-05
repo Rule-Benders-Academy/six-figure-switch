@@ -31,7 +31,7 @@ export const launchPadData = [
     ],
     descriptionTitle: "Contractor Launch Pad Service",
     description:"Want to be a Contractor but not sure how to get started? We have got you covered",
-    price: "£995",
+    price: "$995",
     bulletPoints: [
       "We will understand your experience and skills and write a killer CV and public profile for you",
       "We will identify your target market and job pathway and connect you with the right recruitment agencies",
@@ -51,7 +51,7 @@ export const launchPadData = [
     ],
     descriptionTitle: "Contractor Launch Pad Service",
     description:"Ready to start your new Contract? We can get the business side set up for you",
-    price: "£1995",
+    price: "$1995",
     bulletPoints: [
       "We will set up your limited or umbrella company",
       "Get your processes in place",

@@ -69,6 +69,127 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       />
 
+      {/* USD → GBP Converter with nice rounding */}
+      <Script
+        id="usd-to-gbp-converter"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+(function(){
+  var Q = new URLSearchParams(location.search);
+  var FORCE_COUNTRY = (Q.get('forceCountry')||'').toUpperCase();
+  var FX_OVERRIDE  = Q.get('fx') ? Number(Q.get('fx')) : null;
+  var DISABLE      = Q.get('noconvert') === '1';
+  var FX_CACHE_KEY = "usd_gbp_fx_v1";
+  var FX_TTL_MS    = 12*60*60*1000;
+  var FALLBACK_FX  = 0.78;
+
+  if (DISABLE) return;
+
+  function isUK(){
+    if (FORCE_COUNTRY) return FORCE_COUNTRY === 'GB';
+    try {
+      var loc = Intl.DateTimeFormat().resolvedOptions().locale || '';
+      return /(^|-)GB\\b/i.test(loc) || loc.toUpperCase().includes('EN-GB');
+    } catch { return false; }
+  }
+  if (!isUK()) return;
+
+  function getCachedFx(){
+    try {
+      var raw = localStorage.getItem(FX_CACHE_KEY);
+      if (!raw) return null;
+      var obj = JSON.parse(raw);
+      if (Date.now() - obj.fetchedAt < FX_TTL_MS && Number.isFinite(obj.rate)) return obj.rate;
+    } catch {}
+    return null;
+  }
+  function setCachedFx(rate){
+    try { localStorage.setItem(FX_CACHE_KEY, JSON.stringify({ rate: rate, fetchedAt: Date.now() })); } catch {}
+  }
+  function fetchFx(){
+    if (FX_OVERRIDE && Number.isFinite(FX_OVERRIDE)) return Promise.resolve(FX_OVERRIDE);
+    var cached = getCachedFx();
+    if (cached) return Promise.resolve(cached);
+    return fetch('https://api.exchangerate.host/latest?base=USD&symbols=GBP')
+      .then(r => r.json())
+      .then(j => {
+        var rate = Number(j && j.rates && j.rates.GBP);
+        if (!Number.isFinite(rate)) throw new Error('bad rate');
+        setCachedFx(rate);
+        return rate;
+      })
+      .catch(() => FX_OVERRIDE || FALLBACK_FX);
+  }
+
+  var formatterGBP = new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: 'GBP',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  });
+
+  function toNumberUSD(str){ return Number(String(str).replace(/,/g,'')); }
+  // round to nearest 50
+  function roundTo50(n){ return Math.round(n/50)*50; }
+  function fmtGBP(amountUsd, fx){
+    var gbp = roundTo50(amountUsd * fx);
+    return formatterGBP.format(gbp);
+  }
+
+  var RANGE_RE = /\\$(\\d[\\d,]*(?:\\.\\d+)?)\\s*(?:–|-|to)\\s*\\$?(\\d[\\d,]*(?:\\.\\d+)?)/g;
+  var SINGLE_RE = /\\$(\\d[\\d,]*(?:\\.\\d+)?)/g;
+
+  var SKIP_TAGS = new Set(['SCRIPT','STYLE','NOSCRIPT','CODE','KBD','SAMP','PRE','TEXTAREA','INPUT']);
+  function isOptOut(node){
+    for (var el = node.parentElement; el; el = el.parentElement) {
+      if (el.hasAttribute && (el.hasAttribute('data-no-currency-convert') || el.hasAttribute('data-no-currency-swap'))) return true;
+    }
+    return false;
+  }
+
+  function convertTextNode(node, fx){
+    var v = node.nodeValue;
+    if (!v || v.indexOf('$') === -1) return;
+    v = v.replace(RANGE_RE, (_, a, b) => fmtGBP(toNumberUSD(a), fx) + '–' + fmtGBP(toNumberUSD(b), fx));
+    v = v.replace(SINGLE_RE, (_, num) => fmtGBP(toNumberUSD(num), fx));
+    node.nodeValue = v;
+  }
+
+  function walkAndConvert(root, fx){
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(node){
+        var p = node.parentElement;
+        if (!p) return NodeFilter.FILTER_REJECT;
+        if (SKIP_TAGS.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+        if (isOptOut(node)) return NodeFilter.FILTER_REJECT;
+        if (!node.nodeValue || node.nodeValue.indexOf('$') === -1) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var n;
+    while ((n = walker.nextNode())) convertTextNode(n, fx);
+  }
+
+  fetchFx().then(fx => {
+    function apply(){ walkAndConvert(document.body, fx); }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
+    else apply();
+    var obs = new MutationObserver(muts => {
+      muts.forEach(m => {
+        m.addedNodes && m.addedNodes.forEach(node => {
+          if (node.nodeType === 1) walkAndConvert(node, fx);
+          else if (node.nodeType === 3 && node.parentElement) walkAndConvert(node.parentElement, fx);
+        });
+      });
+    });
+    obs.observe(document.body, { childList: true, subtree: true, characterData: true });
+  });
+})();
+          `,
+        }}
+      />
+
       {/* Your app content */}
       <Component {...pageProps} />
     </>
