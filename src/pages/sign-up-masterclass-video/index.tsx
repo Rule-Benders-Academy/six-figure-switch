@@ -161,7 +161,7 @@ const LandingPage = () => {
       (form as any).__acBound = true;
       form.addEventListener("submit", () => {
         if (submitFallbackId) window.clearTimeout(submitFallbackId);
-        submitFallbackId = window.setTimeout(unlockVideo, 1800);
+        submitFallbackId = window.setTimeout(unlockVideo, 720);
       });
     };
     bindSubmit();
@@ -671,7 +671,7 @@ const LandingPage = () => {
                     "Sign up to unlock the masterclass."
                   ) : stage === "video" && !unlocked ? (
                     <>
-                      Please watch at least 20 minutes to unlock the rest (
+                      Please watch at least 12 minutes to unlock the rest (
                       <span className="text-[#FFA500] font-semibold">
                         {Math.floor(secondsLeft / 60)}m {secondsLeft % 60}s
                       </span>
