@@ -515,16 +515,15 @@ const LandingPage = () => {
                       <div className="relative rounded-[28px] border border-[#3C3C3C] bg-[#0b0b0c] p-4 md:p-6 lg:p-7 shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden">
                         <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-16 h-1.5 rounded-full bg-white/15" />
                         <span className="absolute -top-3 left-1/2 -translate-x-1/2 -ml-10 w-2.5 h-2.5 rounded-full bg-white/25" />
-                        <div className="pt-10" />
                         <div className="mb-4 text-center">
                           <div className="flex justify-center">
-                            <div className="relative w-32 h-32 md:w-[356px] md:h-[356px] rounded-full overflow-hidden ring-4 ring-[#0b0b0c] shadow-xl">
+                            <div className="relative w-32 h-32 md:w-[426px] md:h-[426px] rounded-full overflow-hidden ring-4 ring-[#0b0b0c] shadow-xl">
                               <Image
                                 src={ProfilePic}
                                 alt="Will"
                                 fill
                                 className="object-cover"
-                                sizes="444px"
+                                sizes="344px"
                                 priority
                               />
                             </div>
@@ -560,7 +559,7 @@ const LandingPage = () => {
                           <span className="text-[#FFA500] font-semibold">
                             100+ professionals
                           </span>{" "}
-                          make the switch to high paid consulting.
+                          making the switch to high paid consulting.
                         </p>
                       </div>
                     </div>
