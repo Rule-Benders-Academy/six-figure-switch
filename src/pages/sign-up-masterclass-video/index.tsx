@@ -37,6 +37,7 @@ import TransformationTimeline from "@/_components/TransformationTimeline/Transfo
 import EarningTimelineSection from "@/_components/EarningTimelineSection/EarningTimelineSection";
 import ProfilePic from "@/_assets/will-img.png";
 import Bonus from "@/_assets/bonus-offer.png";
+
 declare global {
   interface Window {
     Vimeo?: any;
@@ -69,10 +70,13 @@ const isIOS = () => {
 const THRESHOLD_SECONDS = 1200; // 20 minutes
 
 const LandingPage = () => {
-  // ===== Stage machine: form -> video -> offer =====
+  // Used for the 20-min gate (form -> video -> offer)
   const [stage, setStage] = useState<Stage>("form");
 
-  // ===== 20-min gate =====
+  // Lock: form visible initially; after submit, form hides and video unlocks
+  const [formVisible, setFormVisible] = useState(true);
+
+  // 20-min gate
   const [secondsLeft, setSecondsLeft] = useState(THRESHOLD_SECONDS);
   const [unlocked, setUnlocked] = useState(false);
   const gateTimerRef = useRef<number | null>(null);
@@ -106,20 +110,19 @@ const LandingPage = () => {
     };
   }, []);
 
-  // ===== AC EMBED (always show the form first, then advance to video) =====
+  // ActiveCampaign embed: show only while form is visible
   useEffect(() => {
-    if (stage !== "form") return;
+    if (!formVisible) return;
 
-    // Ensure the mount exists
     const root = document.getElementById("ac-form-root");
     if (!root) return;
+
     if (!root.querySelector("._form_3")) {
       const mount = document.createElement("div");
       mount.className = "_form_3";
       root.appendChild(mount);
     }
 
-    // Inject AC script once
     if (!document.querySelector('script[data-ac-form="3"]')) {
       const s = document.createElement("script");
       s.src = "https://rule-benders.activehosted.com/f/embed.php?id=3";
@@ -129,9 +132,12 @@ const LandingPage = () => {
       document.body.appendChild(s);
     }
 
-    const goVideo = () => setStage("video");
+    const unlockVideo = () => {
+      setFormVisible(false); // hide the form
+      setStage("video"); // reveal video controls and overlays
+    };
 
-    // 1) Detect AC thank-you block
+    // Detect AC thank-you DOM
     const mo = new MutationObserver(() => {
       const thanks = root.querySelector(
         "._form-thank-you, ._form-thank-you_message"
@@ -141,12 +147,12 @@ const LandingPage = () => {
         (thanks.offsetParent !== null || thanks.innerHTML.trim().length > 0)
       ) {
         mo.disconnect();
-        goVideo();
+        unlockVideo();
       }
     });
     mo.observe(root, { childList: true, subtree: true });
 
-    // 2) Bind submit as a fallback (in case DOM flip is delayed)
+    // Fallback on submit
     let submitFallbackId: number | undefined;
     const bindSubmit = () => {
       const form = root.querySelector("form._form") as HTMLFormElement | null;
@@ -155,12 +161,12 @@ const LandingPage = () => {
       (form as any).__acBound = true;
       form.addEventListener("submit", () => {
         if (submitFallbackId) window.clearTimeout(submitFallbackId);
-        submitFallbackId = window.setTimeout(goVideo, 1800);
+        submitFallbackId = window.setTimeout(unlockVideo, 1800);
       });
     };
     bindSubmit();
 
-    // 3) Poll until the form arrives so we can bind submit ASAP
+    // Poll until the form mounts
     let pollId: number | undefined = window.setInterval(() => {
       bindSubmit();
       const thanks = root.querySelector(
@@ -172,18 +178,46 @@ const LandingPage = () => {
       }
     }, 400);
 
-    // 4) Accept postMessage success (some AC setups emit this)
+    // postMessage success — SAFE parsing (fixes "in" operator error)
     const onMsg = (e: MessageEvent) => {
-      const d: any = e.data;
-      if (
-        (typeof d === "string" && /form.*submit.*success/i.test(d)) ||
-        (d &&
-          (d.type === "ac_form_submit_success" ||
-            "ac_form_submit_success" in d))
-      ) {
-        goVideo();
+      const raw = e.data;
+
+      // String payloads
+      if (typeof raw === "string") {
+        // Plain string hints
+        if (/ac_form_submit_success|form.*submit.*success/i.test(raw)) {
+          unlockVideo();
+          return;
+        }
+        // Try to parse JSON strings like '{"event":"ready"}'
+        try {
+          const parsed = JSON.parse(raw);
+          if (
+            parsed &&
+            typeof parsed === "object" &&
+            (parsed.type === "ac_form_submit_success" ||
+              parsed.event === "ac_form_submit_success")
+          ) {
+            unlockVideo();
+          }
+        } catch {
+          // not JSON - ignore
+        }
+        return;
+      }
+
+      // Object payloads
+      if (raw && typeof raw === "object") {
+        const anyRaw = raw as any;
+        if (
+          anyRaw.type === "ac_form_submit_success" ||
+          anyRaw.event === "ac_form_submit_success"
+        ) {
+          unlockVideo();
+        }
       }
     };
+
     window.addEventListener("message", onMsg);
 
     return () => {
@@ -192,9 +226,9 @@ const LandingPage = () => {
       if (pollId) window.clearInterval(pollId);
       if (submitFallbackId) window.clearTimeout(submitFallbackId);
     };
-  }, [stage]);
+  }, [formVisible]);
 
-  // ===== Vimeo (custom controls + anti-seek) =====
+  // Vimeo player
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<any>(null);
   const [ready, setReady] = useState(false);
@@ -205,41 +239,37 @@ const LandingPage = () => {
   const [showUnmuteHint, setShowUnmuteHint] = useState(false);
 
   // Anti-seek tracking
-  const maxAllowedRef = useRef(0); // furthest second reached naturally
-  const guardSeekRef = useRef(false); // avoid loops while snapping back
+  const maxAllowedRef = useRef(0);
+  const guardSeekRef = useRef(false);
 
-  const ensureVimeo = async () => {
-    if (window.Vimeo?.Player) return;
-    await new Promise<void>((resolve) => {
-      const s = document.createElement("script");
-      s.src = "https://player.vimeo.com/api/player.js";
-      s.async = true;
-      s.onload = () => resolve();
-      document.head.appendChild(s);
-    });
-  };
-
-  // Init player only during "video" stage
+  // Init Vimeo once
   useEffect(() => {
     let disposed = false;
 
     const init = async () => {
-      if (stage !== "video") return;
-      await ensureVimeo();
-      if (disposed) return;
-      if (!iframeRef.current || !window.Vimeo?.Player) return;
+      if (playerRef.current || !iframeRef.current) return;
+
+      if (!window.Vimeo?.Player) {
+        await new Promise<void>((resolve) => {
+          const s = document.createElement("script");
+          s.src = "https://player.vimeo.com/api/player.js";
+          s.async = true;
+          s.onload = () => resolve();
+          document.head.appendChild(s);
+        });
+      }
+      if (disposed || !window.Vimeo?.Player || !iframeRef.current) return;
 
       playerRef.current = new window.Vimeo.Player(iframeRef.current);
+
       try {
         await playerRef.current.ready();
         setReady(true);
         await playerRef.current.setMuted(true);
         setMuted(true);
 
-        // Reset furthest watched
         maxAllowedRef.current = 0;
 
-        // Advance max allowed as user watches forward
         playerRef.current.on("timeupdate", (ev: { seconds: number }) => {
           const t = ev?.seconds ?? 0;
           if (!guardSeekRef.current && t > maxAllowedRef.current) {
@@ -247,7 +277,6 @@ const LandingPage = () => {
           }
         });
 
-        // Prevent seeking ahead (and lightly guard back seek)
         playerRef.current.on("seeked", async () => {
           try {
             const t = await playerRef.current.getCurrentTime();
@@ -269,7 +298,7 @@ const LandingPage = () => {
 
         playerRef.current.on("play", () => {
           setIsPlaying(true);
-          startGateTimer(); // start gate on first actual play
+          startGateTimer(); // start 20-min gate on first actual play
         });
         playerRef.current.on("pause", () => setIsPlaying(false));
         playerRef.current.on("volumechange", async () => {
@@ -277,14 +306,6 @@ const LandingPage = () => {
             setMuted(await playerRef.current.getMuted());
           } catch {}
         });
-        playerRef.current.on(
-          "fullscreenchange",
-          (e: { fullscreen: boolean }) => {
-            const fs = !!e?.fullscreen;
-            setIsFullscreen(fs);
-            if (!fs) pauseVideo();
-          }
-        );
       } catch {}
     };
 
@@ -302,7 +323,7 @@ const LandingPage = () => {
       setIsPlaying(false);
       setNeedsFirstTap(true);
     };
-  }, [stage]);
+  }, []);
 
   const pauseVideo = async () => {
     if (!playerRef.current) return;
@@ -312,10 +333,10 @@ const LandingPage = () => {
     } catch {}
   };
 
+  // Global listeners
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" || e.key === "Esc" || (e as any).keyCode === 27)
-        pauseVideo();
+      if (e.key === "Escape" || (e as any).keyCode === 27) pauseVideo();
     };
     const onFsChange = () => {
       const active =
@@ -335,7 +356,7 @@ const LandingPage = () => {
   }, []);
 
   const handleFirstTap = async () => {
-    if (!playerRef.current) return;
+    if (!playerRef.current || formVisible) return;
     try {
       await playerRef.current.setMuted(false);
       setMuted(false);
@@ -357,7 +378,7 @@ const LandingPage = () => {
   };
 
   const togglePlay = async () => {
-    if (!playerRef.current) return;
+    if (!playerRef.current || formVisible) return;
     try {
       const paused = await playerRef.current.getPaused();
       if (paused) await playerRef.current.play();
@@ -366,7 +387,7 @@ const LandingPage = () => {
   };
 
   const toggleMute = async () => {
-    if (!playerRef.current) return;
+    if (!playerRef.current || formVisible) return;
     try {
       await playerRef.current.setMuted(!muted);
       setMuted(!muted);
@@ -375,36 +396,20 @@ const LandingPage = () => {
   };
 
   const toggleFullscreen = async () => {
-    if (!playerRef.current) return;
+    const iframe = iframeRef.current;
+    if (!iframe || formVisible) return;
     try {
-      const fs = await playerRef.current.getFullscreen?.();
-      if (fs) {
-        await playerRef.current.exitFullscreen?.();
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
         setIsFullscreen(false);
-      } else {
-        await playerRef.current.requestFullscreen?.();
+      } else if ((iframe as any).requestFullscreen) {
+        await (iframe as any).requestFullscreen();
         setIsFullscreen(true);
       }
-    } catch {
-      // Native fallback
-      const iframe = iframeRef.current;
-      if (!iframe) return;
-      try {
-        if (document.fullscreenElement) {
-          await document.exitFullscreen();
-          setIsFullscreen(false);
-        } else if ((iframe as any).requestFullscreen) {
-          await (iframe as any).requestFullscreen();
-          setIsFullscreen(true);
-        } else if ((iframe as any).webkitRequestFullscreen) {
-          (iframe as any).webkitRequestFullscreen();
-          setIsFullscreen(true);
-        }
-      } catch {}
-    }
+    } catch {}
   };
 
-  // ===== GA (optional) =====
+  // GA (optional)
   useEffect(() => {
     const s1 = document.createElement("script");
     s1.src = "https://www.googletagmanager.com/gtag/js?id=G-R7Q2CRPHS8";
@@ -421,7 +426,7 @@ const LandingPage = () => {
     document.head.appendChild(s2);
   }, []);
 
-  // ===== Motion =====
+  // Motion preference
   const [reducedMotion, setReducedMotion] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined" && "matchMedia" in window) {
@@ -471,11 +476,11 @@ const LandingPage = () => {
 
           <div className="relative lg:w-[80%] max-w-[98%] mx-auto text-center">
             <div className="flex flex-col md:flex-row items-center justify-center lg:gap-8 text-center">
-              {/* LEFT: Circle image (shows entire image) */}
+              {/* LEFT: Circle image */}
               <div className="flex justify-center">
                 <div className="relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full overflow-hidden ">
                   <Image
-                    src={Bonus} // or ProfilePic
+                    src={Bonus}
                     alt="Will"
                     fill
                     className="object-contain p-1"
@@ -485,7 +490,7 @@ const LandingPage = () => {
                 </div>
               </div>
 
-              {/* RIGHT: Exactly two lines, centered */}
+              {/* RIGHT: Heading */}
               <div className="md:w-auto">
                 <h2 className="text-xl sm:text-2xl lg:text-[34px] leading-tight font-bold tracking-wide uppercase mt-4 md:mt-0">
                   <span className="block">Earn £1000 a day in 90 days</span>
@@ -494,31 +499,26 @@ const LandingPage = () => {
                     <span className="text-[#FFA500] whitespace-nowrap">
                       Independent Consultant
                     </span>
-                    <span className="text-white/90"> — The System</span>
                   </span>
                 </h2>
               </div>
             </div>
 
-            <div className="relative lg:w-[90%] border-2 border-[#747373] bg-[#FFFFFF12] rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:mt-2 mx-auto">
+            {/* Main card: FORM first, then VIDEO (locked until submit) */}
+            <div className="relative  border-2 border-[#747373] bg-[#FFFFFF12] rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:mt-2 mx-auto">
               <div className="p-3 md:p-5 lg:p-6">
-                {/* ====================== FORM STAGE ====================== */}
-                {stage === "form" && (
+                {/* ===== FORM BLOCK ===== */}
+                {formVisible && (
                   <div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 items-stretch text-left">
-                      {/* LEFT CARD: Tablet-styled AC Form + Circle image on top */}
+                      {/* LEFT: Tablet-styled AC Form frame */}
                       <div className="relative rounded-[28px] border border-[#3C3C3C] bg-[#0b0b0c] p-4 md:p-6 lg:p-7 shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden">
-                        {/* Circle headshot on top (replace with Will's image) */}
-
-                        {/* Tablet chrome */}
                         <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-16 h-1.5 rounded-full bg-white/15" />
                         <span className="absolute -top-3 left-1/2 -translate-x-1/2 -ml-10 w-2.5 h-2.5 rounded-full bg-white/25" />
-
                         <div className="pt-10" />
-
                         <div className="mb-4 text-center">
                           <div className="flex justify-center">
-                            <div className="relative w-32 h-32 md:w-[256px] md:h-[256px] rounded-full overflow-hidden ring-4 ring-[#0b0b0c] shadow-xl">
+                            <div className="relative w-32 h-32 md:w-[356px] md:h-[356px] rounded-full overflow-hidden ring-4 ring-[#0b0b0c] shadow-xl">
                               <Image
                                 src={ProfilePic}
                                 alt="Will"
@@ -529,7 +529,6 @@ const LandingPage = () => {
                               />
                             </div>
                           </div>
-
                           <p className="text-xs md:text-sm uppercase tracking-wide text-white/70">
                             Start the{" "}
                             <span className="text-[#FFA500] font-semibold">
@@ -537,32 +536,25 @@ const LandingPage = () => {
                             </span>
                           </p>
                         </div>
-
-                        {/* Subtle tablet bottom glow */}
                         <div
                           aria-hidden
                           className="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 h-40 w-[85%] rounded-[50%] bg-[#FFA500]/10 blur-2xl"
                         />
                       </div>
 
-                      {/* RIGHT CARD: Normal content card (circle on top previously moved) */}
+                      {/* RIGHT: Info card */}
                       <div className="relative flex flex-col items-center justify-center text-center rounded-2xl md:rounded-3xl border border-[#3C3C3C] bg-[#0d0c0e] p-6 md:p-8 overflow-hidden">
-                        {/* diagonal accent bar */}
                         <div
                           aria-hidden
                           className="absolute -top-16 -right-16 h-40 w-40 rotate-45 bg-gradient-to-br from-[#FFA500]/20 to-transparent"
                         />
-
                         <h3 className="text-xl lg:text-xl font-bold leading-tight">
                           Limited Masterclass Offer:
                           <br />
                           <span className="text-[#FFA500]">
                             Valid for 10 days
                           </span>
-                          <br className="hidden md:block" />
-                          That Explain Why Consultants Earn
                         </h3>
-
                         <p className="mt-4 text-xl text-white/80 leading-relaxed">
                           Enter your details then join{" "}
                           <span className="text-[#FFA500] font-semibold">
@@ -572,105 +564,111 @@ const LandingPage = () => {
                         </p>
                       </div>
                     </div>
+
                     <div className="mt-6 h-[2px] w-full bg-gradient-to-r from-transparent via-[#FFA500] to-transparent" />
+
                     <div
                       id="ac-form-root"
                       className="relative w-full rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e] p-3 md:p-4"
                     >
-                      {/* AC mounts here */}
                       <h4 className="text-lg md:text-2xl font-bold">
                         Watch <span className="text-[#FFA500]">instantly</span>
                       </h4>
                       <div className="_form_3"></div>
                     </div>
-                    <div className="mt-3 text-[11px] md:text-xs text-white/60">
-                      Having trouble? Refresh the page. Already signed up?{" "}
-                      <button
-                        onClick={() => setStage("video")}
-                        className="underline text-white/80 hover:text-white"
-                      >
-                        Skip to video
-                      </button>
-                      .
-                    </div>
                   </div>
                 )}
 
-                {/* ====================== VIDEO STAGE ====================== */}
-                {stage === "video" && (
-                  <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e]">
-                    {/* Native controls OFF; keyboard seeking OFF; PiP removed */}
-                    <iframe
-                      ref={iframeRef}
-                      className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
-                        ready ? "opacity-100" : "opacity-0"
-                      }`}
-                      src="https://player.vimeo.com/video/1113013910?muted=1&loop=0&playsinline=1&autopause=0&controls=0&keyboard=0&transparent=0"
-                      title="Masterclass"
-                      allow="autoplay; fullscreen"
-                      allowFullScreen
-                    />
+                {/* ===== VIDEO BLOCK (always rendered; locked while formVisible) ===== */}
+                <div
+                  className={`relative w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e] ${
+                    formVisible ? "mt-6" : ""
+                  }`}
+                >
+                  <iframe
+                    ref={iframeRef}
+                    className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                      ready ? "opacity-100" : "opacity-0"
+                    }`}
+                    src="https://player.vimeo.com/video/1113013910?muted=1&loop=0&playsinline=1&autopause=0&controls=0&keyboard=0&transparent=0"
+                    title="Masterclass"
+                    allow="autoplay; fullscreen"
+                    allowFullScreen
+                  />
 
-                    {/* First-tap overlay to enable audio on iOS/desktop */}
-                    {needsFirstTap && ready && (
-                      <div
-                        onClick={handleFirstTap}
-                        className="absolute inset-0 z-20 cursor-pointer"
-                        aria-hidden
-                        title="Tap to start with sound"
-                      >
-                        <div className="absolute bottom-4 left-0 right-0 text-center pointer-events-none">
-                          <span className="rounded-xl border border-white/20 px-3 py-1.5 bg-black/40 backdrop-blur text-xs md:text-sm text-white/90">
-                            Tap to start the class
-                          </span>
+                  {/* LOCK OVERLAY while form is visible */}
+                  {formVisible && (
+                    <div
+                      className="absolute inset-0 z-30 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+                      aria-hidden
+                    >
+                      <div className="text-center px-4">
+                        <div className="rounded-xl border border-white/20 px-4 py-2 bg-black/60 text-sm md:text-base text-white/90">
+                          Enter your details above to unlock the class
                         </div>
                       </div>
-                    )}
+                    </div>
+                  )}
 
-                    {/* Overlay controls */}
-                    {ready && !needsFirstTap && !isFullscreen && (
-                      <div className="absolute bottom-3 right-3 z-20 flex gap-2 pointer-events-auto">
-                        <button
-                          onClick={togglePlay}
-                          className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
-                          aria-label={isPlaying ? "Pause video" : "Play video"}
-                        >
-                          {isPlaying ? "⏸ Pause" : "▶ Play"}
-                        </button>
-                        <button
-                          onClick={toggleMute}
-                          className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
-                          aria-label={muted ? "Unmute video" : "Mute video"}
-                        >
-                          {muted ? "🔊 Unmute" : "🔇 Mute"}
-                        </button>
-                        <button
-                          onClick={toggleFullscreen}
-                          className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
-                          aria-label={
-                            isFullscreen ? "Exit Fullscreen" : "Fullscreen"
-                          }
-                        >
-                          {isFullscreen ? "🗗 Exit" : "⛶ Fullscreen"}
-                        </button>
-                      </div>
-                    )}
-
-                    {/* If iOS blocked sound, hint after first tap */}
-                    {showUnmuteHint && !isFullscreen && (
-                      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
-                        <span className="rounded-xl border border-white/20 px-3 py-1.5 bg-black/50 backdrop-blur text-[11px] md:text-xs text-white/90">
-                          Sound blocked by the browser — use 🔊 Unmute
+                  {/* First-tap overlay (only when unlocked) */}
+                  {!formVisible && needsFirstTap && ready && (
+                    <div
+                      onClick={handleFirstTap}
+                      className="absolute inset-0 z-20 cursor-pointer"
+                      aria-hidden
+                      title="Tap to start with sound"
+                    >
+                      <div className="absolute bottom-4 left-0 right-0 text-center pointer-events-none">
+                        <span className="rounded-xl border border-white/20 px-3 py-1.5 bg-black/40 backdrop-blur text-xs md:text-sm text-white/90">
+                          Tap to start the class
                         </span>
                       </div>
-                    )}
-                  </div>
-                )}
+                    </div>
+                  )}
+
+                  {/* Overlay controls (only when unlocked and not fullscreen) */}
+                  {!formVisible && ready && !needsFirstTap && !isFullscreen && (
+                    <div className="absolute bottom-3 right-3 z-20 flex gap-2 pointer-events-auto">
+                      <button
+                        onClick={togglePlay}
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
+                        aria-label={isPlaying ? "Pause video" : "Play video"}
+                      >
+                        {isPlaying ? "⏸ Pause" : "▶ Play"}
+                      </button>
+                      <button
+                        onClick={toggleMute}
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
+                        aria-label={muted ? "Unmute video" : "Mute video"}
+                      >
+                        {muted ? "🔊 Unmute" : "🔇 Mute"}
+                      </button>
+                      <button
+                        onClick={toggleFullscreen}
+                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
+                        aria-label={
+                          isFullscreen ? "Exit Fullscreen" : "Fullscreen"
+                        }
+                      >
+                        {isFullscreen ? "🗗 Exit" : "⛶ Fullscreen"}
+                      </button>
+                    </div>
+                  )}
+
+                  {/* iOS hint only when unlocked */}
+                  {!formVisible && showUnmuteHint && !isFullscreen && (
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+                      <span className="rounded-xl border border-white/20 px-3 py-1.5 bg-black/50 backdrop-blur text-[11px] md:text-xs text-white/90">
+                        Sound blocked by the browser — use 🔊 Unmute
+                      </span>
+                    </div>
+                  )}
+                </div>
 
                 {/* Gate message */}
                 <p className="text-center text-xs md:text-sm opacity-80 mt-3">
-                  {stage === "form" ? (
-                    "Sign up to start the masterclass."
+                  {formVisible ? (
+                    "Sign up to unlock the masterclass."
                   ) : stage === "video" && !unlocked ? (
                     <>
                       Please watch at least 20 minutes to unlock the rest (
@@ -707,7 +705,7 @@ const LandingPage = () => {
 
             {stage === "video" && !unlocked && (
               <div className="lg:w-[50%] relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-xl md:rounded-[35px] lg:rounded-[10px] mt-3 mx-auto p-2">
-                <span className="text-white-500 font-semibold">
+                <span className="text-white font-semibold">
                   Please refresh the page if the video is not loading
                 </span>
               </div>
@@ -747,7 +745,7 @@ const LandingPage = () => {
                       Independent Consultant
                     </h2>
                     <hr className="h-[6px] w-[90%] mx-auto mt-4 bg-white" />
-                    <p className="text-lg md:text-2xl lg:leading-[100%] mt-4 lg:mt-8 mx-auto text-center max-w-3xl">
+                    <div className="text-lg md:text-2xl lg:leading-[100%] mt-4 lg:mt-8 mx-auto text-center max-w-3xl">
                       <div>From there, you could be on the path to earning</div>
                       <span className="relative inline-block my-4">
                         <Image
@@ -766,7 +764,7 @@ const LandingPage = () => {
                       </span>
                       <br />
                       while choosing when you work and when you don’t.
-                    </p>
+                    </div>
                   </div>
                   <div
                     className="absolute top-0 left-0 w-full h-full border border-[#3C3C3C] bg-[#FFFFFF14] rounded-md z-[-1]"
@@ -841,7 +839,7 @@ const LandingPage = () => {
                 </div>
 
                 <div className="relative max-w-[80%] md:max-w-[40%] mx-auto">
-                  {/* Clock: visible but not clickable */}
+                  {/* Clock (non-clickable) */}
                   <div className="flex justify-center items-center -mb-5 md:-mb-[30px] relative z-10 pointer-events-none">
                     <DigitalClock minutes={53} seconds={0} />
                   </div>
