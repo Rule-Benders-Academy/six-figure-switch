@@ -36,7 +36,7 @@ import NotOrdinary from "@/_components/NotOrdinary/NotOrdinary";
 import TransformationTimeline from "@/_components/TransformationTimeline/TransformationTimeline";
 import EarningTimelineSection from "@/_components/EarningTimelineSection/EarningTimelineSection";
 import ProfilePic from "@/_assets/will-img.png";
-
+import Bonus from "@/_assets/bonus-offer.png";
 declare global {
   interface Window {
     Vimeo?: any;
@@ -470,132 +470,128 @@ const LandingPage = () => {
           </div>
 
           <div className="relative lg:w-[80%] max-w-[98%] mx-auto text-center">
-            <h2 className="text-2xl lg:text-[34px] leading-tight lg:leading-[100%] font-bold tracking-wide uppercase mt-5 mb-12">
-              The <span className="text-[#FFA500]">Independent Consultant</span>{" "}
-              System
-            </h2>
+            <div className="flex flex-col md:flex-row items-center justify-center lg:gap-8 text-center">
+              {/* LEFT: Circle image (shows entire image) */}
+              <div className="flex justify-center">
+                <div className="relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full overflow-hidden ">
+                  <Image
+                    src={Bonus} // or ProfilePic
+                    alt="Will"
+                    fill
+                    className="object-contain p-1"
+                    sizes="160px"
+                    priority
+                  />
+                </div>
+              </div>
+
+              {/* RIGHT: Exactly two lines, centered */}
+              <div className="md:w-auto">
+                <h2 className="text-xl sm:text-2xl lg:text-[34px] leading-tight font-bold tracking-wide uppercase mt-4 md:mt-0">
+                  <span className="block">Earn £1000 a day in 90 days</span>
+                  <span className="block">
+                    as an{" "}
+                    <span className="text-[#FFA500] whitespace-nowrap">
+                      Independent Consultant
+                    </span>
+                    <span className="text-white/90"> — The System</span>
+                  </span>
+                </h2>
+              </div>
+            </div>
 
             <div className="relative lg:w-[90%] border-2 border-[#747373] bg-[#FFFFFF12] rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:mt-2 mx-auto">
               <div className="p-3 md:p-5 lg:p-6">
                 {/* ====================== FORM STAGE ====================== */}
                 {stage === "form" && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 items-stretch text-left">
-                    {/* LEFT CARD: Tablet-styled AC Form + Circle image on top */}
-                    <div className="relative rounded-[28px] border border-[#3C3C3C] bg-[#0b0b0c] p-4 md:p-6 lg:p-7 shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden">
-                      {/* Circle headshot on top (replace with Will's image) */}
-                      <div className="absolute -top-10 left-1/2 -translate-x-1/2 z-20">
-                        {/* Replace this with your Image of Will */}
-                        {/* <Image src={WillHeadshot} alt="Will" className="w-20 h-20 md:w-24 md:h-24 rounded-full ring-4 ring-[#0b0b0c] shadow-xl" /> */}
-                        <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-[#FFA500] to-[#FFCC66] ring-4 ring-[#0b0b0c] shadow-xl" />
-                      </div>
+                  <div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 items-stretch text-left">
+                      {/* LEFT CARD: Tablet-styled AC Form + Circle image on top */}
+                      <div className="relative rounded-[28px] border border-[#3C3C3C] bg-[#0b0b0c] p-4 md:p-6 lg:p-7 shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden">
+                        {/* Circle headshot on top (replace with Will's image) */}
 
-                      {/* Tablet chrome */}
-                      <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-16 h-1.5 rounded-full bg-white/15" />
-                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 -ml-10 w-2.5 h-2.5 rounded-full bg-white/25" />
+                        {/* Tablet chrome */}
+                        <span className="absolute -top-2 left-1/2 -translate-x-1/2 w-16 h-1.5 rounded-full bg-white/15" />
+                        <span className="absolute -top-3 left-1/2 -translate-x-1/2 -ml-10 w-2.5 h-2.5 rounded-full bg-white/25" />
 
-                      <div className="pt-10" />
+                        <div className="pt-10" />
 
-                      <div className="mb-4 text-center">
-                        <p className="text-xs md:text-sm uppercase tracking-wide text-white/70">
-                          Start the{" "}
-                          <span className="text-[#FFA500] font-semibold">
-                            Free Masterclass
-                          </span>
-                        </p>
-                        <h4 className="text-lg md:text-2xl font-bold">
-                          Watch{" "}
-                          <span className="text-[#FFA500]">instantly</span>
-                        </h4>
-                      </div>
+                        <div className="mb-4 text-center">
+                          <div className="flex justify-center">
+                            <div className="relative w-32 h-32 md:w-[256px] md:h-[256px] rounded-full overflow-hidden ring-4 ring-[#0b0b0c] shadow-xl">
+                              <Image
+                                src={ProfilePic}
+                                alt="Will"
+                                fill
+                                className="object-cover"
+                                sizes="444px"
+                                priority
+                              />
+                            </div>
+                          </div>
 
-                      <div
-                        id="ac-form-root"
-                        className="relative w-full rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e] p-3 md:p-4"
-                      >
-                        {/* AC mounts here */}
-                        <div className="_form_3"></div>
-                      </div>
-
-                      <div className="mt-3 text-[11px] md:text-xs text-white/60">
-                        Having trouble? Refresh the page. Already signed up?{" "}
-                        <button
-                          onClick={() => setStage("video")}
-                          className="underline text-white/80 hover:text-white"
-                        >
-                          Skip to video
-                        </button>
-                        .
-                      </div>
-
-                      {/* Subtle tablet bottom glow */}
-                      <div
-                        aria-hidden
-                        className="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 h-40 w-[85%] rounded-[50%] bg-[#FFA500]/10 blur-2xl"
-                      />
-                    </div>
-
-                    {/* RIGHT CARD: Normal content card (circle on top previously moved) */}
-                    <div className="relative rounded-2xl md:rounded-3xl border border-[#3C3C3C] bg-[#0d0c0e] p-6 md:p-8 overflow-hidden">
-                      {/* neat trick: diagonal accent bar */}
-                      <div
-                        aria-hidden
-                        className="absolute -top-16 -right-16 h-40 w-40 rotate-45 bg-gradient-to-br from-[#FFA500]/20 to-transparent"
-                      />
-                      <div className="flex justify-center">
-                        <div className="relative w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden ring-4 ring-[#0b0b0c] shadow-xl">
-                          <Image
-                            src={ProfilePic}
-                            alt="Will"
-                            fill
-                            className="object-cover"
-                            sizes="144px"
-                            priority
-                          />
+                          <p className="text-xs md:text-sm uppercase tracking-wide text-white/70">
+                            Start the{" "}
+                            <span className="text-[#FFA500] font-semibold">
+                              Free Masterclass
+                            </span>
+                          </p>
                         </div>
+
+                        {/* Subtle tablet bottom glow */}
+                        <div
+                          aria-hidden
+                          className="pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 h-40 w-[85%] rounded-[50%] bg-[#FFA500]/10 blur-2xl"
+                        />
                       </div>
 
-                      <h3 className="text-xl lg:text-xl font-bold leading-tight text-center">
-                        Discover the{" "}
-                        <span className="text-[#FFA500]">Five Models</span>
-                        <br className="hidden md:block" />
-                        That Explain Why Consultants Earn
-                        <br />
-                        <br />
-                      </h3>
-                      <h3 className="text-xl lg:text-xl font-bold leading-tight text-center">
-                        <span className="text-[#FFA500]">3–5× More</span> Than
-                        Employees
-                        <br />
-                        <span className="text-white/90">
-                          (And How to{" "}
+                      {/* RIGHT CARD: Normal content card (circle on top previously moved) */}
+                      <div className="relative flex flex-col items-center justify-center text-center rounded-2xl md:rounded-3xl border border-[#3C3C3C] bg-[#0d0c0e] p-6 md:p-8 overflow-hidden">
+                        {/* diagonal accent bar */}
+                        <div
+                          aria-hidden
+                          className="absolute -top-16 -right-16 h-40 w-40 rotate-45 bg-gradient-to-br from-[#FFA500]/20 to-transparent"
+                        />
+
+                        <h3 className="text-xl lg:text-xl font-bold leading-tight">
+                          Limited Masterclass Offer:
+                          <br />
                           <span className="text-[#FFA500]">
-                            Make the Switch
+                            Valid for 10 days
+                          </span>
+                          <br className="hidden md:block" />
+                          That Explain Why Consultants Earn
+                        </h3>
+
+                        <p className="mt-4 text-xl text-white/80 leading-relaxed">
+                          Enter your details then join{" "}
+                          <span className="text-[#FFA500] font-semibold">
+                            100+ professionals
                           </span>{" "}
-                          in 90 Days)
-                        </span>
-                      </h3>
-
-                      <p className="mt-4 text-sm md:text-base text-white/80 leading-relaxed text-center">
-                        This masterclass reveals why you’re{" "}
-                        <span className="text-[#FFA500] font-semibold">
-                          undervaluing yourself
-                        </span>{" "}
-                        by{" "}
-                        <span className="text-[#FFA500] font-semibold">
-                          $70,000–$150,000 per year
-                        </span>
-                        .
-                      </p>
-
-                      {/* neat trick: gradient underline divider */}
-                      <div className="mt-6 h-[2px] w-full bg-gradient-to-r from-transparent via-[#FFA500] to-transparent" />
-
-                      {/* small bullet highlights */}
-                      <ul className="mt-4 space-y-2 text-sm md:text-base text-white/80">
-                        <li>✅ No fluff — straight to the frameworks</li>
-                        <li>✅ Practical templates and positioning moves</li>
-                        <li>✅ Watch on any device — starts instantly</li>
-                      </ul>
+                          make the switch to high paid consulting.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-6 h-[2px] w-full bg-gradient-to-r from-transparent via-[#FFA500] to-transparent" />
+                    <div
+                      id="ac-form-root"
+                      className="relative w-full rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e] p-3 md:p-4"
+                    >
+                      {/* AC mounts here */}
+                      <h4 className="text-lg md:text-2xl font-bold">
+                        Watch <span className="text-[#FFA500]">instantly</span>
+                      </h4>
+                      <div className="_form_3"></div>
+                    </div>
+                    <div className="mt-3 text-[11px] md:text-xs text-white/60">
+                      Having trouble? Refresh the page. Already signed up?{" "}
+                      <button
+                        onClick={() => setStage("video")}
+                        className="underline text-white/80 hover:text-white"
+                      >
+                        Skip to video
+                      </button>
+                      .
                     </div>
                   </div>
                 )}

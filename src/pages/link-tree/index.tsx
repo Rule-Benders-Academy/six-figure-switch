@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import ProfilePic from "@/_assets/will-img.png";
+
 import WorkBook from "@/_assets/cover-freebie.jpeg";
 import HeroBg from "@/_assets/landing-hero-bg.png";
 
