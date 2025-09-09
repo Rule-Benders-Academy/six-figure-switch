@@ -96,8 +96,7 @@ const LandingPage = () => {
           gateTimerRef.current = null;
         }
         setUnlocked(true);
-        // removed auto-switch to offer; show offer only on button click
-        // setStage("offer");
+        // show offer only on button click
       }
     }, 1000);
   };
@@ -269,6 +268,11 @@ const LandingPage = () => {
         await playerRef.current.setMuted(true);
         setMuted(true);
 
+        // NEW: keep isFullscreen in sync with Vimeo
+        playerRef.current.on("fullscreenchange", (e: { fullscreen: boolean }) =>
+          setIsFullscreen(!!e?.fullscreen)
+        );
+
         maxAllowedRef.current = 0;
 
         playerRef.current.on("timeupdate", (ev: { seconds: number }) => {
@@ -396,15 +400,32 @@ const LandingPage = () => {
     } catch {}
   };
 
+  // UPDATED: use Vimeo's fullscreen API first (works better on mobile)
   const toggleFullscreen = async () => {
-    const iframe = iframeRef.current;
-    if (!iframe || formVisible) return;
+    if (!playerRef.current || formVisible) return;
     try {
+      const fs = await playerRef.current.getFullscreen?.();
+      if (fs) {
+        await playerRef.current.exitFullscreen?.();
+        setIsFullscreen(false);
+      } else {
+        await playerRef.current.requestFullscreen?.();
+        setIsFullscreen(true);
+      }
+      return;
+    } catch {}
+    // Fallback to native browser Fullscreen API
+    try {
+      const iframe = iframeRef.current;
+      if (!iframe) return;
       if (document.fullscreenElement) {
         await document.exitFullscreen();
         setIsFullscreen(false);
       } else if ((iframe as any).requestFullscreen) {
         await (iframe as any).requestFullscreen();
+        setIsFullscreen(true);
+      } else if ((iframe as any).webkitRequestFullscreen) {
+        (iframe as any).webkitRequestFullscreen();
         setIsFullscreen(true);
       }
     } catch {}
@@ -604,7 +625,7 @@ const LandingPage = () => {
                     }`}
                     src="https://player.vimeo.com/video/1113013910?muted=1&loop=0&playsinline=1&autopause=0&controls=0&keyboard=0&transparent=0"
                     title="Masterclass"
-                    allow="autoplay; fullscreen"
+                    allow="autoplay; fullscreen; picture-in-picture"
                     allowFullScreen
                   />
 
