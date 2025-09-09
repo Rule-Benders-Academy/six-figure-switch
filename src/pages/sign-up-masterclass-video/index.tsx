@@ -96,7 +96,8 @@ const LandingPage = () => {
           gateTimerRef.current = null;
         }
         setUnlocked(true);
-        setStage("offer");
+        // removed auto-switch to offer; show offer only on button click
+        // setStage("offer");
       }
     }, 1000);
   };
@@ -178,7 +179,7 @@ const LandingPage = () => {
       }
     }, 400);
 
-    // postMessage success — SAFE parsing (fixes "in" operator error)
+    // postMessage success — SAFE parsing
     const onMsg = (e: MessageEvent) => {
       const raw = e.data;
 
@@ -298,7 +299,7 @@ const LandingPage = () => {
 
         playerRef.current.on("play", () => {
           setIsPlaying(true);
-          startGateTimer(); // start 20-min gate on first actual play
+          startGateTimer(); // start gate on first actual play
         });
         playerRef.current.on("pause", () => setIsPlaying(false));
         playerRef.current.on("volumechange", async () => {
@@ -409,7 +410,31 @@ const LandingPage = () => {
     } catch {}
   };
 
-  // GA (optional)
+  // Motion preference
+  const [reducedMotion, setReducedMotion] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined" && "matchMedia" in window) {
+      const m = window.matchMedia("(prefers-reduced-motion: reduce)");
+      setReducedMotion(m.matches);
+      const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+      m.addEventListener?.("change", handler);
+      return () => m.removeEventListener?.("change", handler);
+    }
+  }, []);
+
+  // Offer button click handler
+  const handleOfferButtonClick = () => {
+    if (!unlocked) return;
+    setStage("offer");
+    requestAnimationFrame(() => {
+      document.getElementById("offer-start")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  };
+
+  // GA (optional, unchanged)
   useEffect(() => {
     const s1 = document.createElement("script");
     s1.src = "https://www.googletagmanager.com/gtag/js?id=G-R7Q2CRPHS8";
@@ -424,18 +449,6 @@ const LandingPage = () => {
       gtag('config', 'G-R7Q2CRPHS8');
     `;
     document.head.appendChild(s2);
-  }, []);
-
-  // Motion preference
-  const [reducedMotion, setReducedMotion] = useState(false);
-  useEffect(() => {
-    if (typeof window !== "undefined" && "matchMedia" in window) {
-      const m = window.matchMedia("(prefers-reduced-motion: reduce)");
-      setReducedMotion(m.matches);
-      const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-      m.addEventListener?.("change", handler);
-      return () => m.removeEventListener?.("change", handler);
-    }
   }, []);
 
   return (
@@ -670,7 +683,7 @@ const LandingPage = () => {
                     "Sign up to unlock the masterclass."
                   ) : stage === "video" && !unlocked ? (
                     <>
-                      Please watch at least 12 minutes to unlock the rest (
+                      Please watch at least 20 minutes to unlock the rest (
                       <span className="text-[#FFA500] font-semibold">
                         {Math.floor(secondsLeft / 60)}m {secondsLeft % 60}s
                       </span>
@@ -689,8 +702,8 @@ const LandingPage = () => {
               />
             </div>
 
-            {/* Post-unlock card */}
-            {(unlocked || stage === "offer") && (
+            {/* Post-unlock card: now ONLY when stage === "offer" */}
+            {stage === "offer" && (
               <div className="lg:w-[50%] relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-xl md:rounded-[35px] lg:rounded-[10px] mt-7 mx-auto p-4">
                 <span className="text-[#FFA500] font-bold underline">
                   Do not close this page as the special offer is only available
@@ -709,12 +722,45 @@ const LandingPage = () => {
                 </span>
               </div>
             )}
+
+            {/* Offer button under the video (disabled until unlocked) */}
+            <div className="mt-3 flex justify-center">
+              <button
+                onClick={handleOfferButtonClick}
+                disabled={!unlocked}
+                aria-disabled={!unlocked}
+                className={`group inline-flex items-center justify-center rounded-xl border-2 px-5 py-3 text-sm font-bold uppercase tracking-wide transition
+                      ${
+                        unlocked
+                          ? "border-[#FFA500] bg-[#141314] text-[#FFA500] hover:bg-[#FFA500] hover:text-black"
+                          : "border-white/20 bg-black/40 text-white/60 cursor-not-allowed opacity-60"
+                      }`}
+              >
+                {unlocked ? (
+                  <>
+                    <span className="mr-2">OFFER UNLOCKED!</span>
+                    <span className="underline group-hover:no-underline">
+                      Click here
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    Offer unlocks in{" "}
+                    <span className="ml-1 text-[#FFA500] font-semibold">
+                      {Math.floor(secondsLeft / 60)}m {secondsLeft % 60}s
+                    </span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </section>
 
         {/* ===== REST OF PAGE (gated; shows at OFFER) ===== */}
         {stage === "offer" && (
           <>
+            {/* anchor for smooth scroll after click */}
+            <div id="offer-start" />
             <section className="relative bg-black text-white pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-12 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden flex items-center justify-center min-h-screen">
               <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-60 pointer-events-none">
                 <Image
