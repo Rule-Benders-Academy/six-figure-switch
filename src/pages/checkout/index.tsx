@@ -95,61 +95,22 @@ const Checkout = () => {
   const [lastName, setLastName] = useState("");
   const [nameError, setNameError] = useState("");
 
-useEffect(() => {
-  function delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+  // Setup Paddle and Meta Pixel
+  useEffect(() => {
+    function delay(ms: number) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
 
-  async function setupPaddle() {
-    const paddleInstance = await initializePaddle({
-      token: "live_864edaa6124c0e65de51e1034c9",
-      eventCallback: async function (result) {
-        if (result.name === "checkout.completed") {
-          const customerEmail = result.data?.customer?.email ?? "";
-          const transactionId = result.data?.id ?? "";
+    async function setupPaddle() {
+      const paddleInstance = await initializePaddle({
+        token: "live_864edaa6124c0e65de51e1034c9",
+        eventCallback: async function (result) {
+          if (result.name === "checkout.completed") {
+            const customerEmail = result.data?.customer?.email ?? "";
+            const transactionId = result.data?.id ?? "";
 
-          console.log(
-            "Paddle customer email:",
-            customerEmail,
-            "First Name:",
-            firstName,
-            "Last Name:",
-            lastName,
-            "Transaction ID:",
-            transactionId
-          );
-
-          const isMcRedirect =
-            new URLSearchParams(window.location.search).get("mc-redirect") ===
-            "true";
-
-          if (customerEmail) {
-            const zapUrl = new URL(
-              "https://hooks.zapier.com/hooks/catch/23549193/utohh21/"
-            );
-            zapUrl.searchParams.set("first_name", firstName);
-            zapUrl.searchParams.set("last_name", lastName);
-            zapUrl.searchParams.set("email", customerEmail);
-            zapUrl.searchParams.set("transaction_id", transactionId);
-            zapUrl.searchParams.set("trigger", "six-figure-switch-success");
-
-            if (isMcRedirect) {
-              zapUrl.searchParams.set("from_masterclass", "true");
-            }
-
-            try {
-              await fetch(zapUrl.toString(), {
-                method: "GET",
-                keepalive: true,
-              });
-              console.log("Zapier webhook fired ✅");
-            } catch (e) {
-              console.error("Zapier webhook error:", e);
-            }
-
-            // Fire Meta Pixel Purchase if from masterclass
+            // Trigger Meta Pixel for Purchase
             if (
-              isMcRedirect &&
               typeof window !== "undefined" &&
               typeof (window as any).fbq === "function"
             ) {
@@ -159,15 +120,43 @@ useEffect(() => {
                     em: customerEmail.trim().toLowerCase(),
                   });
                 }
-                (window as any).fbq(
-                  "track",
-                  "Purchase",
-                  { value: 699, currency: "USD" },
-                  { eventID: transactionId }
-                );
-                console.log("Meta Purchase $699 fired for tx:", transactionId);
+                (window as any).fbq("track", "Purchase", {
+                  value: 699,
+                  currency: "USD",
+                });
+                console.log("Meta Pixel Purchase event fired");
               } catch (e) {
-                console.error("Meta $699 Purchase firing error:", e);
+                console.error("Meta Pixel Purchase event error:", e);
+              }
+            }
+
+            // Trigger the Zapier webhook
+            const isMcRedirect =
+              new URLSearchParams(window.location.search).get("mc-redirect") ===
+              "true";
+
+            if (customerEmail) {
+              const zapUrl = new URL(
+                "https://hooks.zapier.com/hooks/catch/23549193/utohh21/"
+              );
+              zapUrl.searchParams.set("first_name", firstName);
+              zapUrl.searchParams.set("last_name", lastName);
+              zapUrl.searchParams.set("email", customerEmail);
+              zapUrl.searchParams.set("transaction_id", transactionId);
+              zapUrl.searchParams.set("trigger", "six-figure-switch-success");
+
+              if (isMcRedirect) {
+                zapUrl.searchParams.set("from_masterclass", "true");
+              }
+
+              try {
+                await fetch(zapUrl.toString(), {
+                  method: "GET",
+                  keepalive: true,
+                });
+                console.log("Zapier webhook fired ✅");
+              } catch (e) {
+                console.error("Zapier webhook error:", e);
               }
             }
 
@@ -183,17 +172,16 @@ useEffect(() => {
 
             window.location.href = tyUrl.toString();
           }
-        }
-      },
-    });
+        },
+      });
 
-    if (paddleInstance) {
-      setPaddle(paddleInstance);
+      if (paddleInstance) {
+        setPaddle(paddleInstance);
+      }
     }
-  }
 
-  setupPaddle();
-}, [firstName, lastName]);
+    setupPaddle();
+  }, [firstName, lastName]);
 
   const openCheckout = () => {
     if (!firstName.trim() || !lastName.trim()) {
@@ -204,6 +192,16 @@ useEffect(() => {
     }
 
     if (!paddle) return;
+
+    // Track InitiateCheckout when the checkout modal is opened
+    if (
+      typeof window !== "undefined" &&
+      typeof (window as any).fbq === "function"
+    ) {
+      (window as any).fbq("track", "InitiateCheckout", {
+        content_name: "CourseCheckout",
+      });
+    }
 
     paddle.Checkout.open({
       items: [{ priceId: "pri_01k2yast31gjf8e7srdvv6svmy" }],
@@ -237,6 +235,7 @@ useEffect(() => {
     <div>
       <section className="bg-gradient-to-b from-[#141314] to-[#272526] text-white py-10 px-4 sm:px-8 md:px-16 lg:px-24">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[60%_40%] gap-10">
+          {/* Left Side */}
           <div>
             <div className="text-center lg:text-left">
               <h2 className="font-bold text-3xl md:text-3xl leading-tight tracking-tight bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
@@ -274,7 +273,7 @@ useEffect(() => {
         </div>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[60%_40%] gap-10">
-          {/* LEFT SIDE */}
+          {/* Left Column */}
           <div>
             <div
               className={`py-8 px-6 md:px-10 lg:px-12 rounded-3xl shadow-xl border ${
@@ -333,7 +332,7 @@ useEffect(() => {
             </div>
           </div>
 
-          {/* RIGHT SIDE */}
+          {/* Right Column */}
           <div className="bg-[#1f1e1f] rounded-2xl shadow-lg p-6 flex flex-col items-center">
             <h3 className="text-lg font-semibold mb-6 text-center">
               Secure Checkout
