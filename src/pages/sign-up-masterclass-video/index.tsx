@@ -11,8 +11,7 @@ import Bonus from "@/_assets/bonus-offer.png";
 import MainVideo from "./MainVideo";
 import SignupForm from "./SignupForm";
 import OfferSection from "./OfferSection";
-
-import { fbTrack } from "./fb";
+import { fbTrack } from "@/lib/fb";
 
 type Stage = "form" | "video" | "offer";
 

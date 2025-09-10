@@ -2,8 +2,7 @@
 // @ts-ignore
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { fbTrackCustom } from "./fb";
-
+import { fbTrackCustom } from "@/lib/fb";
 declare global {
   interface Window {
     Vimeo?: any;

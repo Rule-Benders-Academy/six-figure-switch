@@ -26,8 +26,8 @@ import OurPromise from "@/_components/OurPromise/OurPromise";
 import NotOrdinary from "@/_components/NotOrdinary/NotOrdinary";
 import TransformationTimeline from "@/_components/TransformationTimeline/TransformationTimeline";
 import EarningTimelineSection from "@/_components/EarningTimelineSection/EarningTimelineSection";
-import { fbTrack } from "./fb";
 
+import { fbTrack } from "@/lib/fb";
 import HeroBg from "@/_assets/landing-hero-bg.png";
 import downArrow from "@/_assets/down-arrow.svg";
 import CancelIcon from "@/_assets/cancel-red-icon.svg";

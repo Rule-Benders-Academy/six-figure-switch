@@ -1,12 +1,12 @@
 /* eslint-disable */
-
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import ProfilePic from "@/_assets/will-img.png";
+import { fbTrack } from "@/lib/fb";
 
 type Props = {
-  onUnlocked: () => void; // called ONLY after confirmed AC success
+  onUnlocked: () => void; // Called ONLY after confirmed AC success
 };
 
 // ActiveCampaign form embed id
@@ -45,6 +45,15 @@ const SignupForm: React.FC<Props> = ({ onUnlocked }) => {
       unlocked = true;
       setVisible(false);
       onUnlocked();
+
+      // Fire Facebook Pixel event for successful opt-in (Lead)
+      fbTrack("Lead", { content_name: "MasterclassOptin" });
+
+      // Dispatch a custom event after successful form submission
+      const event = new CustomEvent("acFormSubmitSuccess", {
+        detail: { message: "AC form submission was successful" },
+      });
+      document.dispatchEvent(event); // Dispatch the event globally
     };
 
     // --- Helpers -------------------------------------------------------------
