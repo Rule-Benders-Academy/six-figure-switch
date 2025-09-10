@@ -1,5 +1,5 @@
 "use client";
-
+/* eslint-disable */
 export function fbqSafe(...args: any[]) {
   if (
     typeof window !== "undefined" &&

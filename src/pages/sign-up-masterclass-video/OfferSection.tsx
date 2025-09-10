@@ -24,6 +24,7 @@ import OurPromise from "@/_components/OurPromise/OurPromise";
 import NotOrdinary from "@/_components/NotOrdinary/NotOrdinary";
 import TransformationTimeline from "@/_components/TransformationTimeline/TransformationTimeline";
 import EarningTimelineSection from "@/_components/EarningTimelineSection/EarningTimelineSection";
+import { fbTrack } from "./fb";
 
 import HeroBg from "@/_assets/landing-hero-bg.png";
 import downArrow from "@/_assets/down-arrow.svg";
@@ -33,7 +34,6 @@ import Person2 from "@/_assets/switch-banner-img-2.png";
 import Person3 from "@/_assets/switch-banner-img-3.png";
 import Person4 from "@/_assets/switch-banner-img-4.png";
 import Star from "@/_assets/star-hero.png";
-import { fbTrack } from "./fb";
 
 declare global {
   interface Window {
@@ -83,6 +83,14 @@ const OfferSection: React.FC<Props> = ({ points = DEFAULT_POINTS }) => {
         el.removeEventListener("click", handler, { capture: true } as any)
       );
     };
+  }, []);
+
+  // NEW: fire ViewContent once when OfferSection shows (Course LP view)
+  const viewContentFiredRef = useRef(false);
+  useEffect(() => {
+    if (viewContentFiredRef.current) return;
+    viewContentFiredRef.current = true;
+    fbTrack("ViewContent", { content_name: "CourseLanding" });
   }, []);
 
   useEffect(() => {
