@@ -67,7 +67,7 @@ const isIOS = () => {
   );
 };
 
-const THRESHOLD_SECONDS = 10; // 20 minutes in prod: 1200
+const THRESHOLD_SECONDS = 1200; // 20 minutes in prod: 1200
 
 const LandingPage = () => {
   // ===== Gate (form -> video -> offer)
