@@ -1,5 +1,6 @@
 "use client";
 /* eslint-disable */
+// @ts-ignore
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 

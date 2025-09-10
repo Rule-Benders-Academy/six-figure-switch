@@ -1,5 +1,5 @@
 /* eslint-disable */
-
+// @ts-ignore
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { fbTrackCustom } from "./fb";
