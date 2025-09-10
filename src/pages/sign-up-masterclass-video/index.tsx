@@ -67,16 +67,12 @@ const isIOS = () => {
   );
 };
 
-const THRESHOLD_SECONDS = 1200; // 20 minutes
+const THRESHOLD_SECONDS = 10; // 20 minutes in prod: 1200
 
 const LandingPage = () => {
-  // Used for the 20-min gate (form -> video -> offer)
+  // ===== Gate (form -> video -> offer)
   const [stage, setStage] = useState<Stage>("form");
-
-  // Lock: form visible initially; after submit, form hides and video unlocks
   const [formVisible, setFormVisible] = useState(true);
-
-  // 20-min gate
   const [secondsLeft, setSecondsLeft] = useState(THRESHOLD_SECONDS);
   const [unlocked, setUnlocked] = useState(false);
   const gateTimerRef = useRef<number | null>(null);
@@ -95,8 +91,7 @@ const LandingPage = () => {
           window.clearInterval(gateTimerRef.current);
           gateTimerRef.current = null;
         }
-        setUnlocked(true);
-        // show offer only on button click
+        setUnlocked(true); // show offer only on button click
       }
     }, 1000);
   };
@@ -110,7 +105,7 @@ const LandingPage = () => {
     };
   }, []);
 
-  // ActiveCampaign embed: show only while form is visible
+  // ===== AC form (unchanged)
   useEffect(() => {
     if (!formVisible) return;
 
@@ -133,11 +128,10 @@ const LandingPage = () => {
     }
 
     const unlockVideo = () => {
-      setFormVisible(false); // hide the form
-      setStage("video"); // reveal video controls and overlays
+      setFormVisible(false);
+      setStage("video");
     };
 
-    // Detect AC thank-you DOM
     const mo = new MutationObserver(() => {
       const thanks = root.querySelector(
         "._form-thank-you, ._form-thank-you_message"
@@ -152,7 +146,6 @@ const LandingPage = () => {
     });
     mo.observe(root, { childList: true, subtree: true });
 
-    // Fallback on submit
     let submitFallbackId: number | undefined;
     const bindSubmit = () => {
       const form = root.querySelector("form._form") as HTMLFormElement | null;
@@ -166,7 +159,6 @@ const LandingPage = () => {
     };
     bindSubmit();
 
-    // Poll until the form mounts
     let pollId: number | undefined = window.setInterval(() => {
       bindSubmit();
       const thanks = root.querySelector(
@@ -178,18 +170,14 @@ const LandingPage = () => {
       }
     }, 400);
 
-    // postMessage success — SAFE parsing
     const onMsg = (e: MessageEvent) => {
       const raw = e.data;
 
-      // String payloads
       if (typeof raw === "string") {
-        // Plain string hints
         if (/ac_form_submit_success|form.*submit.*success/i.test(raw)) {
           unlockVideo();
           return;
         }
-        // Try to parse JSON strings like '{"event":"ready"}'
         try {
           const parsed = JSON.parse(raw);
           if (
@@ -200,13 +188,10 @@ const LandingPage = () => {
           ) {
             unlockVideo();
           }
-        } catch {
-          // not JSON - ignore
-        }
+        } catch {}
         return;
       }
 
-      // Object payloads
       if (raw && typeof raw === "object") {
         const anyRaw = raw as any;
         if (
@@ -228,26 +213,27 @@ const LandingPage = () => {
     };
   }, [formVisible]);
 
-  // Vimeo player
-  const iframeRef = useRef<HTMLIFrameElement | null>(null);
-  const playerRef = useRef<any>(null);
-  const [ready, setReady] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [muted, setMuted] = useState(true);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [needsFirstTap, setNeedsFirstTap] = useState(true);
-  const [showUnmuteHint, setShowUnmuteHint] = useState(false);
+  // =========================================================
+  // ====== MAIN (GATED) VIDEO — independent player/state ====
+  // =========================================================
+  const mainIframeRef = useRef<HTMLIFrameElement | null>(null);
+  const mainPlayerRef = useRef<any>(null);
 
-  // Anti-seek tracking
+  const [readyMain, setReadyMain] = useState(false);
+  const [isPlayingMain, setIsPlayingMain] = useState(false);
+  const [mutedMain, setMutedMain] = useState(true);
+  const [isFullscreenMain, setIsFullscreenMain] = useState(false);
+  const [needsFirstTapMain, setNeedsFirstTapMain] = useState(true);
+  const [showUnmuteHintMain, setShowUnmuteHintMain] = useState(false);
+
   const maxAllowedRef = useRef(0);
   const guardSeekRef = useRef(false);
 
-  // Init Vimeo once
   useEffect(() => {
     let disposed = false;
 
     const init = async () => {
-      if (playerRef.current || !iframeRef.current) return;
+      if (mainPlayerRef.current || !mainIframeRef.current) return;
 
       if (!window.Vimeo?.Player) {
         await new Promise<void>((resolve) => {
@@ -258,57 +244,56 @@ const LandingPage = () => {
           document.head.appendChild(s);
         });
       }
-      if (disposed || !window.Vimeo?.Player || !iframeRef.current) return;
+      if (disposed || !window.Vimeo?.Player || !mainIframeRef.current) return;
 
-      playerRef.current = new window.Vimeo.Player(iframeRef.current);
+      mainPlayerRef.current = new window.Vimeo.Player(mainIframeRef.current);
 
       try {
-        await playerRef.current.ready();
-        setReady(true);
-        await playerRef.current.setMuted(true);
-        setMuted(true);
+        await mainPlayerRef.current.ready();
+        setReadyMain(true);
+        await mainPlayerRef.current.setMuted(true);
+        setMutedMain(true);
 
-        // NEW: keep isFullscreen in sync with Vimeo
-        playerRef.current.on("fullscreenchange", (e: { fullscreen: boolean }) =>
-          setIsFullscreen(!!e?.fullscreen)
+        mainPlayerRef.current.on(
+          "fullscreenchange",
+          (e: { fullscreen: boolean }) => setIsFullscreenMain(!!e?.fullscreen)
         );
 
         maxAllowedRef.current = 0;
-
-        playerRef.current.on("timeupdate", (ev: { seconds: number }) => {
+        mainPlayerRef.current.on("timeupdate", (ev: { seconds: number }) => {
           const t = ev?.seconds ?? 0;
           if (!guardSeekRef.current && t > maxAllowedRef.current) {
             maxAllowedRef.current = t;
           }
         });
 
-        playerRef.current.on("seeked", async () => {
+        mainPlayerRef.current.on("seeked", async () => {
           try {
-            const t = await playerRef.current.getCurrentTime();
+            const t = await mainPlayerRef.current.getCurrentTime();
             const minAllowed = Math.max(0, maxAllowedRef.current - 3);
             if (t < minAllowed) {
               guardSeekRef.current = true;
-              await playerRef.current.setCurrentTime(minAllowed);
+              await mainPlayerRef.current.setCurrentTime(minAllowed);
               guardSeekRef.current = false;
               return;
             }
             const grace = 0.75;
             if (t > maxAllowedRef.current + grace) {
               guardSeekRef.current = true;
-              await playerRef.current.setCurrentTime(maxAllowedRef.current);
+              await mainPlayerRef.current.setCurrentTime(maxAllowedRef.current);
               guardSeekRef.current = false;
             }
           } catch {}
         });
 
-        playerRef.current.on("play", () => {
-          setIsPlaying(true);
+        mainPlayerRef.current.on("play", () => {
+          setIsPlayingMain(true);
           startGateTimer(); // start gate on first actual play
         });
-        playerRef.current.on("pause", () => setIsPlaying(false));
-        playerRef.current.on("volumechange", async () => {
+        mainPlayerRef.current.on("pause", () => setIsPlayingMain(false));
+        mainPlayerRef.current.on("volumechange", async () => {
           try {
-            setMuted(await playerRef.current.getMuted());
+            setMutedMain(await mainPlayerRef.current.getMuted());
           } catch {}
         });
       } catch {}
@@ -318,37 +303,252 @@ const LandingPage = () => {
 
     return () => {
       disposed = true;
-      if (playerRef.current) {
+      if (mainPlayerRef.current) {
         try {
-          playerRef.current.unload?.();
+          mainPlayerRef.current.unload?.();
         } catch {}
-        playerRef.current = null;
+        mainPlayerRef.current = null;
       }
-      setReady(false);
-      setIsPlaying(false);
-      setNeedsFirstTap(true);
+      setReadyMain(false);
+      setIsPlayingMain(false);
+      setNeedsFirstTapMain(true);
     };
   }, []);
 
-  const pauseVideo = async () => {
-    if (!playerRef.current) return;
+  const pauseMain = async () => {
+    if (!mainPlayerRef.current) return;
     try {
-      await playerRef.current.pause();
-      setIsPlaying(false);
+      await mainPlayerRef.current.pause();
+      setIsPlayingMain(false);
     } catch {}
   };
 
-  // Global listeners
+  const handleFirstTapMain = async () => {
+    if (!mainPlayerRef.current || formVisible) return;
+    try {
+      await mainPlayerRef.current.setMuted(false);
+      setMutedMain(false);
+      await mainPlayerRef.current.setVolume(1);
+      await mainPlayerRef.current.play();
+      setIsPlayingMain(true);
+      setNeedsFirstTapMain(false);
+      setShowUnmuteHintMain(false);
+    } catch {
+      try {
+        await mainPlayerRef.current.setMuted(true);
+        setMutedMain(true);
+        await mainPlayerRef.current.play();
+        setIsPlayingMain(true);
+      } catch {}
+      setNeedsFirstTapMain(false);
+      if (isIOS()) setShowUnmuteHintMain(true);
+    }
+  };
+
+  const togglePlayMain = async () => {
+    if (!mainPlayerRef.current || formVisible) return;
+    try {
+      const paused = await mainPlayerRef.current.getPaused();
+      if (paused) await mainPlayerRef.current.play();
+      else await mainPlayerRef.current.pause();
+    } catch {}
+  };
+
+  const toggleMuteMain = async () => {
+    if (!mainPlayerRef.current || formVisible) return;
+    try {
+      await mainPlayerRef.current.setMuted(!mutedMain);
+      setMutedMain(!mutedMain);
+      setShowUnmuteHintMain(false);
+    } catch {}
+  };
+
+  const toggleFullscreenMain = async () => {
+    if (!mainPlayerRef.current || formVisible) return;
+    try {
+      const fs = await mainPlayerRef.current.getFullscreen?.();
+      if (fs) {
+        await mainPlayerRef.current.exitFullscreen?.();
+        setIsFullscreenMain(false);
+      } else {
+        await mainPlayerRef.current.requestFullscreen?.();
+        setIsFullscreenMain(true);
+      }
+      return;
+    } catch {}
+    // Fallback native API
+    try {
+      const iframe = mainIframeRef.current;
+      if (!iframe) return;
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+        setIsFullscreenMain(false);
+      } else if ((iframe as any).requestFullscreen) {
+        await (iframe as any).requestFullscreen();
+        setIsFullscreenMain(true);
+      } else if ((iframe as any).webkitRequestFullscreen) {
+        (iframe as any).webkitRequestFullscreen();
+        setIsFullscreenMain(true);
+      }
+    } catch {}
+  };
+
+  // =========================================================
+  // ====== OFFER VIDEO — independent player/state ===========
+  // =========================================================
+  const offerIframeRef = useRef<HTMLIFrameElement | null>(null);
+  const offerPlayerRef = useRef<any>(null);
+
+  const [readyOffer, setReadyOffer] = useState(false);
+  const [isPlayingOffer, setIsPlayingOffer] = useState(false);
+  const [mutedOffer, setMutedOffer] = useState(true);
+  const [isFullscreenOffer, setIsFullscreenOffer] = useState(false);
+  const [needsFirstTapOffer, setNeedsFirstTapOffer] = useState(true);
+
+  // init the offer player only when the offer section is visible
+  useEffect(() => {
+    if (stage !== "offer") return;
+    let disposed = false;
+
+    const init = async () => {
+      if (offerPlayerRef.current || !offerIframeRef.current) return;
+
+      if (!window.Vimeo?.Player) {
+        await new Promise<void>((resolve) => {
+          const s = document.createElement("script");
+          s.src = "https://player.vimeo.com/api/player.js";
+          s.async = true;
+          s.onload = () => resolve();
+          document.head.appendChild(s);
+        });
+      }
+      if (disposed || !window.Vimeo?.Player || !offerIframeRef.current) return;
+
+      offerPlayerRef.current = new window.Vimeo.Player(offerIframeRef.current);
+      try {
+        await offerPlayerRef.current.ready();
+        setReadyOffer(true);
+        await offerPlayerRef.current.setMuted(true);
+        setMutedOffer(true);
+
+        offerPlayerRef.current.on(
+          "fullscreenchange",
+          (e: { fullscreen: boolean }) => setIsFullscreenOffer(!!e?.fullscreen)
+        );
+        offerPlayerRef.current.on("play", () => setIsPlayingOffer(true));
+        offerPlayerRef.current.on("pause", () => setIsPlayingOffer(false));
+        offerPlayerRef.current.on("volumechange", async () => {
+          try {
+            setMutedOffer(await offerPlayerRef.current.getMuted());
+          } catch {}
+        });
+      } catch {}
+    };
+
+    init();
+    return () => {
+      disposed = true;
+      // (keep the instance; offer stays on page while stage === "offer")
+    };
+  }, [stage]);
+
+  const pauseOffer = async () => {
+    if (!offerPlayerRef.current) return;
+    try {
+      await offerPlayerRef.current.pause();
+      setIsPlayingOffer(false);
+    } catch {}
+  };
+
+  const handleFirstTapOffer = async () => {
+    if (!offerPlayerRef.current) return;
+    try {
+      await offerPlayerRef.current.setMuted(false);
+      setMutedOffer(false);
+      await offerPlayerRef.current.setVolume(1);
+      await offerPlayerRef.current.play();
+      setIsPlayingOffer(true);
+      setNeedsFirstTapOffer(false);
+    } catch {
+      try {
+        await offerPlayerRef.current.setMuted(true);
+        setMutedOffer(true);
+        await offerPlayerRef.current.play();
+        setIsPlayingOffer(true);
+      } catch {}
+      setNeedsFirstTapOffer(false);
+    }
+  };
+
+  const togglePlayOffer = async () => {
+    if (!offerPlayerRef.current) return;
+    try {
+      const paused = await offerPlayerRef.current.getPaused();
+      if (paused) await offerPlayerRef.current.play();
+      else await offerPlayerRef.current.pause();
+    } catch {}
+  };
+
+  const toggleMuteOffer = async () => {
+    if (!offerPlayerRef.current) return;
+    try {
+      await offerPlayerRef.current.setMuted(!mutedOffer);
+      setMutedOffer(!mutedOffer);
+    } catch {}
+  };
+
+  const toggleFullscreenOffer = async () => {
+    if (!offerPlayerRef.current) return;
+    try {
+      const fs = await offerPlayerRef.current.getFullscreen?.();
+      if (fs) {
+        await offerPlayerRef.current.exitFullscreen?.();
+        setIsFullscreenOffer(false);
+      } else {
+        await offerPlayerRef.current.requestFullscreen?.();
+        setIsFullscreenOffer(true);
+      }
+      return;
+    } catch {}
+    // Fallback native
+    try {
+      const iframe = offerIframeRef.current;
+      if (!iframe) return;
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+        setIsFullscreenOffer(false);
+      } else if ((iframe as any).requestFullscreen) {
+        await (iframe as any).requestFullscreen();
+        setIsFullscreenOffer(true);
+      } else if ((iframe as any).webkitRequestFullscreen) {
+        (iframe as any).webkitRequestFullscreen();
+        setIsFullscreenOffer(true);
+      }
+    } catch {}
+  };
+
+  // ===== Global listeners: pause *only* the video that was fullscreen/active
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" || (e as any).keyCode === 27) pauseVideo();
+      if (e.key === "Escape" || (e as any).keyCode === 27) {
+        const fe =
+          (document.fullscreenElement as HTMLElement | null) ||
+          ((document as any).webkitFullscreenElement as HTMLElement | null);
+        if (fe === mainIframeRef.current) pauseMain();
+        if (fe === offerIframeRef.current) pauseOffer();
+      }
     };
     const onFsChange = () => {
-      const active =
-        !!document.fullscreenElement ||
-        !!(document as any).webkitFullscreenElement;
-      setIsFullscreen(active);
-      if (!active) pauseVideo();
+      const fe =
+        (document.fullscreenElement as HTMLElement | null) ||
+        ((document as any).webkitFullscreenElement as HTMLElement | null);
+      setIsFullscreenMain(fe === mainIframeRef.current);
+      setIsFullscreenOffer(fe === offerIframeRef.current);
+      // when exiting fullscreen (fe null), only pause the one that *was* fullscreen
+      if (!fe) {
+        if (isFullscreenMain) pauseMain();
+        if (isFullscreenOffer) pauseOffer();
+      }
     };
     document.addEventListener("keydown", onKey);
     document.addEventListener("fullscreenchange", onFsChange);
@@ -358,80 +558,10 @@ const LandingPage = () => {
       document.removeEventListener("fullscreenchange", onFsChange);
       document.removeEventListener("webkitfullscreenchange", onFsChange as any);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFullscreenMain, isFullscreenOffer]);
 
-  const handleFirstTap = async () => {
-    if (!playerRef.current || formVisible) return;
-    try {
-      await playerRef.current.setMuted(false);
-      setMuted(false);
-      await playerRef.current.setVolume(1);
-      await playerRef.current.play();
-      setIsPlaying(true);
-      setNeedsFirstTap(false);
-      setShowUnmuteHint(false);
-    } catch {
-      try {
-        await playerRef.current.setMuted(true);
-        setMuted(true);
-        await playerRef.current.play();
-        setIsPlaying(true);
-      } catch {}
-      setNeedsFirstTap(false);
-      if (isIOS()) setShowUnmuteHint(true);
-    }
-  };
-
-  const togglePlay = async () => {
-    if (!playerRef.current || formVisible) return;
-    try {
-      const paused = await playerRef.current.getPaused();
-      if (paused) await playerRef.current.play();
-      else await playerRef.current.pause();
-    } catch {}
-  };
-
-  const toggleMute = async () => {
-    if (!playerRef.current || formVisible) return;
-    try {
-      await playerRef.current.setMuted(!muted);
-      setMuted(!muted);
-      setShowUnmuteHint(false);
-    } catch {}
-  };
-
-  // UPDATED: use Vimeo's fullscreen API first (works better on mobile)
-  const toggleFullscreen = async () => {
-    if (!playerRef.current || formVisible) return;
-    try {
-      const fs = await playerRef.current.getFullscreen?.();
-      if (fs) {
-        await playerRef.current.exitFullscreen?.();
-        setIsFullscreen(false);
-      } else {
-        await playerRef.current.requestFullscreen?.();
-        setIsFullscreen(true);
-      }
-      return;
-    } catch {}
-    // Fallback to native browser Fullscreen API
-    try {
-      const iframe = iframeRef.current;
-      if (!iframe) return;
-      if (document.fullscreenElement) {
-        await document.exitFullscreen();
-        setIsFullscreen(false);
-      } else if ((iframe as any).requestFullscreen) {
-        await (iframe as any).requestFullscreen();
-        setIsFullscreen(true);
-      } else if ((iframe as any).webkitRequestFullscreen) {
-        (iframe as any).webkitRequestFullscreen();
-        setIsFullscreen(true);
-      }
-    } catch {}
-  };
-
-  // Motion preference
+  // ===== Motion preference
   const [reducedMotion, setReducedMotion] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined" && "matchMedia" in window) {
@@ -443,7 +573,7 @@ const LandingPage = () => {
     }
   }, []);
 
-  // Offer button click handler
+  // ===== Offer button
   const handleOfferButtonClick = () => {
     if (!unlocked) return;
     setStage("offer");
@@ -455,7 +585,7 @@ const LandingPage = () => {
     });
   };
 
-  // GA (optional, unchanged)
+  // ===== GA (unchanged)
   useEffect(() => {
     const s1 = document.createElement("script");
     s1.src = "https://www.googletagmanager.com/gtag/js?id=G-R7Q2CRPHS8";
@@ -612,16 +742,16 @@ const LandingPage = () => {
                   </div>
                 )}
 
-                {/* ===== VIDEO BLOCK (always rendered; locked while formVisible) ===== */}
+                {/* ===== MAIN VIDEO (independent) ===== */}
                 <div
                   className={`relative w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e] ${
                     formVisible ? "mt-6" : ""
                   }`}
                 >
                   <iframe
-                    ref={iframeRef}
+                    ref={mainIframeRef}
                     className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
-                      ready ? "opacity-100" : "opacity-0"
+                      readyMain ? "opacity-100" : "opacity-0"
                     }`}
                     src="https://player.vimeo.com/video/1113013910?muted=1&loop=0&playsinline=1&autopause=0&controls=0&keyboard=0&transparent=0"
                     title="Masterclass"
@@ -629,7 +759,6 @@ const LandingPage = () => {
                     allowFullScreen
                   />
 
-                  {/* LOCK OVERLAY while form is visible */}
                   {formVisible && (
                     <div
                       className="absolute inset-0 z-30 flex items-center justify-center bg-black/60 backdrop-blur-sm"
@@ -643,10 +772,9 @@ const LandingPage = () => {
                     </div>
                   )}
 
-                  {/* First-tap overlay (only when unlocked) */}
-                  {!formVisible && needsFirstTap && ready && (
+                  {!formVisible && needsFirstTapMain && readyMain && (
                     <div
-                      onClick={handleFirstTap}
+                      onClick={handleFirstTapMain}
                       className="absolute inset-0 z-20 cursor-pointer"
                       aria-hidden
                       title="Tap to start with sound"
@@ -659,37 +787,40 @@ const LandingPage = () => {
                     </div>
                   )}
 
-                  {/* Overlay controls (only when unlocked and not fullscreen) */}
-                  {!formVisible && ready && !needsFirstTap && !isFullscreen && (
-                    <div className="absolute bottom-3 right-3 z-20 flex gap-2 pointer-events-auto">
-                      <button
-                        onClick={togglePlay}
-                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
-                        aria-label={isPlaying ? "Pause video" : "Play video"}
-                      >
-                        {isPlaying ? "⏸ Pause" : "▶ Play"}
-                      </button>
-                      <button
-                        onClick={toggleMute}
-                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
-                        aria-label={muted ? "Unmute video" : "Mute video"}
-                      >
-                        {muted ? "🔊 Unmute" : "🔇 Mute"}
-                      </button>
-                      <button
-                        onClick={toggleFullscreen}
-                        className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
-                        aria-label={
-                          isFullscreen ? "Exit Fullscreen" : "Fullscreen"
-                        }
-                      >
-                        {isFullscreen ? "🗗 Exit" : "⛶ Fullscreen"}
-                      </button>
-                    </div>
-                  )}
+                  {!formVisible &&
+                    readyMain &&
+                    !needsFirstTapMain &&
+                    !isFullscreenMain && (
+                      <div className="absolute bottom-3 right-3 z-20 flex gap-2 pointer-events-auto">
+                        <button
+                          onClick={togglePlayMain}
+                          className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
+                          aria-label={
+                            isPlayingMain ? "Pause video" : "Play video"
+                          }
+                        >
+                          {isPlayingMain ? "⏸ Pause" : "▶ Play"}
+                        </button>
+                        <button
+                          onClick={toggleMuteMain}
+                          className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
+                          aria-label={mutedMain ? "Unmute video" : "Mute video"}
+                        >
+                          {mutedMain ? "🔊 Unmute" : "🔇 Mute"}
+                        </button>
+                        <button
+                          onClick={toggleFullscreenMain}
+                          className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
+                          aria-label={
+                            isFullscreenMain ? "Exit Fullscreen" : "Fullscreen"
+                          }
+                        >
+                          {isFullscreenMain ? "🗗 Exit" : "⛶ Fullscreen"}
+                        </button>
+                      </div>
+                    )}
 
-                  {/* iOS hint only when unlocked */}
-                  {!formVisible && showUnmuteHint && !isFullscreen && (
+                  {!formVisible && showUnmuteHintMain && !isFullscreenMain && (
                     <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
                       <span className="rounded-xl border border-white/20 px-3 py-1.5 bg-black/50 backdrop-blur text-[11px] md:text-xs text-white/90">
                         Sound blocked by the browser — use 🔊 Unmute
@@ -723,7 +854,7 @@ const LandingPage = () => {
               />
             </div>
 
-            {/* Post-unlock card: now ONLY when stage === "offer" */}
+            {/* Post-unlock card: only when stage === "offer" */}
             {stage === "offer" && (
               <div className="lg:w-[50%] relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-xl md:rounded-[35px] lg:rounded-[10px] mt-7 mx-auto p-4">
                 <span className="text-[#FFA500] font-bold underline">
@@ -777,10 +908,9 @@ const LandingPage = () => {
           </div>
         </section>
 
-        {/* ===== REST OF PAGE (gated; shows at OFFER) ===== */}
+        {/* ===== OFFER (only after button click) ===== */}
         {stage === "offer" && (
           <>
-            {/* anchor for smooth scroll after click */}
             <div id="offer-start" />
             <section className="relative bg-black text-white pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-12 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden flex items-center justify-center min-h-screen">
               <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black opacity-60 pointer-events-none">
@@ -848,6 +978,7 @@ const LandingPage = () => {
               </div>
             </section>
 
+            {/* Points + headline + offer video with its OWN controls */}
             <div className="bg-gradient-to-b from-[#141314] to-[#272526] h-full">
               <div className="w-[80%] md:w-[36%] mx-auto py-5 md:py-10 lg:py-16 flex flex-col gap-7 md:gap-8">
                 {points.map((text, index) => (
@@ -905,8 +1036,7 @@ const LandingPage = () => {
                 </div>
 
                 <div className="relative max-w-[80%] md:max-w-[40%] mx-auto">
-                  {/* Clock (non-clickable) */}
-                  <div className="flex justify-center items-center -mb-5 md:-mb-[30px] relative z-10 pointer-events-none">
+                  <div className="flex justify-center items-center -mb-5 md:-mb-[30px] relative z-10">
                     <DigitalClock minutes={53} seconds={0} />
                   </div>
 
@@ -924,7 +1054,7 @@ const LandingPage = () => {
                     </h2>
                   </div>
 
-                  {/* Button */}
+                  {/* Offer CTA */}
                   <div className="text-center z-20 relative pointer-events-auto mt-2">
                     <GradientButton>I’m in – lets Go!</GradientButton>
                   </div>
@@ -943,6 +1073,74 @@ const LandingPage = () => {
                   />
                 </div>
               </section>
+
+              {/* ===== OFFER VIDEO (independent controls) ===== */}
+              <div className="px-4 sm:px-8 md:px-16 lg:px-24 flex flex-col items-center w-[95%] lg:w-full mx-auto">
+                <div className="text-2xl md:text-2xl lg:text-[44px] lg:leading-[100%] mt-10 max-w-[680px] mx-auto text-center text-white">
+                  Watch this short video to
+                  <br /> see how we do it
+                </div>
+
+                <div className="w-full max-w-[980px] mt-6 md:mt-8 lg:mt-12">
+                  <div className="relative rounded-[17px] md:rounded-[35px] lg:rounded-[15px] overflow-hidden h-[240px] sm:h-[300px] md:h-[420px] lg:h-[440px] bg-black">
+                    <iframe
+                      ref={offerIframeRef}
+                      className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                        readyOffer ? "opacity-100" : "opacity-0"
+                      } pointer-events-none`}
+                      src="https://player.vimeo.com/video/1113015239?muted=1&loop=1&playsinline=1&autopause=0"
+                      title="How We Do It"
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      allowFullScreen
+                      loading="lazy"
+                      onLoad={() => setReadyOffer(true)}
+                    />
+
+                    {needsFirstTapOffer && readyOffer && (
+                      <div
+                        onClick={handleFirstTapOffer}
+                        className="absolute inset-0 z-20 cursor-pointer"
+                        aria-hidden
+                        title="Tap to play"
+                      />
+                    )}
+
+                    {readyOffer && !needsFirstTapOffer && (
+                      <div className="absolute bottom-3 right-3 z-20 flex gap-2 pointer-events-auto">
+                        <button
+                          onClick={togglePlayOffer}
+                          className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
+                          aria-label={
+                            isPlayingOffer ? "Pause video" : "Play video"
+                          }
+                        >
+                          {isPlayingOffer ? "⏸ Pause" : "▶ Play"}
+                        </button>
+                        <button
+                          onClick={toggleMuteOffer}
+                          className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
+                          aria-label={
+                            mutedOffer ? "Unmute video" : "Mute video"
+                          }
+                        >
+                          {mutedOffer ? "🔊 Unmute" : "🔇 Mute"}
+                        </button>
+                        <button
+                          onClick={toggleFullscreenOffer}
+                          className="rounded-full bg-black/60 text-white text-xs md:text-sm px-3 py-1.5"
+                          aria-label={
+                            isFullscreenOffer ? "Exit Fullscreen" : "Fullscreen"
+                          }
+                        >
+                          ⛶ {isFullscreenOffer ? "Exit" : "Fullscreen"}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <GradientButton>I’m in – lets Go!</GradientButton>
+              </div>
 
               <div className="bg-gradient-to-b from-[#141314] to-[#272526] h-full">
                 <div className="px-4 sm:px-8 md:px-16 lg:px-24 pt-10 lg:pt-24">
