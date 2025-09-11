@@ -13,7 +13,7 @@ import { fbTrack } from "@/lib/fb";
 type Stage = "form" | "video" | "offer";
 
 // For prod use 1200 (20 mins). Using 10 here for quick testing.
-const THRESHOLD_SECONDS = 90;
+const THRESHOLD_SECONDS = 1200;
 
 const Page = () => {
   const [stage, setStage] = useState<Stage>("form");
