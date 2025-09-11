@@ -1,8 +1,7 @@
-/* eslint-disable */
-// @ts-ignore
 "use client";
+/* eslint-disable */
 import React, { useEffect, useRef, useState } from "react";
-import { fbTrackCustom } from "@/lib/fb";
+import { fbTrackCustom } from "@/lib/fb"; // Ensure this is the correct path for your custom tracking function
 declare global {
   interface Window {
     Vimeo?: any;
@@ -11,15 +10,23 @@ declare global {
 
 type Props = {
   formVisible: boolean;
-  onFirstPlay?: () => void; // start gate timer in parent (stable via ref)
+  onFirstPlay?: () => void;
 };
 
 const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<any>(null);
-
-  // keep latest callback without causing re-inits
   const onFirstPlayRef = useRef<typeof onFirstPlay>();
+
+  const milestoneRef = useRef({
+    started: false,
+    m5fired: false,
+    p25: false,
+    p50: false,
+    p75: false,
+    p95: false,
+  });
+
   useEffect(() => {
     onFirstPlayRef.current = onFirstPlay;
   }, [onFirstPlay]);
@@ -31,23 +38,14 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
   const [fullscreen, setFullscreen] = useState(false);
   const [needsFirstTap, setNeedsFirstTap] = useState(true);
 
-  // Vimeo milestone flags per spec
-  const milestoneRef = useRef({
-    started: false,
-    m5fired: false,
-    p25: false,
-    p50: false,
-    p75: false,
-    p95: false,
-  });
-
-  // Load Vimeo SDK once on client
+  // Load Vimeo SDK only once
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.Vimeo?.Player) {
       setSdkReady(true);
       return;
     }
+
     const s = document.createElement("script");
     s.src = "https://player.vimeo.com/api/player.js";
     s.async = true;
@@ -57,7 +55,7 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
     document.head.appendChild(s);
   }, []);
 
-  // Init player when SDK is ready
+  // Initialize player and listen for events once SDK is ready
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!sdkReady) return;
@@ -66,11 +64,11 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
 
     let disposed = false;
 
-    (async () => {
-      try {
-        const p = new window.Vimeo.Player(iframeRef.current);
-        playerRef.current = p;
+    const p = new window.Vimeo.Player(iframeRef.current);
+    playerRef.current = p;
 
+    const initializePlayer = async () => {
+      try {
         await p.ready();
         if (disposed) return;
 
@@ -78,32 +76,34 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
         await p.setMuted(true);
         setMuted(true);
 
-        p.on("fullscreenchange", (e: { fullscreen: boolean }) =>
-          setFullscreen(!!e?.fullscreen)
-        );
+        p.on("fullscreenchange", (e: { fullscreen: boolean }) => {
+          setFullscreen(!!e?.fullscreen);
+        });
 
-        // SPEC §6 — start marker (5s of play)
+        // Handle play event and trigger custom Facebook Pixel event
         p.on("play", () => {
           setPlaying(true);
           onFirstPlayRef.current?.();
 
+          // Trigger MC_WatchStart after 5 seconds
           if (!milestoneRef.current.started) {
             milestoneRef.current.started = true;
             window.setTimeout(async () => {
-              try {
-                const sec = await p.getCurrentTime();
-                if (!milestoneRef.current.m5fired && sec >= 5) {
-                  milestoneRef.current.m5fired = true;
-                  fbTrackCustom("MC_WatchStart");
-                }
-              } catch {}
+              const sec = await p.getCurrentTime();
+              console.log("Video started playing");
+              console.log("Current time:", sec);
+              if (!milestoneRef.current.m5fired && sec >= 5) {
+                milestoneRef.current.m5fired = true;
+                console.log("MC_WatchStart event fired!");
+                fbTrackCustom("MC_WatchStart"); // Custom Pixel event
+              }
             }, 5000);
           }
         });
 
         p.on("pause", () => setPlaying(false));
 
-        // SPEC §6 — milestones
+        // Milestone events
         p.on("timeupdate", (data: { seconds: number; duration: number }) => {
           if (!data || !data.duration) return;
           const pct = (data.seconds / data.duration) * 100;
@@ -131,15 +131,21 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
             setMuted(await p.getMuted());
           } catch {}
         });
-      } catch {}
-    })();
+      } catch (e) {
+        console.error("Vimeo player initialization failed:", e);
+      }
+    };
+
+    initializePlayer();
 
     return () => {
       disposed = true;
       if (playerRef.current) {
         try {
           playerRef.current.unload?.();
-        } catch {}
+        } catch (e) {
+          console.error("Error unloading Vimeo player:", e);
+        }
         playerRef.current = null;
       }
       setReady(false);
@@ -156,7 +162,6 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
     };
   }, [sdkReady]);
 
-  // Tap-to-start (unchanged)
   const handleFirstTap = async () => {
     if (!playerRef.current || formVisible) return;
     try {
@@ -166,14 +171,8 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
       await playerRef.current.play();
       setPlaying(true);
       setNeedsFirstTap(false);
-    } catch {
-      try {
-        await playerRef.current.setMuted(true);
-        setMuted(true);
-        await playerRef.current.play();
-        setPlaying(true);
-      } catch {}
-      setNeedsFirstTap(false);
+    } catch (e) {
+      console.error("Error on first tap:", e);
     }
   };
 
@@ -183,7 +182,9 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
       const paused = await playerRef.current.getPaused();
       if (paused) await playerRef.current.play();
       else await playerRef.current.pause();
-    } catch {}
+    } catch (e) {
+      console.error("Error toggling play/pause:", e);
+    }
   };
 
   const toggleMute = async () => {
@@ -191,7 +192,9 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
     try {
       await playerRef.current.setMuted(!muted);
       setMuted(!muted);
-    } catch {}
+    } catch (e) {
+      console.error("Error toggling mute:", e);
+    }
   };
 
   const toggleFullscreen = async () => {
@@ -205,7 +208,9 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
         await playerRef.current.requestFullscreen?.();
         setFullscreen(true);
       }
-    } catch {}
+    } catch (e) {
+      console.error("Error toggling fullscreen:", e);
+    }
   };
 
   return (
