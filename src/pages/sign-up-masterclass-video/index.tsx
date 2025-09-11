@@ -1,9 +1,6 @@
 "use client";
-/* eslint-disable */
-// @ts-ignore
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import Image from "next/image";
-
 import Drawer from "../../_components/Drawer/Drawer";
 import HeroBg from "@/_assets/landing-hero-bg.png";
 import Bonus from "@/_assets/bonus-offer.png";
@@ -16,11 +13,11 @@ import { fbTrack } from "@/lib/fb";
 type Stage = "form" | "video" | "offer";
 
 // For prod use 1200 (20 mins). Using 10 here for quick testing.
-const THRESHOLD_SECONDS = 10;
+const THRESHOLD_SECONDS = 90;
 
 const Page = () => {
   const [stage, setStage] = useState<Stage>("form");
-  const [formVisible, setFormVisible] = useState(true);
+  const [formVisible, setFormVisible] = useState(true); // Controls visibility of the form
   const [secondsLeft, setSecondsLeft] = useState(THRESHOLD_SECONDS);
   const [unlocked, setUnlocked] = useState(false);
 
@@ -37,21 +34,24 @@ const Page = () => {
     if (gateStartedRef.current) return;
     gateStartedRef.current = true;
 
-    let s = THRESHOLD_SECONDS;
+    let s = secondsLeft; // Use saved or initial secondsLeft
     setSecondsLeft(s);
 
     gateTimerRef.current = window.setInterval(() => {
       s -= 1;
       setSecondsLeft(s);
+      sessionStorage.setItem("remainingTime", String(s)); // Save to sessionStorage
+
       if (s <= 0) {
         if (gateTimerRef.current) {
           window.clearInterval(gateTimerRef.current);
           gateTimerRef.current = null;
         }
         setUnlocked(true);
+        sessionStorage.setItem("unlocked", "true"); // Mark as unlocked
       }
     }, 1000);
-  }, []);
+  }, [secondsLeft]);
 
   useEffect(() => {
     return () => {
@@ -77,6 +77,26 @@ const Page = () => {
     });
   };
 
+  // Check sessionStorage to determine if the user has signed up and the time remaining
+  useEffect(() => {
+    const isSignedUp = sessionStorage.getItem("signedUp");
+    const savedTime = sessionStorage.getItem("remainingTime");
+    const isUnlocked = sessionStorage.getItem("unlocked");
+
+    if (isSignedUp === "true") {
+      setFormVisible(false); // If already signed up, hide the form
+    }
+
+    if (savedTime) {
+      setSecondsLeft(Number(savedTime)); // Use saved time if available
+    }
+
+    if (isUnlocked === "true") {
+      setUnlocked(true); // Automatically unlock if already unlocked in previous session
+      setStage("offer");
+    }
+  }, []);
+
   return (
     <>
       <div className="min-h-screen !font-jakarta">
@@ -93,7 +113,7 @@ const Page = () => {
           <div className="relative lg:w-[80%] max-w-[98%] mx-auto text-center">
             <div className="flex flex-col md:flex-row items-center justify-center lg:gap-8 text-center">
               <div className="flex justify-center">
-                <div className="relative w-32 h-32 lg:w-24 lg:h-24 rounded-full overflow-hidden ">
+                <div className="relative w-32 h-32 lg:w-24 lg:h-24 rounded-full overflow-hidden">
                   <Image
                     src={Bonus}
                     alt="Bonus"
@@ -120,10 +140,12 @@ const Page = () => {
 
             <div className="relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:mt-2 mx-auto">
               <div className="p-3 md:p-5 lg:p-6">
-                {formVisible && (
+                {/* Conditionally render SignupForm component */}
+                {!formVisible ? null : (
                   <SignupForm onUnlocked={handleUnlockedFromForm} />
                 )}
 
+                {/* Video component */}
                 <MainVideo
                   formVisible={formVisible}
                   onFirstPlay={startGateTimer}

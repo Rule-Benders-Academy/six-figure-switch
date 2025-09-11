@@ -1,5 +1,5 @@
-"use client";
 /* eslint-disable */
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import { fbTrackCustom } from "@/lib/fb"; // Ensure this is the correct path for your custom tracking function
 declare global {
@@ -76,6 +76,12 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
         await p.setMuted(true);
         setMuted(true);
 
+        // Try to load saved video progress from sessionStorage
+        const savedTime = sessionStorage.getItem("videoProgress");
+        if (savedTime) {
+          await p.setCurrentTime(Number(savedTime));
+        }
+
         p.on("fullscreenchange", (e: { fullscreen: boolean }) => {
           setFullscreen(!!e?.fullscreen);
         });
@@ -124,6 +130,9 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
             milestoneRef.current.p95 = true;
             fbTrackCustom("MC_95");
           }
+
+          // Save the video progress every 1 second
+          sessionStorage.setItem("videoProgress", String(data.seconds));
         });
 
         p.on("volumechange", async () => {

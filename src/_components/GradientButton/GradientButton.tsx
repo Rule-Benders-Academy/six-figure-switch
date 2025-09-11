@@ -10,11 +10,23 @@ const GradientButton: React.FC<GradientButtonProps> = ({
   className,
 }) => {
   const handleClick = () => {
+    // Get the current URL parameters
+    const params = new URLSearchParams(window.location.search);
+
+    // Get the current path
     const currentPath = window.location.pathname;
-    const redirectUrl = currentPath.endsWith("/masterclass-video")
+
+    // Define the base redirect URL
+    let redirectUrl = currentPath.endsWith("/masterclass-video")
       ? "/checkout?mc-redirect=true"
       : "/checkout";
 
+    // Append the existing URL parameters to the redirect URL
+    if (params.toString()) {
+      redirectUrl += `?&${params.toString()}`;
+    }
+
+    // Redirect to the updated URL with parameters
     window.location.href = redirectUrl;
   };
 

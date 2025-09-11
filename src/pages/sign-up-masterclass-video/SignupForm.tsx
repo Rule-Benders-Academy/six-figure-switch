@@ -13,10 +13,17 @@ type Props = {
 const AC_FORM_ID = "3";
 
 const SignupForm: React.FC<Props> = ({ onUnlocked }) => {
-  const [visible, setVisible] = useState(true);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    if (!visible) return;
+    // Check if the user has already signed up or completed the form
+    const isSignedUp = sessionStorage.getItem("signedUp");
+    if (isSignedUp === "true") {
+      setHidden(true); // Hide the form if the user has already signed up
+      onUnlocked();
+    }
+
+    if (hidden) return; // If already signed up, don't load the form
 
     const root = document.getElementById("ac-form-root");
     if (!root) return;
@@ -30,7 +37,10 @@ const SignupForm: React.FC<Props> = ({ onUnlocked }) => {
     }
 
     // Load AC script once
-    if (!document.querySelector(`script[data-ac-form="${AC_FORM_ID}"]`)) {
+    if (
+      !document.querySelector(`script[data-ac-form="${AC_FORM_ID}"]`) &&
+      isSignedUp != "true"
+    ) {
       const s = document.createElement("script");
       s.src = `https://rule-benders.activehosted.com/f/embed.php?id=${AC_FORM_ID}`;
       s.async = true;
@@ -43,8 +53,11 @@ const SignupForm: React.FC<Props> = ({ onUnlocked }) => {
     const unlock = () => {
       if (unlocked) return;
       unlocked = true;
-      setVisible(false);
+      setHidden(true); // Hide the form after successful submission
       onUnlocked();
+
+      // Save the "signedUp" state in sessionStorage
+      sessionStorage.setItem("signedUp", "true");
 
       // Fire Facebook Pixel event for successful opt-in (Lead)
       fbTrack("Lead", { content_name: "MasterclassOptin" });
@@ -159,9 +172,10 @@ const SignupForm: React.FC<Props> = ({ onUnlocked }) => {
         onCustom as any
       );
     };
-  }, [visible, onUnlocked]);
+  }, [hidden, onUnlocked]);
 
-  if (!visible) return null;
+  // If the form is hidden (user already signed up), return null to prevent rendering
+  if (hidden) return null;
 
   return (
     <div>
@@ -221,16 +235,23 @@ const SignupForm: React.FC<Props> = ({ onUnlocked }) => {
       <div className="mt-6 h-[2px] w-full bg-gradient-to-r from-transparent via-[#FFA500] to-transparent" />
 
       {/* AC form root; AC will inject <form class="_form"> inside this node. */}
-      <div
-        id="ac-form-root"
-        data-track="optin-form-root"
-        className="relative w-full rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e] p-3 md:p-4"
-      >
-        <h4 className="text-lg md:text-xl font-bold">
-          Watch <span className="text-[#FFA500]">instantly</span>
-        </h4>
-        {/* AC mount (added as fallback too in effect) */}
-        <div className="_form_3 -mt-6" />
+      <div className={hidden ? "hidden" : ""}>
+        {" "}
+        {/* Apply 'hidden' to the parent div */}
+        {/* Only render the form if 'hidden' is false */}
+        {!hidden && (
+          <div
+            id="ac-form-root"
+            data-track="optin-form-root"
+            className="relative w-full rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e] p-3 md:p-4"
+          >
+            <h4 className="text-lg md:text-xl font-bold">
+              Watch <span className="text-[#FFA500]">instantly</span>
+            </h4>
+            {/* AC form mount (AC will inject <form class="_form"> inside this node) */}
+            <div className="_form_3 -mt-6" />
+          </div>
+        )}
       </div>
     </div>
   );

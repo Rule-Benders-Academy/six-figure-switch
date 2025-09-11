@@ -70,20 +70,21 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       />
 
-      {/* USD → GBP Converter with nice rounding */}
+      {/* USD → GBP and USD → EUR Converter */}
       <Script
-        id="usd-to-gbp-converter"
+        id="usd-to-gbp-eur-converter"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
             (function(){
               var Q = new URLSearchParams(location.search);
-              var FORCE_COUNTRY = (Q.get('forceCountry')||'').toUpperCase();
+              var FORCE_COUNTRY = (Q.get('forceCountry') || '').toUpperCase();
               var FX_OVERRIDE  = Q.get('fx') ? Number(Q.get('fx')) : null;
               var DISABLE      = Q.get('noconvert') === '1';
               var FX_CACHE_KEY = "usd_gbp_fx_v1";
               var FX_TTL_MS    = 12*60*60*1000;
               var FALLBACK_FX  = 0.78;
+              var EUR_FALLBACK_FX = 0.85;  // EUR to USD fallback rate
 
               if (DISABLE) return;
 
@@ -94,7 +95,16 @@ export default function App({ Component, pageProps }: AppProps) {
                   return /(^|-)GB\\b/i.test(loc) || loc.toUpperCase().includes('EN-GB');
                 } catch { return false; }
               }
-              if (!isUK()) return;
+
+              function isEU(){
+                if (FORCE_COUNTRY) return FORCE_COUNTRY === 'EU';
+                try {
+                  var loc = Intl.DateTimeFormat().resolvedOptions().locale || '';
+                  return /(^|-)EU\\b/i.test(loc) || loc.toUpperCase().includes('EN-EU');
+                } catch { return false; }
+              }
+
+              if (!isUK() && !isEU()) return;
 
               function getCachedFx(){
                 try {
@@ -105,22 +115,25 @@ export default function App({ Component, pageProps }: AppProps) {
                 } catch {}
                 return null;
               }
+
               function setCachedFx(rate){
                 try { localStorage.setItem(FX_CACHE_KEY, JSON.stringify({ rate: rate, fetchedAt: Date.now() })); } catch {}
               }
+
               function fetchFx(){
                 if (FX_OVERRIDE && Number.isFinite(FX_OVERRIDE)) return Promise.resolve(FX_OVERRIDE);
                 var cached = getCachedFx();
                 if (cached) return Promise.resolve(cached);
-                return fetch('https://api.exchangerate.host/latest?base=USD&symbols=GBP')
+                return fetch('https://api.exchangerate.host/latest?base=USD&symbols=GBP,EUR')
                   .then(r => r.json())
                   .then(j => {
-                    var rate = Number(j && j.rates && j.rates.GBP);
-                    if (!Number.isFinite(rate)) throw new Error('bad rate');
-                    setCachedFx(rate);
-                    return rate;
+                    var gbpRate = Number(j && j.rates && j.rates.GBP);
+                    var eurRate = Number(j && j.rates && j.rates.EUR);
+                    if (!Number.isFinite(gbpRate) || !Number.isFinite(eurRate)) throw new Error('bad rate');
+                    setCachedFx({ gbp: gbpRate, eur: eurRate });
+                    return { gbp: gbpRate, eur: eurRate };
                   })
-                  .catch(() => FX_OVERRIDE || FALLBACK_FX);
+                  .catch(() => ({ gbp: FX_OVERRIDE || FALLBACK_FX, eur: EUR_FALLBACK_FX }));
               }
 
               var formatterGBP = new Intl.NumberFormat('en-GB', {
@@ -130,12 +143,22 @@ export default function App({ Component, pageProps }: AppProps) {
                 maximumFractionDigits: 0
               });
 
+              var formatterEUR = new Intl.NumberFormat('de-DE', {
+                style: 'currency',
+                currency: 'EUR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              });
+
               function toNumberUSD(str){ return Number(String(str).replace(/,/g,'')); }
+
               // round to nearest 50
               function roundTo50(n){ return Math.round(n/50)*50; }
-              function fmtGBP(amountUsd, fx){
-                var gbp = roundTo50(amountUsd * fx);
-                return formatterGBP.format(gbp);
+
+              function fmtCurrency(amountUsd, fx, type){
+                var rate = type === 'GBP' ? fx.gbp : fx.eur;
+                var rounded = roundTo50(amountUsd * rate);
+                return type === 'GBP' ? formatterGBP.format(rounded) : formatterEUR.format(rounded);
               }
 
               var RANGE_RE = /\\$(\\d[\\d,]*(?:\\.\\d+)?)\\s*(?:–|-|to)\\s*\\$?(\\d[\\d,]*(?:\\.\\d+)?)/g;
@@ -149,15 +172,15 @@ export default function App({ Component, pageProps }: AppProps) {
                 return false;
               }
 
-              function convertTextNode(node, fx){
+              function convertTextNode(node, fx, type){
                 var v = node.nodeValue;
                 if (!v || v.indexOf('$') === -1) return;
-                v = v.replace(RANGE_RE, (_, a, b) => fmtGBP(toNumberUSD(a), fx) + '–' + fmtGBP(toNumberUSD(b), fx));
-                v = v.replace(SINGLE_RE, (_, num) => fmtGBP(toNumberUSD(num), fx));
+                v = v.replace(RANGE_RE, (_, a, b) => fmtCurrency(toNumberUSD(a), fx, type) + '–' + fmtCurrency(toNumberUSD(b), fx, type));
+                v = v.replace(SINGLE_RE, (_, num) => fmtCurrency(toNumberUSD(num), fx, type));
                 node.nodeValue = v;
               }
 
-              function walkAndConvert(root, fx){
+              function walkAndConvert(root, fx, type){
                 var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
                   acceptNode: function(node){
                     var p = node.parentElement;
@@ -169,18 +192,21 @@ export default function App({ Component, pageProps }: AppProps) {
                   }
                 });
                 var n;
-                while ((n = walker.nextNode())) convertTextNode(n, fx);
+                while ((n = walker.nextNode())) convertTextNode(n, fx, type);
               }
 
               fetchFx().then(fx => {
-                function apply(){ walkAndConvert(document.body, fx); }
+                function apply(){ 
+                  walkAndConvert(document.body, fx, isUK() ? 'GBP' : 'EUR'); 
+                }
                 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
                 else apply();
+
                 var obs = new MutationObserver(muts => {
                   muts.forEach(m => {
                     m.addedNodes && m.addedNodes.forEach(node => {
-                      if (node.nodeType === 1) walkAndConvert(node, fx);
-                      else if (node.nodeType === 3 && node.parentElement) walkAndConvert(node.parentElement, fx);
+                      if (node.nodeType === 1) walkAndConvert(node, fx, isUK() ? 'GBP' : 'EUR');
+                      else if (node.nodeType === 3 && node.parentElement) walkAndConvert(node.parentElement, fx, isUK() ? 'GBP' : 'EUR');
                     });
                   });
                 });
