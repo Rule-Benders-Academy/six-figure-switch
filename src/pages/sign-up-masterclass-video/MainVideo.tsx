@@ -91,16 +91,7 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
           setPlaying(true);
           onFirstPlayRef.current?.();
 
-          // Trigger MC_WatchStart after 5 seconds
-          if (!milestoneRef.current.started) {
-            milestoneRef.current.started = true;
-            window.setTimeout(async () => {
-              const sec = await p.getCurrentTime();
-              console.log("Video started playing");
-              console.log("Current time:", sec);
-              fbTrackCustom("MC_WatchStart"); // Custom Pixel event
-            }, 5000);
-          }
+          fbTrackCustom("MC_WatchStart"); // Custom Pixel event
         });
 
         p.on("pause", () => setPlaying(false));
