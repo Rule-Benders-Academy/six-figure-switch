@@ -98,11 +98,7 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay }) => {
               const sec = await p.getCurrentTime();
               console.log("Video started playing");
               console.log("Current time:", sec);
-              if (!milestoneRef.current.m5fired && sec >= 5) {
-                milestoneRef.current.m5fired = true;
-                console.log("MC_WatchStart event fired!");
-                fbTrackCustom("MC_WatchStart"); // Custom Pixel event
-              }
+              fbTrackCustom("MC_WatchStart"); // Custom Pixel event
             }, 5000);
           }
         });
