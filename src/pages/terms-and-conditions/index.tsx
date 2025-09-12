@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react/no-unescaped-entities */
 import React from "react";
 import Navbar from "@/_components/Navbar/Navbar";
 import LandingFooter from "@/_components/LandingFooter/LandingFooter";
