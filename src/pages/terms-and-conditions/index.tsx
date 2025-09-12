@@ -12,14 +12,13 @@ const LegalDocuments = () => {
       <main className="max-w-4xl mx-auto px-4 pt-24 pb-12">
         {/* ===================== MASTER TERMS ===================== */}
         <h1 className="text-3xl font-bold mb-2">
-          Rule Benders &mdash; Master Terms of Use
+          Rule Benders - Master Terms of Use
         </h1>
         <p className="text-sm text-gray-500 mb-6">Last updated: 16/08/2025</p>
 
         <p className="mb-6">
           Governing Entity: Rule Benders Life &amp; Business Coaching Limited
-          (&quot;Rule Benders,&quot; &quot;we,&quot; &quot;us,&quot; or
-          &quot;our&quot;).
+          ("Rule Benders," "we," "us," or "our").
           <br />
           Contact:{" "}
           <a
@@ -33,11 +32,11 @@ const LegalDocuments = () => {
         <p className="mb-6">
           Binding Nature. By purchasing, accessing, or participating in any Rule
           Benders product, service, program, membership, tool, or experience
-          (collectively, the &quot;Services&quot;), you (&quot;Client,&quot;
-          &quot;Participant,&quot; or &quot;User&quot;) agree to be legally
-          bound by these Master Terms of Use (the &quot;Master Terms&quot;) and
-          any applicable Product Addendum (each, an &quot;Addendum&quot;). These
-          Terms are intended to protect both you and Rule Benders.
+          (collectively, the "Services"), you ("Client," "Participant," or
+          "User") agree to be legally bound by these Master Terms of Use (the
+          "Master Terms") and any applicable Product Addendum (each, an
+          "Addendum"). These Terms are intended to protect both you and Rule
+          Benders.
         </p>
 
         {/* 1. General Scope & Structure */}
@@ -51,9 +50,9 @@ const LegalDocuments = () => {
         </p>
         <p className="mb-2">
           <span className="font-medium">1.2 Addenda.</span> Addenda (organized
-          by product and referenced from our website or checkout) provide
-          offer-specific terms including deliverables, payment structures,
-          refund eligibility, and access rights.
+          by product and referenced from our website or checkout) provide offer
+          specific terms including deliverables, payment structures, refund
+          eligibility, and access rights.
         </p>
         <p className="mb-2">
           <span className="font-medium">1.3 Hierarchy.</span> Where an Addendum
@@ -74,9 +73,8 @@ const LegalDocuments = () => {
         <ul className="list-disc pl-6 mb-6 space-y-2">
           <li>
             <span className="font-medium">Content</span> means all materials
-            provided by Rule Benders (for example modules, videos, audio,
-            worksheets, templates, scripts, frameworks, community posts, and
-            recordings).
+            provided by Rule Benders (e.g., modules, videos, audio, worksheets,
+            templates, scripts, frameworks, community posts, and recordings).
           </li>
           <li>
             <span className="font-medium">Lifetime access</span> means the
@@ -85,7 +83,7 @@ const LegalDocuments = () => {
           </li>
           <li>
             <span className="font-medium">Third-Party Platforms</span> include
-            tools Rule Benders uses to deliver Services (for example WordPress,
+            tools Rule Benders uses to deliver Services (e.g., WordPress,
             LearnWorlds, Kajabi, Zoom, Slack or Circle, ActiveCampaign,
             ManyChat, SamCart, Paddle, Stripe or PayPal, Google Drive, Vimeo,
             Meta or Instagram or Facebook, OpenAI or similar AI services).
@@ -109,7 +107,7 @@ const LegalDocuments = () => {
         <p className="mb-2">
           <span className="font-medium">3.3 Single-User License.</span> Unless
           expressly authorized in writing: (a) Services are licensed for one
-          individual; (b) logins may not be shared; (c) multi-user or corporate
+          individual; (b) logins may not be shared; (c) multi user or corporate
           licenses require a separate agreement; and (d) purchasing with the
           intent to resell or distribute is prohibited.
         </p>
@@ -126,7 +124,7 @@ const LegalDocuments = () => {
           <span className="font-medium">4.1 Ownership.</span> Rule Benders
           retains all copyrights, trademarks, trade secrets, database rights,
           and other IP rights in or to the Content and the Services, including
-          all derivative works, methods, systems, and processes (for example
+          all derivative works, methods, systems, and processes (e.g.,
           proprietary prompts, frameworks, funnels, auditing methods, and SOPs).
           Nothing in this Agreement transfers ownership to you. All rights not
           expressly granted are reserved.
@@ -134,7 +132,7 @@ const LegalDocuments = () => {
         <p className="mb-2">
           <span className="font-medium">4.2 License Grant.</span> Upon purchase
           or authorized access, Rule Benders grants you a limited, revocable,
-          non-exclusive, non-transferable license to use the Content solely for
+          non exclusive, non transferable license to use the Content solely for
           your personal or internal business use as permitted by these Terms and
           any Addendum.
         </p>
@@ -142,9 +140,9 @@ const LegalDocuments = () => {
           <span className="font-medium">4.3 Prohibited Uses.</span> Without our
           prior written consent, you may not: (a) copy, edit, translate, train
           other AI models on, distribute, or reproduce Content; (b) share
-          Content with non-purchasers; (c) claim authorship of Rule Benders
+          Content with non purchasers; (c) claim authorship of Rule Benders
           Content; (d) incorporate Content into products, courses, programs, or
-          trainings for resale; (e) use Content for client delivery, team-wide
+          trainings for resale; (e) use Content for client delivery, team wide
           implementation, or corporate training; (f) share, sell, or barter
           login credentials or access; or (g) create substantially similar or
           confusingly similar works.
@@ -159,9 +157,9 @@ const LegalDocuments = () => {
           <span className="font-medium">
             4.5 Gifted or Complimentary Access.
           </span>{" "}
-          Complimentary access (if offered) is non-transferable, may exclude
-          paid-level support or bonuses unless stated, may be revoked for misuse
-          or inactivity or breach, and may expire on a stated date unless
+          Complimentary access (if offered) is non transferable, may exclude
+          paid level support or bonuses unless stated, may be revoked for
+          misuse, inactivity, or breach, and may expire on a stated date unless
           purchased. You may not gift complimentary access to third parties
           without written approval.
         </p>
@@ -173,9 +171,9 @@ const LegalDocuments = () => {
         <p className="mb-2">
           <span className="font-medium">5.1 Payment Authorization.</span> By
           completing a purchase, you authorize Rule Benders (via Paddle as
-          merchant of record and or other secure processors, including SamCart
-          or Stripe or PayPal) to process the full transaction amount according
-          to the payment terms displayed at checkout and in any applicable
+          merchant of record and or other secure processors, including SamCart,
+          Stripe, or PayPal) to process the full transaction amount according to
+          the payment terms displayed at checkout and in any applicable
           Addendum. Prices are in USD unless otherwise specified.
         </p>
         <p className="mb-2">
@@ -185,13 +183,13 @@ const LegalDocuments = () => {
           per the agreed schedule; (c) failed payments must be remedied within
           five calendar days of notice; (d) after two failed attempts with no
           response, your account may be suspended and the balance sent to
-          collections; and (e) suspension or termination for non-payment does
+          collections; and (e) suspension or termination for non payment does
           not cancel your obligation to complete the plan.
         </p>
         <p className="mb-2">
-          <span className="font-medium">5.3 Non-Payment.</span> Overdue balances
+          <span className="font-medium">5.3 Non Payment.</span> Overdue balances
           may result in suspension or revocation of access, withholding of
-          deliverables or bonuses or support, and referral to collections.
+          deliverables, bonuses, or support, and referral to collections.
         </p>
         <p className="mb-2">
           <span className="font-medium">5.4 No Withholding.</span> You may not
@@ -199,16 +197,23 @@ const LegalDocuments = () => {
         </p>
         <p className="mb-2">
           <span className="font-medium">5.5 Chargebacks.</span> Before
-          initiating a chargeback, you must email info@rule-benders.com and
-          allow seven business days for resolution. Unwarranted chargebacks are
-          a material breach and may result in immediate termination of Services,
-          dispute of the chargeback with full documentation, reporting of misuse
-          to processors or authorities, and recovery of associated fees and
-          damages.
+          initiating a chargeback, you must email{" "}
+          <a
+            href="mailto:info@rule-benders.com"
+            className="underline underline-offset-2"
+          >
+            info@rule-benders.com
+          </a>{" "}
+          and allow seven business days for resolution. Unwarranted chargebacks
+          are a material breach and may result in immediate termination of
+          Services, dispute of the chargeback with full documentation, reporting
+          of misuse to processors or authorities, and recovery of associated
+          fees and damages.
         </p>
         <p className="mb-6">
           <span className="font-medium">5.6 Taxes &amp; Currency.</span> You are
-          responsible for all taxes, duties, and currency conversion or FX fees.
+          responsible for all taxes, duties, and currency conversion or FX fees
+          related to your purchase.
         </p>
 
         {/* 6. Refund Policy (General) */}
@@ -217,18 +222,18 @@ const LegalDocuments = () => {
         </h2>
         <p className="mb-2">
           <span className="font-medium">6.1 Default Policy.</span> Unless
-          expressly stated otherwise in an Addendum, all sales are final and
-          non-refundable after fourteen days from purchase.
+          expressly stated otherwise in an Addendum, all sales are final and non
+          refundable after fourteen days from purchase.
         </p>
         <p className="mb-2">
           <span className="font-medium">6.2 Digital Content.</span> If you
           request or receive immediate access or download of digital content,
-          you acknowledge and agree that any statutory cooling-off right ends
+          you acknowledge and agree that any statutory cooling off right ends
           once you access or download the materials.
         </p>
         <p className="mb-2">
           <span className="font-medium">6.3 Coaching or Live Services.</span>{" "}
-          Fees for sessions already delivered are non-refundable.
+          Fees for sessions already delivered are non refundable.
         </p>
         <p className="mb-2">
           <span className="font-medium">6.4 Conditional Guarantees.</span> If a
@@ -238,13 +243,19 @@ const LegalDocuments = () => {
         </p>
         <p className="mb-2">
           <span className="font-medium">6.5 Requests.</span> Where a conditional
-          guarantee applies, you must email info@rule-benders.com by the stated
-          deadline with required documentation. Approved refunds will be
-          processed to the original payment method within thirty days of
+          guarantee applies, you must email{" "}
+          <a
+            href="mailto:info@rule-benders.com"
+            className="underline underline-offset-2"
+          >
+            info@rule-benders.com
+          </a>{" "}
+          by the stated deadline with required documentation. Approved refunds
+          will be processed to the original payment method within thirty days of
           approval.
         </p>
         <p className="mb-2">
-          <span className="font-medium">6.6 Non-Qualifying Situations.</span>{" "}
+          <span className="font-medium">6.6 Non Qualifying Situations.</span>{" "}
           Refunds will not be granted for change of mind or personal
           circumstances, failure to participate or access materials,
           dissatisfaction where deliverables match the description, late or
@@ -256,8 +267,8 @@ const LegalDocuments = () => {
           payments in any active plan.
         </p>
         <p className="mb-6">
-          <span className="font-medium">6.8 Final Determination.</span> Refund
-          determinations are at Rule Benders sole discretion.
+          <span className="font-medium">6.8 Final Determination.</span> All
+          refund determinations are made at Rule Benders sole discretion.
         </p>
 
         {/* 7. Access & Delivery */}
@@ -266,16 +277,16 @@ const LegalDocuments = () => {
         </h2>
         <p className="mb-2">
           <span className="font-medium">7.1 Delivery Methods.</span> Services
-          may be delivered through live sessions, recorded modules or audio
-          trainings or masterclasses, digital portals or learning platforms,
-          downloads, and communities.
+          may be delivered through live sessions via Zoom or similar, recorded
+          modules, audio trainings, or masterclasses, digital portals or
+          learning platforms, downloads, and communities.
         </p>
         <p className="mb-2">
           <span className="font-medium">7.2 Access Timelines.</span> Unless
           otherwise stated: (a) digital products include a minimum of six months
           access; (b) memberships are accessible only while payments remain
-          current; (c) live or cohort programs may have time-limited access to
-          replays or portals as stated; and (d) &quot;lifetime access&quot;
+          current; (c) live or cohort programs may have time limited access to
+          replays or portals as stated in onboarding; and (d) "lifetime access"
           refers to the lifetime of the program. We may retire or discontinue a
           program at any time with at least thirty days notice to affected
           participants.
@@ -285,8 +296,9 @@ const LegalDocuments = () => {
             7.3 Replay &amp; Recording Availability.
           </span>{" "}
           Where live sessions are recorded, replay access and expiration will be
-          stated. We are not responsible for replay availability if Third-Party
-          Platforms experience outages or failures beyond our control.
+          stated in onboarding or the Addendum. We are not responsible for
+          replay availability if Third Party Platforms experience outages or
+          failures beyond our control.
         </p>
         <p className="mb-2">
           <span className="font-medium">
@@ -310,14 +322,16 @@ const LegalDocuments = () => {
         </h2>
         <p className="mb-2">
           <span className="font-medium">8.1 Third-Party Platforms.</span> Many
-          Services are delivered or supported through Third-Party Platforms.
+          Services are delivered or supported through Third Party Platforms.
           Access may require you to create and maintain your own accounts.
         </p>
         <p className="mb-2">
           <span className="font-medium">8.2 Availability &amp; Changes.</span>{" "}
-          Rule Benders is not responsible for downtime, feature removals,
-          account terminations, or technical or policy changes. If a platform
-          change affects delivery, we may transition, replace, or retire the
+          Rule Benders is not responsible for downtime, feature removals, policy
+          changes, termination or restriction of your third party accounts, or
+          technical or policy changes limiting functionality. If a platform
+          change affects delivery, we may transition to an alternative platform
+          or method, provide an equivalent replacement resource, or retire the
           affected component without refund, provided core deliverables remain
           available during the stated access period.
         </p>
@@ -325,7 +339,7 @@ const LegalDocuments = () => {
           <span className="font-medium">
             8.3 Compliance with Platform Terms.
           </span>{" "}
-          Your use is subject to each platform&apos;s terms and policies.
+          Your use is subject to each platform's terms and policies.
         </p>
         <p className="mb-2">
           <span className="font-medium">
@@ -336,7 +350,7 @@ const LegalDocuments = () => {
         </p>
         <p className="mb-6">
           <span className="font-medium">8.5 Lifetime Access Contingency.</span>{" "}
-          Any &quot;lifetime&quot; rights are contingent on continued
+          Any "lifetime" or extended replay rights are contingent on continued
           availability of the hosting platform. We may provide alternative
           delivery at our discretion but are not obligated to recreate or rehost
           retired materials in perpetuity.
@@ -344,7 +358,7 @@ const LegalDocuments = () => {
 
         {/* 9. Use of AI-Generated Materials */}
         <h2 className="text-xl font-semibold mt-8 mb-2">
-          9. Use of AI-Generated Materials
+          9. Use of AI Generated Materials
         </h2>
         <p className="mb-2">
           <span className="font-medium">9.1 Incorporation of AI.</span> Certain
@@ -354,7 +368,7 @@ const LegalDocuments = () => {
           <span className="font-medium">9.2 Ownership.</span> Unless stated in
           an Addendum: (a) all AI prompts, templates, workflows, and
           instructional materials remain the IP of Rule Benders; (b) you may use
-          AI-generated outputs for your personal or internal business use only;
+          AI generated outputs for your personal or internal business use only;
           and (c) you may not resell, repackage, redistribute, train other AI
           systems on, or incorporate prompts or outputs into courses, client
           work, or digital products without written permission.
@@ -374,14 +388,14 @@ const LegalDocuments = () => {
           AI outputs at your own risk.
         </p>
 
-        {/* 10. Privacy & Data Policy (Summary) */}
+        {/* 10. Privacy Summary */}
         <h2 className="text-xl font-semibold mt-8 mb-2">
           10. Privacy &amp; Data Policy (Summary)
         </h2>
         <p className="mb-6">
           Your use of the Services is governed by our full Privacy Policy below.
           By using the Services, you consent to receiving email or SMS
-          communications (opt-out available), use of cookies or pixels or
+          communications (opt out available), use of cookies or pixels or
           analytics, secure processing of account and transaction information,
           and use of aggregated or anonymized data for internal optimization and
           marketing.
@@ -403,7 +417,7 @@ const LegalDocuments = () => {
         </p>
         <p className="mb-2">
           <span className="font-medium">11.3 License Granted.</span> You grant
-          Rule Benders a worldwide, perpetual, irrevocable, royalty-free,
+          Rule Benders a worldwide, perpetual, irrevocable, royalty free,
           transferable, sublicensable license to use your testimonials or
           recorded contributions.
         </p>
@@ -527,7 +541,7 @@ const LegalDocuments = () => {
           protections.
         </p>
         <p className="mb-2">
-          <span className="font-medium">15.2 Good-Faith Resolution.</span> Email{" "}
+          <span className="font-medium">15.2 Good Faith Resolution.</span> Email{" "}
           <a
             href="mailto:info@rule-benders.com"
             className="underline underline-offset-2"
@@ -539,9 +553,9 @@ const LegalDocuments = () => {
         <p className="mb-2">
           <span className="font-medium">15.3 Binding Arbitration.</span> If
           unresolved, disputes go to final and binding arbitration in Cyprus
-          under commercial rules, before a single neutral arbitrator. Remote
-          participation may be permitted. The award will be confidential, final,
-          and binding.
+          administered by a recognized arbitration body under commercial rules,
+          before a single neutral arbitrator. Remote participation may be
+          permitted. The award will be confidential, final, and binding.
         </p>
         <p className="mb-2">
           <span className="font-medium">
@@ -569,22 +583,27 @@ const LegalDocuments = () => {
         <h2 className="text-xl font-semibold mt-8 mb-2">16. Amendments</h2>
         <p className="mb-2">
           <span className="font-medium">16.1 Right to Modify.</span> We may
-          amend these Terms, the Privacy Policy, and any Addendum at any time.
+          amend these Terms, the Privacy Policy, and any Addendum at any time to
+          reflect changes in Services, pricing, features, legal requirements, or
+          security and operational needs.
         </p>
         <p className="mb-2">
           <span className="font-medium">16.2 Notice.</span> Material changes
-          will be notified by email and or prominent in-platform notice.
+          will be notified by email and or prominent in platform notice.
         </p>
         <p className="mb-2">
           <span className="font-medium">
             16.3 Effective Date &amp; Acceptance.
           </span>{" "}
           Changes are effective upon posting unless stated otherwise. Continued
-          use constitutes acceptance.
+          use constitutes acceptance. If you do not agree, your remedy is to
+          discontinue use and request cancellation per the relevant Addendum.
         </p>
         <p className="mb-6">
           <span className="font-medium">16.4 Version Control.</span> We may
-          maintain an archive of prior Terms.
+          maintain an archive of prior Terms. The version in effect at the time
+          of your purchase or most recent renewal applies unless a change must
+          take immediate effect by law.
         </p>
 
         {/* 17. Contact & Support */}
@@ -593,7 +612,7 @@ const LegalDocuments = () => {
         </h2>
         <p className="mb-2">
           <span className="font-medium">17.1 Primary Channel.</span> Submit
-          program-related inquiries and support requests to{" "}
+          program related inquiries and support requests to{" "}
           <a
             href="mailto:info@rule-benders.com"
             className="underline underline-offset-2"
@@ -615,7 +634,7 @@ const LegalDocuments = () => {
         <p className="mb-6">
           <span className="font-medium">17.4 Support Limits.</span> We are not
           responsible for missed deadlines or access issues caused by client
-          delays or third-party outages. Standard support covers access,
+          delays or third party outages. Standard support covers access,
           navigation, and policy clarifications.
         </p>
 
@@ -629,16 +648,20 @@ const LegalDocuments = () => {
         </p>
         <p className="mb-2">
           <span className="font-medium">18.2 All Sales Final.</span> LTO
-          purchases are final and non-refundable.
+          purchases are final and non refundable. These products are delivered
+          instantly or within a short time after payment.
         </p>
         <p className="mb-2">
           <span className="font-medium">18.3 License &amp; Restrictions.</span>{" "}
-          Single, non-transferable license. No sharing, resale, or client
-          delivery without consent.
+          Single, non transferable license. No sharing, resale, reproduction,
+          distribution, or client delivery without consent. Bulk or corporate
+          licensing requires a separate agreement.
         </p>
         <p className="mb-2">
-          <span className="font-medium">18.4 No Live Coaching.</span> Unless
-          stated at checkout.
+          <span className="font-medium">
+            18.4 No Live Coaching or Private Support.
+          </span>{" "}
+          Unless stated at checkout.
         </p>
         <p className="mb-2">
           <span className="font-medium">18.5 Platform Dependency.</span>{" "}
@@ -649,15 +672,19 @@ const LegalDocuments = () => {
           responsible for lawful use and compliance.
         </p>
         <p className="mb-2">
-          <span className="font-medium">18.7 AI Disclaimer.</span> AI outputs
-          are suggestions only.
+          <span className="font-medium">18.7 AI Disclaimer.</span> Some LTOs may
+          include AI prompts, outputs, or automations. Outputs are suggestions
+          and require your review; we make no warranty as to their accuracy,
+          legality, or suitability.
         </p>
         <p className="mb-6">
           <span className="font-medium">
             18.8 Modifications or Termination.
           </span>{" "}
-          We may update or remove LTO content. Access may be revoked for
-          violations.
+          We may update, modify, or remove LTO content without prior notice,
+          provided purchased materials remain accessible for the stated access
+          term. Access may be revoked without refund if you violate these Terms
+          or applicable laws.
         </p>
 
         {/* 19. Acceptance */}
@@ -669,7 +696,9 @@ const LegalDocuments = () => {
           accessing any Services, you acknowledge and agree to be bound by these
           Master Terms and any applicable Addendum and consent to enter this
           Agreement electronically with the same legal effect as a handwritten
-          signature.
+          signature. You affirm you are at least 18 and have legal capacity.
+          Continued access constitutes ongoing acceptance of the then current
+          Terms. Disputes will be resolved per section 15.
         </p>
 
         {/* 20. Miscellaneous */}
@@ -681,7 +710,8 @@ const LegalDocuments = () => {
           </li>
           <li>
             <span className="font-medium">Entire Agreement.</span> These Master
-            Terms and applicable Addenda constitute the entire agreement.
+            Terms and applicable Addenda constitute the entire agreement,
+            superseding prior discussions or understandings.
           </li>
           <li>
             <span className="font-medium">Assignment.</span> You may not assign
@@ -747,12 +777,13 @@ const LegalDocuments = () => {
             interactions.
           </li>
           <li>
-            <span className="font-medium">Marketing Preferences:</span> Opt-in
-            or opt-out status for email or SMS; lead source tags.
+            <span className="font-medium">Marketing Preferences:</span> Opt in
+            or opt out status for email or SMS; lead source tags.
           </li>
           <li>
             <span className="font-medium">Payment Data:</span> Processed
-            securely by providers. We do not store full card numbers.
+            securely by our payment providers. We do not store full card
+            numbers.
           </li>
         </ul>
 
@@ -762,15 +793,15 @@ const LegalDocuments = () => {
         <ul className="list-disc pl-6 mb-4 space-y-2">
           <li>Contract to deliver Services you purchase.</li>
           <li>
-            Legal obligation for tax or audit, fraud prevention, compliance.
+            Legal obligation for tax or audit, fraud prevention, and compliance.
           </li>
           <li>
             Legitimate interests for service improvement, analytics, security,
-            and direct marketing to customers where balanced against rights.
+            and direct marketing to customers.
           </li>
           <li>
             Consent for optional communications and certain cookies where
-            required. You may withdraw consent at any time.
+            required. You may withdraw consent any time.
           </li>
         </ul>
 
@@ -831,7 +862,7 @@ const LegalDocuments = () => {
         </h3>
         <p className="mb-4">
           Rights include access, rectification, erasure, restriction, objection,
-          portability, and withdraw consent. Marketing opt-out via unsubscribe
+          portability, and withdraw consent. Marketing opt out via unsubscribe
           links or by emailing us. Complaints may be lodged with your local
           supervisory authority. To exercise rights, email{" "}
           <a
@@ -884,7 +915,7 @@ const LegalDocuments = () => {
         <ul className="list-disc pl-6 mb-4 space-y-2">
           <li>
             Unless stated otherwise in an Addendum, purchases are eligible for a
-            14-day refund window from purchase.
+            14 day refund window from purchase.
           </li>
           <li>
             Requests must be made in writing to{" "}
@@ -908,11 +939,11 @@ const LegalDocuments = () => {
         <ul className="list-disc pl-6 mb-6 space-y-2">
           <li>
             Digital Content: If you request or receive immediate access or
-            download, you waive the 14-day cancellation right once accessed.
+            download, you waive the 14 day cancellation right once accessed.
           </li>
           <li>
-            Coaching or Live Services: Fees for completed sessions are
-            non-refundable.
+            Coaching or Live Services: Fees for completed sessions are non
+            refundable.
           </li>
           <li>
             Conditional Guarantees: Where offered, all criteria must be met by
@@ -921,205 +952,104 @@ const LegalDocuments = () => {
           <li>After 14 Days: All sales are final.</li>
         </ul>
 
-        {/* ===================== PRODUCT ADDENDA (TEMPLATES) ===================== */}
-        <h1 className="text-2xl font-bold mt-12 mb-2">
-          Product Addenda (Templates)
-        </h1>
+        {/* ===================== PRODUCT ADDENDA ===================== */}
+        <h1 className="text-2xl font-bold mt-12 mb-2">Product Addenda</h1>
         <p className="mb-6">
           Relationship to Master Terms. Each Addendum is incorporated into and
           governed by the Master Terms. Where an Addendum expressly differs, the
           Addendum controls for that Service.
         </p>
 
-        {/* A. Mastermind / High-Touch */}
+        {/* A. Six Figure Switch / High-Touch */}
         <h2 className="text-xl font-semibold mt-6 mb-2">
-          A. Mastermind or High-Touch Program Addendum (Template)
+          A. Six Figure Switch / High-Touch Program Addendum
         </h2>
         <ul className="list-disc pl-6 mb-6 space-y-2">
           <li>
-            Program Overview. High-touch mastermind with coaching, peer
-            accountability, resources, and private community.
+            Program Overview. A high touch learning experience designed to
+            provide business, leadership, or consultancy coaching, peer
+            accountability, curated resources, and a private community.
           </li>
           <li>
-            Payment Options. Paid-in-Full, 6-Month Plan, or 12-Month Plan.
+            Payment Options. Examples include Paid in Full, 3 Month Plan, or 6
+            Month Plan.
           </li>
           <li>
-            Payment Obligations. Full amount due regardless of participation.
-            Late or failed payments may result in suspension without refund.
+            Payment Obligations. You are responsible for the full amount
+            regardless of participation. Recurring charges are authorized upon
+            enrollment. Late or failed payments may result in suspension without
+            refund.
           </li>
           <li>
-            Cancellation. Not permitted after enrollment, with narrow exceptions
-            for life-threatening situations at Rule Benders discretion.
+            Cancellation. Due to limited capacity, cancellations are not
+            permitted after enrollment. Exceptions only for life threatening
+            situations affecting you or the coaching team; any unused fees may
+            be refunded at Rule Benders sole discretion.
           </li>
           <li>
-            Confidentiality. Coaches maintain confidentiality except as required
-            by law or anonymized supervision. You agree not to share others
-            information or proprietary materials.
+            Confidentiality. Coaches will not disclose proprietary information
+            you share, except as required by law or in anonymized supervision.
+            You agree not to share participants’ information or Rule Benders
+            proprietary materials without consent.
           </li>
           <li>
-            Refund Policy. All sales final except any conditional guarantee
+            Refund Policy. All sales are final except any conditional guarantee
             expressly offered at checkout.
           </li>
           <li>
-            Testimonials or Recordings; Conduct &amp; Removal; IP &amp; License;
-            Indemnification; Disputes; Limitation of Claims as per Master Terms.
+            Testimonials and Recordings; Conduct and Removal; IP and License;
+            Disputes; Limitations as per Master Terms.
+          </li>
+          <li>
+            Indemnification. You agree to indemnify Rule Benders for claims
+            arising from your use or misuse, breach, or violations of law or
+            third party rights.
+          </li>
+          <li>
+            Limitation of Claims. Any claim must be filed within one year of
+            accrual.
           </li>
         </ul>
 
-        {/* B. Membership */}
+        {/* B. Membership (Subscription) */}
         <h2 className="text-xl font-semibold mt-6 mb-2">
-          B. Membership (Subscription) Addendum (Template)
+          B. Membership (Subscription) Addendum
         </h2>
-        <ul className="list-disc pl-6 mb-6 space-y-2">
+        <ul className="list-disc pl-6 mb-10 space-y-2">
           <li>
-            Overview. Subscription program with resources, group calls, and
-            community access.
+            Overview. Subscription program providing educational resources,
+            group calls, and community access.
           </li>
           <li>
             Pricing &amp; Auto-Renewal. Monthly and or annual plans billed
-            automatically.
+            automatically; promo rates may apply.
           </li>
           <li>
             Cancellation. Email with subject &quot;MEMBERSHIP CANCELLATION&quot;
-            at least 24 hours before renewal to avoid next-period charge.
+            at least 24 hours before renewal to avoid the next period charge.
+            Include your name and purchase email.
           </li>
           <li>
-            Payment Failures. Overdue accounts may be paused or terminated and
-            must re-enroll at then-current rate.
+            Payment Failures. Overdue accounts may be paused; accounts overdue
+            more than 60 days may be terminated and must re enroll at the then
+            current rate.
           </li>
           <li>
-            Refunds. All sales final except any first-purchase conditional
-            guarantee expressly stated at checkout.
+            Refunds. All sales final except any first purchase conditional
+            guarantee expressly stated at checkout (for example a 14 day
+            conditional guarantee with proof of participation).
           </li>
           <li>
-            Technology Requirements &amp; Sharing. You are responsible for
-            suitable devices or internet. No account sharing.
+            Technology Requirements &amp; Sharing. Suitable devices or internet
+            required. No account sharing.
           </li>
           <li>
             IP or Use; Disclaimers or Indemnity or Governing Law as per Master
             Terms.
           </li>
         </ul>
-
-        {/* C. Cohort Course */}
-        <h2 className="text-xl font-semibold mt-6 mb-2">
-          C. Cohort Course (Live) Addendum (Template)
-        </h2>
-        <ul className="list-disc pl-6 mb-6 space-y-2">
-          <li>
-            Overview. Live scheduled cohort with modules, coaching calls, office
-            hours, and implementation weeks at our discretion.
-          </li>
-          <li>
-            Pricing Options. Paid-in-Full, 6-Payment Plan, 12-Payment Plan.
-          </li>
-          <li>
-            Billing &amp; Late Payments. Recurring installments monthly. Cure
-            failures within six days or incur a reasonable late fee and
-            suspension risk.
-          </li>
-          <li>
-            Review or Certification Timing. May unlock after a number of
-            successful payments.
-          </li>
-          <li>Early Pay Option. May be offered at our discretion.</li>
-          <li>
-            Access &amp; Delivery. Curriculum released over the cohort duration.
-            Lifetime access applies to original course materials only.
-          </li>
-          <li>Cancellation. Not permitted after enrollment.</li>
-          <li>
-            Refund Policy (Conditional Guarantee). If offered, may allow a
-            refund within a stated window upon proof of work and timely request.
-          </li>
-          <li>
-            Conduct or Removal; Testimonials; IP; Indemnification; Disputes;
-            Limitation of Claims as per Master Terms.
-          </li>
-        </ul>
-
-        {/* D. Self-Paced Course */}
-        <h2 className="text-xl font-semibold mt-6 mb-2">
-          D. Self-Paced Course (DIY) Addendum (Template)
-        </h2>
-        <ul className="list-disc pl-6 mb-6 space-y-2">
-          <li>
-            Overview. Self-paced access to core training modules and resources.
-            No live coaching unless expressly included.
-          </li>
-          <li>Pricing &amp; Plans. Paid-in-full or short payment plans.</li>
-          <li>
-            Payment Plan Access. Content may be drip-released aligned to payment
-            completion at our discretion.
-          </li>
-          <li>
-            Access Duration. Lifetime means for as long as we continue to offer
-            and maintain the program in its current format or location.
-          </li>
-          <li>
-            Cancellation &amp; Refunds. All sales final unless a conditional
-            guarantee is expressly offered.
-          </li>
-          <li>
-            IP or Use; Disclaimers; Indemnification; Disputes as per Master
-            Terms.
-          </li>
-        </ul>
-
-        {/* E. AI Assistants & Tools */}
-        <h2 className="text-xl font-semibold mt-6 mb-2">
-          E. AI Assistants &amp; Tools Addendum (Template)
-        </h2>
-        <ul className="list-disc pl-6 mb-6 space-y-2">
-          <li>
-            Product Overview. Proprietary AI-powered assistants and or prompt
-            packs derived from Rule Benders IP.
-          </li>
-          <li>
-            Platform &amp; Availability. Hosted on Third-Party AI
-            infrastructure. No guarantee of uninterrupted service.
-          </li>
-          <li>
-            Payment Terms. As stated at checkout. Payment required prior to
-            access.
-          </li>
-          <li>
-            Access Duration. Lifetime means for as long as the product exists in
-            its current format or location.
-          </li>
-          <li>
-            Cancellation &amp; Refunds. Typically all sales final unless a
-            conditional guarantee is expressly stated.
-          </li>
-          <li>
-            Confidentiality &amp; License. Limited, revocable, non-transferable
-            license for personal or internal business use only.
-          </li>
-          <li>Disclaimers; Indemnification; Disputes as per Master Terms.</li>
-        </ul>
-
-        {/* F. A-La-Carte Reviews */}
-        <h2 className="text-xl font-semibold mt-6 mb-2">
-          F. A-La-Carte Reviews or Alumni Options Addendum (Template)
-        </h2>
-        <ul className="list-disc pl-6 mb-10 space-y-2">
-          <li>
-            Eligibility &amp; Fees. Available to alumni or as stated at
-            checkout.
-          </li>
-          <li>
-            Scope. One structured review with feedback. Not legal advice. No
-            outcome guarantees.
-          </li>
-          <li>Delivery. Within a stated period after complete submission.</li>
-          <li>Refunds. Non-refundable.</li>
-          <li>IP or Use. Feedback is for your personal business use only.</li>
-          <li>
-            Liability Cap. Limited to the amount paid for the standalone review.
-          </li>
-          <li>Disputes or Governing Law. As per Master Terms.</li>
-        </ul>
       </main>
+
       <LandingFooter />
     </div>
   );
