@@ -36,11 +36,11 @@ const socialLinks = [
 ];
 
 const navItems = [
-  { label: "Home", href: "https://www.rule-benders.com/home" },
-  { label: "Courses", href: "https://www.rule-benders.com/courses" },
+  { label: "Home", href: "https://sixfigureswitch.rule-benders.com/" },
+  { label: "Courses", href: "https://www.user-rule-benders/courses" },
   {
     label: "Community",
-    href: "https://www.rule-benders.com/?msg=not-logged-in",
+    href: "https://www.user-rule-benders/?msg=not-logged-in",
   },
 ];
 
