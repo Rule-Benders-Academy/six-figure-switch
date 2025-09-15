@@ -1,19 +1,22 @@
 import Image from "next/image";
 import React from "react";
 import LandingAboutImg1 from "../../_assets/master-class.png";
-import LandingAboutImg2 from "../../_assets/landing-about-img-2.png"
+import LandingAboutImg2 from "../../_assets/landing-about-img-2.png";
 import GradientButton from "../GradientButton/GradientButton";
 
 const LandingAboutSection = () => {
   return (
-    <section className="bg-gradient-to-b from-[#141314] to-[#272526] text-white px-4 sm:px-8 md:px-16 lg:px-24 md:py-10 pt-6 pb-12 md:pb-16 lg:pb-20  mx-auto">
-      <div className="lg:w-[75%] mx-auto w-[90%]">
-        <div className="flex gap-10">
-          <div className="md:w-1/2  flex flex-col r space-y-6">
+    <section className="bg-gradient-to-b from-[#141314] to-[#272526] text-white px-4 sm:px-8 md:px-16 lg:px-24 md:py-10 pt-6 pb-12 md:pb-16 lg:pb-20 mx-auto">
+      <div className="lg:w-[80%] mx-auto w-[90%]">
+        {/* prevent cross-axis stretch */}
+        <div className="flex flex-col md:flex-row gap-10 items-center">
+          <div className="md:w-[50%] flex flex-col space-y-6 lg:p-14">
             <h2 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] font-semibold mb-3 md:mb-10">
               About Me
             </h2>
-            <div className="justify-center text-bases space-y-4 md:space-y-5 font-light">
+
+            {/* fixed: text-bases -> text-base */}
+            <div className="justify-center text-base space-y-4 md:space-y-5 font-light">
               <p>
                 I didn’t grow up with money, a degree, or fancy connections. But
                 I wanted more. More freedom. More income. More control.
@@ -22,13 +25,19 @@ const LandingAboutSection = () => {
                 At 20, I was making $100,000 a year in sales but felt stuck.
                 Long hours. No flexibility. Always chasing targets.
               </p>
+
+              {/* mobile image: keep aspect via h-auto */}
               <div className="sm:max-h-[350px] md:hidden rounded-[17px] overflow-hidden">
                 <Image
                   src={LandingAboutImg1}
                   alt="Profile"
-                  className="rounded-[17px] w-full -mt-5"
+                  className="rounded-[17px] w-full h-auto -mt-5"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  placeholder="blur"
+                  priority
                 />
               </div>
+
               <p>
                 At 25, I took a chance and moved into consulting. I started as a
                 junior PMO on $400 a day. In under 10 years, I rose to Programme
@@ -46,42 +55,50 @@ const LandingAboutSection = () => {
             </div>
           </div>
 
-          <div className="flex-1 md:flex justify-end xl:justify-center hidden lg:p-12 ">
-            <Image
-              src={LandingAboutImg1}
-              alt="Profile"
-              className="rounded-xl"
-            />
+          {/* desktop image: wrap + constrain width, keep h-auto/object-contain */}
+          <div className="flex-1 hidden md:flex justify-end xl:justify-center lg:p-12">
+            <div className="w-full max-w-[560px]">
+              <Image
+                src={LandingAboutImg1}
+                alt="Profile"
+                className="rounded-xl w-full h-auto object-contain"
+                sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+                placeholder="blur"
+              />
+            </div>
           </div>
         </div>
 
         <div className="mt-4 md:mt-16 lg:mt-24 flex w-full gap-10 justify-between">
-          <div className="flex-1 hidden md:flex  xl:justify-center">
+          <div className="flex-1 hidden md:flex xl:justify-center">
             <Image
               src={LandingAboutImg2}
               alt="Profile"
-              className="rounded-xl w-full max-w-[533px] h-full"
+              className="rounded-xl w-full max-w-[533px] h-auto object-contain"
+              sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+              placeholder="blur"
             />
           </div>
+
           <div className="flex-1 lg:flex-[1.3] max-w-[600px] flex flex-col justify-center">
             <div className="space-y-4 text-base font-light">
               <p>Along the way, I built a simple, repeatable system that:</p>
               <div className="space-y-2 font-light">
                 <div className="flex items-start gap-2">
-                  <div>✅</div>
+                  <span aria-hidden>✅</span>
                   <div>
                     Helps professionals land high-paying contracts even without
                     connections
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
-                  <div>✅</div>
+                  <span aria-hidden>✅</span>
                   <div>
                     Gives them the freedom to work on their own schedule
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
-                  <div>✅</div>
+                  <span aria-hidden>✅</span>
                   <div>
                     Unlocks the confidence and credibility to charge top rates
                   </div>
@@ -100,17 +117,15 @@ const LandingAboutSection = () => {
                 want people to feel like they’ve found the answer.
               </p>
               <p>
-                <span className="font-bold">
-                  Not a shortcut — a smart path.
-                </span>
+                <span className="font-bold">Not a shortcut, a smart path.</span>
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="text-center  md:text-center mt-1 md:mt-5 lg:mt-16">
-        <GradientButton className="!text-sm md:!text-2xl  !py-[8px] md:!py-4 lg:!py-4 !px-6 md:!px-8 lg:!px-[65px] max-w-[239px] lg:!max-w-[632px] !mx-auto">
+      <div className="text-center md:text-center mt-1 md:mt-5 lg:mt-16">
+        <GradientButton className="!text-sm md:!text-2xl !py-[8px] md:!py-4 lg:!py-4 !px-6 md:!px-8 lg:!px-[65px] max-w-[239px] lg:!max-w-[632px] !mx-auto">
           I am ready to follow your system
         </GradientButton>
       </div>
