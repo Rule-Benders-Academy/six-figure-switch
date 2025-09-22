@@ -424,7 +424,7 @@ const Checkout = () => {
                 onClick={openInstallmentCheckout}
                 type="button"
                 disabled={!paddle}
-                className="w-full px-8 py-4 rounded-xl bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 text-white font-bold text-lg shadow-lg opacity-70 hover:opacity-90 cursor-pointer transition active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFBE48]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1f1e1f] disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full px-8 py-4 rounded-xl bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-black font-bold text-lg shadow-lg hover:opacity-90 transition disabled:opacity-50"
               >
                 Pay in Installments ($299 x 3)
               </button>
