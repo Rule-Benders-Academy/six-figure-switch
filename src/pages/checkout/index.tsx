@@ -95,7 +95,7 @@ const Checkout = () => {
   const [lastName, setLastName] = useState("");
   const [nameError, setNameError] = useState("");
 
-  // NEW: track whether the user opened the installment checkout
+  // Track whether the user opened the installment checkout
   const isInstallmentRef = useRef(false);
 
   // Setup Paddle and Meta Pixel
@@ -152,7 +152,7 @@ const Checkout = () => {
                 zapUrl.searchParams.set("from_masterclass", "true");
               }
 
-              // NEW: flag this run as an installment purchase when applicable
+              // Flag this run as an installment purchase when applicable
               if (isInstallmentRef.current) {
                 zapUrl.searchParams.set("installment", "true");
               }
@@ -418,11 +418,13 @@ const Checkout = () => {
               {paddle ? "Buy Full Access Now $699" : "Loading..."}
             </button>
 
-            {/* Installment Button */}
+            {/* Installment Button — same gray color, active UX */}
             <div className="mt-6 w-full">
               <button
                 onClick={openInstallmentCheckout}
-                className="w-full px-8 py-4 rounded-xl bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 text-white font-bold text-lg shadow-lg opacity-70 cursor-not-allowed"
+                type="button"
+                disabled={!paddle}
+                className="w-full px-8 py-4 rounded-xl bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 text-white font-bold text-lg shadow-lg opacity-70 hover:opacity-90 cursor-pointer transition active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFBE48]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1f1e1f] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Pay in Installments ($299 x 3)
               </button>
