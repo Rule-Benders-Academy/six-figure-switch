@@ -62,28 +62,6 @@ const LandingPage = () => {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<any>(null);
 
-  // GA
-  useEffect(() => {
-    const script1 = document.createElement("script");
-    script1.src = "https://www.googletagmanager.com/gtag/js?id=G-R7Q2CRPHS8";
-    script1.async = true;
-    document.head.appendChild(script1);
-
-    const script2 = document.createElement("script");
-    script2.innerHTML = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){ dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-R7Q2CRPHS8');
-    `;
-    document.head.appendChild(script2);
-
-    return () => {
-      if (script1.parentNode) script1.parentNode.removeChild(script1);
-      if (script2.parentNode) script2.parentNode.removeChild(script2);
-    };
-  }, []);
-
   // Vimeo loader
   const ensureVimeo = async () => {
     if (window.Vimeo?.Player) return;

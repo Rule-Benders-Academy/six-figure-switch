@@ -45,6 +45,95 @@ const MainVideo: React.FC<Props> = ({
   const [fullscreen, setFullscreen] = useState(false);
   const [needsFirstTap, setNeedsFirstTap] = useState(true);
 
+  // ===== Once-per-lead utilities (self-contained) =====
+  const leadKeyRef = useRef<string | undefined>(undefined);
+  const watchStartFiredRef = useRef(false);
+
+  const storageOk = () => {
+    try {
+      if (typeof window === "undefined") return false;
+      localStorage.setItem("__t", "1");
+      localStorage.removeItem("__t");
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const getCookie = (name: string): string | undefined => {
+    if (typeof document === "undefined") return undefined;
+    const m = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
+    return m ? decodeURIComponent(m[1]) : undefined;
+  };
+
+  const deriveLeadKey = (): string | undefined => {
+    // 1) From localStorage
+    const lsKey = storageOk() ? localStorage.getItem("lead_key") || "" : "";
+    if (lsKey) return lsKey;
+
+    // 2) From common cookies your form/CRM might set (adjust names if needed)
+    const cookieCandidates = [
+      "lead_key",
+      "lead_id",
+      "contact_id",
+      "rb_lead_id",
+      "cj_lead",
+      "lead_email",
+      "email",
+    ];
+    for (const c of cookieCandidates) {
+      const v = getCookie(c);
+      if (v) return v;
+    }
+
+    // 3) Optional: query params fallback (email/lead in URL after redirect)
+    try {
+      const q = new URLSearchParams(window.location.search);
+      const qp = q.get("lead") || q.get("email");
+      if (qp) return qp;
+    } catch {}
+
+    // 4) Fallback: no stable id, use device scope
+    return undefined;
+  };
+
+  const watchKeyFor = (k?: string) => `MC_WS::${k || "device"}`;
+  const loadWatchStartFlag = (k?: string) =>
+    storageOk() && !!localStorage.getItem(watchKeyFor(k));
+  const markWatchStart = (k?: string) => {
+    if (!storageOk()) return;
+    localStorage.setItem(watchKeyFor(k), String(Date.now()));
+  };
+
+  // Initial lead key + already-fired state
+  useEffect(() => {
+    const k = deriveLeadKey();
+    leadKeyRef.current = k;
+    watchStartFiredRef.current = loadWatchStartFlag(k);
+    // If device fired previously and we now discover a lead key later, mirror it to prevent double-fire.
+    if (k && !loadWatchStartFlag(k) && loadWatchStartFlag(undefined)) {
+      markWatchStart(k);
+      watchStartFiredRef.current = true;
+    }
+  }, []);
+
+  // When the form unlocks the video, try to re-derive the lead key
+  useEffect(() => {
+    if (formVisible) return;
+    const k = deriveLeadKey();
+    // If a new key appears after submission, carry forward the flag
+    if (k && k !== leadKeyRef.current) {
+      leadKeyRef.current = k;
+      if (loadWatchStartFlag(undefined) && !loadWatchStartFlag(k)) {
+        markWatchStart(k);
+        watchStartFiredRef.current = true;
+      } else {
+        watchStartFiredRef.current = loadWatchStartFlag(k);
+      }
+    }
+  }, [formVisible]);
+  // ===== End once-per-lead utilities =====
+
   // Load Vimeo SDK once
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -92,7 +181,13 @@ const MainVideo: React.FC<Props> = ({
         p.on("play", () => {
           setPlaying(true);
           onFirstPlayRef.current?.();
-          fbTrackCustom("MC_WatchStart");
+
+          // Only once per lead (or per device), and never while the form overlay is showing
+          if (!formVisible && !watchStartFiredRef.current) {
+            fbTrackCustom("MC_WatchStart");
+            watchStartFiredRef.current = true;
+            markWatchStart(leadKeyRef.current);
+          }
         });
 
         p.on("pause", () => setPlaying(false));
@@ -155,7 +250,7 @@ const MainVideo: React.FC<Props> = ({
         p95: false,
       };
     };
-  }, [sdkReady]);
+  }, [sdkReady, formVisible]); // keep formVisible here so the guard is accurate
 
   const handleFirstTap = async () => {
     if (!playerRef.current || formVisible) return;
@@ -211,7 +306,6 @@ const MainVideo: React.FC<Props> = ({
   return (
     <div
       className={[
-        // Default: centered, capped width; change this from parent via wrapperClassName
         "relative mx-auto w-full max-w-3xl aspect-video rounded-xl overflow-hidden",
         "border border-[#3C3C3C] bg-[#0d0c0e]",
         formVisible ? "mt-6" : "",

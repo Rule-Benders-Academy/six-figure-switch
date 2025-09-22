@@ -1,21 +1,125 @@
 "use client";
+/* eslint-disable */
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Script from "next/script";
 import { useEffect } from "react";
 import { Crisp } from "crisp-sdk-web";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 /* eslint-disable @next/next/no-img-element */
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
   useEffect(() => {
-    // Initialize Crisp once
+    // Crisp
     Crisp.configure("92580adf-bda9-44c7-a1ce-a83b917cea7b");
   }, []);
 
+  // GA
+  useEffect(() => {
+    const script1 = document.createElement("script");
+    script1.src = "https://www.googletagmanager.com/gtag/js?id=G-R7Q2CRPHS8";
+    script1.async = true;
+    document.head.appendChild(script1);
+
+    const script2 = document.createElement("script");
+    script2.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-R7Q2CRPHS8');
+    `;
+    document.head.appendChild(script2);
+
+    return () => {
+      if (script1.parentNode) script1.parentNode.removeChild(script1);
+      if (script2.parentNode) script2.parentNode.removeChild(script2);
+    };
+  }, []);
+  
+
+  useEffect(() => {
+    // Track only if the visitor came from Meta ads
+    const META_SESSION_KEY = "meta_ad_session";
+
+    const markIfFromMetaAd = () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const hasFbclid = params.has("fbclid");
+        const src = (params.get("utm_source") || "").toLowerCase();
+        const med = (params.get("utm_medium") || "").toLowerCase();
+
+        const srcIsMeta = ["facebook", "meta", "instagram"].includes(src);
+        const mediumLooksPaid =
+          !med || /(paid|paid_social|cpc|ppc|ads?)/i.test(med);
+
+        if (hasFbclid || (srcIsMeta && mediumLooksPaid)) {
+          sessionStorage.setItem(META_SESSION_KEY, "1");
+        }
+      } catch {
+        // ignore
+      }
+    };
+
+    const loadMetaPixelIfNeeded = () => {
+      const isMetaSession = sessionStorage.getItem(META_SESSION_KEY) === "1";
+      if (!isMetaSession) return;
+
+      // Load Meta Pixel only now
+      if (!(window as any).fbq) {
+        (function (f: any, b: Document, e: string, v: string) {
+          if (f.fbq) return;
+          const n: any = (f.fbq = function () {
+            n.callMethod
+              ? n.callMethod.apply(n, arguments)
+              : n.queue.push(arguments);
+          });
+          if (!f._fbq) f._fbq = n;
+          n.push = n;
+          n.loaded = true;
+          n.version = "2.0";
+          n.queue = [];
+          const t = b.createElement(e) as HTMLScriptElement;
+          t.async = true;
+          t.src = v;
+          const s = b.getElementsByTagName(e)[0];
+          s?.parentNode?.insertBefore(t, s);
+        })(
+          window,
+          document,
+          "script",
+          "https://connect.facebook.net/en_US/fbevents.js"
+        );
+      }
+
+      (window as any).fbq("init", "740601925279946");
+      (window as any).fbq("track", "PageView");
+    };
+
+    markIfFromMetaAd();
+    loadMetaPixelIfNeeded();
+
+    // Fire PageView on route changes for SPA navigation, only when Pixel is active
+    const onRouteChange = () => {
+      if (
+        (window as any).fbq &&
+        sessionStorage.getItem(META_SESSION_KEY) === "1"
+      ) {
+        (window as any).fbq("track", "PageView");
+      }
+    };
+
+    router.events.on("routeChangeComplete", onRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", onRouteChange);
+    };
+  }, [router.events]);
+
   return (
     <>
-      {/* Meta Pixel Script */}
+      {/* Domain verification */}
       <Head>
         <meta
           name="facebook-domain-verification"
@@ -23,26 +127,7 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       </Head>
 
-      <Script
-        id="meta-pixel"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)}; 
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '740601925279946');
-            fbq('track', 'PageView');
-          `,
-        }}
-      />
-
-      {/* Hotjar Tracking Code */}
+      {/* Hotjar */}
       <Script
         id="hotjar-tracking"
         strategy="afterInteractive"
@@ -60,16 +145,6 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       />
 
-      {/* No-JS Fallback Pixel */}
-      <div
-        dangerouslySetInnerHTML={{
-          __html: `<noscript>
-            <img height="1" width="1" style="display:none"
-              src="https://www.facebook.com/tr?id=740601925279946&ev=PageView&noscript=1" />
-          </noscript>`,
-        }}
-      />
-
       {/* USD → GBP and USD → EUR Converter */}
       <Script
         id="usd-to-gbp-eur-converter"
@@ -81,10 +156,10 @@ export default function App({ Component, pageProps }: AppProps) {
               var FORCE_COUNTRY = (Q.get('forceCountry') || '').toUpperCase();
               var FX_OVERRIDE  = Q.get('fx') ? Number(Q.get('fx')) : null;
               var DISABLE      = Q.get('noconvert') === '1';
-              var FX_CACHE_KEY = "usd_gbp_fx_v1";
+              var FX_CACHE_KEY = "usd_fx_gbp_eur_v1";
               var FX_TTL_MS    = 12*60*60*1000;
-              var FALLBACK_FX  = 0.78;
-              var EUR_FALLBACK_FX = 0.85;  // EUR to USD fallback rate
+              var FALLBACK_GBP = 0.78;
+              var FALLBACK_EUR = 0.85;
 
               if (DISABLE) return;
 
@@ -111,29 +186,40 @@ export default function App({ Component, pageProps }: AppProps) {
                   var raw = localStorage.getItem(FX_CACHE_KEY);
                   if (!raw) return null;
                   var obj = JSON.parse(raw);
-                  if (Date.now() - obj.fetchedAt < FX_TTL_MS && Number.isFinite(obj.rate)) return obj.rate;
+                  if (Date.now() - obj.fetchedAt < FX_TTL_MS && Number.isFinite(obj.gbp) && Number.isFinite(obj.eur)) {
+                    return { gbp: obj.gbp, eur: obj.eur };
+                  }
                 } catch {}
                 return null;
               }
 
-              function setCachedFx(rate){
-                try { localStorage.setItem(FX_CACHE_KEY, JSON.stringify({ rate: rate, fetchedAt: Date.now() })); } catch {}
+              function setCachedFx(fx){
+                try { localStorage.setItem(FX_CACHE_KEY, JSON.stringify({ gbp: fx.gbp, eur: fx.eur, fetchedAt: Date.now() })); } catch {}
               }
 
               function fetchFx(){
-                if (FX_OVERRIDE && Number.isFinite(FX_OVERRIDE)) return Promise.resolve(FX_OVERRIDE);
                 var cached = getCachedFx();
                 if (cached) return Promise.resolve(cached);
+
+                if (FX_OVERRIDE && Number.isFinite(FX_OVERRIDE)) {
+                  var o = { gbp: FX_OVERRIDE, eur: FALLBACK_EUR };
+                  setCachedFx(o);
+                  return Promise.resolve(o);
+                }
+
                 return fetch('https://api.exchangerate.host/latest?base=USD&symbols=GBP,EUR')
                   .then(r => r.json())
                   .then(j => {
                     var gbpRate = Number(j && j.rates && j.rates.GBP);
                     var eurRate = Number(j && j.rates && j.rates.EUR);
                     if (!Number.isFinite(gbpRate) || !Number.isFinite(eurRate)) throw new Error('bad rate');
-                    setCachedFx({ gbp: gbpRate, eur: eurRate });
-                    return { gbp: gbpRate, eur: eurRate };
+                    var o = { gbp: gbpRate, eur: eurRate };
+                    setCachedFx(o);
+                    return o;
                   })
-                  .catch(() => ({ gbp: FX_OVERRIDE || FALLBACK_FX, eur: EUR_FALLBACK_FX }));
+                  .catch(function(){
+                    return { gbp: FALLBACK_GBP, eur: FALLBACK_EUR };
+                  });
               }
 
               var formatterGBP = new Intl.NumberFormat('en-GB', {
@@ -175,8 +261,8 @@ export default function App({ Component, pageProps }: AppProps) {
               function convertTextNode(node, fx, type){
                 var v = node.nodeValue;
                 if (!v || v.indexOf('$') === -1) return;
-                v = v.replace(RANGE_RE, (_, a, b) => fmtCurrency(toNumberUSD(a), fx, type) + '–' + fmtCurrency(toNumberUSD(b), fx, type));
-                v = v.replace(SINGLE_RE, (_, num) => fmtCurrency(toNumberUSD(num), fx, type));
+                v = v.replace(RANGE_RE, function(_, a, b){ return fmtCurrency(toNumberUSD(a), fx, type) + '–' + fmtCurrency(toNumberUSD(b), fx, type); });
+                v = v.replace(SINGLE_RE, function(_, num){ return fmtCurrency(toNumberUSD(num), fx, type); });
                 node.nodeValue = v;
               }
 
@@ -195,16 +281,16 @@ export default function App({ Component, pageProps }: AppProps) {
                 while ((n = walker.nextNode())) convertTextNode(n, fx, type);
               }
 
-              fetchFx().then(fx => {
+              fetchFx().then(function(fx){
                 function apply(){ 
                   walkAndConvert(document.body, fx, isUK() ? 'GBP' : 'EUR'); 
                 }
                 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
                 else apply();
 
-                var obs = new MutationObserver(muts => {
-                  muts.forEach(m => {
-                    m.addedNodes && m.addedNodes.forEach(node => {
+                var obs = new MutationObserver(function(muts){
+                  muts.forEach(function(m){
+                    if (m.addedNodes) m.addedNodes.forEach(function(node){
                       if (node.nodeType === 1) walkAndConvert(node, fx, isUK() ? 'GBP' : 'EUR');
                       else if (node.nodeType === 3 && node.parentElement) walkAndConvert(node.parentElement, fx, isUK() ? 'GBP' : 'EUR');
                     });
@@ -217,10 +303,8 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       />
 
-      {/* Your app content */}
       <Component {...pageProps} />
     </>
   );
 }
-
 /* eslint-enable @next/next/no-img-element */

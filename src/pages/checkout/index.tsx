@@ -1,7 +1,7 @@
 /* eslint-disable */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Gift, Package } from "lucide-react";
 import { initializePaddle, Paddle } from "@paddle/paddle-js";
 import LandingFooter from "@/_components/LandingFooter/LandingFooter";
@@ -95,6 +95,9 @@ const Checkout = () => {
   const [lastName, setLastName] = useState("");
   const [nameError, setNameError] = useState("");
 
+  // NEW: track whether the user opened the installment checkout
+  const isInstallmentRef = useRef(false);
+
   // Setup Paddle and Meta Pixel
   useEffect(() => {
     function delay(ms: number) {
@@ -149,6 +152,11 @@ const Checkout = () => {
                 zapUrl.searchParams.set("from_masterclass", "true");
               }
 
+              // NEW: flag this run as an installment purchase when applicable
+              if (isInstallmentRef.current) {
+                zapUrl.searchParams.set("installment", "true");
+              }
+
               try {
                 await fetch(zapUrl.toString(), {
                   method: "GET",
@@ -193,6 +201,9 @@ const Checkout = () => {
 
     if (!paddle) return;
 
+    // Mark as one-time payment
+    isInstallmentRef.current = false;
+
     // Track InitiateCheckout when the checkout modal is opened
     if (
       typeof window !== "undefined" &&
@@ -221,6 +232,9 @@ const Checkout = () => {
     }
 
     if (!paddle) return;
+
+    // Mark as installment payment
+    isInstallmentRef.current = true;
 
     paddle.Checkout.open({
       items: [{ priceId: "pri_01k36apq1s4r8q32jndexwpq2j" }],
@@ -407,15 +421,11 @@ const Checkout = () => {
             {/* Installment Button */}
             <div className="mt-6 w-full">
               <button
-                disabled
                 onClick={openInstallmentCheckout}
                 className="w-full px-8 py-4 rounded-xl bg-gradient-to-r from-gray-400 via-gray-500 to-gray-600 text-white font-bold text-lg shadow-lg opacity-70 cursor-not-allowed"
               >
                 Pay in Installments ($299 x 3)
               </button>
-              <p className="mt-2 text-center text-sm text-gray-500 italic">
-                Installment plan is coming soon
-              </p>
             </div>
           </div>
         </div>

@@ -271,20 +271,6 @@ const LandingPage = () => {
 
   // GA + cleanup timers
   useEffect(() => {
-    const script1 = document.createElement("script");
-    script1.src = "https://www.googletagmanager.com/gtag/js?id=G-R7Q2CRPHS8";
-    script1.async = true;
-    document.head.appendChild(script1);
-
-    const script2 = document.createElement("script");
-    script2.innerHTML = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){ dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-R7Q2CRPHS8');
-    `;
-    document.head.appendChild(script2);
-
     return () => {
       if (gateTimerRef.current) {
         window.clearInterval(gateTimerRef.current);
