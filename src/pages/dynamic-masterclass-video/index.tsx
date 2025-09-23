@@ -126,7 +126,7 @@ const Page = () => {
 
           <div className="relative lg:w-[80%] max-w-[98%] mx-auto text-center">
             {/* Title (always visible, double-line) */}
-            <h2 className="text-xl sm:text-2xl lg:text-[24px] leading-tight font-bold tracking-wide uppercase">
+            <h2 className="text-xl sm:text-2xl lg:text-[24px] leading-tight font-bold tracking-wide uppercase lg:mt-8 lg:mb-8">
               {renderTwoLines(selectedCopy.title)}
             </h2>
 
