@@ -273,7 +273,6 @@ const Page = () => {
         <TrustedCompaniesMC />
         {stage === "offer" && <OfferSection />}
       </div>
-
       <Drawer />
     </>
   );
