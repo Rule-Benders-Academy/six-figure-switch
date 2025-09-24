@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Drawer from "../../_components/Drawer/Drawer";
 import HeroBg from "@/_assets/landing-hero-bg.png";
-
+import TrustedCompaniesMC from "@/_components/TrustedCompaniesMC/TrustedCompaniesMC";
 import MainVideo from "./MainVideo";
 import SignupForm from "./SignupForm";
 import OfferSection from "./OfferSection";
@@ -17,25 +17,25 @@ const copies = [
     title:
       "Where The Real £1,000/Day Consulting Contracts Hide In The UK Market — And How To Access Them",
     subtitle:
-      "Learn the proven system UK professionals use to double or triple their income — without new certifications, side hustles, or years of waiting.",
+      "Learn the proven system UK professionals use to double or triple their income without new certifications, side hustles, or years of waiting.",
   },
   {
     title:
-      "Stuck On £60–90k Salaries? Discover How To Reframe Your CV & LinkedIn — To Land £1,000/Day Consulting Contracts",
+      "Stuck On £60–90k Salaries? Discover How To Reframe Your CV & LinkedIn To Land £1,000/Day Consulting Contracts",
     subtitle:
       "The positioning shift that recruiters and clients can’t ignore — proven inside this masterclass.",
   },
   {
     title:
-      "The 3 Levers UK Professionals Use — To Jump From £300–£400/Day To £800–£1,200/Day Consulting Contracts",
+      "The 3 Levers UK Professionals Use To Jump From £300–£400/Day To £800–£1,200/Day Consulting Contracts",
     subtitle:
-      "Proven framework explained step by step — inside this exclusive masterclass.",
+      "Proven framework explained step by step inside this exclusive masterclass.",
   },
   {
     title:
-      "Ex-£400/Day Professional Reveals The Exact System He Used — To Land £800–£1,200/Day Consulting Contracts",
+      "Ex-£400/Day Professional Reveals The Exact System He Used To Land £800–£1,200/Day Consulting Contracts",
     subtitle:
-      "Proven to work in the UK market — across industries, roles, and seniority levels.",
+      "Proven to work in the UK market across industries, roles, and seniority levels.",
   },
 ];
 
@@ -49,13 +49,16 @@ const SS_TITLE_KEY = "copyTitle";
 const LS_INDEX_PERSIST = "copyIndexPersistent";
 const LS_TITLE_PERSIST = "copyTitlePersistent";
 
+const UNLOCK_SECONDS = 1500; // 25:00
+
 const Page = () => {
   const [stage, setStage] = useState<Stage>("form");
   const [formVisible, setFormVisible] = useState(true);
   const [unlocked, setUnlocked] = useState(false);
   const [selectedCopy, setSelectedCopy] = useState(copies[0]);
+  const [watchedSeconds, setWatchedSeconds] = useState<number>(0);
 
-  // Choose headline ONCE per session
+  // Session-sticky headline (randomize once per session)
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -107,10 +110,12 @@ const Page = () => {
     setSelectedCopy(copies[idxToUse]);
   }, []);
 
+  // Page view tracking
   useEffect(() => {
     fbTrack("PageView", { content_name: "MasterclassLanding" });
   }, []);
 
+  // Restore signedUp/unlocked state from session
   useEffect(() => {
     if (typeof window === "undefined") return;
     const signedUp = sessionStorage.getItem("signedUp") === "true";
@@ -120,6 +125,37 @@ const Page = () => {
       setStage("video");
     }
     if (unlockedSaved) setUnlocked(true);
+  }, []);
+
+  // Optional: set initial countdown from any saved progress
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const copyIndex =
+      sessionStorage.getItem(SS_INDEX_KEY) ??
+      localStorage.getItem(LS_INDEX_PERSIST);
+    const copyTitle =
+      sessionStorage.getItem(SS_TITLE_KEY) ??
+      localStorage.getItem(LS_TITLE_PERSIST);
+    if (copyIndex && copyTitle) {
+      const slug = String(copyTitle)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/gi, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 60);
+      const key = `mc_video_progress_${copyIndex}_${slug || "no-title"}`;
+      try {
+        const raw = localStorage.getItem(key);
+        if (raw) {
+          const seconds = /^\d+(\.\d+)?$/.test(raw)
+            ? parseFloat(raw)
+            : JSON.parse(raw)?.seconds;
+          if (typeof seconds === "number" && seconds >= 0) {
+            setWatchedSeconds(seconds);
+            if (seconds >= UNLOCK_SECONDS) setUnlocked(true);
+          }
+        }
+      } catch {}
+    }
   }, []);
 
   const handleUnlockedFromForm = () => {
@@ -146,6 +182,11 @@ const Page = () => {
     });
   };
 
+  // from MainVideo's timeupdate
+  const handleProgress = (sec: number) => {
+    setWatchedSeconds(sec);
+  };
+
   const renderTwoLines = (text: string) => {
     const parts = text.split("—");
     if (parts.length === 1) return <span className="block">{text}</span>;
@@ -156,6 +197,10 @@ const Page = () => {
       </>
     );
   };
+
+  const secondsLeft = Math.max(0, UNLOCK_SECONDS - Math.floor(watchedSeconds));
+  const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
+  const ss = String(secondsLeft % 60).padStart(2, "0");
 
   return (
     <>
@@ -171,6 +216,7 @@ const Page = () => {
           </div>
 
           <div className="relative lg:w-[80%] max-w-[98%] mx-auto text-center">
+            {/* Title (session-sticky) */}
             <h2 className="text-xl sm:text-2xl lg:text-[24px] leading-tight font-bold tracking-wide uppercase lg:mt-8 lg:mb-8">
               {renderTwoLines(selectedCopy.title)}
             </h2>
@@ -180,15 +226,18 @@ const Page = () => {
                 {formVisible && (
                   <SignupForm onUnlocked={handleUnlockedFromForm} />
                 )}
+                {/* Video + progress callback */}
                 <MainVideo
                   formVisible={formVisible}
                   onUnlock={handleVideoUnlock}
+                  onProgress={handleProgress}
                 />
                 {!formVisible && (
                   <p className="text-center text-base md:text-lg opacity-90 mt-4 leading-snug">
                     {renderTwoLines(selectedCopy.subtitle)}
                   </p>
                 )}
+                TrustedCompaniesMC
                 {formVisible && (
                   <p className="text-center text-xs md:text-sm opacity-80 mt-3">
                     Sign up to unlock the masterclass.
@@ -202,6 +251,7 @@ const Page = () => {
               />
             </div>
 
+            {/* Dynamic unlock UI */}
             <div className="mt-3 flex justify-center">
               {unlocked ? (
                 <button
@@ -214,12 +264,14 @@ const Page = () => {
                   </span>
                 </button>
               ) : (
-                <div className="text-white/60">Offer unlocks at 25:00</div>
+                <div className="text-white/80">
+                  Offer unlocks in {mm}:{ss}
+                </div>
               )}
             </div>
           </div>
         </section>
-
+        <TrustedCompaniesMC />
         {stage === "offer" && <OfferSection />}
       </div>
 
