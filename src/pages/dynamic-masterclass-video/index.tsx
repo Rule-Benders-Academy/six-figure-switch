@@ -236,7 +236,6 @@ const Page = () => {
                     {renderTwoLines(selectedCopy.subtitle)}
                   </p>
                 )}
-                TrustedCompaniesMC
                 {formVisible && (
                   <p className="text-center text-xs md:text-sm opacity-80 mt-3">
                     Sign up to unlock the masterclass.
@@ -263,6 +262,7 @@ const Page = () => {
                   </span>
                 </button>
               ) : (
+                  
                 <div className="text-white/80">
                   Offer unlocks in {mm}:{ss}
                 </div>
