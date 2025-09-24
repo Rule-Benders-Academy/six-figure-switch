@@ -39,52 +39,101 @@ const copies = [
   },
 ];
 
+// Apps Script endpoint
+const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbwRbk52F9x4dKmY3LYwwaD0IbL0nZfkKYmuHc_PX0hn5QO3z0XwhgZMCIqiYBWRma30Yg/exec";
+
+const SENT_KEY = "copy_selected_email_sent";
+const SS_INDEX_KEY = "copyIndex";
+const SS_TITLE_KEY = "copyTitle";
+const LS_INDEX_PERSIST = "copyIndexPersistent";
+const LS_TITLE_PERSIST = "copyTitlePersistent";
+
 const Page = () => {
   const [stage, setStage] = useState<Stage>("form");
   const [formVisible, setFormVisible] = useState(true);
   const [unlocked, setUnlocked] = useState(false);
   const [selectedCopy, setSelectedCopy] = useState(copies[0]);
 
-  // Randomize copy once on load
+  // Choose headline ONCE per session
   useEffect(() => {
-    const idx = Math.floor(Math.random() * copies.length);
-    setSelectedCopy(copies[idx]);
+    if (typeof window === "undefined") return;
+
+    const storedIdxRaw = sessionStorage.getItem(SS_INDEX_KEY);
+    const storedTitle = sessionStorage.getItem(SS_TITLE_KEY);
+    let idxToUse: number | null = null;
+
+    if (storedIdxRaw !== null) {
+      const num = parseInt(storedIdxRaw, 10);
+      if (!Number.isNaN(num) && copies[num]) idxToUse = num;
+      else if (storedTitle) {
+        const found = copies.findIndex((c) => c.title === storedTitle);
+        if (found >= 0) idxToUse = found;
+      }
+    } else if (storedTitle) {
+      const found = copies.findIndex((c) => c.title === storedTitle);
+      if (found >= 0) idxToUse = found;
+    }
+
+    if (idxToUse === null) {
+      idxToUse = Math.floor(Math.random() * copies.length);
+      const chosen = copies[idxToUse];
+      sessionStorage.setItem(SS_INDEX_KEY, String(idxToUse));
+      sessionStorage.setItem(SS_TITLE_KEY, chosen.title);
+      localStorage.setItem(LS_INDEX_PERSIST, String(idxToUse));
+      localStorage.setItem(LS_TITLE_PERSIST, chosen.title);
+
+      if (!sessionStorage.getItem(SENT_KEY)) {
+        try {
+          fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              event: "copy_selected",
+              copyIndex: idxToUse,
+              title: chosen.title,
+              timestamp: new Date().toISOString(),
+              pageUrl: window.location.href,
+              ua: navigator.userAgent,
+            }),
+          });
+        } finally {
+          sessionStorage.setItem(SENT_KEY, "true");
+        }
+      }
+    }
+
+    setSelectedCopy(copies[idxToUse]);
   }, []);
 
-  // Page view tracking
   useEffect(() => {
     fbTrack("PageView", { content_name: "MasterclassLanding" });
   }, []);
 
-  // Restore signedUp/unlocked state from sessionStorage
   useEffect(() => {
     if (typeof window === "undefined") return;
     const signedUp = sessionStorage.getItem("signedUp") === "true";
     const unlockedSaved = sessionStorage.getItem("unlocked") === "true";
-
     if (signedUp) {
       setFormVisible(false);
       setStage("video");
     }
-    if (unlockedSaved) {
-      setUnlocked(true);
-    }
+    if (unlockedSaved) setUnlocked(true);
   }, []);
 
   const handleUnlockedFromForm = () => {
     setFormVisible(false);
     setStage("video");
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined")
       sessionStorage.setItem("signedUp", "true");
-    }
     fbTrack("Lead", { content_name: "MasterclassOptin" });
   };
 
   const handleVideoUnlock = () => {
     setUnlocked(true);
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined")
       sessionStorage.setItem("unlocked", "true");
-    }
   };
 
   const handleOfferButtonClick = () => {
@@ -97,12 +146,9 @@ const Page = () => {
     });
   };
 
-  // helper to split into 2 lines
   const renderTwoLines = (text: string) => {
     const parts = text.split("—");
-    if (parts.length === 1) {
-      return <span className="block">{text}</span>;
-    }
+    if (parts.length === 1) return <span className="block">{text}</span>;
     return (
       <>
         <span className="block">{parts[0].trim()}</span>
@@ -125,32 +171,24 @@ const Page = () => {
           </div>
 
           <div className="relative lg:w-[80%] max-w-[98%] mx-auto text-center">
-            {/* Title (always visible, double-line) */}
             <h2 className="text-xl sm:text-2xl lg:text-[24px] leading-tight font-bold tracking-wide uppercase lg:mt-8 lg:mb-8">
               {renderTwoLines(selectedCopy.title)}
             </h2>
 
-            <div className="relative border-2 border-[#747373] bg-[#FFFFFF12]  rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:w-[80%] lg:mt-2 mx-auto">
+            <div className="relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:w-[80%] lg:mt-2 mx-auto">
               <div className="p-3 md:p-5 lg:p-6">
-                {/* Show signup form when formVisible is true */}
                 {formVisible && (
                   <SignupForm onUnlocked={handleUnlockedFromForm} />
                 )}
-
-                {/* Video */}
                 <MainVideo
                   formVisible={formVisible}
                   onUnlock={handleVideoUnlock}
                 />
-
-                {/* Subtitle shows as soon as video is showing */}
                 {!formVisible && (
                   <p className="text-center text-base md:text-lg opacity-90 mt-4 leading-snug">
                     {renderTwoLines(selectedCopy.subtitle)}
                   </p>
                 )}
-
-                {/* Helper text when still locked */}
                 {formVisible && (
                   <p className="text-center text-xs md:text-sm opacity-80 mt-3">
                     Sign up to unlock the masterclass.
