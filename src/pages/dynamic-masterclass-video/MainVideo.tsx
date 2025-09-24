@@ -23,8 +23,7 @@ const SAVE_INTERVAL = 5; // seconds
 
 const isMobile = () =>
   typeof window !== "undefined" &&
-  (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-    window.innerWidth <= 640);
+  (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth <= 640);
 
 // Prefer session values; fall back to persistent
 const getCopyMeta = () => {
@@ -201,10 +200,7 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
           const saved = loadProgressSeconds();
           if (saved > 0) {
             const duration = await p.getDuration().catch(() => 0);
-            const clamped = Math.max(
-              0,
-              Math.min(saved, Math.max(0, duration - 2))
-            );
+            const clamped = Math.max(0, Math.min(saved, Math.max(0, duration - 2)));
             if (clamped > 0) await p.setCurrentTime(clamped).catch(() => {});
             if (clamped >= UNLOCK_SECONDS && !unlockedRef.current) {
               unlockedRef.current = true;
@@ -244,9 +240,7 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
         });
 
         p.on("seeked", async (sec: number) => {
-          await saveProgress(
-            typeof sec === "number" ? sec : await p.getCurrentTime()
-          );
+          await saveProgress(typeof sec === "number" ? sec : (await p.getCurrentTime()));
         });
 
         p.on("ended", async () => {
@@ -266,17 +260,12 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
           window.removeEventListener("keydown", userGestureUnmute);
         };
         window.addEventListener("click", userGestureUnmute, { once: true });
-        window.addEventListener("touchstart", userGestureUnmute, {
-          once: true,
-        });
+        window.addEventListener("touchstart", userGestureUnmute, { once: true });
         window.addEventListener("keydown", userGestureUnmute, { once: true });
 
         // On mobile, scroll into view on first attempt (helps UX)
         try {
-          iframeRef.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
+          iframeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
         } catch {}
 
         // Attempt autoplay when allowed (after the form is hidden)
@@ -289,9 +278,7 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
     return () => {
       disposed = true;
       if (playerRef.current) {
-        try {
-          playerRef.current.unload?.();
-        } catch {}
+        try { playerRef.current.unload?.(); } catch {}
       }
       playerRef.current = null;
       setReady(false);
@@ -324,9 +311,7 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
     try {
       await p.setMuted(false);
       // Ensure playing
-      try {
-        await p.play();
-      } catch {}
+      try { await p.play(); } catch {}
       setShowUnmutePrompt(false);
     } catch {}
   };
@@ -335,9 +320,7 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
     <div className="relative w-full lg:w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e]">
       <iframe
         ref={iframeRef}
-        className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
-          ready ? "opacity-100" : "opacity-0"
-        }`}
+        className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${ready ? "opacity-100" : "opacity-0"}`}
         src="https://player.vimeo.com/video/1113013910?api=1&loop=0&playsinline=1&autopause=0&controls=1&keyboard=1&transparent=0&muted=0"
         title="Masterclass"
         allow="autoplay; fullscreen; picture-in-picture"

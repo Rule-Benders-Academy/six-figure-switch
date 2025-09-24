@@ -230,7 +230,6 @@ const Page = () => {
                 <MainVideo
                   formVisible={formVisible}
                   onUnlock={handleVideoUnlock}
-                  onProgress={handleProgress}
                 />
                 {!formVisible && (
                   <p className="text-center text-base md:text-lg opacity-90 mt-4 leading-snug">
