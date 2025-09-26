@@ -1,16 +1,13 @@
 /* eslint-disable */
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import Drawer from "../../_components/Drawer/Drawer";
-import HeroBg from "@/_assets/landing-hero-bg.png";
 import TrustedCompaniesMC from "@/_components/TrustedCompaniesMC/TrustedCompaniesMC";
 import MainVideo from "./MainVideo";
-import SignupForm from "./SignupForm";
 import OfferSection from "./OfferSection";
 import { fbTrack } from "@/lib/fb";
 
-type Stage = "form" | "video" | "offer";
+type Stage = "video" | "offer";
 
 const copies = [
   {
@@ -39,7 +36,7 @@ const copies = [
   },
 ];
 
-// Apps Script endpoint
+// Apps Script endpoint (kept for copy selection logging)
 const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwRbk52F9x4dKmY3LYwwaD0IbL0nZfkKYmuHc_PX0hn5QO3z0XwhgZMCIqiYBWRma30Yg/exec";
 
@@ -52,8 +49,8 @@ const LS_TITLE_PERSIST = "copyTitlePersistent";
 const UNLOCK_SECONDS = 1500; // 25:00
 
 const Page = () => {
-  const [stage, setStage] = useState<Stage>("form");
-  const [formVisible, setFormVisible] = useState(true);
+  // Start directly at the video stage, no form
+  const [stage, setStage] = useState<Stage>("video");
   const [unlocked, setUnlocked] = useState(false);
   const [selectedCopy, setSelectedCopy] = useState(copies[0]);
   const [watchedSeconds, setWatchedSeconds] = useState<number>(0);
@@ -115,19 +112,7 @@ const Page = () => {
     fbTrack("PageView", { content_name: "MasterclassLanding" });
   }, []);
 
-  // Restore signedUp/unlocked state from session
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const signedUp = sessionStorage.getItem("signedUp") === "true";
-    const unlockedSaved = sessionStorage.getItem("unlocked") === "true";
-    if (signedUp) {
-      setFormVisible(false);
-      setStage("video");
-    }
-    if (unlockedSaved) setUnlocked(true);
-  }, []);
-
-  // Optional: set initial countdown from any saved progress
+  // Restore unlocked state and any saved progress
   useEffect(() => {
     if (typeof window === "undefined") return;
     const copyIndex =
@@ -156,15 +141,9 @@ const Page = () => {
         }
       } catch {}
     }
+    const unlockedSaved = sessionStorage.getItem("unlocked") === "true";
+    if (unlockedSaved) setUnlocked(true);
   }, []);
-
-  const handleUnlockedFromForm = () => {
-    setFormVisible(false);
-    setStage("video");
-    if (typeof window !== "undefined")
-      sessionStorage.setItem("signedUp", "true");
-    fbTrack("Lead", { content_name: "MasterclassOptin" });
-  };
 
   const handleVideoUnlock = () => {
     setUnlocked(true);
@@ -180,11 +159,6 @@ const Page = () => {
         .getElementById("offer-start")
         ?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-  };
-
-  // from MainVideo's timeupdate
-  const handleProgress = (sec: number) => {
-    setWatchedSeconds(sec);
   };
 
   const renderTwoLines = (text: string) => {
@@ -204,53 +178,27 @@ const Page = () => {
 
   return (
     <>
-      <div className="min-h-screen !font-jakarta">
-        <section className="relative bg-black text-white pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-2 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden flex items-center justify-center min-h-screen">
-          <div className="absolute inset-0 pointer-events-none">
-            <Image
-              src={HeroBg}
-              alt=""
-              className="w-full h-full object-cover opacity-70"
-              priority
-            />
-          </div>
-
+      <div className="min-h-screen !font-jakarta bg-white">
+        <section className="relative text-black pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-6 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden flex items-center justify-center min-h-screen">
           <div className="relative lg:w-[80%] max-w-[98%] mx-auto text-center">
-            {/* Title (session-sticky) */}
-            <h2 className="text-xl sm:text-2xl lg:text-[24px] leading-tight font-bold tracking-wide uppercase lg:mt-8 lg:mb-8">
+            {/* Bigger Title (session-sticky) */}
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl leading-tight font-bold tracking-wide uppercase mt-6 mb-6">
               {renderTwoLines(selectedCopy.title)}
             </h2>
 
-            <div className="relative border-2 border-[#747373] bg-[#FFFFFF12] rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-7 lg:w-[80%] lg:mt-2 mx-auto">
+            <div className="relative border-2 border-neutral-300 bg-white rounded-2xl md:rounded-[35px] lg:rounded-[30px] mt-5 lg:w-[80%] mx-auto shadow-sm">
               <div className="p-3 md:p-5 lg:p-6">
-                {formVisible && (
-                  <SignupForm onUnlocked={handleUnlockedFromForm} />
-                )}
-                {/* Video + progress callback */}
-                <MainVideo
-                  formVisible={formVisible}
-                  onUnlock={handleVideoUnlock}
-                />
-                {!formVisible && (
-                  <p className="text-center text-base md:text-lg opacity-90 mt-4 leading-snug">
-                    {renderTwoLines(selectedCopy.subtitle)}
-                  </p>
-                )}
-                {formVisible && (
-                  <p className="text-center text-xs md:text-sm opacity-80 mt-3">
-                    Sign up to unlock the masterclass.
-                  </p>
-                )}
-              </div>
+                {/* Video always visible now */}
+                <MainVideo formVisible={false} onUnlock={handleVideoUnlock} />
 
-              <div
-                className="pointer-events-none absolute top-0 left-0 w-full h-full border border-[#3C3C3C] bg-[#FFFFFF14] rounded-md z-[-1]"
-                style={{ filter: "blur(24px)" }}
-              />
+                <p className="text-center text-base md:text-lg opacity-90 mt-4 leading-snug">
+                  {renderTwoLines(selectedCopy.subtitle)}
+                </p>
+              </div>
             </div>
 
             {/* Dynamic unlock UI */}
-            <div className="mt-3 flex justify-center">
+            <div className="mt-4 flex justify-center">
               {unlocked ? (
                 <button
                   onClick={handleOfferButtonClick}
@@ -262,15 +210,16 @@ const Page = () => {
                   </span>
                 </button>
               ) : (
-                  
-                <div className="text-white/80">
-                  Offer unlocks in {mm}:{ss}
+                <div className="text-black/70">
+                
                 </div>
               )}
             </div>
           </div>
         </section>
+
         <TrustedCompaniesMC />
+
         {stage === "offer" && <OfferSection />}
       </div>
       <Drawer />
