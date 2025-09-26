@@ -178,8 +178,8 @@ const Page = () => {
 
   return (
     <>
-      <div className="min-h-screen !font-jakarta bg-white">
-        <section className="relative text-black pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-6 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden flex items-center justify-center min-h-screen">
+      <div className="!font-jakarta bg-white">
+        <section className="relative text-black pb-5 md:pb-8 lg:pb-12 pt-8 lg:pt-6 px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden flex items-center justify-center">
           <div className="relative lg:w-[80%] max-w-[98%] mx-auto text-center">
             {/* Bigger Title (session-sticky) */}
             <h2 className="text-2xl sm:text-4xl lg:text-5xl leading-tight font-bold tracking-wide uppercase mt-6 mb-6">
@@ -204,15 +204,12 @@ const Page = () => {
                   onClick={handleOfferButtonClick}
                   className="group inline-flex items-center justify-center rounded-xl border-2 px-5 py-3 text-sm font-bold uppercase tracking-wide transition border-[#FFA500] bg-[#141314] text-[#FFA500] hover:bg-[#FFA500] hover:text-black"
                 >
-                  <span className="mr-2">OFFER UNLOCKED!</span>
-                  <span className="underline group-hover:no-underline">
-                    Click here
+                  <span className="mr-2">
+                    I’m Done With £60–90k Salaries - What’s the Alternative?
                   </span>
                 </button>
               ) : (
-                <div className="text-black/70">
-                
-                </div>
+                <div className="text-black/70"></div>
               )}
             </div>
           </div>
