@@ -132,7 +132,7 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
       if (sec >= UNLOCK_SECONDS && !unlockedRef.current) {
         unlockedRef.current = true;
         onUnlock?.();
-        fbTrackCustom("MC_UnlockAt25min");
+        fbTrackCustom("MC_UnlockAt12min");
 
         const { copyIndex, copyTitle } = getCopyMeta();
         fetch(GOOGLE_SCRIPT_URL, {
@@ -140,7 +140,7 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
           mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            event: "unlock_at_25min",
+            event: "unlock_at_12min",
             timestamp: new Date().toISOString(),
             copyIndex,
             title: copyTitle,
