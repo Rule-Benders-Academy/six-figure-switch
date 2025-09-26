@@ -1,34 +1,34 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Image from 'next/image';
-import Marquee from 'react-fast-marquee';
+import React from "react";
+import Image from "next/image";
+import Marquee from "react-fast-marquee";
 
-import Logo1 from '../../_assets/trusted-company-1.png';
-import Logo2 from '../../_assets/trusted-company-2.png';
-import Logo3 from '../../_assets/trusted-company-3.png';
-import Logo4 from '../../_assets/trusted-company-4.png';
-import Logo5 from '../../_assets/trusted-company-5.png';
-import Logo6 from '../../_assets/trusted-company-6.png';
-import Logo7 from '../../_assets/trusted-company-7.png';
-import Logo8 from '../../_assets/trusted-company-8.png';
-import Logo9 from '../../_assets/trusted-company-9.png';
-import Logo10 from '../../_assets/trusted-company-10.png';
-import Logo11 from '../../_assets/trusted-company-11.png';
-import Logo12 from '../../_assets/trusted-company-12.png';
-import Logo13 from '../../_assets/trusted-company-13.png';
+import Logo1 from "../../_assets/trusted-company-1.png";
+import Logo2 from "../../_assets/trusted-company-2.png";
+import Logo3 from "../../_assets/trusted-company-3.png";
+import Logo4 from "../../_assets/trusted-company-4.png";
+import Logo5 from "../../_assets/trusted-company-5.png";
+import Logo6 from "../../_assets/trusted-company-6.png";
+import Logo7 from "../../_assets/trusted-company-7.png";
+import Logo8 from "../../_assets/trusted-company-8.png";
+import Logo9 from "../../_assets/trusted-company-9.png";
+import Logo10 from "../../_assets/trusted-company-10.png";
+import Logo11 from "../../_assets/trusted-company-11.png";
+import Logo12 from "../../_assets/trusted-company-12.png";
+import Logo13 from "../../_assets/trusted-company-13.png";
 
 const TrustedCompanies = () => {
   return (
-    <section className="bg-[linear-gradient(to_bottom,#141314,#272526)] text-white pt-4 md:pt-14 lg:pt-20 pb-12 md:pb-16 lg:pb-20 text-center overflow-hidden">
-      <h2 className="text-2xl md:text-5xl lg:text-[44px] lg:leading-[100%] mb-10 md:mb-14 lg:mb-16">
+    <section className="bg-white text-black pt-4 md:pt-14 lg:pt-20 pb-12 md:pb-16 lg:pb-20 text-center overflow-hidden">
+      <h2 className="text-xl md:text-5xl lg:text-[44px] lg:leading-[100%] mb-10 md:mb-14 lg:mb-16">
         Backed by Real Contracts With the UK’s Most Recognised Organisations
       </h2>
       <Marquee
         speed={60}
         gradient={false}
         pauseOnHover={true}
-        className="px-3 md:px-4"
+        className="px-3 md:px-4 bg-gray-300 py-8"
         autoFill={true}
       >
         <div className="flex items-center justify-center h-[60px] md:h-[80px] lg:h-[101px] w-[120px] md:w-[140px] lg:w-[175px] !mx-5 md:!mx-10">
