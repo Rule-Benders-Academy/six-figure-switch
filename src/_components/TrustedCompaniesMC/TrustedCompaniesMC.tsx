@@ -28,7 +28,7 @@ const TrustedCompanies = () => {
         speed={60}
         gradient={false}
         pauseOnHover={true}
-        className="px-3 md:px-4 bg-gray-300 py-8"
+        className="px-3 md:px-4 bg-gray-500 py-8"
         autoFill={true}
       >
         <div className="flex items-center justify-center h-[60px] md:h-[80px] lg:h-[101px] w-[120px] md:w-[140px] lg:w-[175px] !mx-5 md:!mx-10">

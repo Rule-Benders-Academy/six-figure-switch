@@ -202,7 +202,7 @@ const Page = () => {
               {unlocked ? (
                 <button
                   onClick={handleOfferButtonClick}
-                  className="group my-4 inline-flex items-center justify-center rounded-xl border-2 px-5 py-3 text-sm font-bold uppercase tracking-wide transition border-[#FFA500] bg-[#141314] text-[#FFA500] hover:bg-[#FFA500] hover:text-black"
+                  className="group my-4 inline-flex items-center justify-center rounded-xl lg:text-2xl border-2 px-12 py-8 text-sm font-bold uppercase tracking-wide transition border-[#FFA500] bg-[#141314] text-[#FFA500] hover:bg-[#FFA500] hover:text-black"
                 >
                   <span className="mr-2">
                     I’m Done With £60–90k Salaries - What’s the Alternative?
