@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Hero from "./components/hero";
 import OutcomesSection from "./components/secondsection";
 import TrustedCompanies from "./components/trustedcompanies";
@@ -11,10 +12,7 @@ export default function HomePage() {
       <OutcomesSection />
       <TrustedCompanies />
       <FourthSection />
-      <InstructorSection
-        linkedinHref="https://www.linkedin.com/in/your-profile"
-        cvHref="/files/will-richardson-cv.pdf"
-      />
+      <InstructorSection/>
     </main>
   );
 }
