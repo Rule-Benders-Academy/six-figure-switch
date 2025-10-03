@@ -38,7 +38,6 @@ export default function App({ Component, pageProps }: AppProps) {
       if (script2.parentNode) script2.parentNode.removeChild(script2);
     };
   }, []);
-  
 
   useEffect(() => {
     // Track only if the visitor came from Meta ads
@@ -70,13 +69,13 @@ export default function App({ Component, pageProps }: AppProps) {
       // Load Meta Pixel only now
       if (!(window as any).fbq) {
         (function (f: any, b: Document, e: string, v: string) {
-          if (f.fbq) return;
-          const n: any = (f.fbq = function () {
+          if ((f as any).fbq) return;
+          const n: any = ((f as any).fbq = function () {
             n.callMethod
               ? n.callMethod.apply(n, arguments)
               : n.queue.push(arguments);
           });
-          if (!f._fbq) f._fbq = n;
+          if (!(f as any)._fbq) (f as any)._fbq = n;
           n.push = n;
           n.loaded = true;
           n.version = "2.0";
@@ -85,7 +84,8 @@ export default function App({ Component, pageProps }: AppProps) {
           t.async = true;
           t.src = v;
           const s = b.getElementsByTagName(e)[0];
-          s?.parentNode?.insertBefore(t, s);
+          if (s && s.parentNode) s.parentNode.insertBefore(t, s);
+          else b.head.appendChild(t);
         })(
           window,
           document,
@@ -145,7 +145,7 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       />
 
-      {/* USD → GBP and USD → EUR Converter */}
+      {/* USD → GBP and USD → EUR Converter (patched for $1k, $1k+, ranges) */}
       <Script
         id="usd-to-gbp-eur-converter"
         strategy="afterInteractive"
@@ -208,8 +208,8 @@ export default function App({ Component, pageProps }: AppProps) {
                 }
 
                 return fetch('https://api.exchangerate.host/latest?base=USD&symbols=GBP,EUR')
-                  .then(r => r.json())
-                  .then(j => {
+                  .then(function(r){ return r.json(); })
+                  .then(function(j){
                     var gbpRate = Number(j && j.rates && j.rates.GBP);
                     var eurRate = Number(j && j.rates && j.rates.EUR);
                     if (!Number.isFinite(gbpRate) || !Number.isFinite(eurRate)) throw new Error('bad rate');
@@ -236,7 +236,11 @@ export default function App({ Component, pageProps }: AppProps) {
                 maximumFractionDigits: 0
               });
 
-              function toNumberUSD(str){ return Number(String(str).replace(/,/g,'')); }
+              function toNumberUSD(str, hasK){
+                var n = Number(String(str).replace(/,/g,''));
+                if (!Number.isFinite(n)) return NaN;
+                return hasK ? n * 1000 : n;
+              }
 
               // round to nearest 50
               function roundTo50(n){ return Math.round(n/50)*50; }
@@ -247,8 +251,9 @@ export default function App({ Component, pageProps }: AppProps) {
                 return type === 'GBP' ? formatterGBP.format(rounded) : formatterEUR.format(rounded);
               }
 
-              var RANGE_RE = /\\$(\\d[\\d,]*(?:\\.\\d+)?)\\s*(?:–|-|to)\\s*\\$?(\\d[\\d,]*(?:\\.\\d+)?)/g;
-              var SINGLE_RE = /\\$(\\d[\\d,]*(?:\\.\\d+)?)/g;
+              // Patched regex: supports $1k, $1.5k, $1k+, ranges $1k–$3k, and preserves '+'
+              var RANGE_RE  = /\\$(\\d[\\d,]*(?:\\.\\d+)?)(k)?\\s*(?:–|-|to)\\s*\\$?(\\d[\\d,]*(?:\\.\\d+)?)(k)?/gi;
+              var SINGLE_RE = /\\$(\\d[\\d,]*(?:\\.\\d+)?)(k)?(\\+)?\\b/gi;
 
               var SKIP_TAGS = new Set(['SCRIPT','STYLE','NOSCRIPT','CODE','KBD','SAMP','PRE','TEXTAREA','INPUT']);
               function isOptOut(node){
@@ -261,8 +266,23 @@ export default function App({ Component, pageProps }: AppProps) {
               function convertTextNode(node, fx, type){
                 var v = node.nodeValue;
                 if (!v || v.indexOf('$') === -1) return;
-                v = v.replace(RANGE_RE, function(_, a, b){ return fmtCurrency(toNumberUSD(a), fx, type) + '–' + fmtCurrency(toNumberUSD(b), fx, type); });
-                v = v.replace(SINGLE_RE, function(_, num){ return fmtCurrency(toNumberUSD(num), fx, type); });
+
+                // Ranges like $1k–$3k or $1,000–$3,500
+                v = v.replace(RANGE_RE, function(_, a, aK, b, bK){
+                  var aNum = toNumberUSD(a, !!aK);
+                  var bNum = toNumberUSD(b, !!bK);
+                  if (!Number.isFinite(aNum) || !Number.isFinite(bNum)) return _;
+                  return fmtCurrency(aNum, fx, type) + '–' + fmtCurrency(bNum, fx, type);
+                });
+
+                // Singles like $1k+, $1.5k, $750+
+                v = v.replace(SINGLE_RE, function(_, num, k, plus){
+                  var usd = toNumberUSD(num, !!k);
+                  if (!Number.isFinite(usd)) return _;
+                  var out = fmtCurrency(usd, fx, type);
+                  return plus ? out + '+' : out;
+                });
+
                 node.nodeValue = v;
               }
 
@@ -282,17 +302,16 @@ export default function App({ Component, pageProps }: AppProps) {
               }
 
               fetchFx().then(function(fx){
-                function apply(){ 
-                  walkAndConvert(document.body, fx, isUK() ? 'GBP' : 'EUR'); 
-                }
+                var type = isUK() ? 'GBP' : 'EUR';
+                function apply(){ walkAndConvert(document.body, fx, type); }
                 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
                 else apply();
 
                 var obs = new MutationObserver(function(muts){
                   muts.forEach(function(m){
                     if (m.addedNodes) m.addedNodes.forEach(function(node){
-                      if (node.nodeType === 1) walkAndConvert(node, fx, isUK() ? 'GBP' : 'EUR');
-                      else if (node.nodeType === 3 && node.parentElement) walkAndConvert(node.parentElement, fx, isUK() ? 'GBP' : 'EUR');
+                      if (node.nodeType === 1) walkAndConvert(node, fx, type);
+                      else if (node.nodeType === 3 && node.parentElement) walkAndConvert(node.parentElement, fx, type);
                     });
                   });
                 });
