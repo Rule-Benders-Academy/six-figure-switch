@@ -11,7 +11,7 @@ type SwitchSectionProps = {
 const SwitchSection: React.FC<SwitchSectionProps> = ({ className = "" }) => {
   return (
     <section
-      className={`w-full bg-[#ffdc4a] rounded-[80px] text-neutral-950 ${className}`}
+      className={`w-full bg-[#ffdc4a] rounded-[40px] lg:rounded-[80px] text-neutral-950 ${className}`}
       aria-label="Six Figure Switch Overview"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-14 sm:py-16 lg:py-20">
