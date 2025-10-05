@@ -1,7 +1,7 @@
 /* eslint-disable */
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 /** Minimal inline icons */
 const ChevronLeft = () => (
@@ -132,9 +132,9 @@ const LightningIcon = () => (
   </svg>
 );
 
-// New: Bell icon that we can animate
+// Bell icon (bigger) — animated
 const BellIcon = ({ className = "" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" className={`h-5 w-5 ${className}`}>
+  <svg viewBox="0 0 24 24" className={`h-6 w-6 ${className}`}>
     <path
       d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22z"
       fill="currentColor"
@@ -146,23 +146,67 @@ const BellIcon = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
+// Rotating offers (role + rate + details)
+const OFFERS = [
+  {
+    role: "Senior Business Analyst",
+    rate: 900,
+    details: "6-month programme. Start in two weeks.",
+  },
+  {
+    role: "Programme Manager",
+    rate: 1150,
+    details: "12-week transformation. Start next month.",
+  },
+  {
+    role: "Transformation Lead",
+    rate: 1200,
+    details: "10-week engagement. Immediate start.",
+  },
+  {
+    role: "Delivery Lead",
+    rate: 1000,
+    details: "16-week delivery. Start in three weeks.",
+  },
+  {
+    role: "Data Consultant",
+    rate: 950,
+    details: "8-week data sprint. Start in 10 days.",
+  },
+  {
+    role: "Product Manager",
+    rate: 850,
+    details: "12-week scale-up build. Start in two weeks.",
+  },
+];
+
 const FinalCTASection: React.FC = () => {
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    // SLOWER: rotate every 6.5s
+    const id = setInterval(() => {
+      setIdx((i) => (i + 1) % OFFERS.length);
+    }, 6500);
+    return () => clearInterval(id);
+  }, []);
+
+  const offer = OFFERS[idx];
+
   return (
     <section
       className="w-full bg-neutral-50 text-neutral-950"
       aria-label="Email offer preview"
     >
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-        {/* Separated headline */}
         <div className="text-center">
           <h2 className="text-black text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
             90 Days From Now, This Could Be Your Inbox:
           </h2>
         </div>
 
-        {/* Mail app card */}
         <div className="mt-8 overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm">
-          {/* Top toolbar */}
+          {/* Toolbar */}
           <div className="flex items-center justify-between border-b border-neutral-200 px-4 sm:px-6 py-3 bg-neutral-50/60">
             <div className="flex items-center gap-3">
               <button className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-medium text-neutral-700 hover:bg-neutral-100">
@@ -170,15 +214,19 @@ const FinalCTASection: React.FC = () => {
                 Inbox
               </button>
 
-              {/* New: ringing bell with red badge */}
               <div className="relative">
-                <button
-                  className="rounded-lg p-2 hover:bg-neutral-100 text-neutral-800"
+                <div
+                  className="rounded-lg p-2 hover:bg-neutral-100 text-[#ffdc4a]"
                   aria-label="Notifications"
                 >
-                  <BellIcon className="ringing" />
-                </button>
-                <span className="absolute -top-1.5 -right-1.5 grid min-w-[22px] h-[22px] place-items-center rounded-full bg-red-500 px-1.5 text-[10px] font-extrabold leading-none text-white ring-2 ring-white">
+                  {/* Animate the WRAPPER, not the SVG */}
+                  <span className="bell">
+                    <BellIcon className="h-8 w-8 sm:h-8 sm:w-8 bell" />
+                  </span>
+                </div>
+
+                {/* Red numeric badge */}
+                <span className="absolute -top-0.5 -right-1.5 grid min-w-[22px] h-[22px] place-items-center rounded-full bg-red-500 px-1.5 text-[10px] font-extrabold leading-none text-white ring-2 ring-white">
                   10+
                 </span>
               </div>
@@ -216,7 +264,10 @@ const FinalCTASection: React.FC = () => {
               Subject
             </p>
             <h1 className="mt-1 text-xl sm:text-2xl font-bold tracking-tight">
-              Contract Offer — Senior Business Analyst
+              Contract Offer —{" "}
+              <span key={`role-${idx}`} className="swap-anim inline-block">
+                {offer.role}
+              </span>
             </h1>
           </div>
 
@@ -247,7 +298,18 @@ const FinalCTASection: React.FC = () => {
           <div className="px-4 sm:px-6 py-6">
             <blockquote className="rounded-xl bg-neutral-50 px-4 py-4 ring-1 ring-neutral-200 text-neutral-800">
               <p className="text-lg sm:text-xl leading-relaxed">
-                “Offer: £900/day. 6-month programme. Start in two weeks.”
+                “Offer:{" "}
+                <span
+                  key={`rate-${idx}`}
+                  className="swap-anim font-semibold text-neutral-900"
+                >
+                  £{offer.rate.toLocaleString("en-GB")}/day
+                </span>
+                .{" "}
+                <span key={`det-${idx}`} className="swap-anim">
+                  {offer.details}
+                </span>
+                ”
               </p>
             </blockquote>
 
@@ -273,13 +335,12 @@ const FinalCTASection: React.FC = () => {
           </div>
         </div>
 
-        {/* CTA under the mail card */}
+        {/* CTA */}
         <div className="mt-8 text-center">
           <p className="text-base sm:text-lg mb-4">
             The only thing between you and that email is a framework that works.
           </p>
 
-          {/* Yellow brand button */}
           <a
             href="/checkout"
             className="inline-flex w-full sm:w-auto items-center justify-center rounded-xl bg-[#ffdc4a] px-7 py-3 text-base sm:text-lg font-semibold text-neutral-950 shadow-sm transition hover:bg-[#f0cd28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ffdc4a]/60"
@@ -300,42 +361,6 @@ const FinalCTASection: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* ringing animation for the bell */}
-      <style jsx>{`
-        @keyframes ring {
-          0% {
-            transform: rotate(0);
-          }
-          15% {
-            transform: rotate(15deg);
-          }
-          30% {
-            transform: rotate(-12deg);
-          }
-          45% {
-            transform: rotate(10deg);
-          }
-          60% {
-            transform: rotate(-6deg);
-          }
-          75% {
-            transform: rotate(3deg);
-          }
-          100% {
-            transform: rotate(0);
-          }
-        }
-        .ringing {
-          transform-origin: 12px 3px; /* near bell hanger */
-          animation: ring 1.6s ease-in-out infinite;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .ringing {
-            animation: none;
-          }
-        }
-      `}</style>
     </section>
   );
 };
