@@ -84,9 +84,16 @@ function Card({
         {summary}
       </p>
 
-      {/* Video area: 90% width, rounded corners, NO native controls */}
+      {/* Video area: moderate portrait ratio (not too tall) */}
       <div className="group mt-4">
-        <div className="relative mx-auto w-[90%] aspect-video bg-neutral-100 rounded-3xl overflow-hidden transition-all duration-300 ring-1 ring-black/5">
+        <div
+          className="
+            relative mx-auto w-[90%]
+            aspect-[5/4] sm:aspect-[4/3]
+            bg-neutral-100 rounded-3xl overflow-hidden
+            transition-all duration-300 ring-1 ring-black/5
+          "
+        >
           <video
             id={`realstories-video-${index}`}
             ref={(el) => attachRef(index, el)}
@@ -94,8 +101,7 @@ function Card({
             src={videoSrc}
             playsInline
             preload="metadata"
-            // No 'controls' attribute -> hidden
-            onClick={togglePlay} // tap/click video toggles play/pause
+            onClick={togglePlay}
             onPlay={() => {
               setIsPlaying(true);
               onRequestPlay(index);
@@ -110,7 +116,6 @@ function Card({
             }}
           />
 
-          {/* Custom play overlay (only when paused) */}
           {!isPlaying && (
             <button
               type="button"
@@ -124,7 +129,6 @@ function Card({
             </button>
           )}
 
-          {/* Subtle gradient edge */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-neutral-200/40 via-transparent to-transparent" />
         </div>
       </div>
@@ -140,7 +144,6 @@ const RealStories: React.FC = () => {
     videosRef.current[index] = el;
   };
 
-  // Pause others and focus the chosen card
   const onRequestPlay = (index: number) => {
     setActiveIndex(index);
     videosRef.current.forEach((v, i) => {
@@ -148,7 +151,6 @@ const RealStories: React.FC = () => {
     });
   };
 
-  // Clear active if nothing is playing
   const onNotifyPause = () => {
     const anyPlaying = videosRef.current.some(
       (v) => v && !v.paused && !v.ended
@@ -156,7 +158,6 @@ const RealStories: React.FC = () => {
     if (!anyPlaying) setActiveIndex(null);
   };
 
-  // Auto-pause when mostly off-screen
   useEffect(() => {
     if (!("IntersectionObserver" in window)) return;
     const obs = new IntersectionObserver(
@@ -179,7 +180,7 @@ const RealStories: React.FC = () => {
     >
       <div className="w-full px-4 sm:px-6 lg:px-8 py-14 sm:py-16 lg:py-20">
         <header className="text-center">
-          <p className="text-xs font-semibold tracking-wider text-neutral-500">
+          <p className="text-sm font-semibold tracking-wider text-neutral-500">
             REAL STORIES
           </p>
           <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
