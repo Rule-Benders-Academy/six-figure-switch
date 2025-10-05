@@ -3,9 +3,9 @@
 
 import React from "react";
 import product from "../images/product.png";
-import photo2013 from "../images/draft.png";
-import photo2020 from "../images/draft.png";
-import instructorPhoto from "../images/draft.png";
+import photo2013 from "../images/2013.jpeg";
+import photo2020 from "../images/2022.png";
+import instructorPhoto from "../images/instructor.jpg";
 
 type FourthSectionProps = {
   className?: string;
@@ -66,7 +66,8 @@ const FourthSection: React.FC<FourthSectionProps> = ({
               <li className="flex gap-3">
                 <CheckIcon />
                 <span className="text-base sm:text-lg leading-relaxed">
-                  You watch contractors with the same skills invoice 3× more.
+                  You watch contractors with the <strong>same skills</strong>{" "}
+                  invoice 3× more.
                 </span>
               </li>
               <li className="flex gap-3">
@@ -167,20 +168,24 @@ const FourthSection: React.FC<FourthSectionProps> = ({
 
         {/* ====== Block 3: Long Story ====== */}
         <div className="mt-12 lg:mt-14">
-          <div className="rounded-2xl border border-neutral-200 p-6 sm:p-8">
-            <div className="mx-auto max-w-3xl text-left">
+          <div className="rounded-2xl   p-6 sm:p-8">
+            <div className="mx-auto max-w-2xl text-left">
               <p className="text-base sm:text-lg leading-relaxed">
-                Ten years ago I was stuck in the same place as you — permanent
-                roles, capped salaries, and endless HR bands.
+                <strong>
+                  Ten years ago I was stuck in the same place as you{" "}
+                </strong>
+                — permanent roles, capped salaries, and endless HR bands.
               </p>
               <p className="mt-4 text-base sm:text-lg leading-relaxed">
                 I worked late and delivered projects that made millions for my
                 employers, but my payslip never moved.
               </p>
               <p className="mt-4 text-base sm:text-lg leading-relaxed">
-                The hardest part was watching contractors with the same skills
-                leave with £600–£1,000/day. I kept asking myself, what do they
-                know that I don’t?
+                The hardest part was watching contractors with{" "}
+                <strong>the same skills</strong> leave with £600–£1,000/day.
+              </p>
+              <p className="mt-4 text-base sm:text-lg leading-relaxed">
+                I kept asking myself: <i>"What do they know that I don’t?"</i>
               </p>
               <p className="mt-4 text-base sm:text-lg leading-relaxed">
                 My first leap into contracting was £400/day, and even that felt
@@ -189,58 +194,66 @@ const FourthSection: React.FC<FourthSectionProps> = ({
               <p className="mt-4 text-base sm:text-lg leading-relaxed">
                 The turning point came when I learned how to position myself as
                 a consultant, not an employee. That shift took me from £400/day
-                to £800, £1,200… and eventually £1,650/day. It changed my career
-                and my life.
+                to £800, £1,200… and eventually £1,650/day.
+              </p>
+              <p className="mt-4 text-base sm:text-lg leading-relaxed">
+                It completely changed my career - <strong>and my life</strong>.
               </p>
               <p className="mt-4 text-base sm:text-lg leading-relaxed">
                 Looking back, I wish I’d had a clear, step-by-step system to
-                shortcut those wasted years. That’s why today I share the exact
-                process I used so you don’t have to go through the same
-                struggle.
+                shortcut those wasted years.
+              </p>
+              <p className="mt-4 text-base sm:text-lg leading-relaxed font-bold ">
+                That’s why today I share the exact process I used so you don’t
+                have to go through the same struggle.
               </p>
             </div>
           </div>
         </div>
-
-        {/* ====== Block 4: Meet your instructor (ONE COLUMN, IMAGE + TEXT CENTER) ====== */}
         <div className="mt-14 sm:mt-16 lg:mt-20">
-          <div className="grid grid-cols-1 gap-8 items-center justify-items-center">
-            {/* Image centered */}
-            <div className="w-full max-w-md">
-              <div className="mx-auto overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-200 bg-white shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start lg:items-center">
+            {/* Left: Text */}
+            <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
+              <h3 className="text-black text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
+                Meet your instructor
+              </h3>
+              <p className="mt-2 text-2xl sm:text-5xl font-extrabold text-black">
+                WILL RICHARDSON
+              </p>
+
+              <div className="mt-4 space-y-8 text-base sm:text-2xl leading-relaxed text-neutral-700 mx-auto lg:mx-0 max-w-xl text-left">
+                <p>
+                  Over the last 20 years I’ve advised{" "}
+                  <strong>
+                    HM Treasury, the Cabinet Office, and FTSE firms on
+                    programmes worth billions.
+                  </strong>
+                </p>
+                <p>
+                  But the truth is, it started with the same frustration you’re
+                  feeling now:{" "}
+                  <strong>
+                    knowing you’re undervalued, and not knowing how to break
+                    through.
+                  </strong>
+                </p>
+                <p>That’s why I built Six Figure Switch.</p>
+                <p>
+                  It’s the exact system I used to make that jump,{" "}
+                  <strong>laid out step by step so you can do the same.</strong>
+                </p>
+              </div>
+            </div>
+
+            {/* Right: Image + centered buttons */}
+            <div className="w-full mx-auto lg:mx-0 lg:justify-self-end lg:self-center">
+              <div className="mx-auto w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[340px] overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-200 bg-white shadow-sm lg:translate-y-2">
                 <img
                   src={instructorPhoto.src}
                   alt="Will Richardson"
                   className="w-full h-auto object-cover"
                   loading="lazy"
                 />
-              </div>
-            </div>
-
-            {/* Text centered with buttons centered */}
-            <div className="max-w-2xl text-center">
-              <h3 className="text-black text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
-                Meet your instructor
-              </h3>
-              <p className="mt-2 text-lg sm:text-xl font-extrabold text-black">
-                WILL RICHARDSON
-              </p>
-
-              <div className="mt-4 space-y-4 text-base sm:text-lg leading-relaxed text-neutral-700 text-left mx-auto max-w-xl">
-                <p>
-                  Over the last 20 years I’ve advised HM Treasury, the Cabinet
-                  Office, and FTSE firms on programmes worth billions.
-                </p>
-                <p>
-                  But the truth is, it started with the same frustration you’re
-                  feeling now: knowing you’re undervalued, and not knowing how
-                  to break through.
-                </p>
-                <p>That’s why I built Six Figure Switch.</p>
-                <p>
-                  It’s the exact system I used to make that jump, laid out step
-                  by step so you can do the same.
-                </p>
               </div>
 
               <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -266,7 +279,6 @@ const FourthSection: React.FC<FourthSectionProps> = ({
             </div>
           </div>
         </div>
-        {/* ====== End Block 4 ====== */}
       </div>
     </section>
   );

@@ -9,15 +9,15 @@ import StudentReviewsMarquee from "./components/reviews";
 import TestimonialVideo from "./components/TestimonialVideo"; 
 import BulletTexts from "./components/BulletTexts";
 import EnrollNowSection from './components/EnrollNowSection';
-import ClientsTrusted from "./components/ClientsTrusted";
-import IncomeProofSection from "./components/IncomeProofSection";
 import FAQSection from "./components/FAQSection";
 import StillScepticalSection from "./components/StillScepticalSection";
 import FinalCTASection from "./components/FinalCTASection";
+import ClientsTrusted from "./components/ClientsTrusted";
+import IncomeProofSection from "./components/IncomeProofSection";
 
 export default function HomePage() {
   return (
-    <main>
+    <main className="bg-gradient-to-b from-white via-white to-neutral-50">
       <Hero />
       <OutcomesSection />
       <TrustedCompanies />

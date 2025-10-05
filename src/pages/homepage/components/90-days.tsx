@@ -24,7 +24,7 @@ const NinetyDayPlanSection: React.FC = () => {
             <div className="aspect-video">
               <iframe
                 className="w-full h-full"
-                src="https://www.youtube.com/embed/xxxxxxxxxxx"
+                src="https://player.vimeo.com/video/1113012539?muted=1&loop=1&playsinline=1&autopause=0"
                 title="Program breakdown video"
                 loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

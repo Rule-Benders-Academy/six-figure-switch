@@ -9,12 +9,12 @@ const BulletTexts: React.FC = () => {
       className="w-full bg-white text-neutral-900"
       aria-label="What you'll master"
     >
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12 sm:py-14">
-        <h2 className="text-center text-4xl font-semibold tracking-wider text-neutral-500">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 sm:py-14">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-center">
           HERE’S JUST A FRACTION OF WHAT YOU’LL MASTER INSIDE SIX FIGURE SWITCH
         </h2>
 
-        <ul className="mt-8 list-disc list-outside pl-6 space-y-4 text-base sm:text-lg leading-relaxed marker:text-yellow-400">
+        <ul className="mt-8 list-disc list-outside pl-6 space-y-4 text-base sm:text-2xl leading-relaxed marker:text-yellow-400">
           <li>
             How to reposition your CV & LinkedIn so you look like a consultant —
             not an employee.

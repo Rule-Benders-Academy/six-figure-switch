@@ -12,8 +12,8 @@ const ClientsTrusted: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         {/* Title: always black + big */}
-        <h2 className="text-center text-black text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
-          THIS SYSTEM HELPED ME LAND THOSE CLIENTS:
+        <h2 className="text-center text-black text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight">
+          THIS SYSTEM HELPED ME LAND <br/> THOSE CLIENTS:
         </h2>
 
         {/* Full-bleed carousel (100% of viewport width) */}

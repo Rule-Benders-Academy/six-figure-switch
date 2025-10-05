@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import proofImage from "../images/draft.png";
+import proofImage from "../images/mac.png";
 
 const NoIcon = () => (
   <svg viewBox="0 0 20 20" aria-hidden="true" className="h-5 w-5 text-red-500 mt-0.5">
@@ -20,12 +20,12 @@ const IncomeProofSection: React.FC = () => {
           <h2 className="text-black text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
             AND MADE ME £10,000,000+ IN PERSONAL INCOME IN OVER 10 YEARS
           </h2>
-          <p className="mt-3 text-base sm:text-lg text-neutral-600">here a proof</p>
+          <p className="mt-3 text-base sm:text-xl text-neutral-600">here a proof!</p>
         </div>
 
         {/* Image centered */}
-        <div className="mt-8 mx-auto overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm">
-          <div className="h-1 w-full bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-300" />
+        <div className="mt-8 mx-auto overflow-hidden rounded-3xl">
+          <div className="h-1 w-full" />
           <img
             src={proofImage.src}
             alt="Earnings proof"
@@ -36,23 +36,23 @@ const IncomeProofSection: React.FC = () => {
 
         {/* LIST: block is centered, text is left-aligned */}
         <div className="mt-10 mx-auto max-w-3xl">
-          <p className="text-sm font-semibold tracking-wider text-neutral-700 text-left">
+          <p className="text-sm sm:text-2xl font-semibold tracking-wider text-neutral-700 text-left">
             REMEMBER THERE’S…
           </p>
           <ul className="mt-4 space-y-3 text-left">
-            <li className="flex items-start gap-3 text-base sm:text-lg leading-relaxed text-neutral-800">
+            <li className="flex items-start gap-3 text-base sm:text-xl leading-relaxed text-neutral-800">
               <NoIcon />
               <span>No need to quit your job or industry and start from scratch</span>
             </li>
-            <li className="flex items-start gap-3 text-base sm:text-lg leading-relaxed text-neutral-800">
+            <li className="flex items-start gap-3 text-base sm:text-xl leading-relaxed text-neutral-800">
               <NoIcon />
               <span>No need to build a personal brand, grow followers, or launch a website</span>
             </li>
-            <li className="flex items-start gap-3 text-base sm:text-lg leading-relaxed text-neutral-800">
+            <li className="flex items-start gap-3 text-base sm:text-xl leading-relaxed text-neutral-800">
               <NoIcon />
               <span>No endless CV drops, recruiter chasing, or begging for roles</span>
             </li>
-            <li className="flex items-start gap-3 text-base sm:text-lg leading-relaxed text-neutral-800">
+            <li className="flex items-start gap-3 text-base sm:text-xl leading-relaxed text-neutral-800">
               <NoIcon />
               <span>No risky startup or “hustle game”</span>
             </li>
