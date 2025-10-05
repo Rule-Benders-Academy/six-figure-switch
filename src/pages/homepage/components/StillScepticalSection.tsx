@@ -140,9 +140,9 @@ const MarketThreePoints: React.FC = () => {
         <div className="mt-10 text-center">
           <a
             href="/checkout"
-            className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-6 py-3 text-base sm:text-lg font-semibold text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-400"
+            className="inline-flex items-center justify-center rounded-xl bg-[#ffdc4a] px-6 py-3 text-base sm:text-lg font-semibold text-black shadow-sm hover:bg-[#f0cd28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ffdc4a]/50 transition"
           >
-            Make the switch
+            Start Your 90-Day Plan for £520
           </a>
         </div>
       </div>

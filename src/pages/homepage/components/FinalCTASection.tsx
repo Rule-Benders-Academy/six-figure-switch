@@ -132,6 +132,20 @@ const LightningIcon = () => (
   </svg>
 );
 
+// New: Bell icon that we can animate
+const BellIcon = ({ className = "" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={`h-5 w-5 ${className}`}>
+    <path
+      d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22z"
+      fill="currentColor"
+    />
+    <path
+      d="M18 16v-5a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
 const FinalCTASection: React.FC = () => {
   return (
     <section
@@ -155,10 +169,25 @@ const FinalCTASection: React.FC = () => {
                 <ChevronLeft />
                 Inbox
               </button>
+
+              {/* New: ringing bell with red badge */}
+              <div className="relative">
+                <button
+                  className="rounded-lg p-2 hover:bg-neutral-100 text-neutral-800"
+                  aria-label="Notifications"
+                >
+                  <BellIcon className="ringing" />
+                </button>
+                <span className="absolute -top-1.5 -right-1.5 grid min-w-[22px] h-[22px] place-items-center rounded-full bg-red-500 px-1.5 text-[10px] font-extrabold leading-none text-white ring-2 ring-white">
+                  10+
+                </span>
+              </div>
+
               <span className="hidden sm:inline-block text-xs text-neutral-500">
-                • 1 new
+                • 10 new
               </span>
             </div>
+
             <div className="flex items-center gap-2 text-neutral-700">
               <button
                 className="rounded-lg p-2 hover:bg-neutral-100"
@@ -249,9 +278,11 @@ const FinalCTASection: React.FC = () => {
           <p className="text-base sm:text-lg mb-4">
             The only thing between you and that email is a framework that works.
           </p>
+
+          {/* Yellow brand button */}
           <a
             href="/checkout"
-            className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-7 py-3 text-base sm:text-lg font-semibold text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-400"
+            className="inline-flex w-full sm:w-auto items-center justify-center rounded-xl bg-[#ffdc4a] px-7 py-3 text-base sm:text-lg font-semibold text-neutral-950 shadow-sm transition hover:bg-[#f0cd28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ffdc4a]/60"
           >
             Join Six Figure Switch Now
           </a>
@@ -269,6 +300,42 @@ const FinalCTASection: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* ringing animation for the bell */}
+      <style jsx>{`
+        @keyframes ring {
+          0% {
+            transform: rotate(0);
+          }
+          15% {
+            transform: rotate(15deg);
+          }
+          30% {
+            transform: rotate(-12deg);
+          }
+          45% {
+            transform: rotate(10deg);
+          }
+          60% {
+            transform: rotate(-6deg);
+          }
+          75% {
+            transform: rotate(3deg);
+          }
+          100% {
+            transform: rotate(0);
+          }
+        }
+        .ringing {
+          transform-origin: 12px 3px; /* near bell hanger */
+          animation: ring 1.6s ease-in-out infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ringing {
+            animation: none;
+          }
+        }
+      `}</style>
     </section>
   );
 };
