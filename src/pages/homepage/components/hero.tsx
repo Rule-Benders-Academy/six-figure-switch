@@ -4,53 +4,69 @@
 import React from "react";
 
 type HeroProps = {
-  videoSrc?: string; // fallback mp4 if needed
-  posterSrc?: string;
-  vimeoId?: string; // add Vimeo video id
+  vimeoId?: string;
 };
 
-const Hero: React.FC<HeroProps> = ({
-  videoSrc = "/videos/course-hero.mp4",
-  posterSrc = "/images/course-hero-poster.jpg",
-  vimeoId = "1113015239", // default to your provided id
-}) => {
+const Hero: React.FC<HeroProps> = ({ vimeoId = "1113015239" }) => {
   return (
     <section
-      className="bg-white text-neutral-950 w-full"
+      className="w-full bg-white text-neutral-950"
       aria-label="Course Hero"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
-        {/* Headline */}
-        <h1 className="font-bold tracking-tight uppercase leading-tight text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-center">
-          BECOME AN £600–£1,200/DAY CONSULTANT IN 90 DAYS - USING THE SKILLS YOU
-          ALREADY HAVE.
-        </h1>
+      {/* Full-viewport; centers content; scales nicely on mobile/tablet/sm */}
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 min-h-[100svh] sm:min-h-screen flex items-center">
+        <div className="w-full">
+          {/* Headline */}
+          <h1
+            className="mx-auto max-w-4xl text-center font-extrabold tracking-tight uppercase leading-tight
+                         text-[clamp(24px,6vw,42px)] sm:text-[clamp(28px,5vw,48px)] md:text-[clamp(32px,4vw,56px)] mt-6"
+          >
+            BECOME AN £600–£1,200/DAY CONSULTANT IN 90 DAYS — USING THE SKILLS
+            YOU ALREADY HAVE.
+          </h1>
 
-        {/* Subtitle */}
-        <p className="mt-4 sm:mt-5 text-center text-base sm:text-lg lg:text-xl text-neutral-700 max-w-3xl mx-auto">
-          No MBA. No “personal brand”. No quitting your industry. Just a proven
-          UK-specific system.
-        </p>
+          {/* Subtitle */}
+          <p className="mt-3 sm:mt-4 mx-auto max-w-3xl text-center text-[15px] sm:text-lg md:text-xl text-neutral-700">
+            No MBA. No “personal brand”. No quitting your industry. Just a
+            proven UK-specific system.
+          </p>
 
-        {/* VSL1 Vimeo Player */}
-        <div className="mt-6 sm:mt-8">
-          <div className="relative mx-auto max-w-4xl rounded-2xl sm:rounded-3xl border border-neutral-200 shadow-sm overflow-hidden bg-white">
-            <div className="aspect-video">
-              <iframe
-                src={`https://player.vimeo.com/video/${vimeoId}?muted=1&loop=1&playsinline=1&autopause=0`}
-                className="h-full w-full"
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-            <div className="px-4 sm:px-6 lg:px-8 py-4">
-              <p className="text-center text-sm sm:text-base lg:text-lg font-semibold leading-snug">
-                WE TURN YOUR BA/PM/TECH/CHANGE EXPERIENCE INTO A PACKAGED
-                CONSULTING OFFER, THEN SHOW YOU HOW TO LAND YOUR FIRST CONTRACT
-                (AND RAISE YOUR RATE).
-              </p>
+          {/* Video: keeps everything fitting on 1 screen on desktop; fully fluid on mobile/tablet */}
+          <div className="mt-5 sm:mt-7">
+            <div
+              className="
+                relative mx-auto w-full
+                max-w-[92vw] sm:max-w-[640px] md:max-w-[760px] lg:max-w-[920px]
+                rounded-xl sm:rounded-2xl border border-neutral-200 shadow-sm overflow-hidden bg-white
+              "
+            >
+              <div className="aspect-[16/9]">
+                <iframe
+                  src={`https://player.vimeo.com/video/${vimeoId}?autoplay=0&loop=1&playsinline=1&autopause=0`}
+                  className="h-full w-full"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  loading="lazy"
+                  allowFullScreen
+                  title="Six Figure Switch — overview"
+                />
+              </div>
             </div>
           </div>
+
+          {/* Supporting lines (slightly smaller on phones; strong but not overwhelming on tablet/sm) */}
+          <div className="px-4 sm:px-6 lg:px-8 py-3 mx-auto text-center">
+            <p className="mx-auto max-w-2xl text-lg sm:text-xl md:text-2xl font-semibold leading-snug mt-4">
+              WE TURN YOUR BA/PM/TECH/CHANGE EXPERIENCE INTO A PACKAGED
+              CONSULTING OFFER,
+            </p>
+            <p className="mx-auto max-w-2xl text-lg sm:text-xl md:text-2xl font-semibold leading-snug mt-3 sm:mt-4">
+              THEN SHOW YOU HOW TO LAND YOUR FIRST CONTRACT (AND RAISE YOUR
+              RATE).
+            </p>
+          </div>
+
+          {/* Small spacer to avoid crowding bottom safe area on mobile */}
+          <div className="h-3 sm:h-5" aria-hidden="true" />
         </div>
       </div>
     </section>

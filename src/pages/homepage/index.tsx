@@ -4,6 +4,16 @@ import OutcomesSection from "./components/secondsection";
 import TrustedCompanies from "./components/trustedcompanies";
 import FourthSection from "./components/fourthsection";
 import InstructorSection from "./components/fifthsection";
+import NinetyDayPlanSection from "./components/90-days"; 
+import StudentReviewsMarquee from "./components/reviews"; 
+import TestimonialVideo from "./components/TestimonialVideo"; 
+import BulletTexts from "./components/BulletTexts";
+import EnrollNowSection from './components/EnrollNowSection';
+import ClientsTrusted from "./components/ClientsTrusted";
+import IncomeProofSection from "./components/IncomeProofSection";
+import FAQSection from "./components/FAQSection";
+import StillScepticalSection from "./components/StillScepticalSection";
+import FinalCTASection from "./components/FinalCTASection";
 
 export default function HomePage() {
   return (
@@ -12,7 +22,17 @@ export default function HomePage() {
       <OutcomesSection />
       <TrustedCompanies />
       <FourthSection />
-      <InstructorSection/>
+      <InstructorSection />
+      <NinetyDayPlanSection />
+      <StudentReviewsMarquee />
+      <BulletTexts />
+      <TestimonialVideo />
+      <EnrollNowSection />
+      <ClientsTrusted />
+      <IncomeProofSection />
+      <FAQSection />
+      <StillScepticalSection />
+      <FinalCTASection />
     </main>
   );
 }

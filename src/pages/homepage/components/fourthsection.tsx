@@ -2,12 +2,15 @@
 "use client";
 
 import React from "react";
-import draftImage from "../images/draft.png"; // big image
-import photo2013 from "../images/draft.png"; // replace with your 2013 image
-import photo2020 from "../images/draft.png"; // replace with your 2020 image
+import product from "../images/product.png";
+import photo2013 from "../images/draft.png";
+import photo2020 from "../images/draft.png";
+import instructorPhoto from "../images/draft.png";
 
 type FourthSectionProps = {
   className?: string;
+  linkedinHref?: string;
+  cvHref?: string;
 };
 
 const CheckIcon = () => (
@@ -31,25 +34,28 @@ const Badge = ({ children }: { children: React.ReactNode }) => (
   </span>
 );
 
-const FourthSection: React.FC<FourthSectionProps> = ({ className = "" }) => {
+const FourthSection: React.FC<FourthSectionProps> = ({
+  className = "",
+  linkedinHref = "#",
+  cvHref = "#",
+}) => {
   return (
     <section
       className={`relative w-full bg-gradient-to-b from-white via-white to-neutral-50 text-neutral-950 ${className}`}
       aria-label="Fit and Founder Story"
     >
-      {/* subtle divider */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-neutral-100/60 to-transparent" />
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-14 sm:py-16 lg:py-20">
-        {/* ====== Block 1: Fit + Bullets + Big Image ====== */}
-        <div className="grid grid-cols-1  gap-10 lg:gap-14 items-center">
-          {/* Left: Title + Bullets + Subtext Card */}
-          <div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
+        {/* ====== Block 1: Fit + Bullets + Image (ONE COLUMN, CENTERED) ====== */}
+        <div className="grid grid-cols-1 gap-10 items-center justify-items-center">
+          {/* Copy */}
+          <div className="max-w-2xl text-center">
+            <h2 className="text-black text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
               IS THIS YOU?
             </h2>
 
-            <ul className="mt-6 sm:mt-7 space-y-4 sm:space-y-5">
+            <ul className="mt-6 sm:mt-7 space-y-4 sm:space-y-5 text-left mx-auto max-w-xl">
               <li className="flex gap-3">
                 <CheckIcon />
                 <span className="text-base sm:text-lg leading-relaxed">
@@ -79,21 +85,25 @@ const FourthSection: React.FC<FourthSectionProps> = ({ className = "" }) => {
               </li>
             </ul>
 
-            <div className="mt-8 sm:mt-10 rounded-2xl  border-neutral-200 bg-white p-5 sm:p-6">
-              <h3 className="text-xl sm:text-2xl font-bold">If this is you,</h3>
-              <p className="mt-3 text-base sm:text-lg text-neutral-700 leading-relaxed">
+            <div className="mt-8 sm:mt-10 rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 mx-auto max-w-xl">
+              <h3 className="text-xl sm:text-4xl font-extrabold text-black">
+                If this is you,
+              </h3>
+              <p className="mt-3 text-base sm:text-2xl text-neutral-700 leading-relaxed">
                 Six Figure Switch turns your current role into a consulting
-                offer and helps you land your first £600–£1,200/day contract in
-                90 days.
+                offer and{" "}
+                <strong>
+                  helps you land your first £600–£1,200/day contract in 90 days.
+                </strong>
               </p>
             </div>
           </div>
 
-          {/* Right: Big Image Card */}
-          <div className="lg:pl-4">
-            <div className="overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-200 bg-white shadow-sm">
+          {/* Image (CENTERED) */}
+          <div className="w-full">
+            <div className="mx-auto max-w-4xl overflow-hidden rounded-2xl sm:rounded-3xl">
               <img
-                src={draftImage.src}
+                src={product.src}
                 alt="Program preview"
                 className="w-full h-auto object-cover"
                 loading="lazy"
@@ -104,13 +114,13 @@ const FourthSection: React.FC<FourthSectionProps> = ({ className = "" }) => {
 
         {/* ====== Block 2: I've Been Here, Too ====== */}
         <div className="mt-14 sm:mt-16 lg:mt-20">
-          <h3 className="text-center text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
+          <h3 className="text-center text-black text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
             I&apos;VE BEEN HERE, TOO
           </h3>
 
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 justify-items-center">
             {/* 2013 card */}
-            <figure className="group relative rounded-2xl overflow-hidden border border-neutral-200 shadow-sm bg-white">
+            <figure className="w-full max-w-md group relative rounded-2xl overflow-hidden border border-neutral-200 shadow-sm bg-white">
               <img
                 src={photo2013.src}
                 alt="2013 cold calling"
@@ -120,7 +130,7 @@ const FourthSection: React.FC<FourthSectionProps> = ({ className = "" }) => {
               <div className="absolute left-4 top-4">
                 <Badge>2013</Badge>
               </div>
-              <figcaption className="px-4 sm:px-6 py-4">
+              <figcaption className="px-4 sm:px-6 py-4 text-center">
                 <div className="text-base font-semibold">
                   2013: Cold calling and chasing roles that never paid what they
                   should.
@@ -132,7 +142,7 @@ const FourthSection: React.FC<FourthSectionProps> = ({ className = "" }) => {
             </figure>
 
             {/* 2020 card */}
-            <figure className="group relative rounded-2xl overflow-hidden border border-neutral-200 shadow-sm bg-white">
+            <figure className="w-full max-w-md group relative rounded-2xl overflow-hidden border border-neutral-200 shadow-sm bg-white">
               <img
                 src={photo2020.src}
                 alt="2020 consultant at £1650/day"
@@ -142,7 +152,7 @@ const FourthSection: React.FC<FourthSectionProps> = ({ className = "" }) => {
               <div className="absolute left-4 top-4">
                 <Badge>2020</Badge>
               </div>
-              <figcaption className="px-4 sm:px-6 py-4">
+              <figcaption className="px-4 sm:px-6 py-4 text-center">
                 <div className="text-base font-semibold">
                   2020: Making £1,650/day as a positioned consultant.
                 </div>
@@ -157,8 +167,8 @@ const FourthSection: React.FC<FourthSectionProps> = ({ className = "" }) => {
 
         {/* ====== Block 3: Long Story ====== */}
         <div className="mt-12 lg:mt-14">
-          <div className="rounded-2xl  border-neutral-200  p-6 sm:p-8 ">
-            <div className="mx-auto max-w-3xl">
+          <div className="rounded-2xl border border-neutral-200 p-6 sm:p-8">
+            <div className="mx-auto max-w-3xl text-left">
               <p className="text-base sm:text-lg leading-relaxed">
                 Ten years ago I was stuck in the same place as you — permanent
                 roles, capped salaries, and endless HR bands.
@@ -173,7 +183,7 @@ const FourthSection: React.FC<FourthSectionProps> = ({ className = "" }) => {
                 know that I don’t?
               </p>
               <p className="mt-4 text-base sm:text-lg leading-relaxed">
-                My first leap into contracting was £400/day — and even that felt
+                My first leap into contracting was £400/day, and even that felt
                 like freedom. Soon I realised I was still undervaluing myself.
               </p>
               <p className="mt-4 text-base sm:text-lg leading-relaxed">
@@ -185,12 +195,78 @@ const FourthSection: React.FC<FourthSectionProps> = ({ className = "" }) => {
               <p className="mt-4 text-base sm:text-lg leading-relaxed">
                 Looking back, I wish I’d had a clear, step-by-step system to
                 shortcut those wasted years. That’s why today I share the exact
-                process I used — so you don’t have to go through the same
+                process I used so you don’t have to go through the same
                 struggle.
               </p>
             </div>
           </div>
         </div>
+
+        {/* ====== Block 4: Meet your instructor (ONE COLUMN, IMAGE + TEXT CENTER) ====== */}
+        <div className="mt-14 sm:mt-16 lg:mt-20">
+          <div className="grid grid-cols-1 gap-8 items-center justify-items-center">
+            {/* Image centered */}
+            <div className="w-full max-w-md">
+              <div className="mx-auto overflow-hidden rounded-2xl sm:rounded-3xl border border-neutral-200 bg-white shadow-sm">
+                <img
+                  src={instructorPhoto.src}
+                  alt="Will Richardson"
+                  className="w-full h-auto object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            {/* Text centered with buttons centered */}
+            <div className="max-w-2xl text-center">
+              <h3 className="text-black text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
+                Meet your instructor
+              </h3>
+              <p className="mt-2 text-lg sm:text-xl font-extrabold text-black">
+                WILL RICHARDSON
+              </p>
+
+              <div className="mt-4 space-y-4 text-base sm:text-lg leading-relaxed text-neutral-700 text-left mx-auto max-w-xl">
+                <p>
+                  Over the last 20 years I’ve advised HM Treasury, the Cabinet
+                  Office, and FTSE firms on programmes worth billions.
+                </p>
+                <p>
+                  But the truth is, it started with the same frustration you’re
+                  feeling now: knowing you’re undervalued, and not knowing how
+                  to break through.
+                </p>
+                <p>That’s why I built Six Figure Switch.</p>
+                <p>
+                  It’s the exact system I used to make that jump, laid out step
+                  by step so you can do the same.
+                </p>
+              </div>
+
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <a
+                  href={linkedinHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-900 shadow-sm hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-400"
+                  aria-label="View LinkedIn profile"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href={cvHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-400"
+                  aria-label="Download CV"
+                >
+                  Download CV
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* ====== End Block 4 ====== */}
       </div>
     </section>
   );
