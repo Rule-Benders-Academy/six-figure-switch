@@ -50,39 +50,33 @@ const FourthSection: React.FC<FourthSectionProps> = ({
         {/* ====== Block 1: Fit + Bullets + Image (ONE COLUMN, CENTERED) ====== */}
         <div className="grid grid-cols-1 gap-10 items-center justify-items-center">
           {/* Copy */}
-          <div className="max-w-2xl text-center">
+          <div className="max-w-xl text-center">
             <h2 className="text-black text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
               IS THIS YOU?
             </h2>
 
-            <ul className="mt-6 sm:mt-7 space-y-4 sm:space-y-5 text-left mx-auto max-w-xl">
-              <li className="flex gap-3">
-                <CheckIcon />
-                <span className="text-base sm:text-lg leading-relaxed">
-                  You’ve done BA, PM, Tech, or Change work, but perm bands cap
-                  you at £500–£800/day.
-                </span>
+            <ul className="mt-10 space-y-6 text-left mx-auto max-w-2xl list-disc pl-8 marker:text-[#ffdc4a]">
+              <li className="text-xl sm:text-3xl leading-relaxed">
+                You’ve done <strong>BA / PM / Tech / Change</strong> work, but{" "}
+                <strong>perm bands cap you at £500–£800/day</strong>.
               </li>
-              <li className="flex gap-3">
-                <CheckIcon />
-                <span className="text-base sm:text-lg leading-relaxed">
-                  You watch contractors with the <strong>same skills</strong>{" "}
-                  invoice 3× more.
-                </span>
+
+              <li className="text-xl sm:text-3xl leading-relaxed">
+                You watch contractors with the <strong>same skills</strong>{" "}
+                invoice <strong>3× more</strong>.
               </li>
-              <li className="flex gap-3">
-                <CheckIcon />
-                <span className="text-base sm:text-lg leading-relaxed">
-                  Job boards aren’t working. You’re undervalued, not
-                  under-skilled.
-                </span>
+
+              <li className="text-xl sm:text-3xl leading-relaxed">
+                Job boards aren’t working. You’re <strong>undervalued</strong>,
+                not <strong>under-skilled</strong>.
               </li>
-              <li className="flex gap-3">
-                <CheckIcon />
-                <span className="text-base sm:text-lg leading-relaxed">
-                  You want freedom to choose projects and set your rate without
-                  gambling on a startup.
-                </span>
+
+              <li className="text-xl sm:text-3xl leading-relaxed">
+                You want{" "}
+                <span className="bg-[#ffdc4a] text-black font-semibold px-1 rounded-sm">
+                  freedom to choose projects & set your rate
+                </span>{" "}
+                without gambling on a startup.
               </li>
             </ul>
 
@@ -114,56 +108,121 @@ const FourthSection: React.FC<FourthSectionProps> = ({
         </div>
 
         {/* ====== Block 2: I've Been Here, Too ====== */}
-        <div className="mt-14 sm:mt-16 lg:mt-20">
-          <h3 className="text-center text-black text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
+        <div className="mt-20 sm:mt-24 lg:mt-28 relative">
+          <h3 className="text-center text-black text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
             I&apos;VE BEEN HERE, TOO
           </h3>
 
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 justify-items-center">
-            {/* 2013 card */}
-            <figure className="w-full max-w-md group relative rounded-2xl overflow-hidden border border-neutral-200 shadow-sm bg-white">
-              <img
-                src={photo2013.src}
-                alt="2013 cold calling"
-                className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                loading="lazy"
+          {/* Connector line + arrow on md+ */}
+          <div className="hidden md:block absolute left-1/2 top-[56%] -translate-x-1/2 -translate-y-1/2 w-[62%] h-[2px] bg-gradient-to-r from-[#ffdc4a]/20 via-[#ffdc4a] to-[#ffdc4a]/20"></div>
+          <div className="hidden md:flex absolute left-1/2 top-[56%] -translate-x-1/2 -translate-y-1/2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-10 w-10 text-[#ffdc4a]"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M3 12h18m0 0l-5-5m5 5l-5 5"
               />
-              <div className="absolute left-4 top-4">
-                <Badge>2013</Badge>
+            </svg>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 justify-items-center relative z-10">
+            {/* 2013 card */}
+            <figure className="group relative w-full max-w-[300px] sm:max-w-[340px] rounded-3xl overflow-hidden border border-neutral-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
+              <div className="relative">
+                <img
+                  src={photo2013.src}
+                  alt="2013 cold calling"
+                  className="w-full h-72 sm:h-80 object-cover will-change-transform transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                  loading="lazy"
+                />
+                {/* Readable year badge */}
+                <div className="absolute left-4 top-4">
+                  <span
+                    className="inline-block bg-[#ffdc4a] text-black text-base sm:text-lg font-extrabold tracking-wide px-3 py-1 rounded-md ring-1 ring-black/10 shadow-[0_2px_6px_rgba(0,0,0,0.15)]"
+                    aria-label="Year 2013"
+                  >
+                    2013
+                  </span>
+                </div>
               </div>
-              <figcaption className="px-4 sm:px-6 py-4 text-center">
-                <div className="text-base font-semibold">
-                  2013: Cold calling and chasing roles that never paid what they
+              <figcaption className="px-5 py-5 text-center">
+                <div className="text-base sm:text-lg font-semibold text-neutral-900">
+                  Cold calling and chasing roles that never paid what they
                   should.
                 </div>
-                <p className="mt-1 text-sm text-neutral-600">
-                  Early days of contracting hopes with permanent salary limits.
+                <p className="mt-2 text-sm sm:text-base text-neutral-600">
+                  Early days of contracting dreams with permanent salary limits.
                 </p>
               </figcaption>
+
+              {/* Subtle lift on hover */}
+              <div className="absolute inset-0 pointer-events-none transition-transform duration-300 ease-out group-hover:-translate-y-0.5" />
             </figure>
 
+            {/* Mobile arrow between cards */}
+            <div className="md:hidden -mt-4 -mb-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 text-[#ffdc4a] mx-auto"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 12h12m0 0l-5-5m5 5l-5 5"
+                />
+              </svg>
+            </div>
+
             {/* 2020 card */}
-            <figure className="w-full max-w-md group relative rounded-2xl overflow-hidden border border-neutral-200 shadow-sm bg-white">
-              <img
-                src={photo2020.src}
-                alt="2020 consultant at £1650/day"
-                className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                loading="lazy"
-              />
-              <div className="absolute left-4 top-4">
-                <Badge>2020</Badge>
-              </div>
-              <figcaption className="px-4 sm:px-6 py-4 text-center">
-                <div className="text-base font-semibold">
-                  2020: Making £1,650/day as a positioned consultant.
+            <figure className="group relative w-full max-w-[300px] sm:max-w-[340px] rounded-3xl overflow-hidden border border-neutral-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
+              <div className="relative">
+                <img
+                  src={photo2020.src}
+                  alt="2020 consultant at £1650/day"
+                  className="w-full h-72 sm:h-80 object-cover will-change-transform transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                  loading="lazy"
+                />
+                {/* Readable year badge */}
+                <div className="absolute left-4 top-4">
+                  <span
+                    className="inline-block bg-[#ffdc4a] text-black text-base sm:text-lg font-extrabold tracking-wide px-3 py-1 rounded-md ring-1 ring-black/10 shadow-[0_2px_6px_rgba(0,0,0,0.15)]"
+                    aria-label="Year 2020"
+                  >
+                    2020
+                  </span>
                 </div>
-                <p className="mt-1 text-sm text-neutral-600">
+              </div>
+              <figcaption className="px-5 py-5 text-center">
+                <div className="text-base sm:text-lg font-semibold text-neutral-900">
+                  Making £1,650/day as a positioned consultant.
+                </div>
+                <p className="mt-2 text-sm sm:text-base text-neutral-600">
                   Clear positioning, strong offer, and a repeatable way to win
                   contracts.
                 </p>
               </figcaption>
+
+              {/* Subtle lift on hover */}
+              <div className="absolute inset-0 pointer-events-none transition-transform duration-300 ease-out group-hover:-translate-y-0.5" />
             </figure>
           </div>
+
+          {/* Micro copy hint below, optional */}
+          <p className="mt-6 text-center text-sm text-neutral-500">
+            From chasing roles to choosing clients. The right positioning
+            changes everything.
+          </p>
         </div>
 
         {/* ====== Block 3: Long Story ====== */}
