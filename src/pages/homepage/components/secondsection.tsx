@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import outcomesHero from "../images/product.png";
+import outcomesHero from "../images/product-hero.png";
 
 type OutcomesSectionProps = {
   imageAlt?: string;

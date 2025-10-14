@@ -2,8 +2,7 @@
 "use client";
 
 import React from "react";
-import draftImage from "../images/product2.jpg"; // replace with real illustration/photo
-
+import draftImage from "../images/product.png";
 type SwitchSectionProps = {
   className?: string;
 };
@@ -16,12 +15,12 @@ const SwitchSection: React.FC<SwitchSectionProps> = ({ className = "" }) => {
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-14 sm:py-16 lg:py-20">
         {/* Title */}
-        <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
+        <h2 className="text-center text-2xl sm:text-2xl lg:text-4xl font-bold tracking-tight">
           What Six Figure Switch Does For You
         </h2>
 
         {/* Sub Title */}
-        <p className="mt-4 text-center text-lg sm:text-6xl font-semibold text-neutral-800 max-w-3xl mx-auto leading-relaxed sm:leading-[1.15]">
+        <p className="mt-4 text-center text-lg sm:text-6xl font-extrabold max-w-3xl mx-auto leading-relaxed sm:leading-[1.15]">
           WE PRODUCTISE YOUR SKILLS INTO A SIMPLE CONSULTING OFFER AND HELP YOU
           SELL IT.
         </p>
