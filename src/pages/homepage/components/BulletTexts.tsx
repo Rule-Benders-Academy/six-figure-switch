@@ -9,7 +9,7 @@ const BulletTexts: React.FC = () => {
       className="w-full bg-white text-neutral-900"
       aria-label="What you'll master"
     >
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 sm:py-14">
+      <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-12 sm:py-14">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-center">
           HERE’S JUST A FRACTION OF WHAT YOU’LL MASTER INSIDE SIX FIGURE SWITCH
         </h2>

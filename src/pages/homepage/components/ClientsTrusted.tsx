@@ -10,7 +10,7 @@ const ClientsTrusted: React.FC = () => {
       className="w-full bg-white text-neutral-900"
       aria-label="Clients landed with this system"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 ">
         {/* Title: always black + big */}
         <h2 className="text-center text-black text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight">
           THIS SYSTEM HELPED ME LAND <br/> THOSE CLIENTS:

@@ -4,16 +4,6 @@
 import React, { useState } from "react";
 import enrollImage from "../images/product3.jpg";
 
-const FEATURES = [
-  "Skills Assessment & Gap Analysis — know exactly what to fix first.",
-  "The High-Paid Consultant Course — the complete step-by-step system.",
-  "150-Page Participant Guide — exercises, templates, frameworks.",
-  "Weekly Coaching (first 4 weeks) — get feedback from Will to implement fast.",
-  "Career Blueprint & Consultant Pathways — your road to £2,000/day roles.",
-  "Plug-and-Play Toolkits — proposals, dashboards, PMO artefacts.",
-  "Bonuses: Interview Framework, Proposal Hacks & AI Prompts, Private Community, Access to Next-Level Offers.",
-];
-
 const EnrollNowSection: React.FC = () => {
   const [plan, setPlan] = useState<"once" | "split">("once");
 
@@ -23,6 +13,7 @@ const EnrollNowSection: React.FC = () => {
       aria-label="Enroll now"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="inline-flex items-center rounded-full border border-yellow-300/70 bg-yellow-50 px-3 py-1 text-xs font-semibold text-neutral-800">
             ENROLL NOW
@@ -36,13 +27,14 @@ const EnrollNowSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Make left (pricing) a bit bigger than right (image) on desktop */}
-        <div className="mt-12 grid grid-cols-1 lg:[grid-template-columns:minmax(0,1.15fr)_minmax(0,0.85fr)] gap-8 lg:gap-12 items-center">
+        {/* Symmetrical layout */}
+        <div className="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-stretch">
           {/* Pricing / CTA */}
-          <div className="order-2 lg:order-1 lg:max-w-[720px] lg:justify-self-start">
-            <div className="relative overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm ring-1 ring-black/5">
+          <div className="order-2 lg:order-1">
+            <div className="relative h-full lg:min-h-[640px] overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-md ring-1 ring-black/5 hover:shadow-lg transition-shadow duration-300">
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-300" />
-              <div className="p-6 sm:p-8 lg:p-10">
+              <div className="flex h-full flex-col p-8 sm:p-10 lg:p-12">
+                {/* Plan Switch */}
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-semibold text-neutral-700">
                     Choose your plan
@@ -75,7 +67,8 @@ const EnrollNowSection: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-5 flex flex-wrap items-baseline gap-x-3">
+                {/* Price */}
+                <div className="mt-6 flex flex-wrap items-baseline gap-x-3">
                   {plan === "once" ? (
                     <>
                       <span className="text-5xl font-extrabold tracking-tight">
@@ -95,16 +88,50 @@ const EnrollNowSection: React.FC = () => {
                   )}
                 </div>
 
-                <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:gap-3">
+                {/* Small preview list with bold titles */}
+                <ul className="mt-6 space-y-3 text-sm text-neutral-700">
+                  <li className="flex items-start gap-2">
+                    <span className="text-yellow-400 mt-1">•</span>
+                    <span>
+                      <strong>Skills Assessment & Gap Analysis</strong> — know
+                      exactly what to fix first.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-yellow-400 mt-1">•</span>
+                    <span>
+                      <strong>The High-Paid Consultant Course</strong> —
+                      complete step-by-step system.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-yellow-400 mt-1">•</span>
+                    <span>
+                      <strong>Weekly Coaching & Templates</strong> — get
+                      feedback and assets to implement fast.
+                    </span>
+                  </li>
+                </ul>
+
+                {/* Note */}
+                <p className="mt-3 text-xs text-neutral-500">
+                  Full feature breakdown below ↓
+                </p>
+
+                {/* Spacer */}
+                <div className="flex-1" />
+
+                {/* CTA */}
+                <div className="mt-8">
                   <a
                     href={plan === "once" ? "/checkout" : "/checkout?plan=3"}
-                    className="inline-flex w-full sm:w-auto items-center justify-center rounded-xl bg-neutral-900 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-400"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-neutral-900 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-400 transition-all duration-200"
                   >
                     {plan === "once"
                       ? "Enroll — One-time payment"
                       : "Enroll — Pay in 3"}
                   </a>
-                  <p className="mt-3 sm:mt-0 text-sm text-neutral-600">
+                  <p className="mt-4 text-sm text-center text-neutral-600">
                     Safe checkout • Instant access
                   </p>
                 </div>
@@ -112,39 +139,63 @@ const EnrollNowSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Image */}
-          <div className="order-1 lg:order-2 lg:max-w-[560px] lg:justify-self-end">
-            <div className="relative overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm ring-1 ring-black/5">
-              {/* keep aspect reasonable so it doesn’t dominate */}
-              <div className="aspect-[16/10]">
-                <img
-                  src={enrollImage.src}
-                  alt="Six Figure Switch — program preview"
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
-              </div>
+          {/* Image card (right) */}
+          <div className="order-1 lg:order-2">
+            <div className="relative h-full lg:min-h-[640px] overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-md ring-1 ring-black/5 hover:shadow-lg transition-shadow duration-300">
               <div className="pointer-events-none absolute left-4 top-4 inline-flex items-center rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-neutral-900 shadow">
                 Start this week
               </div>
+              <div className="relative h-full">
+                <img
+                  src={enrollImage.src}
+                  alt="Six Figure Switch — program preview"
+                  className="absolute inset-0 h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
             </div>
-            <p className="mt-4 text-center text-sm text-neutral-600">
+            <p className="mt-5 text-center text-sm text-neutral-600">
               Join hundreds of professionals using the system to land premium
               contracts.
             </p>
           </div>
         </div>
 
-        {/* What's included — SAME LIST STYLE AS BulletTexts */}
-        <div className="mt-16 border-t border-neutral-200 pt-10">
+        {/* Full “What’s included” section */}
+        <div className="mt-20 border-t border-neutral-200 pt-12">
           <h3 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-center">
             What’s included
           </h3>
-          <div className="mt-8 mx-auto max-w-3xl">
+          <div className="mt-10 mx-auto max-w-2xl">
             <ul className="list-disc list-outside pl-6 space-y-4 text-base sm:text-2xl leading-relaxed marker:text-yellow-400">
-              {FEATURES.map((line) => (
-                <li key={line}>{line}</li>
-              ))}
+              <li>
+                <strong>Skills Assessment & Gap Analysis</strong> — know exactly
+                what to fix first.
+              </li>
+              <li>
+                <strong>The High-Paid Consultant Course</strong> — the complete
+                step-by-step system.
+              </li>
+              <li>
+                <strong>150-Page Participant Guide</strong> — exercises,
+                templates, frameworks.
+              </li>
+              <li>
+                <strong>Weekly Coaching (first 4 weeks)</strong> — get feedback
+                from Will to implement fast.
+              </li>
+              <li>
+                <strong>Career Blueprint & Consultant Pathways</strong> — your
+                road to £2,000/day roles.
+              </li>
+              <li>
+                <strong>Plug-and-Play Toolkits</strong> — proposals, dashboards,
+                PMO artefacts.
+              </li>
+              <li>
+                <strong>Bonuses</strong>: Interview Framework, Proposal Hacks &
+                AI Prompts, Private Community, Access to Next-Level Offers.
+              </li>
             </ul>
           </div>
         </div>
