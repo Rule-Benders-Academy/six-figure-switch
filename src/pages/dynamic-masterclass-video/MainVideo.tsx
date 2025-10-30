@@ -320,8 +320,10 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
     <div className="relative w-full lg:w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e]">
       <iframe
         ref={iframeRef}
-        className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${ready ? "opacity-100" : "opacity-0"}`}
-        src="https://player.vimeo.com/video/1113013910?api=1&loop=0&playsinline=1&autopause=0&controls=1&keyboard=1&transparent=0&muted=0"
+        className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+          ready ? "opacity-100" : "opacity-0"
+        }`}
+        src="https://player.vimeo.com/video/1132049915?api=1&loop=0&playsinline=1&autopause=0&controls=1&keyboard=1&transparent=0&muted=0"
         title="Masterclass"
         allow="autoplay; fullscreen; picture-in-picture"
         allowFullScreen
