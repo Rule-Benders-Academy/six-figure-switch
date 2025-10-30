@@ -218,7 +218,7 @@ const Checkout = () => {
       items: [{ priceId: "pri_01k2yast31gjf8e7srdvv6svmy" }],
       settings: {
         displayMode: "overlay",
-        theme: "dark",
+        theme: "light", // changed for white UI
       },
     });
   };
@@ -240,14 +240,14 @@ const Checkout = () => {
       items: [{ priceId: "pri_01k36apq1s4r8q32jndexwpq2j" }],
       settings: {
         displayMode: "overlay",
-        theme: "dark",
+        theme: "light", // changed for white UI
       },
     });
   };
 
   return (
     <div>
-      <section className="bg-gradient-to-b from-[#141314] to-[#272526] text-white py-10 px-4 sm:px-8 md:px-16 lg:px-24">
+      <section className="bg-white text-gray-900 py-10 px-4 sm:px-8 md:px-16 lg:px-24">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[60%_40%] gap-10">
           {/* Left Side */}
           <div>
@@ -264,7 +264,7 @@ const Checkout = () => {
                 className={`px-6 py-3 rounded-xl font-semibold text-sm md:text-base flex items-center gap-2 transition-all duration-300 shadow-md ${
                   activeTab === "included"
                     ? "bg-[#FFBE48] text-black"
-                    : "bg-[#595758] text-white hover:bg-[#6d6b6c]"
+                    : "bg-gray-200 text-gray-900 hover:bg-gray-300"
                 }`}
               >
                 <Package className="w-4 h-4" />
@@ -276,7 +276,7 @@ const Checkout = () => {
                 className={`px-6 py-3 rounded-xl font-semibold text-sm md:text-base flex items-center gap-2 transition-all duration-300 shadow-md ${
                   activeTab === "bonuses"
                     ? "bg-[#FFBE48] text-black"
-                    : "bg-[#595758] text-white hover:bg-[#6d6b6c]"
+                    : "bg-gray-200 text-gray-900 hover:bg-gray-300"
                 }`}
               >
                 <Gift className="w-4 h-4 animate-bounce" />
@@ -292,8 +292,8 @@ const Checkout = () => {
             <div
               className={`py-8 px-6 md:px-10 lg:px-12 rounded-3xl shadow-xl border ${
                 activeTab === "bonuses"
-                  ? "border-[#FFBE48] bg-white bg-opacity-[0.07]"
-                  : "border-[#595758] bg-white bg-opacity-[0.05]"
+                  ? "border-[#FFBE48] bg-white"
+                  : "border-gray-200 bg-white"
               }`}
             >
               {/* Content List */}
@@ -306,7 +306,7 @@ const Checkout = () => {
                           className={`text-lg font-medium leading-tight ${
                             activeTab === "bonuses"
                               ? "bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text"
-                              : "text-white"
+                              : "text-gray-900"
                           } w-4/5`}
                         >
                           {item.title}
@@ -315,12 +315,12 @@ const Checkout = () => {
                           className={`text-base md:text-lg lg:text-xl font-bold flex items-center ${
                             activeTab === "bonuses"
                               ? "bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text"
-                              : "text-white"
+                              : "text-gray-900"
                           }`}
                         >
                           {item.price}
                           {item.totalPrice && (
-                            <span className="ml-2 inline-block bg-[#252422] px-3 py-1 rounded-lg">
+                            <span className="ml-2 inline-block bg-gray-50 border border-gray-200 px-3 py-1 rounded-lg">
                               <span className="text-lg font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
                                 {item.totalPrice}
                               </span>
@@ -332,10 +332,10 @@ const Checkout = () => {
                         className={`border-t pt-2 ${
                           activeTab === "bonuses"
                             ? "border-[#FFBE48]"
-                            : "border-white"
+                            : "border-gray-200"
                         }`}
                       >
-                        <p className="text-xs text-gray-200 leading-snug">
+                        <p className="text-xs text-gray-600 leading-snug">
                           {item.description}
                         </p>
                       </div>
@@ -347,7 +347,7 @@ const Checkout = () => {
           </div>
 
           {/* Right Column */}
-          <div className="bg-[#1f1e1f] rounded-2xl shadow-lg p-6 flex flex-col items-center">
+          <div className="bg-white border border-gray-200 rounded-2xl shadow-lg p-6 flex flex-col items-center">
             <h3 className="text-lg font-semibold mb-6 text-center">
               Secure Checkout
             </h3>
@@ -362,7 +362,7 @@ const Checkout = () => {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="Enter your first name"
-                className="w-full px-4 py-3 rounded-xl bg-[#252422] text-white focus:outline-none focus:ring-2 focus:ring-[#FFBE48]"
+                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#FFBE48]"
               />
             </div>
 
@@ -376,7 +376,7 @@ const Checkout = () => {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Enter your last name"
-                className="w-full px-4 py-3 rounded-xl bg-[#252422] text-white focus:outline-none focus:ring-2 focus:ring-[#FFBE48]"
+                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#FFBE48]"
               />
               {nameError && (
                 <span className="text-red-500 text-sm">{nameError}</span>
@@ -384,12 +384,12 @@ const Checkout = () => {
             </div>
 
             {/* Pricing Box */}
-            <div className="flex items-center justify-center gap-6 px-6 py-8 bg-[#1a191a] rounded-2xl shadow-lg border border-[#2c2b2b] w-full">
+            <div className="flex items-center justify-center gap-6 px-6 py-8 bg-white rounded-2xl shadow-lg border border-gray-200 w-full">
               <div className="text-center">
-                <p className="text-xl md:text-2xl font-extrabold uppercase text-gray-400 tracking-wide">
+                <p className="text-xl md:text-2xl font-extrabold uppercase text-gray-500 tracking-wide">
                   REGULAR
                 </p>
-                <p className="mt-2 relative inline-block text-2xl md:text-3xl font-bold text-gray-300 before:content-[''] before:absolute before:top-1/2 before:-left-[6%] before:w-[120%] before:h-[2px] before:bg-red-600 before:rotate-[-6deg]">
+                <p className="mt-2 relative inline-block text-2xl md:text-3xl font-bold text-gray-700 before:content-[''] before:absolute before:top-1/2 before:-left-[6%] before:w-[120%] before:h-[2px] before:bg-red-600 before:rotate-[-6deg]">
                   £3,000
                 </p>
               </div>
@@ -398,12 +398,12 @@ const Checkout = () => {
                 <p className="text-xl md:text-2xl font-bold uppercase bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text tracking-wide">
                   TODAY
                 </p>
-                <div className="mt-2 inline-block bg-[#252422] px-5 py-2 rounded-xl shadow-md">
+                <div className="mt-2 inline-block bg-gray-50 border border-gray-200 px-5 py-2 rounded-xl shadow-md">
                   <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
                     £1450
                   </p>
                 </div>
-                <p className="text-sm md:text-base mt-2 text-gray-300">
+                <p className="text-sm md:text-base mt-2 text-gray-600">
                   Save £1,550
                 </p>
               </div>
@@ -418,7 +418,7 @@ const Checkout = () => {
               {paddle ? "Buy Full Access Now £1,450" : "Loading..."}
             </button>
 
-            {/* Installment Button — same gray color, active UX */}
+            {/* Installment Button */}
             <div className="mt-6 w-full">
               <button
                 onClick={openInstallmentCheckout}

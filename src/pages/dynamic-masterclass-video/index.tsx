@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Drawer from "../../_components/Drawer/Drawer";
 import TrustedCompaniesMC from "@/_components/TrustedCompaniesMC/TrustedCompaniesMC";
 import MainVideo from "./MainVideo";
-import OfferSection from "./OfferSection";
+import OfferSection from "./homepage/index.tsx";
 import { fbTrack } from "@/lib/fb";
 
 type Stage = "video" | "offer";

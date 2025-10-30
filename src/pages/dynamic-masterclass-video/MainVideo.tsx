@@ -15,7 +15,7 @@ type Props = {
   onUnlock?: () => void;
 };
 
-const UNLOCK_SECONDS = 725; // 25:00
+const UNLOCK_SECONDS = 360; // 6:00
 const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwRbk52F9x4dKmY3LYwwaD0IbL0nZfkKYmuHc_PX0hn5QO3z0XwhgZMCIqiYBWRma30Yg/exec";
 
