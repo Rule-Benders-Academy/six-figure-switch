@@ -7,7 +7,7 @@ type HeroProps = {
   vimeoId?: string;
 };
 
-const Hero: React.FC<HeroProps> = ({ vimeoId = "1132049915" }) => {
+const Hero: React.FC<HeroProps> = ({ vimeoId = "1113015239" }) => {
   return (
     <section
       className="w-full bg-white text-neutral-950"
