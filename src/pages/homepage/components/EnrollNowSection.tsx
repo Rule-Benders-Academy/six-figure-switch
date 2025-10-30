@@ -72,14 +72,14 @@ const EnrollNowSection: React.FC = () => {
                   {plan === "once" ? (
                     <>
                       <span className="text-5xl font-extrabold tracking-tight">
-                        £520
+                        £1450
                       </span>
                       <span className="text-neutral-600">one-time fee</span>
                     </>
                   ) : (
                     <>
                       <span className="text-5xl font-extrabold tracking-tight">
-                        £179
+                        £525
                       </span>
                       <span className="text-neutral-600">
                         per month for 3 months (≈ £537 total)

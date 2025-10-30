@@ -114,11 +114,12 @@ const FAQSection: React.FC = () => {
       aria-label="Frequently asked questions"
     >
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-        {/* Title always black + big */}
+        {/* ===== Title ===== */}
         <h2 className="text-center text-black text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
           FAQ
         </h2>
 
+        {/* ===== FAQ Accordions ===== */}
         <div className="mt-10 divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white shadow-sm">
           {FAQS.map((item, i) => {
             const open = openSet.has(i);
@@ -163,14 +164,17 @@ const FAQSection: React.FC = () => {
           })}
         </div>
 
-        {/* Optional footer CTA */}
-        <div className="mt-8 text-center">
+        {/* ===== Footer CTA (YELLOW) ===== */}
+        <div className="mt-10 text-center">
           <a
             href="/checkout"
-            className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-6 py-3 text-base sm:text-lg font-semibold text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-400"
+            className="inline-flex items-center justify-center rounded-xl bg-[#ffdc4a] px-8 py-3 text-base sm:text-lg font-semibold text-black shadow-sm hover:bg-[#f4cf38] focus:outline-none focus:ring-2 focus:ring-[#ffdc4a] transition-all duration-200"
           >
             Start your 90-day plan
           </a>
+          <p className="mt-3 text-sm text-neutral-500">
+            Safe checkout • Instant access
+          </p>
         </div>
       </div>
     </section>

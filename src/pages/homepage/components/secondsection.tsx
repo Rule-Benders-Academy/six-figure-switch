@@ -47,13 +47,13 @@ const OutcomesSection: React.FC<OutcomesSectionProps> = ({
           </ul>
 
           <p className="mt-6 text-sm sm:text-base text-neutral-600">
-            100+ career changers started here
+            Many career changers started here
           </p>
 
           {/* CTA */}
           <div className="mt-6 sm:mt-8 flex justify-center">
             <a
-              href="#plan"
+              href="/checkout"
               className="inline-flex w-full sm:w-auto items-center justify-center rounded-xl bg-[#ffdc4a] px-7 py-3 text-base sm:text-lg font-semibold text-neutral-950 shadow-sm transition hover:bg-[#f0cd28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ffdc4a]/60"
             >
               Start your 90 day plan

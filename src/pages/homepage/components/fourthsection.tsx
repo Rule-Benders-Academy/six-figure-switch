@@ -119,7 +119,7 @@ const FourthSection: React.FC<FourthSectionProps> = ({
                 />
                 <div className="absolute left-4 top-4">
                   <span className="inline-block bg-[#ffdc4a] text-black text-base sm:text-lg font-extrabold tracking-wide px-3 py-1 rounded-md shadow-md">
-                    2013
+                    2020
                   </span>
                 </div>
               </div>
@@ -164,7 +164,7 @@ const FourthSection: React.FC<FourthSectionProps> = ({
                 />
                 <div className="absolute left-4 top-4">
                   <span className="inline-block bg-[#ffdc4a] text-black text-base sm:text-lg font-extrabold tracking-wide px-3 py-1 rounded-md shadow-md">
-                    2020
+                    2023
                   </span>
                 </div>
               </div>
@@ -269,10 +269,6 @@ const FourthSection: React.FC<FourthSectionProps> = ({
                 </strong>
               </p>
               <p>That’s why I built Six Figure Switch.</p>
-              <p>
-                It’s the exact system I used to make that jump,{" "}
-                <strong>laid out step by step so you can do the same.</strong>
-              </p>
             </div>
           </div>
 
@@ -314,7 +310,7 @@ const FourthSection: React.FC<FourthSectionProps> = ({
                   onClick={() => setOpenPdf(true)}
                   className="inline-flex items-center justify-center rounded-xl bg-[#ffdc4a] px-5 py-2 text-sm font-semibold text-black shadow-sm hover:bg-[#f0cd3e] focus:outline-none focus:ring-2 focus:ring-[#ffdc4a]"
                 >
-                  View CV (PDF)
+                  CV
                 </button>
               </div>
             </div>

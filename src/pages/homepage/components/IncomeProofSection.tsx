@@ -21,7 +21,7 @@ const IncomeProofSection: React.FC = () => {
             PROOF OF RESULTS
           </span>
           <h2 className="mt-4 text-black text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-            And made me over £10,000,000+ in personal income
+            And made me over £1,000,000+ in personal income
           </h2>
           <p className="mt-3 text-base sm:text-lg text-neutral-600">
             Here’s real proof and what it takes to get there.

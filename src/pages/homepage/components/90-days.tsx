@@ -44,7 +44,7 @@ const NinetyDayPlanSection: React.FC = () => {
               href="/checkout"
               className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#ffdc4a] px-6 py-3 text-base sm:text-lg font-semibold text-neutral-950 shadow-sm hover:bg-[#f0cd28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ffdc4a]/60"
             >
-              Start your 90 day plan for $520
+              Start your 90 day plan for £1450
             </a>
           </div>
         </div>

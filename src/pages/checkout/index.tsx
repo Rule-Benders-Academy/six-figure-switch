@@ -10,21 +10,21 @@ const offers = [
   {
     totalPrice: null,
     title: "Skills Assessment & Gap Analysis",
-    price: "$500",
+    price: "£500",
     description:
       "You provide your CV and Linkedin Profile and we do a tailored skills assessment using the internationally recognised SFIA skills framework. We map you against our consultant skills baselines and then do a gap analysis showing where you are right now and areas you need to develop.",
   },
   {
     totalPrice: null,
     title: "The High-Paid Consultant Course",
-    price: "$500",
+    price: "£500",
     description:
       "Our signature training which teaches you how to be a Consultant, the key skills you need, the mindset and behaviours of a high paid Consultant and unlocks your first $700-$1500 a day role in 90 days.",
   },
   {
     totalPrice: null,
     title: "150-Page Participant Guide",
-    price: "$500",
+    price: "£500",
     description:
       "Lifetime access to an extensive workbook with all course exercises, templates, and frameworks to help you deepen and refine your consulting approach over time.",
   },
@@ -32,20 +32,20 @@ const offers = [
     totalPrice: null,
     title:
       "Recorded Weekly Implementation Coaching Calls with Me - For the first 4 weeks",
-    price: "$500",
+    price: "£500",
     description:
       "Sit in with me weekly in recorded calls. I’ll personally help guide you into roles, increase your rates, overcome barriers, and deliver like a true professional consultant.",
   },
   {
     totalPrice: null,
     title: "Career Blue Print & Consultant Pathways",
-    price: "$500",
+    price: "£500",
     description:
       "A tailored career blueprint, your personalised path to two thousand dollar per day roles, which shows the Consulting pathways, your entry point and your journey from where you are now to where you can go based on your level of ambition and your work preferences.",
   },
   {
     title: "Plug-and-Play Templates, Scripts, and Checklists",
-    price: "$250",
+    price: "£250",
     description:
       "Everything from Consulting frameworks, finance dashboards and recruiter outreach templates - saving you hours and helping you show up like a pro.",
     totalPrice: null,
@@ -57,32 +57,32 @@ const bonuses = [
     title: "Consultant Interview Framework",
     description:
       "Techniques to use in interviews making you 5x more likely to get the work.",
-    price: "$250",
+    price: "£250",
   },
   {
     title: "Proposal Hacks & AI Prompts",
     description:
       "Re-use tried and tested pitch decks, and make them your own with our AI Prompts to save time and present the right thing to win the work.",
-    price: "$250",
+    price: "£250",
   },
   {
     title: "Access to a Private Consulting Platform",
     description:
       "Join an active network of learners and consultants. Get market insights, curated job opportunities, and learning drops to stay sharp and ahead of the curve.",
-    price: "$250",
+    price: "£250",
   },
   {
     title: "Access to Next-Level Offers",
     description:
       "As you grow you'll unlock access to higher tier support including our Consultancy In a Box Product.",
-    price: "$250",
+    price: "£250",
   },
   {
     title: "Insane ROI, Proven by Numbers",
     description:
       "Land just one $699/day contract and you’ve already made back 20x your investment. Most learners see a 6-figure leap within months, not years.",
     price: "TOTAL",
-    totalPrice: "3,000",
+    totalPrice: "£3,000",
   },
 ];
 
@@ -124,8 +124,8 @@ const Checkout = () => {
                   });
                 }
                 (window as any).fbq("track", "Purchase", {
-                  value: 699,
-                  currency: "USD",
+                  value: 1450,
+                  currency: "GBP",
                 });
                 console.log("Meta Pixel Purchase event fired");
               } catch (e) {
@@ -390,7 +390,7 @@ const Checkout = () => {
                   REGULAR
                 </p>
                 <p className="mt-2 relative inline-block text-2xl md:text-3xl font-bold text-gray-300 before:content-[''] before:absolute before:top-1/2 before:-left-[6%] before:w-[120%] before:h-[2px] before:bg-red-600 before:rotate-[-6deg]">
-                  $3,000
+                  £3,000
                 </p>
               </div>
 
@@ -400,11 +400,11 @@ const Checkout = () => {
                 </p>
                 <div className="mt-2 inline-block bg-[#252422] px-5 py-2 rounded-xl shadow-md">
                   <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-transparent bg-clip-text">
-                    $699
+                    £1450
                   </p>
                 </div>
                 <p className="text-sm md:text-base mt-2 text-gray-300">
-                  Save $2,301
+                  Save £1,550
                 </p>
               </div>
             </div>
@@ -415,7 +415,7 @@ const Checkout = () => {
               disabled={!paddle}
               className="mt-6 w-full px-8 py-4 rounded-xl bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-black font-bold text-lg shadow-lg hover:opacity-90 transition disabled:opacity-50"
             >
-              {paddle ? "Buy Full Access Now $699" : "Loading..."}
+              {paddle ? "Buy Full Access Now £1,450" : "Loading..."}
             </button>
 
             {/* Installment Button — same gray color, active UX */}
@@ -426,7 +426,7 @@ const Checkout = () => {
                 disabled={!paddle}
                 className="w-full px-8 py-4 rounded-xl bg-gradient-to-r from-[#FFBE48] via-[#FFA500] to-[#E99803] text-black font-bold text-lg shadow-lg hover:opacity-90 transition disabled:opacity-50"
               >
-                Pay in Installments ($299 x 3)
+                Pay in Installments (£525 x 3)
               </button>
             </div>
           </div>
