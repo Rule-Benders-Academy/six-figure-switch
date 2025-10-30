@@ -342,7 +342,7 @@ const FinalCTASection: React.FC = () => {
           </p>
 
           <a
-            href="/checkout"
+            href="https://calendly.com/rule-benders-info/30min?month=2025-10"
             className="inline-flex w-full sm:w-auto items-center justify-center rounded-xl bg-[#ffdc4a] px-7 py-3 text-base sm:text-lg font-semibold text-neutral-950 shadow-sm transition hover:bg-[#f0cd28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ffdc4a]/60"
           >
             Book your free consulting game-plan call with me
