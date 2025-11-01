@@ -124,7 +124,13 @@ const EnrollNowSection: React.FC = () => {
                 {/* CTA */}
                 <div className="mt-8">
                   <a
-                    href={plan === "once" ? "" : "/checkout?plan=3"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={
+                      plan === "once"
+                        ? "https://calendly.com/rule-benders-info/30min?month=2025-10"
+                        : "https://calendly.com/rule-benders-info/30min?month=2025-10"
+                    }
                     className="inline-flex w-full items-center justify-center rounded-xl bg-neutral-900 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-400 transition-all duration-200"
                   >
                     {plan === "once"

@@ -74,7 +74,9 @@ const IncomeProofSection: React.FC = () => {
         {/* ====== CTA (YELLOW BUTTON) ====== */}
         <div className="mt-12 text-center">
           <a
-            href="/checkout"
+            href="https://calendly.com/rule-benders-info/30min?month=2025-10"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center rounded-xl bg-[#ffdc4a] px-8 py-3 text-base sm:text-lg font-semibold text-black shadow-sm hover:bg-[#f4cf38] focus:outline-none focus:ring-2 focus:ring-[#ffdc4a] transition-all duration-200"
           >
             Book your free consulting game-plan call with me

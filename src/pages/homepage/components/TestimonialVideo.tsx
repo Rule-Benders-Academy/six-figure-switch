@@ -228,7 +228,7 @@ const RealStories: React.FC = () => {
             name="David"
             from="PM"
             to="Project Director"
-            summary="Grew from £800/day to £1,300/day, stepped into senior leadership, and now leads multi-stream programmes with confidence."
+            summary="Grew from £650/day to +£1000/day, stepped into senior leadership, and now leads multi-stream programmes with confidence."
             videoSrc="https://res.cloudinary.com/dfykcw0ks/video/upload/v1752145311/Testimonial_Video_David_lgfmuh.mp4"
           />
         </div>
