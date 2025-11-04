@@ -119,7 +119,7 @@ const FourthSection: React.FC<FourthSectionProps> = ({
                 />
                 <div className="absolute left-4 top-4">
                   <span className="inline-block bg-[#ffdc4a] text-black text-base sm:text-lg font-extrabold tracking-wide px-3 py-1 rounded-md shadow-md">
-                    2020
+                    2006
                   </span>
                 </div>
               </div>
@@ -164,7 +164,7 @@ const FourthSection: React.FC<FourthSectionProps> = ({
                 />
                 <div className="absolute left-4 top-4">
                   <span className="inline-block bg-[#ffdc4a] text-black text-base sm:text-lg font-extrabold tracking-wide px-3 py-1 rounded-md shadow-md">
-                    2023
+                    2026
                   </span>
                 </div>
               </div>
@@ -190,7 +190,9 @@ const FourthSection: React.FC<FourthSectionProps> = ({
         {/* ===== Block 3: LONG STORY ===== */}
         <div className="mt-12 lg:mt-14 mx-auto text-left max-w-[70ch] md:max-w-xl">
           <p className="text-base sm:text-xl leading-relaxed">
-            <strong>Ten years ago I was stuck in the same place as you</strong>{" "}
+            <strong>
+              Twenty years ago I was stuck in the same place as you
+            </strong>{" "}
             — permanent roles, capped salaries, and endless HR bands.
           </p>
 

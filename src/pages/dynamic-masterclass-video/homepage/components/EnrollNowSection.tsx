@@ -88,28 +88,35 @@ const EnrollNowSection: React.FC = () => {
                   )}
                 </div>
 
-                {/* Small preview list with bold titles */}
                 <ul className="mt-6 space-y-3 text-sm text-neutral-700">
-                  <li className="flex items-start gap-2">
-                    <span className="text-yellow-400 mt-1">•</span>
-                    <span>
-                      <strong>Skills Assessment & Gap Analysis</strong> — know
-                      exactly what to fix first.
-                    </span>
+                  <li>
+                    <strong>Skills Assessment & Gap Analysis</strong> — know
+                    exactly what to fix first.
                   </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-yellow-400 mt-1">•</span>
-                    <span>
-                      <strong>The High-Paid Consultant Course</strong> —
-                      complete step-by-step system.
-                    </span>
+                  <li>
+                    <strong>The High-Paid Consultant Course</strong> — the
+                    complete step-by-step system.
                   </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-yellow-400 mt-1">•</span>
-                    <span>
-                      <strong>Weekly Coaching & Templates</strong> — get
-                      feedback and assets to implement fast.
-                    </span>
+                  <li>
+                    <strong>150-Page Participant Guide</strong> — exercises,
+                    templates, frameworks.
+                  </li>
+                  <li>
+                    <strong>Weekly Coaching (first 4 weeks)</strong> — get
+                    feedback from Will to implement fast.
+                  </li>
+                  <li>
+                    <strong>Career Blueprint & Consultant Pathways</strong> —
+                    your road to £2,000/day roles.
+                  </li>
+                  <li>
+                    <strong>Plug-and-Play Toolkits</strong> — proposals,
+                    dashboards, PMO artefacts.
+                  </li>
+                  <li>
+                    <strong>Bonuses</strong>: Interview Framework, Proposal
+                    Hacks & AI Prompts, Private Community, Access to Next-Level
+                    Offers.
                   </li>
                 </ul>
 
@@ -164,45 +171,6 @@ const EnrollNowSection: React.FC = () => {
               Join hundreds of professionals using the system to land premium
               contracts.
             </p>
-          </div>
-        </div>
-
-        {/* Full “What’s included” section */}
-        <div className="mt-20 border-t border-neutral-200 pt-12">
-          <h3 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-center">
-            What’s included
-          </h3>
-          <div className="mt-10 mx-auto max-w-2xl">
-            <ul className="list-disc list-outside pl-6 space-y-4 text-base sm:text-2xl leading-relaxed marker:text-yellow-400">
-              <li>
-                <strong>Skills Assessment & Gap Analysis</strong> — know exactly
-                what to fix first.
-              </li>
-              <li>
-                <strong>The High-Paid Consultant Course</strong> — the complete
-                step-by-step system.
-              </li>
-              <li>
-                <strong>150-Page Participant Guide</strong> — exercises,
-                templates, frameworks.
-              </li>
-              <li>
-                <strong>Weekly Coaching (first 4 weeks)</strong> — get feedback
-                from Will to implement fast.
-              </li>
-              <li>
-                <strong>Career Blueprint & Consultant Pathways</strong> — your
-                road to £2,000/day roles.
-              </li>
-              <li>
-                <strong>Plug-and-Play Toolkits</strong> — proposals, dashboards,
-                PMO artefacts.
-              </li>
-              <li>
-                <strong>Bonuses</strong>: Interview Framework, Proposal Hacks &
-                AI Prompts, Private Community, Access to Next-Level Offers.
-              </li>
-            </ul>
           </div>
         </div>
       </div>
