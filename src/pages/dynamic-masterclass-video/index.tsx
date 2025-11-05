@@ -256,7 +256,7 @@ const Page = () => {
                       Offer unlocked. Tap the button to continue.
                     </p>
                   ) : (
-                    <p className="text-base text-black/50">
+                    <p className="text-base text-black font-bold">
                       The offer unlocks after 6 minutes of watch time.
                     </p>
                   )}
