@@ -245,7 +245,7 @@ const SignupForm: React.FC<Props> = ({ onUnlocked }) => {
             data-track="optin-form-root"
             className="relative w-full rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e] p-3 md:p-4"
           >
-            <h4 className="text-lg md:text-xl font-bold">
+            <h4 className="text-lg md:text-xl font-bold text-white">
               Watch <span className="text-[#FFA500]">instantly</span>
             </h4>
             {/* AC form mount (AC will inject <form class="_form"> inside this node) */}
