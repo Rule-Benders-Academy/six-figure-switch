@@ -46,7 +46,8 @@ const SS_TITLE_KEY = "copyTitle";
 const LS_INDEX_PERSIST = "copyIndexPersistent";
 const LS_TITLE_PERSIST = "copyTitlePersistent";
 
-const UNLOCK_SECONDS = 1500; // 25:00
+const UNLOCK_SECONDS = 1500; // 25:00 main unlock for the button
+const SMALL_UNLOCK_SECONDS = 360; // 6:00 small text unlock
 
 const Page = () => {
   // Start directly at the video stage, no form
@@ -115,12 +116,14 @@ const Page = () => {
   // Restore unlocked state and any saved progress
   useEffect(() => {
     if (typeof window === "undefined") return;
+
     const copyIndex =
       sessionStorage.getItem(SS_INDEX_KEY) ??
       localStorage.getItem(LS_INDEX_PERSIST);
     const copyTitle =
       sessionStorage.getItem(SS_TITLE_KEY) ??
       localStorage.getItem(LS_TITLE_PERSIST);
+
     if (copyIndex && copyTitle) {
       const slug = String(copyTitle)
         .toLowerCase()
@@ -141,9 +144,51 @@ const Page = () => {
         }
       } catch {}
     }
+
     const unlockedSaved = sessionStorage.getItem("unlocked") === "true";
     if (unlockedSaved) setUnlocked(true);
   }, []);
+
+  // Poll for progress every second so countdowns update live
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const getProgressKey = () => {
+      const copyIndex =
+        sessionStorage.getItem(SS_INDEX_KEY) ??
+        localStorage.getItem(LS_INDEX_PERSIST);
+      const copyTitle =
+        sessionStorage.getItem(SS_TITLE_KEY) ??
+        localStorage.getItem(LS_TITLE_PERSIST);
+      if (!copyIndex || !copyTitle) return null;
+      const slug = String(copyTitle)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/gi, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 60);
+      return `mc_video_progress_${copyIndex}_${slug || "no-title"}`;
+    };
+
+    const id = window.setInterval(() => {
+      try {
+        const key = getProgressKey();
+        if (!key) return;
+        const raw = localStorage.getItem(key);
+        if (!raw) return;
+
+        const seconds = /^\d+(\.\d+)?$/.test(raw)
+          ? parseFloat(raw)
+          : JSON.parse(raw)?.seconds;
+
+        if (typeof seconds === "number" && seconds >= 0) {
+          setWatchedSeconds(seconds);
+          if (seconds >= UNLOCK_SECONDS) setUnlocked(true);
+        }
+      } catch {}
+    }, 1000);
+
+    return () => clearInterval(id);
+  }, [selectedCopy?.title]);
 
   const handleVideoUnlock = () => {
     setUnlocked(true);
@@ -172,14 +217,23 @@ const Page = () => {
     );
   };
 
+  // Countdowns
   const secondsLeft = Math.max(0, UNLOCK_SECONDS - Math.floor(watchedSeconds));
   const mm = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
   const ss = String(secondsLeft % 60).padStart(2, "0");
 
+  const smallLeft = Math.max(
+    0,
+    SMALL_UNLOCK_SECONDS - Math.floor(watchedSeconds)
+  );
+  const smm = String(Math.floor(smallLeft / 60)).padStart(2, "0");
+  const sss = String(smallLeft % 60).padStart(2, "0");
+  const smallUnlocked = watchedSeconds >= SMALL_UNLOCK_SECONDS;
+
   return (
     <div>
       <div className="min-h-screen !font-jakarta bg-white justify-evenly">
-        <section className="relative text-black  overflow-hidden flex items-center ">
+        <section className="relative text-black overflow-hidden flex items-center ">
           <div className="relative lg:w-[80%] max-w-[98%] mx-auto text-center">
             {/* Bigger Title (session-sticky) */}
             <h2 className="text-2xl sm:text-4xl lg:text-5xl leading-tight font-bold tracking-wide uppercase mt-16 mb-6 lg:mt-6">
@@ -194,6 +248,19 @@ const Page = () => {
                 <p className="text-center text-base md:text-lg opacity-90 mt-4 leading-snug">
                   {renderTwoLines(selectedCopy.subtitle)}
                 </p>
+
+                {/* Small text that unlocks after 6 minutes */}
+                <div className="mt-3 text-center">
+                  {smallUnlocked ? (
+                    <p className="text-sm text-black/70">
+                      Offer unlocked. Tap the button to continue.
+                    </p>
+                  ) : (
+                    <p className="text-base text-black/50">
+                      The offer unlocks after 6 minutes of watch time.
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
 

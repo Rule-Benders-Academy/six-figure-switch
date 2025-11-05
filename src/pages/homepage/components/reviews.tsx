@@ -214,6 +214,7 @@ const REVIEWS: { quote: string; name: string; role: string }[] = [
   },
 ];
 
+
 function Stars() {
   return (
     <div className="mb-3 flex items-center gap-1.5" aria-label="5 out of 5 stars">

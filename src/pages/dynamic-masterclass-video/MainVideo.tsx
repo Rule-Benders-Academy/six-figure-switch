@@ -21,11 +21,6 @@ const GOOGLE_SCRIPT_URL =
 
 const SAVE_INTERVAL = 5; // seconds
 
-const isMobile = () =>
-  typeof window !== "undefined" &&
-  (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth <= 640);
-
-// Prefer session values; fall back to persistent
 const getCopyMeta = () => {
   if (typeof window === "undefined")
     return { copyIndex: "unknown", copyTitle: "unknown" };
@@ -40,7 +35,6 @@ const getCopyMeta = () => {
   return { copyIndex, copyTitle };
 };
 
-// Per-title progress key
 const keyForProgress = () => {
   const { copyIndex, copyTitle } = getCopyMeta();
   const slug = String(copyTitle)
@@ -66,7 +60,6 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
 
   const [sdkReady, setSdkReady] = useState(false);
   const [ready, setReady] = useState(false);
-  const [showUnmutePrompt, setShowUnmutePrompt] = useState(false);
 
   const lastSavedRef = useRef(0);
   const firstPlayFiredRef = useRef(false);
@@ -91,7 +84,7 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
     document.head.appendChild(script);
   }, []);
 
-  // Initialize Vimeo player
+  // Initialize Vimeo player (no autoplay)
   useEffect(() => {
     if (!sdkReady || !iframeRef.current || playerRef.current) return;
     const Player = window.Vimeo?.Player;
@@ -132,7 +125,7 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
       if (sec >= UNLOCK_SECONDS && !unlockedRef.current) {
         unlockedRef.current = true;
         onUnlock?.();
-        fbTrackCustom("MC_UnlockAt12min");
+        fbTrackCustom("MC_UnlockAt12min"); // keeping event name as-is
 
         const { copyIndex, copyTitle } = getCopyMeta();
         fetch(GOOGLE_SCRIPT_URL, {
@@ -155,52 +148,21 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
       }
     };
 
-    const checkMutedAndPrompt = async () => {
-      try {
-        const muted = await p.getMuted();
-        setShowUnmutePrompt(Boolean(muted));
-      } catch {}
-    };
-
-    const tryAutoplayPreferUnmuted = async () => {
-      try {
-        await p.setMuted(false);
-        await p.play();
-        setShowUnmutePrompt(false);
-      } catch {
-        // fallback: muted autoplay to satisfy browser policy
-        try {
-          await p.setMuted(true);
-          await p.play();
-          setShowUnmutePrompt(true);
-        } catch {
-          // still blocked: user will press play manually via controls
-          setShowUnmutePrompt(true);
-        }
-      }
-    };
-
-    const unmuteNow = async () => {
-      try {
-        await p.setMuted(false);
-        setShowUnmutePrompt(false);
-      } catch {
-        // iOS can refuse; nothing else to do
-      }
-    };
-
     (async () => {
       try {
         await p.ready();
         if (disposed) return;
         setReady(true);
 
-        // Restore progress
+        // Restore progress without starting playback
         try {
           const saved = loadProgressSeconds();
           if (saved > 0) {
             const duration = await p.getDuration().catch(() => 0);
-            const clamped = Math.max(0, Math.min(saved, Math.max(0, duration - 2)));
+            const clamped = Math.max(
+              0,
+              Math.min(saved, Math.max(0, duration - 2))
+            );
             if (clamped > 0) await p.setCurrentTime(clamped).catch(() => {});
             if (clamped >= UNLOCK_SECONDS && !unlockedRef.current) {
               unlockedRef.current = true;
@@ -229,7 +191,6 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
               }),
             });
           }
-          await checkMutedAndPrompt();
         });
 
         p.on("pause", async () => {
@@ -240,7 +201,9 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
         });
 
         p.on("seeked", async (sec: number) => {
-          await saveProgress(typeof sec === "number" ? sec : (await p.getCurrentTime()));
+          await saveProgress(
+            typeof sec === "number" ? sec : await p.getCurrentTime()
+          );
         });
 
         p.on("ended", async () => {
@@ -252,24 +215,13 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
 
         p.on("timeupdate", onTimeUpdate);
 
-        // If user interacts anywhere on page, try to unmute once
-        const userGestureUnmute = async () => {
-          await unmuteNow();
-          window.removeEventListener("click", userGestureUnmute);
-          window.removeEventListener("touchstart", userGestureUnmute);
-          window.removeEventListener("keydown", userGestureUnmute);
-        };
-        window.addEventListener("click", userGestureUnmute, { once: true });
-        window.addEventListener("touchstart", userGestureUnmute, { once: true });
-        window.addEventListener("keydown", userGestureUnmute, { once: true });
-
-        // On mobile, scroll into view on first attempt (helps UX)
+        // On mobile, gently bring the player into view (no autoplay)
         try {
-          iframeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+          iframeRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
         } catch {}
-
-        // Attempt autoplay when allowed (after the form is hidden)
-        if (!formVisible) await tryAutoplayPreferUnmuted();
       } catch (err) {
         console.error("Vimeo init failed:", err);
       }
@@ -278,43 +230,14 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
     return () => {
       disposed = true;
       if (playerRef.current) {
-        try { playerRef.current.unload?.(); } catch {}
+        try {
+          playerRef.current.unload?.();
+        } catch {}
       }
       playerRef.current = null;
       setReady(false);
     };
-  }, [sdkReady, onUnlock, formVisible]);
-
-  // When form becomes invisible later, try autoplay then too
-  useEffect(() => {
-    const p = playerRef.current;
-    const tryStart = async () => {
-      if (!p) return;
-      try {
-        await p.setMuted(false);
-        await p.play();
-        setShowUnmutePrompt(false);
-      } catch {
-        try {
-          await p.setMuted(true);
-          await p.play();
-          setShowUnmutePrompt(true);
-        } catch {}
-      }
-    };
-    if (ready && !formVisible) tryStart();
-  }, [formVisible, ready]);
-
-  const handleUnmuteClick = async () => {
-    const p = playerRef.current;
-    if (!p) return;
-    try {
-      await p.setMuted(false);
-      // Ensure playing
-      try { await p.play(); } catch {}
-      setShowUnmutePrompt(false);
-    } catch {}
-  };
+  }, [sdkReady, onUnlock]);
 
   return (
     <div className="relative w-full lg:w-full aspect-video rounded-xl overflow-hidden border border-[#3C3C3C] bg-[#0d0c0e]">
@@ -323,9 +246,10 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
         className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
           ready ? "opacity-100" : "opacity-0"
         }`}
-        src="https://player.vimeo.com/video/1132049915?api=1&loop=0&playsinline=1&autopause=0&controls=1&keyboard=1&transparent=0&muted=0"
+        // explicit autoplay=0; removed 'autoplay' from allow attribute
+        src="https://player.vimeo.com/video/1132049915?api=1&loop=0&playsinline=1&autopause=0&controls=1&keyboard=1&transparent=0&muted=0&autoplay=0"
         title="Masterclass"
-        allow="autoplay; fullscreen; picture-in-picture"
+        allow="fullscreen; picture-in-picture"
         allowFullScreen
       />
 
@@ -336,16 +260,6 @@ const MainVideo: React.FC<Props> = ({ formVisible, onFirstPlay, onUnlock }) => {
             Sign up to unlock the masterclass
           </div>
         </div>
-      )}
-
-      {/* Unmute prompt when autoplay fell back to muted */}
-      {!formVisible && showUnmutePrompt && (
-        <button
-          onClick={handleUnmuteClick}
-          className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 px-4 py-2 rounded-md bg-white/90 text-black text-xs md:text-sm font-semibold shadow"
-        >
-          Tap to unmute
-        </button>
       )}
     </div>
   );

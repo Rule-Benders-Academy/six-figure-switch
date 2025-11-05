@@ -167,14 +167,13 @@ const FAQSection: React.FC = () => {
         {/* ===== Footer CTA (YELLOW) ===== */}
         <div className="mt-10 text-center">
           <a
-            href="/checkout"
+            href="https://calendly.com/rule-benders-info/30min?month=2025-10"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center rounded-xl bg-[#ffdc4a] px-8 py-3 text-base sm:text-lg font-semibold text-black shadow-sm hover:bg-[#f4cf38] focus:outline-none focus:ring-2 focus:ring-[#ffdc4a] transition-all duration-200"
           >
-            Start your 90-day plan
+            Book your free consulting game-plan call with me
           </a>
-          <p className="mt-3 text-sm text-neutral-500">
-            Safe checkout • Instant access
-          </p>
         </div>
       </div>
     </section>

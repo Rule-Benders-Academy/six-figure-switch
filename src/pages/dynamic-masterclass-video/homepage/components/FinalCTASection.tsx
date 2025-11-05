@@ -350,7 +350,7 @@ const FinalCTASection: React.FC = () => {
             Book your free consulting game-plan call with me
           </a>
 
-          <div className="mx-auto max-w-lg flex flex-wrap items-center justify-center gap-2 text-center mt-6">
+          <div className="hidden mx-auto max-w-lg flex flex-wrap items-center justify-center gap-2 text-center mt-6">
             <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-800 ring-1 ring-green-200">
               <CheckIcon /> 14-day money-back guarantee
             </span>

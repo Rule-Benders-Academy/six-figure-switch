@@ -14,7 +14,10 @@ const Hero: React.FC<HeroProps> = ({ vimeoId = "1113015239" }) => {
       aria-label="Course Hero"
     >
       {/* Full-viewport; centers content; scales nicely on mobile/tablet/sm */}
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 min-h-[100svh] sm:min-h-screen flex items-center">
+      <div
+        id="offer-start"
+        className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 min-h-[100svh] sm:min-h-screen flex items-center"
+      >
         <div className="w-full">
           {/* Headline */}
           <h1

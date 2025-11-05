@@ -157,7 +157,7 @@ const FourthSection: React.FC<FourthSectionProps> = ({
               <div className="relative w-full aspect-[4/5] overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm">
                 <Image
                   src={photo2020}
-                  alt="2020 consultant at £1650/day"
+                  alt="2026 consultant at £1650/day"
                   fill
                   placeholder="blur"
                   className="object-cover"

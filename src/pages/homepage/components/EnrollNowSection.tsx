@@ -36,10 +36,10 @@ const EnrollNowSection: React.FC = () => {
               <div className="flex h-full flex-col p-8 sm:p-10 lg:p-12">
                 {/* Plan Switch */}
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-neutral-700">
-                    Choose your plan
+                  <p className="text-sm lg:text-2xl font-bold text-neutral-700">
+                    What's Included
                   </p>
-                  <div className="inline-flex rounded-xl border border-neutral-200 bg-neutral-50 p-1">
+                  <div className="hidden inline-flex rounded-xl border border-neutral-200 bg-neutral-50 p-1">
                     <button
                       type="button"
                       onClick={() => setPlan("once")}
@@ -68,7 +68,7 @@ const EnrollNowSection: React.FC = () => {
                 </div>
 
                 {/* Price */}
-                <div className="mt-6 flex flex-wrap items-baseline gap-x-3">
+                <div className="hidden mt-6 flex flex-wrap items-baseline gap-x-3">
                   {plan === "once" ? (
                     <>
                       <span className="text-5xl font-extrabold tracking-tight">
@@ -120,27 +120,25 @@ const EnrollNowSection: React.FC = () => {
                   </li>
                 </ul>
 
-                {/* Note */}
-                <p className="mt-3 text-xs text-neutral-500">
-                  Full feature breakdown below ↓
-                </p>
-
                 {/* Spacer */}
                 <div className="flex-1" />
 
                 {/* CTA */}
                 <div className="mt-8">
                   <a
-                    href={plan === "once" ? "/checkout" : "/checkout?plan=3"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={
+                      plan === "once"
+                        ? "https://calendly.com/rule-benders-info/30min?month=2025-10"
+                        : "https://calendly.com/rule-benders-info/30min?month=2025-10"
+                    }
                     className="inline-flex w-full items-center justify-center rounded-xl bg-neutral-900 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-400 transition-all duration-200"
                   >
                     {plan === "once"
-                      ? "Enroll — One-time payment"
-                      : "Enroll — Pay in 3"}
+                      ? "Book your free consulting game-plan call with me"
+                      : "Book your free consulting game-plan call with me"}
                   </a>
-                  <p className="mt-4 text-sm text-center text-neutral-600">
-                    Safe checkout • Instant access
-                  </p>
                 </div>
               </div>
             </div>

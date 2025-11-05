@@ -81,9 +81,6 @@ const IncomeProofSection: React.FC = () => {
           >
             Book your free consulting game-plan call with me
           </a>
-          <p className="mt-3 text-sm text-neutral-500">
-            Safe checkout • Instant access
-          </p>
         </div>
       </div>
     </section>
