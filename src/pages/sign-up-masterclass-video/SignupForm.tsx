@@ -217,7 +217,7 @@ const SignupForm: React.FC<Props> = ({ onUnlocked }) => {
             aria-hidden
             className="absolute -top-16 -right-16 h-40 w-40 rotate-45 bg-gradient-to-br from-[#FFA500]/20 to-transparent"
           />
-          <h3 className="text-xl lg:text-xl font-bold leading-tight">
+          <h3 className="text-xl lg:text-xl font-bold leading-tight text-white">
             Limited Masterclass Offer:
             <br />
             <span className="text-[#FFA500]">Valid for 10 days</span>
