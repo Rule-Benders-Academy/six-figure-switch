@@ -145,15 +145,15 @@ const EnrollNowSection: React.FC = () => {
 
           {/* Image card (right) */}
           <div className="order-1 lg:order-2">
-            <div className="relative h-full lg:min-h-[640px] overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-md ring-1 ring-black/5 hover:shadow-lg transition-shadow duration-300">
+            <div className="relative h-[300px] lg:min-h-[640px] overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-md ring-1 ring-black/5 hover:shadow-lg transition-shadow duration-300">
               <div className="pointer-events-none absolute left-4 top-4 inline-flex items-center rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-neutral-900 shadow">
                 Start this week
               </div>
-              <div className="relative h-full">
+              <div className="relative w-full h-[300px] md:h-full">
                 <img
                   src={enrollImage.src}
                   alt="Six Figure Switch — program preview"
-                  className="absolute inset-0 h-full w-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover"
                   loading="lazy"
                 />
               </div>
